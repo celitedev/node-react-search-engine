@@ -1,0 +1,156 @@
+@import "variables";
+@import "functions";
+@import "mixins";
+@import "grid";
+
+@mixin custom-container($width: 1000px) {
+  width: $width;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+@mixin center-block() {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin card-style() {
+  background-color: $body-bg;
+  border-radius: $default-radius;
+  box-shadow: 0 1px 3px #dee3e9;
+}
+
+@mixin card($in-row: 3, $gutter: 20px, $shadow: true) {
+  background-color: $body-bg;
+  border-radius: $default-radius;
+  width: calc(100% / #{$in-row} - #{$gutter * ($in-row - 1) / $in-row});
+  margin-top: $gutter;
+  margin-right: $gutter;
+  &:nth-child(#{$in-row}n) {
+    margin-right: 0;
+  }
+  &:nth-child(-n+#{$in-row}) {
+    margin-top: 0;
+  }
+  @if ($shadow) {
+    box-shadow: 0 1px 3px #dee3e9;
+  }
+}
+
+@mixin h2 {
+  font-size: 24px;
+}
+
+@mixin buttonHover($color: "success", $outline: false) {
+  @if not map-has-key($button-hover-colors, $color) {
+    @error "unknown button hover color #{$color}";
+  }
+
+  $bg-color: map-get($button-hover-colors, $color);
+  $border-color: $bg-color;
+  $font-color: $color-white;
+
+  @if $color == "white" {
+    $font-color: $body-color;
+  }
+
+  @if $outline {
+    $font-color: $color-gray;
+  }
+
+  background-color: $bg-color;
+  border-color: $border-color;
+  color: $font-color;
+}
+
+@mixin button($color: 'success', $big: false, $outline: false, $small: false) {
+  @if not map-has-key($button-colors, $color) {
+    @error "unknown button color #{$color}";
+  }
+
+  $bg-color: map-get($button-colors, $color);
+  $border-color: $bg-color;
+  $font-color: $color-white;
+
+  @if $color == "white" and $outline == false {
+    $font-color: $body-color;
+  }
+
+  @if $outline {
+    $bg-color: transparent;
+  }
+
+  &:not([disabled]):hover {
+    @include buttonHover($color, $outline);
+  }
+
+  &[disabled] {
+    pointer-events: none;
+    opacity: .5;
+  }
+
+  background-color: $bg-color;
+  outline: none !important;
+  font-size: 14px;
+  padding: 5px 20px;
+  @if ($big) {
+    padding: 9px 20px;
+  }
+  @if ($small) {
+    padding: 2px 8px;
+  }
+  color: $font-color;
+  border-radius: $default-radius;
+  border: 2px solid $border-color;
+  font-weight: 600;
+  cursor: pointer;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin nav-pill {
+  @include margin(right);
+  display: inline-block;
+  cursor: pointer;
+  border-radius: $border-radius-lg;
+  padding: 7px 13px;
+  color: $color-gray;
+
+  &:last-child {
+    margin-right: 0;
+  }
+
+  &:hover {
+    background-color: $color-background;
+    color: $body-color;
+  }
+
+  &.active {
+    background-color: $color-gray-lighter;
+    color: $body-color;
+    // FIXME
+    text-shadow: .5px 0 $body-color;
+  }
+}
+
+.textMuted {
+  color: $text-muted;
+}
+
+@mixin link-style {
+  @content;
+
+  @include hover-focus {
+    @content;
+  }
+}
+
+@mixin webp {
+  :global(.chrome) & {
+    @content;
+  }
+}

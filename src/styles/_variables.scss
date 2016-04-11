@@ -1,0 +1,175 @@
+// Options
+$enable-hover-media-query: false;
+
+// Colors
+$color-gray-darker: #748185;
+$color-gray-dark: #748185;
+$color-gray: #888f97;
+$color-gray-light: #adc1c8;
+$color-gray-lighter: #d9d9d9;
+$color-green: #72bb4c;
+$color-green-dark: #134F5C;
+$color-white: #fff;
+
+$color-border: #dfe3e9;
+$color-background: #f4f7f8;
+$color-danger: #d9534f;
+$color-warning: orange;
+$color-primary: #0fa8d3;
+$color-success: #5cb85c;
+$color-well: #f0f3f4;
+
+$color-blue: $color-primary;
+
+$gray-darker: #748185;
+$gray-dark: #748185;
+$gray: #888f97;
+$gray-light: #adc1c8;
+$gray-lighter: #d9d9d9;
+
+$body-color: #21343a;
+$body-bg: #fff;
+$body-min-width: 1174px;
+$text-muted: $gray-light;
+//$text-muted: lighten($body-color, 30%);
+$text-light: #888f97;
+$text-extralight: #cfcfcf;
+
+// Base
+$abbr-border-color: transparent;
+$table-bg: $body-bg;
+$table-cell-padding: 0;
+$logo-margin: 22px;
+$logo-width: 133px;
+$logo-height: 31px;
+$header-height: 50px;
+$header-bg: #1f4c70;
+
+// Grid
+$grid-breakpoints: (
+  xs: 0, // Extra small screen / phone
+  sm: 544px, // Small screen / phone
+  md: 768px, // Medium screen / tablet
+  lg: 992px, // Large screen / desktop
+  xl: 1200px // Extra large screen / wide desktop
+);
+$grid-gutter-width: 1.875rem;
+$container-max-widths: (
+  sm: 576px,
+  md: 720px,
+  lg: 940px,
+  xl: 1030px
+);
+
+// Typography
+$font-family-sans-serif: -apple-system, 'Proxima Nova';
+//$font-family-serif: Georgia, "Times New Roman", Times, serif;
+//$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+$font-family-base: $font-family-sans-serif;
+
+$font-size-root: 14px;
+$font-size-base: 1rem;
+$font-size-lg: 1.25rem;
+$font-size-sm: .875rem;
+$font-size-xs: .75rem;
+
+$font-size-h1: 2.5rem;
+$font-size-h2: 2rem;
+$font-size-h3: 1.75rem;
+$font-size-h4: 1.5rem;
+$font-size-h5: 1.25rem;
+$font-size-h6: 1rem;
+
+$line-height: 1.4;
+
+// Links
+$link-color: #2196F3;
+$link-decoration: none;
+$link-hover-color: $link-color;
+$link-hover-decoration: none;
+
+// Buttons
+$button-colors: (
+  "primary": $color-primary,
+  "success": $color-success,
+  "danger": $color-danger,
+  "white": $color-white,
+  "none": #adc1c8,
+);
+$button-hover-colors: (
+  "primary": darken($color-primary, 7%),
+  "success": darken($color-success, 7%),
+  "danger": darken($color-danger, 7%),
+  "white": $color-white,
+  "none": darken(#adc1c8, 7%),
+);
+
+// Spacing
+$spacer: 1rem;
+$spacer-x: $spacer;
+$spacer-y: $spacer;
+$spacer-x-sizes: (
+  base: $spacer-x,
+  xs: $spacer-x * 0.25,
+  sm: $spacer-x * 0.5,
+  md: $spacer-x * 1.5,
+  lg: $spacer-x * 3,
+  xl: $spacer-x * 4.5,
+);
+$spacer-y-sizes: (
+  base: $spacer-y,
+  xs: $spacer-y * 0.25,
+  sm: $spacer-y * 0.5,
+  md: $spacer-y * 1.5,
+  lg: $spacer-y * 3,
+  xl: $spacer-y * 4.5,
+);
+
+// Z-index master list
+//$zindex-dropdown-backdrop:  990;
+//$zindex-navbar:            1000;
+//$zindex-dropdown:          1000;
+//$zindex-popover:           1060;
+//$zindex-tooltip:           1070;
+//$zindex-navbar-fixed:      1030;
+//$zindex-navbar-sticky:     1030;
+//$zindex-modal-bg:          1040;
+//$zindex-modal:             1050;
+
+$border-width: 1px;
+
+// Radius
+$default-radius: 3px;
+$border-radius: $default-radius;
+$border-radius-lg: 30px;
+
+// Forms
+$input-padding-x: .8rem;
+$input-padding-y: .7rem;
+
+$input-bg: $color-white;
+$input-bg-disabled: $color-background;
+
+$input-color: $body-color;
+$input-color-placeholder: #999;
+
+$input-border: $color-border;
+$input-border-radius: $border-radius;
+$input-border-focus: $color-blue;
+
+$input-height: (($font-size-base * $line-height) + ($input-padding-y * 2));
+
+$cursor-disabled: not-allowed;
+
+// Roster
+$roster-width: 300px;
+$roster-popup-width: 336px;
+$roster-toggle-at: 1330px;
+$roster-small-height: 400px;
+$roster-small-width: 260px;
+
+// bootstrap
+$dt-font-weight: 14px;
+
+// react-select
+$select-option-bg: #fff;

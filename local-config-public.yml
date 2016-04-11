@@ -1,0 +1,6 @@
+facebook:
+  id: "498505386940878"
+firebase:
+  baseUrl: <YOUR_FIREBASE_URL>
+bugsnag:
+  frontend: dd517d5781a47e3c63b6c066730ec732

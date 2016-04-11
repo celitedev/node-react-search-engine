@@ -1,0 +1,39 @@
+@import "../../styles/shared";
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  width: 100%;
+  height: 40px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.item + .item {
+  margin-left: 16px;
+  cursor: pointer;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  border-radius: 50%;
+  border: 2px solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.selectedIcon {
+  background: $color-green;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}

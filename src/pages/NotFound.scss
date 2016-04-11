@@ -1,0 +1,48 @@
+@import '../styles/shared';
+
+.root {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.inner {
+  @include padding(x);
+}
+
+.title {
+  font-size: $font-size-h1;
+}
+
+.desc {
+  font-size: $font-size-h4;
+  @include margin(bottom);
+}
+
+.reasonsTitle {
+  font-size: $font-size-lg;
+}
+
+.reasons {
+  li {
+    font-size: $font-size-lg;
+  }
+}
+
+.linksTitle {
+  font-weight: bold;
+  @include margin(top, md);
+}
+
+.links {
+}
+
+.link {
+  color: $link-color;
+
+  &:hover {
+    color: $link-hover-color;
+    cursor: pointer;
+  }
+}

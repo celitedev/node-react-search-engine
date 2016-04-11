@@ -1,0 +1,15 @@
+@import "../../styles/shared";
+
+.root {
+  display: flex;
+  align-items: center;
+}
+
+.year {
+  width: 110px;
+  margin-left: $spacer-x;
+}
+
+.month {
+  width: 90px;
+}

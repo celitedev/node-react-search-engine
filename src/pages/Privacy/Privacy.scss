@@ -1,0 +1,41 @@
+@import "../../styles/shared";
+
+.root {
+  flex-grow: 1;
+  @include padding(y, lg);
+}
+
+.content {
+  @include col(10/12, $offset: 1/12);
+}
+
+.companyName {
+  text-align: center;
+}
+
+.title {
+  text-align: center;
+  @include margin(bottom, lg);
+}
+
+ol.nestedList,
+ol.nestedList ol:not([type]) {
+  counter-reset: item;
+
+  > li {
+    display: block;
+
+    &:before {
+      content: counters(item, ".") ". ";
+      counter-increment: item;
+    }
+  }
+
+  li {
+    margin: 10px 0;
+
+    &:before {
+      margin-right: 15px;
+    }
+  }
+}

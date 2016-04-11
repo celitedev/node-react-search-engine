@@ -1,0 +1,50 @@
+@import "../../styles/shared";
+
+.root {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+
+  // FIXME
+  &:not(.autoHeight) {
+    height: 40px;
+  }
+}
+
+.label {
+  margin-left: 1rem;
+  user-select: none;
+}
+
+.rounded {
+  .emptyIcon, .checkedIcon {
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+  }
+}
+
+.emptyIcon, .checkedIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 2px;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.emptyIcon {
+  border: 2px solid $color-border;
+}
+
+.checkedIcon {
+  background: $color-green;
+}
+
+.checkIcon {
+  fill: #fff;
+  width: 10px;
+  height: 10px;
+}

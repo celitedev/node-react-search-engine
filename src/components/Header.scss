@@ -1,0 +1,85 @@
+@import "../styles/shared";
+
+.root {
+  .fake {
+    width: 100%;
+    height: $header-height;
+  }
+  .header {
+    background: $header-bg;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    @include padding(x);
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: $header-height;
+    z-index: 100;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+    min-width: 560px;
+  }
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+
+.modeSwitch {
+  width: 150px;
+}
+
+.signIn {
+  color: #fff;
+  cursor: pointer;
+}
+
+.buttonsSep {
+  height: 14px;
+  border-right: 2px solid rgba(255, 255, 255, .1);
+}
+
+.studentSignUp {
+  @include button("primary");
+}
+
+.tutorSignUp {
+  @include button("success");
+}
+
+.modeSwitch, .signIn, .buttonsSep, .studentSignUp, .tutorSignUp {
+  @include margin(left);
+}
+
+.tutoringCoursesSwitch {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  margin-right: auto;
+}
+
+.tutoringCoursesSwitchButton {
+  border-radius: 20px;
+  padding: 8px;
+  color: white;
+  display: flex;
+  align-items: center;
+
+  &:hover, &:focus {
+    color: rgba(white, 0.8);
+  }
+}
+
+.tutoringCoursesSwitchIcon {
+  width: 12px;
+  height: 12px;
+  fill: #fff;
+  margin-right: 4px;
+}
+
+.tutoring {
+  margin-right: 8px;
+}

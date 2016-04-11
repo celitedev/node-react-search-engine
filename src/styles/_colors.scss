@@ -1,0 +1,13 @@
+@import "variables";
+
+.colorBlue {
+  color: $color-blue;
+}
+
+.fillCurrentColor {
+  fill: currentColor;
+}
+
+.fillWhite {
+  fill: white;
+}

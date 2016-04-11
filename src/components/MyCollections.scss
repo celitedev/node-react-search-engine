@@ -1,0 +1,25 @@
+@import "../styles/shared";
+
+.root {
+  width:95%;
+  margin:auto;
+}
+
+.cardList {
+  width: 90%;
+  margin:auto;
+  .cardPosition{
+    margin:20px 0 20px 0;
+    display: inline-block;
+    .cardInfo{
+      width:65%;
+      float:left;
+    }
+    .cardImage{
+      width:30%;
+      float:right;
+    }
+  }
+
+}
+

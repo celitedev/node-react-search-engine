@@ -1,0 +1,37 @@
+@import "../variables";
+
+@mixin spacing($property: margin, $side: all, $size: base) {
+  $size-x: 0;
+  $size-y: 0;
+
+  @if map-has-key($spacer-x-sizes, $size) {
+    $size-x: map-get($spacer-x-sizes, $size);
+    $size-y: map-get($spacer-y-sizes, $size);
+  }
+
+  @if $side == all {
+    #{$property}: $size-x;
+  } @else if $side == top {
+    #{$property}-top: $size-y;
+  } @else if $side == right {
+    #{$property}-right: $size-x;
+  } @else if $side == bottom {
+    #{$property}-bottom: $size-y;
+  } @else if $side == left {
+    #{$property}-left: $size-x;
+  } @else if $side == x {
+    #{$property}-right: $size-x;
+    #{$property}-left: $size-x;
+  } @else if $side == y {
+    #{$property}-top: $size-y;
+    #{$property}-bottom: $size-y;
+  }
+}
+
+@mixin margin($side: all, $size: base) {
+  @include spacing(margin, $side, $size)
+}
+
+@mixin padding($side: all, $size: base) {
+  @include spacing(padding, $side, $size)
+}

@@ -1,0 +1,25 @@
+tutorme:
+  superusers:
+    - <YOUR_FACEBOOK_EMAIL>
+  superuserDefaultPassword: <YOUR_DESIRED_PASSWORD>
+django:
+  debug: true
+  host: "tutorme.local"
+  staticUrl: "/static/"
+  mediaUrl: "/media/"
+  mediaBucket: null
+  staticBucket: null
+  elasticacheLocation: false
+  cache: false
+aws:
+  s3:
+    access_key: null
+    secret_key: null
+postgres:
+  url: postgres://tutor:tutor@127.0.0.1/tutor
+facebook:
+  secret: "83453ef00596380f96c8e3c0be10b2c6"
+firebase:
+  secret: <YOUR_FIREBASE_SECRET_KEY>
+bugsnag:
+  backend: 2fc5da3dcf3738f076ddd21530a7c60b

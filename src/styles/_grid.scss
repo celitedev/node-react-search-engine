@@ -1,0 +1,17 @@
+@import "mixins";
+
+.containerResponsive {
+  @include container($responsive: true);
+}
+
+.containerFluid {
+  @include container($fluid: true);
+}
+
+.container {
+  @include container();
+}
+
+.row {
+  @include row();
+}
