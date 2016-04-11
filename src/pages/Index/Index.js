@@ -18,6 +18,10 @@ export default class Index extends PureComponent {
     };
   }
 
+  getLocalStorageData () {
+    localStorage.getItem();
+  }
+
   render() {
     const {data, loaded} = this.props;
     return (

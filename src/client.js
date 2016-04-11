@@ -103,23 +103,23 @@ function authenticate(user) {
 }
 
 async function bootstrap() {
-  // if (process.env.NODE_ENV === 'production') {
-  //   const user = window.reduxState.auth.user;
-  //   if (user) {
-  //     authenticate(user);
-  //   }
-  // } else {
-  //   try {
-  //     const user = await store.dispatch({
-  //       type: API_REQUEST,
-  //       method: 'get',
-  //       path: '/me/'
-  //     });
-  //     authenticate(user);
-  //   } catch (err) {
-  //     // pass
-  //   }
-  // }
+  if (process.env.NODE_ENV === 'production') {
+    const user = window.reduxState.auth.user;
+    if (user) {
+      authenticate(user);
+    }
+  } else {
+    try {
+      const user = await store.dispatch({
+        type: API_REQUEST,
+        method: 'get',
+        path: '/me'
+      });
+      authenticate(user[0]);
+    } catch (err) {
+       // pass
+    }
+  }
   store.dispatch({
     type: ENABLE_FETCHER
   });

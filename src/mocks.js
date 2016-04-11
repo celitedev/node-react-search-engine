@@ -15,12 +15,40 @@ const data = {
       subtitle: 'col 1 subttitle',
       description: 'col 1 description'
     }
+  ],
+  'me': [{
+    id: 0,
+    name: 'Jon',
+    nickname: 'Lennon'
+  }
   ]
 };
 
 // initialize fake REST server
 const restServer = new FakeRest.Server();
 restServer.init(data);
+
+/**
+ * modify the request before FakeRest handles it
+ */
+restServer.addRequestInterceptor(function(request) {
+  if(request.method === 'GET'){
+    let collections = localStorage.getItem('collections') || [];
+    let updatedCollection = _.filter(collections, col => {
+      return col.id
+    });
+    localstorage.setItem('collections', JSON.stringify(collections));
+    localstorage.setItem(action.name, action.collection);
+  }
+  return request; // always return the modified input
+});
+
+/**
+ * modify the response before FakeRest sends it
+ */
+restServer.addResponseInterceptor(function(response) {
+  return response; // always return the modified input
+});
 
 // use sinon.js to monkey-patch XmlHttpRequest
 const server = sinon.fakeServer.create();

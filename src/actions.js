@@ -1,52 +1,76 @@
 import _ from 'lodash';
 
 import {
-  ADD_WIDGET,
-  REMOVE_WIDGET,
-  EDIT_WIDGET,
-  SWITCH_MODAL,
-  SWITCH_FORM,
-  HIDE_ALL_FORMS
+  CREATE_COLLECTION,
+  UPDATE_COLLECTIION,
+  DELETE_COLLECTION,
+  CREATE_COLLECTION_MODAL,
+  UPDATE_COLLECTION_MODAL,
+  DELETE_COLLECTION_MODAL,
+  ADD_CARDS
 } from './actionTypes';
 
-export function addWidget(name) {
+export function createCollection(name) {
   return {
-    type: ADD_WIDGET,
+    type: CREATE_COLLECTION,
     name
-  };
+  }
 }
 
-export function removeWidget(id) {
+export function updateCollection(id, name) {
   return {
-    type: REMOVE_WIDGET,
-    id
-  };
-}
-
-export function editWidget(id, params) {
-  return {
-    type: EDIT_WIDGET,
+    type: UPDATE_COLLECTIION,
     id,
-    params
-  };
+    name
+  }
 }
 
-export function switchAddWidgetModal() {
+export function deleteCollection(id) {
   return {
-    type: SWITCH_MODAL
-  };
+    type: DELETE_COLLECTION,
+    name
+  }
 }
 
-export function showEditWidgetForm(name, id) {
+export function addCards(id) {
   return {
-    type: SWITCH_FORM,
-    name,
-    id
-  };
+    type: DELETE_COLLECTION,
+    name
+  }
 }
 
-export function hideAllEditWidgetForms() {
+export function createCollectionModalShow() {
   return {
-    type: HIDE_ALL_FORMS
-  };
+    type: CREATE_COLLECTION_MODAL_SHOW
+  }
+}
+
+export function updateCollectionModalSHow() {
+  return {
+    type: UPDATE_COLLECTION_MODAL_SHOW
+  }
+}
+
+export function deleteCollectionModalShow() {
+  return {
+    type: DELETE_COLLECTION_MODAL_SHOW
+  }
+}
+
+export function createCollectionModalHide() {
+  return {
+    type: CREATE_COLLECTION_MODAL_HIDE
+  }
+}
+
+export function updateCollectionModalHide() {
+  return {
+    type: UPDATE_COLLECTION_MODAL_HIDE
+  }
+}
+
+export function deleteCollectionModalHide() {
+  return {
+    type: DELETE_COLLECTION_MODAL_HIDE
+  }
 }

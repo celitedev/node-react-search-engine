@@ -4,16 +4,12 @@ import {routerStateReducer as router} from 'redux-router';
 import auth from './auth';
 import fetcher from './fetcher';
 import pages from './pages';
-import form from './form';
-import modal from './modal';
-import widget from './widget';
+import collection from './collection';
 
 export default combineReducers({
   router,
   auth,
+  collection,
   fetcher,
-  form,
-  modal,
-  widget,
   ...pages
 });
