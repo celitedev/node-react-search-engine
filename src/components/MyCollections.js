@@ -17,97 +17,56 @@ import FlatButton from 'material-ui/lib/flat-button';
 import CardText from 'material-ui/lib/card/card-text';
 
 const iconButtonElement = (
-    <IconButton
-        touch={true}
-        tooltip='more'
-        tooltipPosition='bottom-left'
-    >
-        <MoreVertIcon color={Colors.grey400} />
-    </IconButton>
+  <IconButton
+    touch={true}
+    tooltip='more'
+    tooltipPosition='bottom-left'
+  >
+    <MoreVertIcon color={Colors.grey400}/>
+  </IconButton>
 );
 
 const rightIconMenu = (
-    <IconMenu iconButtonElement={iconButtonElement}>
-        <MenuItem>Reply</MenuItem>
-        <MenuItem>Forward</MenuItem>
-        <MenuItem>Delete</MenuItem>
-    </IconMenu>
+  <IconMenu iconButtonElement={iconButtonElement}>
+    <MenuItem>Reply</MenuItem>
+    <MenuItem>Forward</MenuItem>
+    <MenuItem>Delete</MenuItem>
+  </IconMenu>
 );
 
 export default class MyCollections extends PureComponent {
 
-    render() {
-      return (
-          <List className={styles.root}>
-              <Subheader>
-                  My collections
-              </Subheader>
-              <Card>
-                  <CardTitle title='Card title'/>
-                  <CardMedia className={styles.cardList}>
-                      <Card className={styles.cardPosition}>
-                          <div className={styles.cardInfo}>
-                              <CardTitle title='Card title' subtitle='Card subtitle' />
-                              <CardText>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                  Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                                  Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                                  Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                              </CardText>
-                              <CardActions>
-                                  <FlatButton label='Action1' />
-                                  <FlatButton label='Action2' />
-                              </CardActions>
-                          </div>
-                          <div className={styles.cardImage}>
-                              <CardMedia>
-                                  <img src='http://lorempixel.com/600/337/nature/' />
-                              </CardMedia>
-                          </div>
-                      </Card>
-                      <Card className={styles.cardPosition}>
-                          <div className={styles.cardInfo}>
-                              <CardTitle title='Card title' subtitle='Card subtitle' />
-                              <CardText>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                  Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                                  Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                                  Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                              </CardText>
-                              <CardActions>
-                                  <FlatButton label='Action1' />
-                                  <FlatButton label='Action2' />
-                              </CardActions>
-                          </div>
-                          <div className={styles.cardImage}>
-                              <CardMedia>
-                                  <img src='http://lorempixel.com/600/337/nature/' />
-                              </CardMedia>
-                          </div>
-                      </Card>
-                      <Card className={styles.cardPosition}>
-                          <div className={styles.cardInfo}>
-                              <CardTitle title='Card title' subtitle='Card subtitle' />
-                              <CardText>
-                                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                  Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                                  Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                                  Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-                              </CardText>
-                              <CardActions>
-                                  <FlatButton label='Action1' />
-                                  <FlatButton label='Action2' />
-                              </CardActions>
-                          </div>
-                          <div className={styles.cardImage}>
-                              <CardMedia>
-                                  <img src='http://lorempixel.com/600/337/nature/' />
-                              </CardMedia>
-                          </div>
-                      </Card>
+  render() {
+    const {collections} = this.props;
+    return (
+      <List className={styles.root}>
+        <Subheader>
+          My collections
+        </Subheader>
+
+        <Card>
+          <CardTitle title='Card title'/>
+          <CardMedia className={styles.cardList}>
+            {collections.map((c) => (
+              <Card key={c.id} className={styles.cardPosition}>
+                <div className={styles.cardInfo}>
+                  <CardTitle title={c.title} subtitle={c.subtitle}/>
+                  <CardText>{c.description}</CardText>
+                  <CardActions>
+                    <FlatButton label='Action1'/>
+                    <FlatButton label='Action2'/>
+                  </CardActions>
+                </div>
+                <div className={styles.cardImage}>
+                  <CardMedia>
+                    <img src='http://lorempixel.com/600/337/nature/'/>
                   </CardMedia>
+                </div>
               </Card>
-          </List>
-        );
-    }
+            ))}
+          </CardMedia>
+        </Card>
+      </List>
+    );
+  }
 }

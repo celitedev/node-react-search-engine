@@ -65,7 +65,7 @@ resolve: {
 },
 
 module: {
-  noParse: [],
+  noParse: [/sinon\.js/],
       preLoaders: PRODUCTION ? [] : [
     {
       test: /\.js$/,

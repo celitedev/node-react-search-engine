@@ -1,6 +1,5 @@
 import qs from 'qs';
 
-import config from './config';
 import fetch from './fetch';
 
 const ONCE_CACHE = {};
@@ -22,7 +21,7 @@ function parseJSON(response) {
 }
 
 function combineUrl(path, query) {
-  let url = `${config.tutorme.api}${path}`;
+  let url = `${path}`;
   const queryString = qs.stringify(query);
   if (queryString) {
     url = `${url}?${queryString}`;
@@ -38,41 +37,60 @@ function readArrayBuffer(file) {
   });
 }
 
-async function request(method, path, data = null, query = null, session = null) {
-  const url = combineUrl(path, query);
-
-  const options = {
-    method,
-    credentials: 'same-origin',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  };
-
-  if (typeof window !== 'undefined' && (data instanceof window.File || data instanceof window.Blob)) {
-    options.headers = {
-      ...options.headers,
-      'Content-Type': data.type,
-      'Content-Disposition': 'attachment; filename=upload'
+function tmpGet(path, query = null) {
+  return new Promise((resolve, reject) => {
+    const url = combineUrl(path, query);
+    const req = new XMLHttpRequest();
+    req.onreadystatechange = () => {
+      if (req.readyState === 4 && req.status === 200) {
+        const data = JSON.parse(req.responseText);
+        resolve(data);
+      }
     };
-    options.body = await readArrayBuffer(data);
-  } else {
-    if (data) {
-      options.body = JSON.stringify(data);
-    }
-  }
+    req.onerror = () => {
+      reject(req);
+    };
+    req.open('GET', url, false);
+    req.send(null);
+  });
+}
 
-  if (session) {
-    options.headers.Cookie = `sessionid=${session}`;
-  }
-
-  //noinspection JSUnresolvedFunction
-  const result = await fetch(url, options)
-    .then(checkStatus)
-    .then(parseJSON);
-
-  return result;
+async function request(method, path, data = null, query = null, session = null) {
+  return await tmpGet(path, query);
+  // const url = combineUrl(path, query);
+  //
+  // const options = {
+  //   method,
+  //   credentials: 'same-origin',
+  //   headers: {
+  //     'Accept': 'application/json',
+  //     'Content-Type': 'application/json'
+  //   }
+  // };
+  //
+  // if (typeof window !== 'undefined' && (data instanceof window.File || data instanceof window.Blob)) {
+  //   options.headers = {
+  //     ...options.headers,
+  //     'Content-Type': data.type,
+  //     'Content-Disposition': 'attachment; filename=upload'
+  //   };
+  //   options.body = await readArrayBuffer(data);
+  // } else {
+  //   if (data) {
+  //     options.body = JSON.stringify(data);
+  //   }
+  // }
+  //
+  // if (session) {
+  //   options.headers.Cookie = `sessionid=${session}`;
+  // }
+  //
+  // //noinspection JSUnresolvedFunction
+  // const result = await fetch(url, options)
+  //   .then(checkStatus)
+  //   .then(parseJSON);
+  //
+  // return result;
 }
 
 async function get(path, query = null) {
@@ -105,4 +123,4 @@ async function once(path, query = null) {
   return await get(path, query);
 }
 
-export default { request, get, post, put, patch, once };
+export default {request, get, post, put, patch, once};

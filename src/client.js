@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 
+import './mocks';
 import './polyfills';
 
 import React from 'react';
@@ -8,7 +9,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { reduxReactRouter, ReduxRouter } from 'redux-router';
 import domready from 'domready';
 import _ from 'lodash';
-import sagaMiddleware from 'redux-saga';
+// import sagaMiddleware from 'redux-saga';
 import { Provider } from 'redux-simple';
 
 import routes from './routes';
@@ -24,39 +25,33 @@ import api from './middleware/api';
 import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
-import sagas from './sagas/all';
-import Form from 'react-formal';
-// import FakeRest from 'fakerest';
-// import sinon from 'sinon';
-// //Fake API
-// (() => {
-//   const data = {
-//     'authors': [
-//       { id: 0, first_name: 'Leo', last_name: 'Tolstoi' },
-//       { id: 1, first_name: 'Jane', last_name: 'Austen' }
-//     ],
-//     'books': [
-//       { id: 0, author_id: 0, title: 'Anna Karenina' },
-//       { id: 1, author_id: 0, title: 'War and Peace' },
-//       { id: 2, author_id: 1, title: 'Pride and Prejudice' },
-//       { id: 3, author_id: 1, title: 'Sense and Sensibility' }
-//     ]
-//   };
-//   const restServer = new FakeRest.Server('http://localhost:7000/');
+// import sagas from './sagas/all';
+
+// import Form from 'react-formal';
+// import BetterRadioGroup from './components/widgets/BetterRadioGroup';
+// import BetterCheckbox from './components/widgets/BetterCheckbox';
+// import Selectize from './components/widgets/Selectize';
+// import Suggest from './components/widgets/Suggest';
+// import Masked from './components/widgets/Masked';
+// import SplitDate from './components/widgets/SplitDate';
 //
-//   restServer.init(data);
-//
-//   const server = sinon.fakeServer.create();
-//   server.respondWith(restServer.getHandler());
-//
-//   const req = new XMLHttpRequest();
-//   req.open('GET', '/authors', false);
-//   req.send(null);
-//   console.log(req.responseText);
-// })();
+// Form.addInputTypes({
+//   'masked': Masked,
+//   'better-checkbox': BetterCheckbox,
+//   'suggest': Suggest,
+//   'selectize': Selectize,
+//   'radio-group': BetterRadioGroup,
+//   'split-date': SplitDate
+// });
 
 const middlewares = [
-  api
+  thunk,
+  triplet,
+  api,
+  rafScheduler,
+  redirect,
+  loginRedirect,
+  fetcher
 ];
 
 function skipMiddlewares(key, ...args) {
@@ -74,14 +69,14 @@ function skipMiddlewares(key, ...args) {
 
 skipMiddlewares('skipAuth', loginRedirect);
 
-/*try {
+try {
   const debugConfig = localStorage.getItem('debug');
-  if (/.*logger.*!/.test(debugConfig)) {
+  if (/.*logger.*/.test(debugConfig)) {
     middlewares.push(logger);
   }
 } catch (err) {
   console.error(err);
-}*/
+}
 
 const store = compose(
   reduxReactRouter({ routes, createHistory }),
@@ -91,6 +86,7 @@ const store = compose(
 function render() {
   domready(() => {
     const root = document.getElementById('react-app');
+
     ReactDOM.render((
       <Provider store={store}>
         <ReduxRouter />
@@ -107,26 +103,26 @@ function authenticate(user) {
 }
 
 async function bootstrap() {
-  if (process.env.NODE_ENV === 'production') {
-    const user = window.reduxState.auth.user;
-    if (user) {
-      authenticate(user);
-    }
-  } else {
-    //try {
-    //  const user = await store.dispatch({
-    //    type: API_REQUEST,
-    //    method: 'get',
-    //    path: '/me/'
-    //  });
-    //  authenticate(user);
-    //} catch (err) {
-    //  // pass
-    //}
-  }
-  //store.dispatch({
-  //  type: ENABLE_FETCHER
-  //});
+  // if (process.env.NODE_ENV === 'production') {
+  //   const user = window.reduxState.auth.user;
+  //   if (user) {
+  //     authenticate(user);
+  //   }
+  // } else {
+  //   try {
+  //     const user = await store.dispatch({
+  //       type: API_REQUEST,
+  //       method: 'get',
+  //       path: '/me/'
+  //     });
+  //     authenticate(user);
+  //   } catch (err) {
+  //     // pass
+  //   }
+  // }
+  store.dispatch({
+    type: ENABLE_FETCHER
+  });
   render();
 }
 
