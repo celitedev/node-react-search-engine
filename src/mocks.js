@@ -1,5 +1,6 @@
 import FakeRest from 'fakerest';
 import sinon from 'sinon/pkg/sinon';
+import _ from 'lodash';
 
 const data = {
   'collections': [
@@ -31,22 +32,22 @@ restServer.init(data);
 /**
  * modify the request before FakeRest handles it
  */
-restServer.addRequestInterceptor(function(request) {
-  if(request.method === 'GET'){
-    let collections = localStorage.getItem('collections') || [];
-    let updatedCollection = _.filter(collections, col => {
-      return col.id
-    });
-    localstorage.setItem('collections', JSON.stringify(collections));
-    localstorage.setItem(action.name, action.collection);
-  }
+restServer.addRequestInterceptor((request) => {
+  //if (request.method === 'GET') {
+  //  const collections = localStorage.getItem('collections') || [];
+  //  const updatedCollection = _.filter(collections, col => {
+  //    return col.id;
+  //  });
+  //  localStorage.setItem('collections', JSON.stringify(collections));
+  //  localStorage.setItem(action.name, action.collection);
+  //}
   return request; // always return the modified input
 });
 
 /**
  * modify the response before FakeRest sends it
  */
-restServer.addResponseInterceptor(function(response) {
+restServer.addResponseInterceptor((response) => {
   return response; // always return the modified input
 });
 

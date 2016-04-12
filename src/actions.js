@@ -7,35 +7,35 @@ import {
   CREATE_COLLECTION_MODAL,
   UPDATE_COLLECTION_MODAL,
   DELETE_COLLECTION_MODAL,
+  SEARCH_CARDS,
+  ADD_CARD_TO_COLLECTION,
+  DELETE_CARD_FROM_COLLECTION,
   ADD_CARDS
 } from './actionTypes';
 
-export function createCollection(name) {
+
+/**
+ *Collection actions
+ */
+export function createCollection(collection) {
   return {
     type: CREATE_COLLECTION,
-    name
+    collection
   }
 }
 
-export function updateCollection(id, name) {
+export function updateCollection(id, collection) {
   return {
     type: UPDATE_COLLECTIION,
     id,
-    name
+    collection
   }
 }
 
 export function deleteCollection(id) {
   return {
     type: DELETE_COLLECTION,
-    name
-  }
-}
-
-export function addCards(id) {
-  return {
-    type: DELETE_COLLECTION,
-    name
+    id
   }
 }
 
@@ -72,5 +72,31 @@ export function updateCollectionModalHide() {
 export function deleteCollectionModalHide() {
   return {
     type: DELETE_COLLECTION_MODAL_HIDE
+  }
+}
+
+/**
+ *Card actions
+ */
+export function searchCards(text) {
+  return {
+    type: SEARCH_CARDS,
+    text
+  }
+}
+
+export function addCardToCollection(collectionId, card) {
+  return {
+    type: ADD_CARD_TO_COLLECTION,
+    collectionId,
+    card
+  }
+}
+
+export function deleteCardFromCollection(collectionId, cardId) {
+  return {
+    type: DELETE_CARD_FROM_COLLECTION,
+    collectionId,
+    cardId
   }
 }
