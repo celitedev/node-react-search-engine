@@ -1,5 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
+import classnames from 'classnames';
 
 import {page} from '../page';
 
@@ -18,14 +19,10 @@ export default class Index extends PureComponent {
     };
   }
 
-  getLocalStorageData () {
-    localStorage.getItem();
-  }
-
   render() {
     const {data, loaded} = this.props;
     return (
-      <div className='col-md-12'>
+      <div className={classnames('col-md-12', styles.background)}>
         <MyCollections collections={loaded && data.collections || []}/>
       </div>
     );
