@@ -2,6 +2,7 @@
 
 import './mocks';
 import './polyfills';
+import 'material-design-lite';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -26,23 +27,6 @@ import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
 // import sagas from './sagas/all';
-
-// import Form from 'react-formal';
-// import BetterRadioGroup from './components/widgets/BetterRadioGroup';
-// import BetterCheckbox from './components/widgets/BetterCheckbox';
-// import Selectize from './components/widgets/Selectize';
-// import Suggest from './components/widgets/Suggest';
-// import Masked from './components/widgets/Masked';
-// import SplitDate from './components/widgets/SplitDate';
-//
-// Form.addInputTypes({
-//   'masked': Masked,
-//   'better-checkbox': BetterCheckbox,
-//   'suggest': Suggest,
-//   'selectize': Selectize,
-//   'radio-group': BetterRadioGroup,
-//   'split-date': SplitDate
-// });
 
 const middlewares = [
   thunk,

@@ -7,19 +7,27 @@
 
 .cardList {
   width: 90%;
-  margin:auto;
-  .cardPosition{
-    margin:20px 0 20px 0;
-    display: inline-block;
-    .cardInfo{
-      width:65%;
-      float:left;
-    }
-    .cardImage{
-      width:30%;
-      float:right;
-    }
+  margin:20px auto;
+  display: inline-block;
+  position: relative;
+  min-height: 20px;
+  max-height: 100px;
+  .cardImage{
+    position:absolute;
+    right:0;
+    top:0;
+    max-height: 100px;
   }
-
+  .cardInfo{
+    width:80%;
+  }
+  .cardImage{
+    width:20%;
+  }
 }
+
+.pagination{
+  margin:20px 0 !important;
+}
+
 

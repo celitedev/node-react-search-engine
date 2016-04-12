@@ -8,13 +8,31 @@ const data = {
       id: 0,
       title: 'col 0 title',
       subtitle: 'col 0 subttitle',
-      description: 'col 0 description'
+      description: 'col 0 description',
+      cards: [{
+        id: '04b0c3eb-6d0d-5772-99bc-df597a8a1cad',
+        title: 'Card title',
+        description: 'some nice optional description why this card belongs to this collection',
+      }, {
+        id: '8d0c761b-5cd5-554c-ad10-56a9d0f58df0',
+        title: 'Card title',
+        description: 'This card also belongs here...'
+      }]
     },
     {
       id: 1,
       title: 'col 1 title',
       subtitle: 'col 1 subttitle',
-      description: 'col 1 description'
+      description: 'col 1 description',
+      cards: [{
+        id: '04b0c3eb-6d0d-5772-99bc-df597a8a1cad',
+        title: 'Card title',
+        description: 'some nice optional description why this card belongs to this collection',
+      }, {
+        id: '8d0c761b-5cd5-554c-ad10-56a9d0f58df0',
+        title: 'Card title',
+        description: 'This card also belongs here...'
+      }]
     }
   ],
   'me': [{
