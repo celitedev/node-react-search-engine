@@ -1,7 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
-import classnames from 'classnames';
 
 import Header from '../Header';
 import Footer from '../Footer';

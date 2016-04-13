@@ -47,13 +47,8 @@ export default class Html extends React.Component {
           <meta name='description' content={state && state.meta.description}/>
           <meta property='og:image' content={state && state.meta.ogImage}/>
           <meta property='twitter:image' content={state && state.meta.twitterImage}/>
-          <link rel='icon' type='image/png' href={require('../favicons/favicon-32x32.png')} sizes='32x32'/>
-          <link rel='icon' type='image/png' href={require('../favicons/favicon-194x194.png')} sizes='194x194'/>
-          <link rel='icon' type='image/png' href={require('../favicons/favicon-96x96.png')} sizes='96x96'/>
-          <link rel='icon' type='image/png' href={require('../favicons/favicon-16x16.png')} sizes='16x16'/>
           <link rel='manifest' href={`${config.django.staticUrl}manifest.json`}/>
           <meta name='msapplication-TileColor' content='#ffffff'/>
-          <meta name='msapplication-TileImage' content={require('../favicons/mstile-144x144.png')}/>
           <meta name='theme-color' content='#ffffff'/>
         </head>
         <body>

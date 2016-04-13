@@ -51,14 +51,6 @@ restServer.init(data);
  * modify the request before FakeRest handles it
  */
 restServer.addRequestInterceptor((request) => {
-  //if (request.method === 'GET') {
-  //  const collections = localStorage.getItem('collections') || [];
-  //  const updatedCollection = _.filter(collections, col => {
-  //    return col.id;
-  //  });
-  //  localStorage.setItem('collections', JSON.stringify(collections));
-  //  localStorage.setItem(action.name, action.collection);
-  //}
   return request; // always return the modified input
 });
 

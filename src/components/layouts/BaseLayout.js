@@ -1,4 +1,3 @@
-import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import PureComponent from 'react-pure-render/component';
 import React from 'react';
@@ -18,7 +17,6 @@ export default class BaseLayout extends PureComponent {
       <div>
         {children}
         {/*<ModalsContainer />*/}
-
       </div>
     );
   }

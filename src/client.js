@@ -10,7 +10,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { reduxReactRouter, ReduxRouter } from 'redux-router';
 import domready from 'domready';
 import _ from 'lodash';
-// import sagaMiddleware from 'redux-saga';
+
 import { Provider } from 'redux-simple';
 
 import routes from './routes';
@@ -26,7 +26,6 @@ import api from './middleware/api';
 import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
-// import sagas from './sagas/all';
 
 const middlewares = [
   thunk,

@@ -32,16 +32,15 @@ export default class MyCollections extends PureComponent {
               </div>
             </div>
             ))}
-            <ul className={classnames('pagination', styles.pagination)}>
-              <li className='disabled'><a href='#!'><i className='material-icons'>&#xE5CB;</i></a></li>
-              <li className='active'><a href='#!'>1</a></li>
-              <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>2</a></li>
-              <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>3</a></li>
-              <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'><i className='material-icons'>&#xE5CC;</i></a></li>
-            </ul>
+
           </div>
         </li>
         ))}
+        <ul className={classnames('pagination', styles.pagination)}>
+          <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>1</a></li>
+          <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>2</a></li>
+          <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>3</a></li>
+        </ul>
       </ul>
 
     );

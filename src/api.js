@@ -57,40 +57,6 @@ function tmpGet(path, query = null) {
 
 async function request(method, path, data = null, query = null, session = null) {
   return await tmpGet(path, query);
-  // const url = combineUrl(path, query);
-  //
-  // const options = {
-  //   method,
-  //   credentials: 'same-origin',
-  //   headers: {
-  //     'Accept': 'application/json',
-  //     'Content-Type': 'application/json'
-  //   }
-  // };
-  //
-  // if (typeof window !== 'undefined' && (data instanceof window.File || data instanceof window.Blob)) {
-  //   options.headers = {
-  //     ...options.headers,
-  //     'Content-Type': data.type,
-  //     'Content-Disposition': 'attachment; filename=upload'
-  //   };
-  //   options.body = await readArrayBuffer(data);
-  // } else {
-  //   if (data) {
-  //     options.body = JSON.stringify(data);
-  //   }
-  // }
-  //
-  // if (session) {
-  //   options.headers.Cookie = `sessionid=${session}`;
-  // }
-  //
-  // //noinspection JSUnresolvedFunction
-  // const result = await fetch(url, options)
-  //   .then(checkStatus)
-  //   .then(parseJSON);
-  //
-  // return result;
 }
 
 async function get(path, query = null) {
