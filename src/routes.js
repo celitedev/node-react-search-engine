@@ -6,6 +6,9 @@ export default (
     <Route component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Index/Index')}/>
     </Route>
+    <Route path='/collections/new' component={require('./components/layouts/AdvancedLayout')}>
+      <IndexRoute component={require('./pages/NewCollection/NewCollection')}/>
+    </Route>
     <Route component={require('./components/layouts/AdvancedLayout')}>
       <Route path='*' component={require('./pages/NotFound')}/>
     </Route>

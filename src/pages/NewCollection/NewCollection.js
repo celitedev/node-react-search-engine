@@ -1,13 +1,19 @@
+/**
+ * Created by Mlobaievskyi on 13/04/16.
+ */
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 
 import {page} from '../page';
 
-import MyCollections from '../../components/MyCollections';
 import {API_REQUEST} from '../../actionTypes';
 
-@page('Index')
+import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
+import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
+import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
+
+@page('NewCollection')
 export default class Index extends PureComponent {
   static fetchData({dispatch}) {
     return {
@@ -23,7 +29,9 @@ export default class Index extends PureComponent {
     const {data, loaded} = this.props;
     return (
       <div className={classnames(styles.background)}>
-        <MyCollections collections={loaded && data.collections || []}/>
+        <NewCollectionHeader />
+        <NewCollectionDescription />
+        <NewCollectionCards />
       </div>
     );
   }

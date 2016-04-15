@@ -5,9 +5,11 @@ import {
   CREATE_COLLECTION,
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
+  SWITCH_PLACEHOLDER
 } from '../actionTypes';
 
 export default createStore({
+  showPlaceholders: false,
   createCollectionModal: false,
   updateCollectionModal: false,
   deleteCollectionModal: false,
@@ -33,6 +35,10 @@ export default createStore({
       return col.id !== action.id;
     });
     return {data: [...updatedCollection]};
+  },
+
+  [SWITCH_PLACEHOLDER]: (state, action) => {
+    return {showPlaceholders: action.showPlaceholders};
   }
 
 });

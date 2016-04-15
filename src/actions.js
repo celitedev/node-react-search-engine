@@ -4,6 +4,7 @@ import {
   CREATE_COLLECTION,
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
+  SWITCH_PLACEHOLDER,
   CREATE_COLLECTION_MODAL,
   UPDATE_COLLECTION_MODAL,
   DELETE_COLLECTION_MODAL,
@@ -21,7 +22,7 @@ export function createCollection(collection) {
   return {
     type: CREATE_COLLECTION,
     collection
-  }
+  };
 }
 
 export function updateCollection(id, collection) {
@@ -29,51 +30,57 @@ export function updateCollection(id, collection) {
     type: UPDATE_COLLECTIION,
     id,
     collection
-  }
+  };
 }
 
 export function deleteCollection(id) {
   return {
     type: DELETE_COLLECTION,
     id
-  }
+  };
 }
 
-export function createCollectionModalShow() {
+export function switchPlaceholdersVisibility() {
   return {
-    type: CREATE_COLLECTION_MODAL_SHOW
-  }
+    type: SWITCH_PLACEHOLDER
+  };
 }
 
-export function updateCollectionModalSHow() {
-  return {
-    type: UPDATE_COLLECTION_MODAL_SHOW
-  }
-}
-
-export function deleteCollectionModalShow() {
-  return {
-    type: DELETE_COLLECTION_MODAL_SHOW
-  }
-}
-
-export function createCollectionModalHide() {
-  return {
-    type: CREATE_COLLECTION_MODAL_HIDE
-  }
-}
-
-export function updateCollectionModalHide() {
-  return {
-    type: UPDATE_COLLECTION_MODAL_HIDE
-  }
-}
-
-export function deleteCollectionModalHide() {
-  return {
-    type: DELETE_COLLECTION_MODAL_HIDE
-  }
-}
+//export function createCollectionModalShow() {
+//  return {
+//    type: CREATE_COLLECTION_MODAL_SHOW
+//  };
+//}
+//
+//export function updateCollectionModalSHow() {
+//  return {
+//    type: UPDATE_COLLECTION_MODAL_SHOW
+//  };
+//}
+//
+//export function deleteCollectionModalShow() {
+//  return {
+//    type: DELETE_COLLECTION_MODAL_SHOW
+//  };
+//}
+//
+//export function createCollectionModalHide() {
+//  return {
+//    type: CREATE_COLLECTION_MODAL_HIDE
+//  };
+//}
+//
+//export function updateCollectionModalHide() {
+//  return {
+//    type: UPDATE_COLLECTION_MODAL_HIDE
+//  };
+//}
+//
+//export function deleteCollectionModalHide() {
+//  return {
+//    type: DELETE_COLLECTION_MODAL_HIDE
+//  };
+//}
 
 /**
  *Card actions
@@ -82,7 +89,7 @@ export function searchCards(text) {
   return {
     type: SEARCH_CARDS,
     text
-  }
+  };
 }
 
 export function addCardToCollection(collectionId, card) {
@@ -90,7 +97,7 @@ export function addCardToCollection(collectionId, card) {
     type: ADD_CARD_TO_COLLECTION,
     collectionId,
     card
-  }
+  };
 }
 
 export function deleteCardFromCollection(collectionId, cardId) {
@@ -98,5 +105,5 @@ export function deleteCardFromCollection(collectionId, cardId) {
     type: DELETE_CARD_FROM_COLLECTION,
     collectionId,
     cardId
-  }
+  };
 }

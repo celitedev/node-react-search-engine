@@ -1,0 +1,37 @@
+@import "../../styles/shared";
+
+.root {
+  .materialIconSmall {
+    font-size: 1.3rem;
+    line-height: inherit;
+  }
+  .rightSide{
+    margin-left: auto;
+  }
+  .floatLeft {
+    float: left;
+  }
+  .floatRight {
+    float: right;
+  }
+  .breadcrumbs, a {
+    line-height: inherit;
+    height: 22px;
+    background-color: transparent;
+    box-shadow: none;
+    color: #21343a;
+  }
+  .myColName {
+    border: 1px dashed;
+    cursor: pointer;
+    padding:0 10px;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .accept {
+    color: green;
+  }
+}
