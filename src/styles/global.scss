@@ -28,3 +28,18 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+.listClassReorder {
+
+}
+.itemClassReorder {
+
+}
+.itemClassReorder.dragged {
+  z-index: 1;
+  opacity:0.7;
+  border: 1px solid teal;
+}
+.itemClassReorder.placeholder {
+  visibility: hidden;
+}

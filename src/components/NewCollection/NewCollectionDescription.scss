@@ -3,11 +3,50 @@
 .root {
   .formLayout {
     margin: auto;
+    .formInput{
+      margin-bottom: 0;
+      padding-top: 0;
+      label {
+        top: 0;
+      }
+    }
+  }
+  .imgDropZone {
+    border: 1px dashed;
+    padding: 60px;
+    div {
+      text-align: center;
+    }
   }
   .formPlaceholder {
-    border: 1px dashed;
-    input {
-      border-bottom: none;
-    }
+      border: 1px dashed;
+      input {
+        border-bottom: none;
+      }
+  }
+  .filledInput {
+    border: none;
+  }
+  .titleLabel {
+    font-size: x-large;
+    text-align: center;
+    padding-top: 10px;
+  }
+  .subTitleLabel {
+    padding-top: 5px;
+    margin-top: 0;
+    text-align: center;
+    font-size: larger;
+  }
+  .descriptionLabel {
+    padding-top: 5px;
+    margin-top: 0;
+    text-align: center;
+  }
+  .colImage {
+    width: 100%;
+  }
+  .hideDragZone {
+    display: none;
   }
 }

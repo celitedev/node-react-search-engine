@@ -41,7 +41,7 @@ export default class NewCollectionHeader extends PureComponent {
             <h6>Placeholders</h6>
             <div className={styles.floatRight}>
               <label className='mdl-switch mdl-js-switch mdl-js-ripple-effect' >
-                <input type='checkbox' id='placeholders' className='mdl-switch__input' onClick={ () => { switchPlaceholdersVisibility(); }} value={ showPlaceholders } />
+                <input type='checkbox' id='placeholders' className='mdl-switch__input' onClick={switchPlaceholdersVisibility} value={ showPlaceholders } />
                 <span className='mdl-switch__label'></span>
               </label>
             </div>

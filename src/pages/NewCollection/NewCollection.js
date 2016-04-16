@@ -28,7 +28,7 @@ export default class Index extends PureComponent {
   render() {
     const {data, loaded} = this.props;
     return (
-      <div className={classnames(styles.background)}>
+      <div>
         <NewCollectionHeader />
         <NewCollectionDescription />
         <NewCollectionCards />
