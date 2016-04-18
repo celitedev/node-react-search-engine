@@ -3,7 +3,6 @@ import PureComponent from '../../../node_modules/react-pure-render/component';
 import classnames from 'classnames';
 import CollectionCardsListItem from './CollectionCardsListItem';
 import 'material-design-icons';
-
 let Reorder;
 if (!process.env.SERVER_RENDERING) {
   Reorder = require('react-reorder');
@@ -23,7 +22,7 @@ export default class CollectionCardsList extends PureComponent {
           {Reorder && (
             <Reorder
               itemKey='id'
-              holdTime='100'
+              holdTime='300'
               list={cards}
               template={CollectionCardsListItem}
               callback={::this.callback}

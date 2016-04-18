@@ -1,0 +1,16 @@
+.root {
+  padding: 0;
+  min-width: 400px;
+  .title {
+    padding: 10px;
+    font-size: large;
+    background: #FF6D45;
+    color: white;
+  }
+  .hr {
+    margin-top: 0;
+  }
+  .dilogContainer {
+    padding: 20px 20px;
+  }
+}

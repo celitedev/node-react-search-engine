@@ -3,39 +3,27 @@ import PureComponent from '../../../node_modules/react-pure-render/component';
 import classnames from 'classnames';
 import CollectionCardsList from './CollectionCardsList';
 import CollectionCardsAddButton from './CollectionCardsAddButton';
+import { connect } from 'redux-simple';
+import { saveCollectionInfo } from '../../actions';
 import 'material-design-icons';
 
+function collection(state) {
+  const { savedCollectionInfo } = state.collection;
+  return { savedCollectionInfo };
+}
+
+@connect(collection, {saveCollectionInfo})
 export default class NewCollectionCards extends PureComponent {
-
+  constructor(props, state) {
+    super();
+    this.state = {
+      collection: props.collection.collection[0]
+    };
+  }
   render() {
-    const cards = [
-      {
-        id: 0,
-        title: 'Title 1',
-        content: 'Card content. Holy guacamole!',
-        desc: 'Some optional description for first card'
-      },
-      {
-        id: 1,
-        title: 'Title 2',
-        content: 'Card content. Holy guacamole!',
-        desc: 'Some optional description for second card'
-      },
-      {
-        id: 2,
-        title: 'Title 3',
-        content: 'Card content. Holy guacamole!',
-        desc: ''
-      },
-      {
-        id: 3,
-        title: 'Title 4',
-        content: 'Card content. Holy guacamole!',
-        desc: 'Some optional description for forth card'
-      }
-    ];
-
-    return (
+    const { savedCollectionInfo } = this.props;
+    const cards = savedCollectionInfo.collection.cards;
+    return (this.props.savedCollectionInfo.collection) ? (
       <div className={ classnames(styles.root) }>
         <div className={ classnames('mdl-grid') }>
           <CollectionCardsAddButton cards={cards} />
@@ -53,6 +41,6 @@ export default class NewCollectionCards extends PureComponent {
           })()}
         </div>
       </div>
-    );
+    ) : null;
   }
 }

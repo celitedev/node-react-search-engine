@@ -4,6 +4,8 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import Form from 'react-formal';
 import Dropzone from 'react-dropzone';
+import { saveCollectionInfo } from '../../actions';
+import { connect } from 'redux-simple';
 
 import { collectionSchema } from './collectionSchemas';
 
@@ -17,15 +19,28 @@ function FormGroup({ children }) {
   );
 }
 
+function collection(state) {
+  const { showPlaceholders, savedCollectionInfo } = state.collection;
+  return { showPlaceholders, savedCollectionInfo };
+}
+
+@connect(collection, {saveCollectionInfo})
 export default class NewCollectionDescription extends PureComponent {
   constructor(props) {
     super();
+    console.log(props);
     this.state = {
-      model: {},
+      model: props.savedCollectionInfo || props.collection.collection[0],
       errors: {},
-      image: {}
+      image: props.savedCollectionInfo.img || {}
     };
+    console.log(this.state);
   }
+
+  componentDidMount() {
+    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, collection: this.props.collection.collection[0]});
+  }
+
 
   onFormErrors(errors) {
     if (!_.isEqual(errors, this.state.errors)) {
@@ -41,6 +56,7 @@ export default class NewCollectionDescription extends PureComponent {
         model
       });
     }
+    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, ...model});
   }
 
   checkInput(modelName) {
@@ -51,6 +67,7 @@ export default class NewCollectionDescription extends PureComponent {
     this.setState({
       image: file[0]
     });
+    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, img: file[0]});
   }
 
   saveCollection() {
@@ -58,12 +75,12 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   render() {
-    const { placeholders } = this.props;
+    const { saveCollectionInfo } = this.props;
     const { model, errors, image } = this.state;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <Form
-          className={classnames('mdl-cell mdl-cell--8-col', styles.formLayout)}
+          className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}
           schema={collectionSchema}
           value={model}
           errors={errors}
@@ -72,7 +89,7 @@ export default class NewCollectionDescription extends PureComponent {
           onSubmit={this.saveCollection.bind(this)}
         >
           <FormGroup>
-            <Form.Field name='title' type='text' id='title' onFocus={::this.checkInput} className={classnames('mdl-textfield__input', styles.titleLabel, ::this.checkInput('title'))} errorClass='form-error'/>
+            <Form.Field name='title' type='text' id='title' className={classnames('mdl-textfield__input', styles.titleLabel, ::this.checkInput('title'))} errorClass='form-error'/>
             <label className={classnames('mdl-textfield__label', styles.titleLabel)} htmlFor='title'>Colection title</label>
             <Form.Message for='title' className='form-error-message'/>
           </FormGroup>
@@ -81,14 +98,14 @@ export default class NewCollectionDescription extends PureComponent {
             <label className={classnames('mdl-textfield__label', styles.subTitleLabel)} htmlFor='subTitle'>Collection subtitle</label>
             <Form.Message for='subTitle' className='form-error-message'/>
           </FormGroup>
-          <Dropzone onDrop={this.onDrop.bind(this)} className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) ? styles.imgDropZone : styles.hideDragZone )}>
+          <Dropzone onDrop={this.onDrop.bind(this)} className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
             <div>Try dropping some files here, or click to select files to upload.</div>
           </Dropzone>
           <div className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) ? styles.hideDragZone : '')}>
             <img className={styles.colImage} src={image.preview}/>
           </div>
           <FormGroup>
-            <Form.Field name='description' type='textarea' id='description' rows='3' className={classnames('mdl-textfield__input', ::this.checkInput('description'))} errorClass='form-error'/>
+            <Form.Field name='description' type='textarea' id='description' className={classnames('mdl-textfield__input', ::this.checkInput('description'))} errorClass='form-error'/>
             <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='description'>Collection description</label>
             <Form.Message for='description' className='form-error-message'/>
           </FormGroup>

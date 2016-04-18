@@ -1,0 +1,67 @@
+.root {
+  .radio {
+    padding: 0 20px;
+  }
+  .search {
+    width: 100%;
+    label {
+      font-size: small;
+    }
+  }
+  .extraFiltersBtn {
+    float: right;
+    font-size: xx-small;
+    height: 25px;
+    line-height: normal;
+  }
+  .searchSricky {
+    position: fixed;
+    background: white;
+    z-index: 100;
+  }
+  .collectionList {
+    width: 100%;
+    padding: 20px 0;
+  }
+  .card {
+    min-height: 150px;
+    width: 100%;
+  }
+  .cardList {
+    width: 95%;
+    margin: 5px auto;
+    display: inline-block;
+    position: relative;
+    min-height: 20px;
+    max-height: 100px;
+    .cardImage{
+      position:absolute;
+      right:0;
+      top:0;
+      max-height: 100px;
+    }
+    .cardActions {
+      padding: 0 10px;
+      border-top: 1px solid;
+    }
+    .cardActionButton {
+      float: left;
+    }
+    .cardInfo {
+      font-size: large;
+    }
+    .cardImage {
+      width: 20%;
+    }
+  }
+  .collectionFilterName {
+    padding-left: 10px;
+  }
+  .pagination{
+    margin: 20px 0;
+    padding: 0;
+    li {
+      padding: 0;
+    }
+  }
+}

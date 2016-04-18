@@ -21,12 +21,36 @@
     box-shadow: none;
     color: #21343a;
   }
-  .myColName {
+  .myColNameEdit {
     border: 1px dashed;
     cursor: pointer;
-    padding:0 10px;
+    padding: 0 10px;
+    width: auto;
+    margin-bottom: 0;
+    input {
+      padding: 1px;
+    }
+    label {
+      top: 0;
+      text-align: center;
+    }
   }
-
+  .myColNameFilled {
+    cursor: pointer;
+    padding: 0 10px;
+    width: auto;
+    margin-bottom: 0;
+    input {
+      padding: 1px;
+    }
+    label {
+      text-align: center;
+    }
+  }
+  .myColName {
+    cursor: pointer;
+    padding: 0 10px;
+  }
   .error {
     color: red;
   }

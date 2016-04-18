@@ -5,7 +5,8 @@ import classnames from 'classnames';
 import 'material-design-icons';
 import Form from 'react-formal';
 import { cardSchema } from './collectionSchemas';
-
+import { connect } from 'redux-simple';
+import { deleteCardFromCollection } from '../../actions';
 function FormGroup({ children }) {
   return (
     <div className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', styles.formInput)}>
@@ -13,7 +14,12 @@ function FormGroup({ children }) {
     </div>
   );
 }
+function collection(state) {
+  const { showPlaceholders } = state.collection;
+  return { showPlaceholders };
+}
 
+@connect(collection, { deleteCardFromCollection })
 export default class CollectionCardsListItem extends PureComponent {
   constructor(props) {
     const { item } = props;
@@ -49,8 +55,9 @@ export default class CollectionCardsListItem extends PureComponent {
   }
 
   render() {
-    const { item, placeholders } = this.props;
+    const { item, showPlaceholders, deleteCardFromCollection } = this.props;
     const { model, errors } = this.state;
+
     return (
       <div className={styles.root}>
         <div className={styles.collectionCardWide}>
@@ -65,12 +72,20 @@ export default class CollectionCardsListItem extends PureComponent {
               <button className='mdl-button mdl-js-button mdl-button--raised'>
                 Drag
               </button>
-              <button className='mdl-button mdl-js-button mdl-button--raised'>
+              <button className='mdl-button mdl-js-button mdl-button--raised' onClick={() => deleteCardFromCollection(item.collectionId, item.id)}>
                 <i className='material-icons'>delete</i> Delete
               </button>
             </div>
           </div>
           {(() => {
+            if (!showPlaceholders) {
+              return item.desc ? (
+                <div
+                  className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('desc')) }>
+                  <p>{item.desc}</p>
+                </div>
+              ) : null;
+            }
             return (
               <div className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('desc')) }>
                 <Form
@@ -83,8 +98,11 @@ export default class CollectionCardsListItem extends PureComponent {
                   onSubmit={this.saveCard.bind(this)}
                 >
                   <FormGroup>
-                    <Form.Field name='desc' type='textarea' id='desc' onFocus={::this.checkInput} className={classnames('mdl-textfield__input', styles.descriptionLabel)} errorClass='form-error'/>
-                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='desc'>Card description</label>
+                    <Form.Field name='desc' type='textarea' id='desc' onFocus={::this.checkInput}
+                                className={classnames('mdl-textfield__input', styles.descriptionLabel)}
+                                errorClass='form-error'/>
+                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='desc'>Card
+                      description</label>
                     <Form.Message for='desc' className='form-error-message'/>
                   </FormGroup>
                 </Form>
