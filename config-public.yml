@@ -37,7 +37,7 @@ landing:
     image: science
 
 django:
-  staticUrl: https://localhost:8080/static/
+  staticUrl: https://localhost:8084/static/
 
 firebase:
   baseUrl: https://tutorme-dev.firebaseio.com
