@@ -1,5 +1,5 @@
 #Instructions
 - ```npm install```
-- ```npm run hot```
+- ```npm start```
 - ```npm run rendering```
 - open ```localhost:7000```
