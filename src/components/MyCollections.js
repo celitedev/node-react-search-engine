@@ -25,7 +25,7 @@ export default class MyCollections extends PureComponent {
                 <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
               </div>
               <div className={styles.cardImage}>
-                <img className={styles.cardImg} src='http://lorempixel.com/600/337/nature/'/>
+                <img className={styles.cardImg} src='http://placehold.it/350x150'/>
               </div>
               <div className={classnames('mdl-card__supporting-text', styles.cardInfo)}>
                 {card.description}

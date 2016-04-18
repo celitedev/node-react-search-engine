@@ -12,26 +12,34 @@ import {API_REQUEST} from '../../actionTypes';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
+import CollectionAddCardDialog from '../../components/NewCollection/CollectionAddCardDialog';
+import CollectionInfo from '../../components/NewCollection/CollectionInfo';
 
-@page('NewCollection')
+function collection(state) {
+  const {showPlaceholders} = state.collection;
+  return {showPlaceholders};
+}
+
+@page('NewCollection', collection)
 export default class Index extends PureComponent {
   static fetchData({dispatch}) {
     return {
-      collections: dispatch({
+      collection: dispatch({
         type: API_REQUEST,
         method: 'get',
-        path: '/collections'
+        path: '/getCollection'
       })
     };
   }
 
   render() {
-    const {data, loaded} = this.props;
+    const {data, loaded, showPlaceholders} = this.props;
     return (
-      <div>
+      <div className={classnames(styles.background)}>
         <NewCollectionHeader />
-        <NewCollectionDescription />
-        <NewCollectionCards />
+        {showPlaceholders ? <NewCollectionDescription collection={data}/> : <CollectionInfo />}
+        <NewCollectionCards collection={data}/>
+        <CollectionAddCardDialog />
       </div>
     );
   }
