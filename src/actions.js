@@ -11,7 +11,10 @@ import {
   SEARCH_CARDS,
   ADD_CARD_TO_COLLECTION,
   DELETE_CARD_FROM_COLLECTION,
-  ADD_CARDS
+  ADD_CARDS,
+  SWITCH_ADD_CARD_MODAL,
+  SAVE_COLLECTION_INFO,
+  API_REQUEST
 } from './actionTypes';
 
 
@@ -43,6 +46,27 @@ export function deleteCollection(id) {
 export function switchPlaceholdersVisibility() {
   return {
     type: SWITCH_PLACEHOLDER
+  };
+}
+
+export function switchAddCardModal() {
+  return {
+    type: SWITCH_ADD_CARD_MODAL
+  };
+}
+
+export function saveCollectionInfo(info) {
+  return {
+    type: SAVE_COLLECTION_INFO,
+    info
+  };
+}
+
+export function getCards() {
+  return {
+    type: API_REQUEST,
+    method: 'get',
+    path: '/cards'
   };
 }
 
@@ -101,6 +125,7 @@ export function addCardToCollection(collectionId, card) {
 }
 
 export function deleteCardFromCollection(collectionId, cardId) {
+  console.log('Delete card', collectionId, cardId);
   return {
     type: DELETE_CARD_FROM_COLLECTION,
     collectionId,

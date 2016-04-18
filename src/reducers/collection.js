@@ -5,15 +5,21 @@ import {
   CREATE_COLLECTION,
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
-  SWITCH_PLACEHOLDER
+  SWITCH_PLACEHOLDER,
+  SWITCH_ADD_CARD_MODAL,
+  SAVE_COLLECTION_INFO,
+  ADD_CARD_TO_COLLECTION,
+  DELETE_CARD_FROM_COLLECTION
 } from '../actionTypes';
 
 export default createStore({
-  showPlaceholders: false,
+  showPlaceholders: true,
+  addCardModal: false,
   createCollectionModal: false,
   updateCollectionModal: false,
   deleteCollectionModal: false,
-  data: []
+  data: [],
+  savedCollectionInfo: {}
 }, {
 
   [CREATE_COLLECTION]: (state, action) => {
@@ -36,9 +42,26 @@ export default createStore({
     });
     return {data: [...updatedCollection]};
   },
+  [SAVE_COLLECTION_INFO]: (state, action) => {
+    return {savedCollectionInfo: action.info};
+  },
 
   [SWITCH_PLACEHOLDER]: (state, action) => {
-    return {showPlaceholders: action.showPlaceholders};
+    return {showPlaceholders: !state.showPlaceholders};
+  },
+  [SWITCH_ADD_CARD_MODAL]: (state) => {
+    return {addCardModal: !state.addCardModal};
+  },
+  [ADD_CARD_TO_COLLECTION]: (state, action) => {
+    const updatedCollection = [ ...state.savedCollectionInfo.collection.cards, Object.assign({}, action.card, { collectionId: action.collectionId })];
+    return {savedCollectionInfo: { collection: Object.assign({}, ...state.savedCollectionInfo.collection, {cards: updatedCollection}) } };
+  },
+
+  [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
+    const updatedCollection = _.filter(state.savedCollectionInfo.collection.cards, col => {
+      return col.id !== action.cardId;
+    });
+    return {savedCollectionInfo: { collection: Object.assign({}, ...state.savedCollectionInfo.collection, {cards: updatedCollection}) } };
   }
 
 });

@@ -6,17 +6,16 @@ import 'material-design-lite';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { reduxReactRouter, ReduxRouter } from 'redux-router';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {reduxReactRouter, ReduxRouter} from 'redux-router';
 import domready from 'domready';
 import _ from 'lodash';
-
-import { Provider } from 'redux-simple';
+import {Provider} from 'redux-simple';
 
 import routes from './routes';
 
 import reducers from './reducers';
-import { LOGIN, API_REQUEST, ENABLE_FETCHER } from './actionTypes';
+import {LOGIN, API_REQUEST, ENABLE_FETCHER} from './actionTypes';
 import rafScheduler from './middleware/rafScheduler';
 import thunk from './middleware/thunk';
 import logger from './middleware/logger';
@@ -62,7 +61,7 @@ try {
 }
 
 const store = compose(
-  reduxReactRouter({ routes, createHistory }),
+  reduxReactRouter({routes, createHistory}),
   applyMiddleware.apply(null, middlewares)
 )(createStore)(reducers, window.reduxState);
 
@@ -100,7 +99,7 @@ async function bootstrap() {
       });
       authenticate(user[0]);
     } catch (err) {
-       // pass
+      // pass
     }
   }
   store.dispatch({
