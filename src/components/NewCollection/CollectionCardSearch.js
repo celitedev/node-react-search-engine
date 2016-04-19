@@ -8,7 +8,7 @@ import {Radio, RadioGroup, Textfield, Button} from 'react-mdl';
 import 'material-design-icons';
 
 const Container = require('../../../node_modules/react-sticky/lib/container');
-const Sticky = require('../../../node_modules/react-sticky/lib/sticky');
+//const Sticky = require('../../../node_modules/react-sticky/lib/sticky');
 
 function searchedCards(state) {
   const { savedCollectionInfo } = state.collection;
@@ -22,7 +22,7 @@ export default class CollectionCardSearch extends PureComponent {
     this.state = {
       filter: 'all',
       cards: [],
-      cardTypes: ['place', 'event', 'person']
+      cardTypes: ['place', 'event', 'person', 'all']
     };
     this.loadCards();
   }
@@ -43,7 +43,6 @@ export default class CollectionCardSearch extends PureComponent {
   render() {
     const {className, savedCollectionInfo, addCardToCollection} = this.props;
     const {cards, cardTypes, filter} = this.state;
-
     return (
       <div className={classnames(className, styles.root)}>
         <RadioGroup value={filter} name='searchFilter'>
@@ -67,7 +66,7 @@ export default class CollectionCardSearch extends PureComponent {
         </Button>
         { cardTypes.map((type, i) => (
           <div key={i}>
-            {_.find(cards, {'type': type}) ? (
+            {(_.find(cards, {'type': type}) && filter === type) || (filter === 'all' && _.find(cards, {'type': type})) ? (
               <li className={classnames('mdl-list__item', styles.collectionList)}>
                 <div className={classnames('mdl-card', styles.card)}>
                   <label htmlFor='' className={styles.collectionFilterName}>{type}</label>

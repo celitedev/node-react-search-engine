@@ -2,7 +2,6 @@
 
 import './mocks';
 import './polyfills';
-import 'material-design-lite';
 
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -25,6 +24,8 @@ import api from './middleware/api';
 import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
+
+import 'material-design-lite';
 
 const middlewares = [
   thunk,
@@ -63,6 +64,7 @@ try {
 const store = compose(
   reduxReactRouter({routes, createHistory}),
   applyMiddleware.apply(null, middlewares)
+  //window.devToolsExtension ? window.devToolsExtension() : 'undefind'
 )(createStore)(reducers, window.reduxState);
 
 function render() {

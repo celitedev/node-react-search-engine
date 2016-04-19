@@ -22,25 +22,28 @@ export default class NewCollectionCards extends PureComponent {
   }
   render() {
     const { savedCollectionInfo } = this.props;
-    const cards = savedCollectionInfo.collection.cards;
-    return (this.props.savedCollectionInfo.collection) ? (
-      <div className={ classnames(styles.root) }>
-        <div className={ classnames('mdl-grid') }>
-          <CollectionCardsAddButton cards={cards} />
+    if (savedCollectionInfo.collection) {
+      const cards = savedCollectionInfo.collection.cards;
+      return (
+        <div className={ classnames(styles.root) }>
+          <div className={ classnames('mdl-grid') }>
+            <CollectionCardsAddButton cards={cards} />
+          </div>
+          <div className={ classnames('mdl-grid') }>
+            <CollectionCardsList cards={cards} />
+          </div>
+          <div className={ classnames('mdl-grid') }>
+            {(() => {
+              if (cards && cards.length) {
+                return (
+                  <CollectionCardsAddButton cards={cards} />
+                );
+              }
+            })()}
+          </div>
         </div>
-        <div className={ classnames('mdl-grid') }>
-          <CollectionCardsList cards={cards} />
-        </div>
-        <div className={ classnames('mdl-grid') }>
-          {(() => {
-            if (cards && cards.length) {
-              return (
-                <CollectionCardsAddButton cards={cards} />
-              );
-            }
-          })()}
-        </div>
-      </div>
-    ) : null;
+      );
+    }
+    return null;
   }
 }

@@ -43,3 +43,7 @@
 .itemClassReorder.placeholder {
   visibility: hidden;
 }
+
+body.modal-open {
+  overflow: hidden;
+}

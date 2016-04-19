@@ -101,8 +101,9 @@ export default class CollectionCardsListItem extends PureComponent {
                     <Form.Field name='desc' type='textarea' id='desc' onFocus={::this.checkInput}
                                 className={classnames('mdl-textfield__input', styles.descriptionLabel)}
                                 errorClass='form-error'/>
-                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='desc'>Card
-                      description</label>
+                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='desc'>
+                      {model.desc ? '' : 'Card description'}
+                    </label>
                     <Form.Message for='desc' className='form-error-message'/>
                   </FormGroup>
                 </Form>

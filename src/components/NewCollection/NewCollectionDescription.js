@@ -28,13 +28,11 @@ function collection(state) {
 export default class NewCollectionDescription extends PureComponent {
   constructor(props) {
     super();
-    console.log(props);
     this.state = {
       model: props.savedCollectionInfo || props.collection.collection[0],
       errors: {},
       image: props.savedCollectionInfo.img || {}
     };
-    console.log(this.state);
   }
 
   componentDidMount() {
@@ -90,12 +88,12 @@ export default class NewCollectionDescription extends PureComponent {
         >
           <FormGroup>
             <Form.Field name='title' type='text' id='title' className={classnames('mdl-textfield__input', styles.titleLabel, ::this.checkInput('title'))} errorClass='form-error'/>
-            <label className={classnames('mdl-textfield__label', styles.titleLabel)} htmlFor='title'>Colection title</label>
+            <label className={classnames('mdl-textfield__label', styles.titleLabel)} htmlFor='title'>{model.title ? '' : 'Colection title'}</label>
             <Form.Message for='title' className='form-error-message'/>
           </FormGroup>
           <FormGroup>
             <Form.Field name='subTitle' type='text' id='subTitle' className={classnames('mdl-textfield__input', styles.subTitleLabel, ::this.checkInput('subTitle'))} errorClass='form-error'/>
-            <label className={classnames('mdl-textfield__label', styles.subTitleLabel)} htmlFor='subTitle'>Collection subtitle</label>
+            <label className={classnames('mdl-textfield__label', styles.subTitleLabel)} htmlFor='subTitle'>{model.subTitle ? '' : 'Collection subtitle'}</label>
             <Form.Message for='subTitle' className='form-error-message'/>
           </FormGroup>
           <Dropzone onDrop={this.onDrop.bind(this)} className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
@@ -106,7 +104,7 @@ export default class NewCollectionDescription extends PureComponent {
           </div>
           <FormGroup>
             <Form.Field name='description' type='textarea' id='description' className={classnames('mdl-textfield__input', ::this.checkInput('description'))} errorClass='form-error'/>
-            <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='description'>Collection description</label>
+            <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='description'>{model.description ? '' : 'Collection description'}</label>
             <Form.Message for='description' className='form-error-message'/>
           </FormGroup>
         </Form>

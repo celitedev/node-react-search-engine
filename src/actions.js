@@ -125,7 +125,6 @@ export function addCardToCollection(collectionId, card) {
 }
 
 export function deleteCardFromCollection(collectionId, cardId) {
-  console.log('Delete card', collectionId, cardId);
   return {
     type: DELETE_CARD_FROM_COLLECTION,
     collectionId,

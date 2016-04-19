@@ -20,7 +20,7 @@ export default class CollectionAddCardDialog extends PureComponent {
   render() {
     const { addCardModal, switchAddCardModal } = this.props;
     return (
-      <Dialog open={addCardModal} className={styles.root}>
+      <Dialog open={addCardModal} className={classnames(styles.root, styles.modalBody)}>
         <DialogTitle className={styles.title}>
           Add card
         </DialogTitle>

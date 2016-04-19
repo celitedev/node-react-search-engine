@@ -1,6 +1,8 @@
 .root {
   padding: 0;
   min-width: 400px;
+  position: absolute !important;
+  top: 5% !important;
   .title {
     padding: 10px;
     font-size: large;

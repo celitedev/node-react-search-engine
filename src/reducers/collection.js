@@ -58,10 +58,8 @@ export default createStore({
   },
 
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
-    const updatedCollection = _.filter(state.savedCollectionInfo.collection.cards, col => {
-      return col.id !== action.cardId;
-    });
-    return {savedCollectionInfo: { collection: Object.assign({}, ...state.savedCollectionInfo.collection, {cards: updatedCollection}) } };
+    const collection = state.savedCollectionInfo.collection;
+    return { savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, { collection: Object.assign({}, ...collection, { cards: _.filter(collection.cards, (item) => item.id !== action.cardId ) }) } ) };
   }
 
 });
