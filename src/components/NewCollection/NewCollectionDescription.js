@@ -29,14 +29,15 @@ export default class NewCollectionDescription extends PureComponent {
   constructor(props) {
     super();
     this.state = {
-      model: props.savedCollectionInfo || props.collection.collection[0],
+      model: props.savedCollectionInfo,
       errors: {},
       image: props.savedCollectionInfo.img || {}
     };
   }
 
   componentDidMount() {
-    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, collection: this.props.collection.collection[0]});
+    const colInfo = this.props.savedCollectionInfo;
+    this.props.saveCollectionInfo(Object.assign(colInfo, {cards: this.props.savedCollectionInfo ? this.props.savedCollectionInfo.cards || [] : this.props.collection.collection[0].cards}));
   }
 
 
@@ -54,7 +55,7 @@ export default class NewCollectionDescription extends PureComponent {
         model
       });
     }
-    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, ...model});
+    this.props.saveCollectionInfo(Object.assign({}, model, {cards: this.props.savedCollectionInfo.cards} ));
   }
 
   checkInput(modelName) {
@@ -73,7 +74,6 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   render() {
-    const { saveCollectionInfo } = this.props;
     const { model, errors, image } = this.state;
     return (
       <div className={classnames('mdl-grid', styles.root)}>

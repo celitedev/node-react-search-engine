@@ -33,6 +33,26 @@ export default class CollectionCardSearch extends PureComponent {
     });
   }
 
+  // componentDidMount() {
+  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
+  //   cardsDialogModal.addEventListener('scroll', this.handleScroll);
+  // }
+  //
+  // componentWillUnmount() {
+  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
+  //   cardsDialogModal.removeEventListener('scroll', this.handleScroll);
+  // }
+  // handleScroll() {
+  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
+  //   (cardsDialogModal.onscroll = () => {
+  //     const sticky = document.getElementById('cardsDialogStickyHeader');
+  //     const scroll = cardsDialogModal.scrollTop;
+  //
+  //     if (scroll >= 75) sticky.className = 'cardsDialogStickyHeader';
+  //     else sticky.className = '';
+  //   })();
+  // }
+
   async loadCards() {
     const {getCards} = this.props;
     const cards = await getCards();
@@ -45,25 +65,27 @@ export default class CollectionCardSearch extends PureComponent {
     const {cards, cardTypes, filter} = this.state;
     return (
       <div className={classnames(className, styles.root)}>
-        <RadioGroup value={filter} name='searchFilter'>
-          <Radio className={styles.radio} value='all' onClick={() => this.changeFilter('all')}>
-            All types
-          </Radio>
-          <Radio className={styles.radio} value='place' onClick={() => this.changeFilter('place')}>
-            Place
-          </Radio>
-          <Radio className={styles.radio} value='event' onClick={() => this.changeFilter('event')}>
-            Event
-          </Radio>
-          <Radio className={styles.radio} value='person' onClick={() => this.changeFilter('person')}>
-            Person
-          </Radio>
-        </RadioGroup>
-        <Textfield label='Seach cards with typeahead/autosuggested' className={classnames(styles.search)}/>
-        <Button
-          className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect', styles.extraFiltersBtn)}>
-          Show Extra Filters
-        </Button>
+        <div id='cardsDialogStickyHeader'>
+          <RadioGroup value={filter} name='searchFilter'>
+            <Radio className={styles.radio} value='all' onClick={() => this.changeFilter('all')}>
+              All types
+            </Radio>
+            <Radio className={styles.radio} value='place' onClick={() => this.changeFilter('place')}>
+              Place
+            </Radio>
+            <Radio className={styles.radio} value='event' onClick={() => this.changeFilter('event')}>
+              Event
+            </Radio>
+            <Radio className={styles.radio} value='person' onClick={() => this.changeFilter('person')}>
+              Person
+            </Radio>
+          </RadioGroup>
+          <Textfield label='Seach cards with typeahead/autosuggested' className={classnames(styles.search)}/>
+          <Button
+            className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect', styles.extraFiltersBtn)}>
+            Show Extra Filters
+          </Button>
+        </div>
         { cardTypes.map((type, i) => (
           <div key={i}>
             {(_.find(cards, {'type': type}) && filter === type) || (filter === 'all' && _.find(cards, {'type': type})) ? (
@@ -81,7 +103,7 @@ export default class CollectionCardSearch extends PureComponent {
                       <div className={classnames('mdl-card__supporting-text', styles.cardActions)}>
                         <Button
                           className={classnames(styles.extraFiltersBtn, styles.cardActionButton, 'mdl-js-ripple-effect')}
-                          onClick={() => addCardToCollection(savedCollectionInfo.collection.id, card)}
+                          onClick={() => addCardToCollection(Math.random() * 10, card)}
                         >
                           Action
                         </Button>

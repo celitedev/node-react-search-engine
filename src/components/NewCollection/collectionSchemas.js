@@ -7,7 +7,7 @@ const collectionFilds = {
 };
 
 const cardFields = {
-  desc: string().trim().max(300)
+  description: string().trim().max(300)
 };
 
 export const cardSchema = object().shape({

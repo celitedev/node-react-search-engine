@@ -1,7 +1,7 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import { switchPlaceholdersVisibility, saveCollectionInfo } from '../../actions';
+import { switchPlaceholdersVisibility, saveCollectionInfo, saveCollection } from '../../actions';
 import { connect } from 'redux-simple';
 
 import { Textfield } from 'react-mdl';
@@ -12,7 +12,7 @@ function collection(state) {
   return { showPlaceholders, savedCollectionInfo };
 }
 
-@connect(collection, { switchPlaceholdersVisibility, saveCollectionInfo })
+@connect(collection, { switchPlaceholdersVisibility, saveCollectionInfo, saveCollection})
 export default class NewCollectionHeader extends PureComponent {
   constructor(props) {
     super();
@@ -28,30 +28,36 @@ export default class NewCollectionHeader extends PureComponent {
     this.props.saveCollectionInfo({...this.props.savedCollectionInfo, name: e.target.value});
   }
 
-  validateCollection(e) {
+  validateCollection() {
     const col = this.props.savedCollectionInfo;
-    if (col.name && col.title) {
-      this.props.switchPlaceholdersVisibility();
-    } else {
-      e.preventDefault();
+    if (col.name && col.title && col.description && col.cards.length > 1) {
+      return false;
+    }
+    return true;
+  }
+
+  saveCollection() {
+    if (!this.validateCollection()) {
+      this.props.saveCollection(this.props.savedCollectionInfo);
     }
   }
+
 
   render() {
     const { savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility } = this.props;
     const { name } = this.state;
-    const label = showPlaceholders ? 'Collection needs a name, title, description and at least 2 cards' : 'Collection is valid';
+    const label = this.validateCollection() ? 'Collection needs a name, title, description and at least 2 cards' : 'Collection is valid';
     return (
       <div className='mdl-grid'>
         <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
           <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
             <a className='' href='' ref='name'>My Collections </a>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
-            { showPlaceholders ?
+            { savedCollectionInfo ?
               <Textfield label='My collection name' className={!savedCollectionInfo.name ? styles.myColNameEdit : styles.myColNameFilled} value={savedCollectionInfo.name} onChange={::this.saveCollectionName}/>
               : <span className={styles.myColName}>{name}</span>
             }
-            <span className={classnames('mdl-cell--hide-phone', styles.rightSide, showPlaceholders ? styles.error : styles.accept)}>
+            <span className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection() ? styles.error : styles.accept)}>
               {label}
             </span>
           </nav>
@@ -61,7 +67,7 @@ export default class NewCollectionHeader extends PureComponent {
               <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
                 Share
               </button>
-              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
+              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' disabled={this.validateCollection()} onClick={::this.saveCollection}>
                 Publish
               </button>
             </div>
@@ -70,7 +76,7 @@ export default class NewCollectionHeader extends PureComponent {
             <h6>Placeholders</h6>
             <div className={styles.floatRight}>
               <label className='mdl-switch mdl-js-switch mdl-js-ripple-effect' >
-                <input type='checkbox' id='placeholders' defaultChecked className='mdl-switch__input' value={showPlaceholders} onClick={::this.validateCollection} />
+                <input type='checkbox' id='placeholders' defaultChecked className='mdl-switch__input' value={showPlaceholders} onClick={switchPlaceholdersVisibility} />
                 <span className='mdl-switch__label'></span>
               </label>
             </div>

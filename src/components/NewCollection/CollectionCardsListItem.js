@@ -79,15 +79,15 @@ export default class CollectionCardsListItem extends PureComponent {
           </div>
           {(() => {
             if (!showPlaceholders) {
-              return item.desc ? (
+              return item.description ? (
                 <div
-                  className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('desc')) }>
-                  <p>{item.desc}</p>
+                  className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description')) }>
+                  <p>{item.description}</p>
                 </div>
               ) : null;
             }
             return (
-              <div className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('desc')) }>
+              <div className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description')) }>
                 <Form
                   className={classnames('mdl-cell mdl-cell--8-col', styles.formLayout)}
                   schema={cardSchema}
@@ -98,13 +98,13 @@ export default class CollectionCardsListItem extends PureComponent {
                   onSubmit={this.saveCard.bind(this)}
                 >
                   <FormGroup>
-                    <Form.Field name='desc' type='textarea' id='desc' onFocus={::this.checkInput}
+                    <Form.Field name='description' type='textarea' id='description' onFocus={::this.checkInput}
                                 className={classnames('mdl-textfield__input', styles.descriptionLabel)}
                                 errorClass='form-error'/>
-                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='desc'>
-                      {model.desc ? '' : 'Card description'}
+                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='description'>
+                      {model.description ? '' : 'Card description'}
                     </label>
-                    <Form.Message for='desc' className='form-error-message'/>
+                    <Form.Message for='description' className='form-error-message'/>
                   </FormGroup>
                 </Form>
               </div>

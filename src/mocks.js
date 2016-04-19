@@ -14,7 +14,7 @@ const data = {
       collectionId: 0,
       title: 'Card title',
       content: 'card text',
-      description: 'some nice optional description why this card belongs to this collection',
+      description: 'some nice optional description',
       type: 'place',
       img: 'http://placehold.it/350x150'
     }, {
@@ -39,7 +39,7 @@ const data = {
         collectionId: 0,
         title: 'Card title',
         content: 'card text',
-        description: 'some nice optional description why this card belongs to this collection',
+        description: 'some nice optional description',
         type: 'place',
         img: 'http://placehold.it/350x150'
       }, {
@@ -62,7 +62,7 @@ const data = {
         collectionId: 1,
         title: 'Card title',
         content: 'card text',
-        description: 'some nice optional description why this card belongs to this collection',
+        description: 'some nice optional description',
         type: 'place',
         img: 'http://placehold.it/350x150'
       }, {
@@ -80,7 +80,7 @@ const data = {
     id: '04b0c3eb-6d0d-5772-99bc-df597a8a1cad1',
     title: 'Card title',
     content: 'card text',
-    description: 'some nice optional description why this card belongs to this collection',
+    description: 'some nice optional description',
     type: 'person',
     img: 'http://placehold.it/350x150'
   }, {
@@ -99,14 +99,30 @@ const data = {
   ]
 };
 
+let mockData;
+if (!localStorage.mockData) {
+  localStorage.setItem('mockData', JSON.stringify(data));
+  mockData = data;
+} else {
+  mockData = JSON.parse(localStorage.getItem('mockData'));
+}
+
+function triggerSave(place, data) {
+  mockData[place].push(data);
+  localStorage.setItem('mockData', JSON.stringify(mockData));
+}
+
 // initialize fake REST server
 const restServer = new FakeRest.Server();
-restServer.init(data);
+restServer.init(mockData);
 
 /**
  * modify the request before FakeRest handles it
  */
 restServer.addRequestInterceptor((request) => {
+  if (request.queryString === '/saveCollection') {
+    triggerSave('collections', request.requestBody);
+  }
   return request; // always return the modified input
 });
 
@@ -117,6 +133,19 @@ restServer.addResponseInterceptor((response) => {
   return response; // always return the modified input
 });
 
-// use sinon.js to monkey-patch XmlHttpRequest
 const server = sinon.fakeServer.create();
 server.respondWith(restServer.getHandler());
+
+// server.respondWith('GET', /\/me\/(\d+)/, function (xhr, id) {
+//   debugger;
+//   xhr.respond(200, {'Content-Type': 'application/json'}, JSON.serialize(mockData.me));
+// });
+//
+// server.respondWith('POST', /\/collections\//, function (xhr, id) {
+//   mockData.collections.push({
+//     id: 329
+//
+//   });
+//   xhr.respond(200, {'Content-Type': 'application/json'}, JSON.serialize());
+//   triggerSave();
+// });

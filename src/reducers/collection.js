@@ -53,13 +53,13 @@ export default createStore({
     return {addCardModal: !state.addCardModal};
   },
   [ADD_CARD_TO_COLLECTION]: (state, action) => {
-    const updatedCollection = [ ...state.savedCollectionInfo.collection.cards, Object.assign({}, action.card, { collectionId: action.collectionId })];
-    return {savedCollectionInfo: { collection: Object.assign({}, ...state.savedCollectionInfo.collection, {cards: updatedCollection}) } };
+    const updatedCollection = [ ...state.savedCollectionInfo.cards, Object.assign({}, action.card, { collectionId: action.collectionId })];
+    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: updatedCollection})};
   },
 
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
-    const collection = state.savedCollectionInfo.collection;
-    return { savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, { collection: Object.assign({}, ...collection, { cards: _.filter(collection.cards, (item) => item.id !== action.cardId ) }) } ) };
+    const collection = state.savedCollectionInfo;
+    return { savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, { cards: _.filter(collection.cards, (item) => item.id !== action.cardId ) } ) };
   }
 
 });

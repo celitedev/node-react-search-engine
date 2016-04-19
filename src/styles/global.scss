@@ -44,6 +44,18 @@
   visibility: hidden;
 }
 
-body.modal-open {
-  overflow: hidden;
+.cardsDialogStickyHeader{
+  background-color: #ffffff;
+  position: fixed;
+  z-index: 100;
+  width: 215px;
+  padding-bottom: 20px;
+  top: 20px;
+}
+
+.cardsDialogStickyFooter{
+  background-color: #ffffff;
+  position: fixed;
+  z-index: 100;
+  bottom: 40px;
 }

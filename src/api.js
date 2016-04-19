@@ -37,7 +37,7 @@ function readArrayBuffer(file) {
   });
 }
 
-function tmpGet(path, query = null) {
+function tmpGet(path, query = null, method, data) {
   return new Promise((resolve, reject) => {
     const url = combineUrl(path, query);
     const req = new XMLHttpRequest();
@@ -50,13 +50,13 @@ function tmpGet(path, query = null) {
     req.onerror = () => {
       reject(req);
     };
-    req.open('GET', url, false);
-    req.send(null);
+    req.open(method.toUpperCase(), url, false);
+    req.send(data);
   });
 }
 
 async function request(method, path, data = null, query = null, session = null) {
-  return await tmpGet(path, query);
+  return await tmpGet(path, query, method, data);
 }
 
 async function get(path, query = null) {

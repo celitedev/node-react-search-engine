@@ -70,6 +70,15 @@ export function getCards() {
   };
 }
 
+export function saveCollection(collection) {
+  return {
+    type: API_REQUEST,
+    method: 'post',
+    path: '/saveCollection',
+    data: collection
+  };
+}
+
 //export function createCollectionModalShow() {
 //  return {
 //    type: CREATE_COLLECTION_MODAL_SHOW

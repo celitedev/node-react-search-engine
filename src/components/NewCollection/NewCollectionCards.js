@@ -17,14 +17,12 @@ export default class NewCollectionCards extends PureComponent {
   constructor(props, state) {
     super();
     this.state = {
-      collection: props.collection.collection[0]
     };
   }
   render() {
     const { savedCollectionInfo } = this.props;
-    if (savedCollectionInfo.collection) {
-      const cards = savedCollectionInfo.collection.cards;
-      return (
+    const cards = savedCollectionInfo.cards;
+    return (
         <div className={ classnames(styles.root) }>
           <div className={ classnames('mdl-grid') }>
             <CollectionCardsAddButton cards={cards} />
@@ -42,8 +40,6 @@ export default class NewCollectionCards extends PureComponent {
             })()}
           </div>
         </div>
-      );
-    }
-    return null;
+    );
   }
 }

@@ -1,8 +1,4 @@
 .root {
-  padding: 0;
-  min-width: 400px;
-  position: absolute !important;
-  top: 5% !important;
   .title {
     padding: 10px;
     font-size: large;
@@ -14,5 +10,13 @@
   }
   .dilogContainer {
     padding: 20px 20px;
+  }
+  .modalBody {
+    padding: 0;
+    min-width: 400px;
+    position: absolute;
+    top: 20px !important;
+    max-height: calc(100vh - 80px);
+    overflow-y: auto;
   }
 }

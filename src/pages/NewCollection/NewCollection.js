@@ -37,7 +37,7 @@ export default class Index extends PureComponent {
     return (
       <div className={classnames(styles.background)}>
         <NewCollectionHeader />
-        {showPlaceholders ? <NewCollectionDescription collection={data}/> : <CollectionInfo />}
+        {showPlaceholders ? <NewCollectionDescription /> : <CollectionInfo />}
         <NewCollectionCards collection={data}/>
         <CollectionAddCardDialog />
       </div>
