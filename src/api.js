@@ -42,7 +42,9 @@ function tmpGet(path, query = null, method, data) {
     const url = combineUrl(path, query);
     const req = new XMLHttpRequest();
     req.onreadystatechange = () => {
-      if (req.readyState === 4 && req.status === 200) {
+      if (req.status >= 400 && req.status < 500) {
+        reject(req);
+      } else if (req.readyState === 4 && (req.status === 200 || req.status === 201)) {
         const data = JSON.parse(req.responseText);
         resolve(data);
       }

@@ -1,32 +1,9 @@
-import FakeRest from 'fakerest';
 import sinon from 'sinon/pkg/sinon';
-import _ from 'lodash';
 
-const data = {
-  'getCollection': [{
-    id: 0,
-    title: 'col 0 title',
-    subtitle: 'col 0 subttitle',
-    description: 'col 0 description',
-    img: 'http://placehold.it/350x150',
-    cards: [{
-      id: '04b0c3eb-6d0d-5772-99bc-df597a8a1cad',
-      collectionId: 0,
-      title: 'Card title',
-      content: 'card text',
-      description: 'some nice optional description',
-      type: 'place',
-      img: 'http://placehold.it/350x150'
-    }, {
-      id: '8d0c761b-5cd5-554c-ad10-56a9d0f58df0',
-      collectionId: 0,
-      title: 'Card title',
-      content: 'card text',
-      description: 'This card also belongs here...',
-      type: 'person',
-      img: 'http://placehold.it/350x150'
-    }]
-  }],
+const debug = require('debug')('app:mocks');
+
+let state = {
+  idx: 999,
   'collections': [
     {
       id: 0,
@@ -91,61 +68,49 @@ const data = {
     type: 'place',
     img: 'http://placehold.it/350x150'
   }],
-  'me': [{
+  'me': {
     id: 0,
     name: 'Jon',
     nickname: 'Lennon'
   }
-  ]
 };
 
-let mockData;
-if (!localStorage.mockData) {
-  localStorage.setItem('mockData', JSON.stringify(data));
-  mockData = data;
-} else {
-  mockData = JSON.parse(localStorage.getItem('mockData'));
+function updateState() {
+  localStorage.setItem('state', JSON.stringify(state));
 }
 
-function triggerSave(place, data) {
-  mockData[place].push(data);
-  localStorage.setItem('mockData', JSON.stringify(mockData));
-}
-
-// initialize fake REST server
-const restServer = new FakeRest.Server();
-restServer.init(mockData);
-
-/**
- * modify the request before FakeRest handles it
- */
-restServer.addRequestInterceptor((request) => {
-  if (request.queryString === '/saveCollection') {
-    triggerSave('collections', request.requestBody);
+function loadState() {
+  if (!localStorage.state) {
+    updateState();
+  } else {
+    state = JSON.parse(localStorage.getItem('state'));
   }
-  return request; // always return the modified input
-});
+}
 
-/**
- * modify the response before FakeRest sends it
- */
-restServer.addResponseInterceptor((response) => {
-  return response; // always return the modified input
-});
 
+function respond(xhr, data, code = 200) {
+  updateState();
+  xhr.respond(code, {'Content-Type': 'application/json'}, JSON.stringify(data));
+}
+
+loadState();
 const server = sinon.fakeServer.create();
-server.respondWith(restServer.getHandler());
 
-// server.respondWith('GET', /\/me\/(\d+)/, function (xhr, id) {
-//   debugger;
-//   xhr.respond(200, {'Content-Type': 'application/json'}, JSON.serialize(mockData.me));
-// });
-//
-// server.respondWith('POST', /\/collections\//, function (xhr, id) {
-//   mockData.collections.push({
-//     id: 329
-//
-//   });
-//   xhr.respond(200, {'Content-Type': 'application/json'}, JSON.serialize());
-//   triggerSave();
-// });
+server.respondWith('GET', /\/me/, (xhr, id) => {
+  respond(xhr, state.me);
+});
+
+server.respondWith('GET', /\/cards/, (xhr, id) => {
+  respond(xhr, state.cards);
+});
+
+server.respondWith('GET', /\/collections/, (xhr, id) => {
+  respond(xhr, state.collections);
+});
+
+server.respondWith('POST', /\/collections/, (xhr, id) => {
+  const obj = xhr.requestBody;
+  obj.id = ++state.idx;
+  state.collections.push(obj);
+  respond(xhr, obj);
+});
