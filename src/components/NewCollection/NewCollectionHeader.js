@@ -1,24 +1,28 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import { switchPlaceholdersVisibility, saveCollectionInfo, saveCollection } from '../../actions';
-import { connect } from 'redux-simple';
+import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect} from '../../actions';
+import {connect} from 'redux-simple';
 
-import { Textfield } from 'react-mdl';
+import {Textfield} from 'react-mdl';
 import 'material-design-icons';
 
+const debug = require('debug')('app:collections:new');
+
 function collection(state) {
-  const { showPlaceholders, savedCollectionInfo } = state.collection;
-  return { showPlaceholders, savedCollectionInfo };
+  const {showPlaceholders, savedCollectionInfo} = state.collection;
+  return {showPlaceholders, savedCollectionInfo};
 }
 
-@connect(collection, { switchPlaceholdersVisibility, saveCollectionInfo, saveCollection})
+@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect})
 export default class NewCollectionHeader extends PureComponent {
-  constructor(props) {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       name: props.savedCollectionInfo.name
     };
+
+    debug('constructor', props, context, this.state);
   }
 
   saveCollectionName(e) {
@@ -36,16 +40,23 @@ export default class NewCollectionHeader extends PureComponent {
     return true;
   }
 
-  saveCollection() {
+  async saveCollection() {
+    debug('saveCollection start', this.props.savedCollectionInfo);
     if (!this.validateCollection()) {
-      this.props.saveCollection(this.props.savedCollectionInfo);
+      try {
+        debug('validCollection true');
+        const collection = await this.props.saveCollection(this.props.savedCollectionInfo);
+        debug('saveCollection finish', collection);
+        this.props.redirect('/');
+      } catch (err) {
+        debug('saveCollection:error', err);
+      }
     }
   }
 
-
   render() {
-    const { savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility } = this.props;
-    const { name } = this.state;
+    const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility} = this.props;
+    const {name} = this.state;
     const label = this.validateCollection() ? 'Collection needs a name, title, description and at least 2 cards' : 'Collection is valid';
     return (
       <div className='mdl-grid'>
@@ -54,10 +65,13 @@ export default class NewCollectionHeader extends PureComponent {
             <a className='' href='' ref='name'>My Collections </a>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
             { savedCollectionInfo ?
-              <Textfield label='My collection name' className={!savedCollectionInfo.name ? styles.myColNameEdit : styles.myColNameFilled} value={savedCollectionInfo.name} onChange={::this.saveCollectionName}/>
+              <Textfield label='My collection name'
+                         className={!savedCollectionInfo.name ? styles.myColNameEdit : styles.myColNameFilled}
+                         value={savedCollectionInfo.name} onChange={::this.saveCollectionName}/>
               : <span className={styles.myColName}>{name}</span>
             }
-            <span className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection() ? styles.error : styles.accept)}>
+            <span
+              className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection() ? styles.error : styles.accept)}>
               {label}
             </span>
           </nav>
@@ -67,7 +81,8 @@ export default class NewCollectionHeader extends PureComponent {
               <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
                 Share
               </button>
-              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect' disabled={this.validateCollection()} onClick={::this.saveCollection}>
+              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+                      disabled={this.validateCollection()} onClick={::this.saveCollection}>
                 Publish
               </button>
             </div>
@@ -75,8 +90,9 @@ export default class NewCollectionHeader extends PureComponent {
           <div className={styles.floatRight}>
             <h6>Placeholders</h6>
             <div className={styles.floatRight}>
-              <label className='mdl-switch mdl-js-switch mdl-js-ripple-effect' >
-                <input type='checkbox' id='placeholders' defaultChecked className='mdl-switch__input' value={showPlaceholders} onClick={switchPlaceholdersVisibility} />
+              <label className='mdl-switch mdl-js-switch mdl-js-ripple-effect'>
+                <input type='checkbox' id='placeholders' defaultChecked className='mdl-switch__input'
+                       value={showPlaceholders} onClick={switchPlaceholdersVisibility}/>
                 <span className='mdl-switch__label'></span>
               </label>
             </div>

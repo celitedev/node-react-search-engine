@@ -1,14 +1,12 @@
 import React from 'react';
 import PureComponent from '../../../node_modules/react-pure-render/component';
+import Select from 'react-select';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
 import _ from 'lodash';
 import {getCards, addCardToCollection} from '../../actions';
 import {Radio, RadioGroup, Textfield, Button} from 'react-mdl';
 import 'material-design-icons';
-
-const Container = require('../../../node_modules/react-sticky/lib/container');
-//const Sticky = require('../../../node_modules/react-sticky/lib/sticky');
 
 function searchedCards(state) {
   const { savedCollectionInfo } = state.collection;
@@ -33,25 +31,17 @@ export default class CollectionCardSearch extends PureComponent {
     });
   }
 
-  // componentDidMount() {
-  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
-  //   cardsDialogModal.addEventListener('scroll', this.handleScroll);
-  // }
-  //
-  // componentWillUnmount() {
-  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
-  //   cardsDialogModal.removeEventListener('scroll', this.handleScroll);
-  // }
-  // handleScroll() {
-  //   const cardsDialogModal = document.getElementById('cardsDialogModal');
-  //   (cardsDialogModal.onscroll = () => {
-  //     const sticky = document.getElementById('cardsDialogStickyHeader');
-  //     const scroll = cardsDialogModal.scrollTop;
-  //
-  //     if (scroll >= 75) sticky.className = 'cardsDialogStickyHeader';
-  //     else sticky.className = '';
-  //   })();
-  // }
+  async getOptions (input, callback) {
+    setTimeout(() => {
+      callback(null, {
+        options: [
+          { value: 'one', label: 'One' },
+          { value: 'two', label: 'Two' }
+        ],
+        complete: true
+      });
+    }, 3000);
+  }
 
   async loadCards() {
     const {getCards} = this.props;
@@ -61,7 +51,7 @@ export default class CollectionCardSearch extends PureComponent {
 
 
   render() {
-    const {className, savedCollectionInfo, addCardToCollection} = this.props;
+    const {className, addCardToCollection} = this.props;
     const {cards, cardTypes, filter} = this.state;
     return (
       <div className={classnames(className, styles.root)}>

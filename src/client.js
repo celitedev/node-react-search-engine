@@ -63,8 +63,8 @@ try {
 
 const store = compose(
   reduxReactRouter({routes, createHistory}),
-  applyMiddleware.apply(null, middlewares)
-  //window.devToolsExtension ? window.devToolsExtension() : 'undefind'
+  applyMiddleware.apply(null, middlewares),
+  window.devToolsExtension ? window.devToolsExtension() : 'undefind'
 )(createStore)(reducers, window.reduxState);
 
 function render() {

@@ -1,6 +1,7 @@
 import _ from 'lodash';
 
 import {
+  REDIRECT,
   CREATE_COLLECTION,
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
@@ -18,6 +19,13 @@ import {
 } from './actionTypes';
 
 
+export function redirect(path, query = {}) {
+  return {
+    type: REDIRECT,
+    path,
+    query
+  };
+}
 /**
  *Collection actions
  */
@@ -74,7 +82,7 @@ export function saveCollection(collection) {
   return {
     type: API_REQUEST,
     method: 'post',
-    path: '/saveCollection',
+    path: '/collections',
     data: collection
   };
 }

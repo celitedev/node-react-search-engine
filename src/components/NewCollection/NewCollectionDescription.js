@@ -55,7 +55,7 @@ export default class NewCollectionDescription extends PureComponent {
         model
       });
     }
-    this.props.saveCollectionInfo(Object.assign({}, model, {cards: this.props.savedCollectionInfo.cards} ));
+    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, ...model, cards: this.props.savedCollectionInfo.cards});
   }
 
   checkInput(modelName) {

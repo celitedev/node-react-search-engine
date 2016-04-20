@@ -13,14 +13,14 @@ export default class MyCollections extends PureComponent {
         <div className='mdl-card__title'>
           <h2 className='mdl-card__title-text'>My collections</h2>
         </div>
-        {collections.map((c) => (
-        <li key={c.id} className='mdl-list__item'>
+        {collections.map((c, i) => (
+        <li key={i} className='mdl-list__item'>
           <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
             <div className='mdl-card__title'>
               <h4 className='mdl-card__title-text'>{c.title}</h4>
             </div>
-            {c.cards.map((card) => (
-            <div key={card.id} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
+            {c.cards.map((card, i) => (
+            <div key={i} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
               <div className='mdl-card__title'>
                 <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
               </div>
