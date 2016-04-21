@@ -79,7 +79,7 @@ const config = {
 
   resolve: {
     modulesDirectories: ['web_modules', 'node_modules'],
-    extensions: ['', '.js'],
+    extensions: ['', '.js', '.scss'],
     alias: {
       'react-redux': 'redux-simple'
     }

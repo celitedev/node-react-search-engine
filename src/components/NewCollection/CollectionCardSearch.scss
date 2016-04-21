@@ -14,10 +14,15 @@
     height: 25px;
     line-height: normal;
   }
-  .searchSticky {
-    position: fixed;
-    background: white;
-    z-index: 100;
+  .suggestions {
+    width: 100%;
+    input {
+      width: 100%;
+    }
+    ul {
+      top: 0;
+      width: 100%;
+    }
   }
   .collectionList {
     width: 100%;

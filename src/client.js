@@ -52,6 +52,13 @@ function skipMiddlewares(key, ...args) {
 
 skipMiddlewares('skipAuth', loginRedirect);
 
+const store = compose(
+  reduxReactRouter({routes, createHistory}),
+  applyMiddleware.apply(null, middlewares),
+  window.devToolsExtension ? window.devToolsExtension() : f => f
+)(createStore)(reducers, window.reduxState);
+
+
 try {
   const debugConfig = localStorage.getItem('debug');
   if (/.*logger.*/.test(debugConfig)) {
@@ -60,13 +67,6 @@ try {
 } catch (err) {
   console.error(err);
 }
-
-const store = compose(
-  reduxReactRouter({routes, createHistory}),
-  applyMiddleware.apply(null, middlewares),
-  window.devToolsExtension ? window.devToolsExtension() : 'undefind'
-)(createStore)(reducers, window.reduxState);
-
 function render() {
   domready(() => {
     const root = document.getElementById('react-app');

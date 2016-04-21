@@ -78,6 +78,15 @@ export function getCards() {
   };
 }
 
+export function getCardsSuggestions(input) {
+  return {
+    type: API_REQUEST,
+    method: 'get',
+    path: '/cards/suggestions',
+    query: input
+  };
+}
+
 export function saveCollection(collection) {
   return {
     type: API_REQUEST,

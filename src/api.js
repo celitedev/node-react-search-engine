@@ -37,7 +37,7 @@ function readArrayBuffer(file) {
   });
 }
 
-function tmpGet(path, query = null, method, data) {
+function tmpGet(path, query, method, data) {
   return new Promise((resolve, reject) => {
     const url = combineUrl(path, query);
     const req = new XMLHttpRequest();
