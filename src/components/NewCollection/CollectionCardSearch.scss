@@ -13,6 +13,8 @@
     font-size: xx-small;
     height: 25px;
     line-height: normal;
+    margin-top: 20px;
+    padding: 5px;
   }
   .suggestions {
     width: 100%;
@@ -26,11 +28,14 @@
   }
   .collectionList {
     width: 100%;
-    padding: 20px 0;
+    padding: 0;
   }
   .card {
-    min-height: 150px;
+    min-height: 45px;
     width: 100%;
+  }
+  .noResults {
+    text-align: center;
   }
   .cardList {
     width: 95%;
@@ -40,9 +45,9 @@
     min-height: 20px;
     max-height: 100px;
     .cardImage{
-      position:absolute;
-      right:0;
-      top:0;
+      position: absolute;
+      right: 0;
+      top: 0;
       max-height: 100px;
     }
     .cardActions {
@@ -51,6 +56,8 @@
     }
     .cardActionButton {
       float: left;
+      font-size: xx-small;
+      height: 25px;
     }
     .cardInfo {
       font-size: large;
