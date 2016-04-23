@@ -1,0 +1,20 @@
+---
+- name: NPM | Prune
+  become: yes
+  command: npm prune
+  args:
+    chdir: '{{ site_src_dir }}'
+
+- name: NPM | Install dependencies
+  become: yes
+  command: npm install --no-bin-links
+  args:
+    chdir: '{{ site_src_dir }}'
+#  npm:
+#    path: '{{ site_src_dir }}'
+#    state: present
+
+- name: Webpack | Build
+  command: npm run build
+  args:
+    chdir: '{{ site_src_dir }}'
