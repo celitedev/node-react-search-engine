@@ -1,6 +1,9 @@
 ---
 ### Common ###
 
+# Git
+git_version: 2.7.2
+
 # Node.JS
 nodejs_version: "4.4"
 npm_enabled: yes

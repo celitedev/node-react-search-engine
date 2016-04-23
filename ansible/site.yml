@@ -5,6 +5,9 @@
     - role: Stouts.deploy
       become: yes
 
+    - role: ANXS.git
+      become: yes
+
     - role: nodesource.node
       become: yes
 

@@ -2,4 +2,7 @@
 - src: Stouts.deploy
   version: 1.2.0
 
+- src: ANXS.git
+  version: v1.0.1
+
 - src: nodesource.node
