@@ -5,6 +5,7 @@ import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redire
 import {connect} from 'redux-simple';
 
 import {Textfield} from 'react-mdl';
+import MediumEditor from 'react-medium-editor';
 import 'material-design-icons';
 
 const debug = require('debug')('app:collections:new');
@@ -25,11 +26,11 @@ export default class NewCollectionHeader extends PureComponent {
     debug('constructor', props, context, this.state);
   }
 
-  saveCollectionName(e) {
+  saveCollectionName(name) {
     this.setState({
-      name: e.target.value
+      name: name
     });
-    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, name: e.target.value});
+    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, name});
   }
 
   validateCollection() {
@@ -65,9 +66,18 @@ export default class NewCollectionHeader extends PureComponent {
             <a className='' href='' ref='name'>My Collections </a>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
             { savedCollectionInfo ?
-              <Textfield label='My collection name'
-                         className={!savedCollectionInfo.name ? styles.myColNameEdit : styles.myColNameFilled}
-                         value={savedCollectionInfo.name} onChange={::this.saveCollectionName}/>
+              <MediumEditor
+                className={styles.mediumEdit}
+                tag='p'
+                text={name}
+                onChange={::this.saveCollectionName}
+                options={{
+                  toolbar: {buttons: ['bold', 'italic', 'underline']},
+                  placeholder: {
+                    text: 'Collection name',
+                    hideOnClick: true
+                  }}}
+              />
               : <span className={styles.myColName}>{name}</span>
             }
             <span

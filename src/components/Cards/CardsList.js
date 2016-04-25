@@ -63,9 +63,9 @@ export default class CardsList extends PureComponent {
     return _.filter(this.props.cards, {'type': type});
   }
 
-  selectPage(page, type) {
+  selectPage(page, cardsLength, type) {
     const perPage = this.state[type].perPage || {};
-    const pages = Math.ceil(this.filterCardsByType(type).length / perPage);
+    const pages = Math.ceil(cardsLength / perPage);
     const newPage = Math.min(Math.max(page, 1), pages);
 
     this.setState({
@@ -80,18 +80,18 @@ export default class CardsList extends PureComponent {
     const {addCardToCollection, deleteCardFromCollection, cardTypes, cards, filter} = this.props;
     return (
       <div className={classnames(styles.root)}>
-        { cardTypes.map((type, i) => (
+        { cards.map((section, i) => (
           <div key={i}>
-            {(_.find(cards, {'type': type}) && filter === 'all') || _.find(cards, {'type': type}) && filter === type ? (
-              <Paggination data={::this.filterCardsByType(type)}
-                           page={this.state[type].page}
-                           perPage={this.state[type].perPage}
-                           selectPage={(page) => ::this.selectPage(page, type)}>
+            {filter === 'all' || filter === section.title ? (
+              <Paggination data={section.cards}
+                           page={this.state[section.title].page}
+                           perPage={this.state[section.title].perPage}
+                           selectPage={(page) => ::this.selectPage(page, section.cards.length, section.title)}>
               <li className={classnames('mdl-list__item', styles.collectionList)}>
                 <div className={classnames('mdl-card', styles.card)}>
-                  <label htmlFor='' className={styles.collectionFilterName}>{type}</label>
-                  {paginate(::this.filterCardsByType(type), this.state[type]).data.map((card) =>
-                  <div key={card.id}>
+                  <label htmlFor='' className={styles.collectionFilterName}>{section.title}</label>
+                  {paginate(section.cards, this.state[section.title]).data.map((card) =>
+                  <div key={card.id} className={styles.listItem}>
                       <div className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
                       <div className='mdl-card__title'>
                         <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>

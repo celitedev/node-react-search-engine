@@ -20,19 +20,23 @@ export default class CollectionAddCardDialog extends PureComponent {
   render() {
     const { addCardModal, switchAddCardModal } = this.props;
     return (
-      <div className={styles.root}>
-        <Dialog id='cardsDialogModal' open={addCardModal} className={styles.modalBody}>
-          <DialogTitle className={styles.title}>
-            Add card
-          </DialogTitle>
-          <DialogContent className={styles.dilogContainer}>
+      <div className={styles.dialog}>
+        <Dialog id='cardsDialogModal' open={addCardModal} className={styles.dialogBody}>
+          <DialogContent className={styles.dialogTitle}>
+            <h5>Add cards</h5>
+            <Button className={styles.dialogClose} onClick={switchAddCardModal}>
+              <span>&times;</span>
+            </Button>
+          </DialogContent>
+          <DialogContent className={styles.dialogContent}>
             <CollectionCardSearch />
           </DialogContent>
-          <DialogActions >
+          <DialogContent className={styles.dialogFooter}>
+
             <Button className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect')} onClick={switchAddCardModal}>
               Done
             </Button>
-          </DialogActions>
+          </DialogContent>
         </Dialog>
       </div>
     );

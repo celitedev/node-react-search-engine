@@ -1,9 +1,11 @@
 import sinon from 'sinon/pkg/sinon';
+import _ from 'lodash';
 
 const debug = require('debug')('app:mocks');
 
 let state = {
   idx: 999,
+  cardTypes: ['place', 'creative', 'person', 'happening'],
   'collections': [
     {
       id: 0,
@@ -250,7 +252,12 @@ Get suggestions
 function escapeRegexCharacters(str, data, filter = 'all') {
   const escapedValue = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regex = new RegExp('^' + escapedValue, 'i');
-  return data.filter(card => regex.test(card.title) && (card.type === filter || filter === 'all'));
+  return state.cardTypes.map(type => {
+    return {
+      title: type,
+      cards: data.filter(card => regex.test(card.title) && (card.type === type) && (card.type === filter || filter === 'all'))
+    };
+  }).filter(section => section.cards.length > 0);
 }
 
 function getParameterByName(name, url) {
@@ -285,7 +292,7 @@ server.respondWith('GET', /\/cards\/suggestions/, (xhr, id) => {
 });
 
 server.respondWith('GET', /\/collections/, (xhr, id) => {
-  respond(xhr, state.collections);
+  respond(xhr, _.reverse(state.collections));
 });
 
 server.respondWith('POST', /\/collections/, (xhr, id) => {

@@ -4,10 +4,14 @@ import {connect} from 'redux-simple';
 import classnames from 'classnames';
 import _ from 'lodash';
 import {getCards, addCardToCollection, getCardsSuggestions, deleteCardFromCollection} from '../../actions';
-import {Radio, RadioGroup, Button} from 'react-mdl';
+import {Button} from 'react-mdl';
 import 'material-design-icons';
 import Autosuggest from 'react-autosuggest';
 import CardsList from '../Cards/CardsList';
+
+if (!process.env.SERVER_RENDERING) {
+  require('getmdl-select/getmdl-select.min');
+}
 
 const debug = require('debug')('app:cardsSearch');
 
@@ -19,6 +23,12 @@ function searchedCards(state) {
 function renderSuggestion(suggestion) {
   return (
     <span>{suggestion.title}</span>
+  );
+}
+
+function renderSectionTitle(section) {
+  return (
+    <strong>{section.title}</strong>
   );
 }
 
@@ -59,6 +69,10 @@ export default class CollectionCardSearch extends PureComponent {
 
   getSuggestionValue(suggestion) {
     return suggestion.title;
+  }
+
+  getSectionSuggestions(section) {
+    return section.cards;
   }
 
   async onSuggestionsUpdateRequested({ value }) {
@@ -111,27 +125,32 @@ export default class CollectionCardSearch extends PureComponent {
       <div className={classnames(className, styles.root)}>
         <div id='cardsDialogStickyHeader'>
           <form onsubmit={::this.searchResults}>
-            <RadioGroup value={filter} name='searchFilter'>
-              <Radio className={styles.radio} value='all' onClick={() => this.changeFilter('all')}>
-                All types
-              </Radio>
-              <Radio className={styles.radio} value='happening' onClick={() => this.changeFilter('happening')}>
-                Happening
-              </Radio>
-              <Radio className={styles.radio} value='place' onClick={() => this.changeFilter('place')}>
-                Place
-              </Radio>
-              <Radio className={styles.radio} value='creative' onClick={() => this.changeFilter('creative')}>
-                Creative work
-              </Radio>
-              <Radio className={styles.radio} value='person' onClick={() => this.changeFilter('person')}>
-                Person/Group
-              </Radio>
-            </RadioGroup>
-            <Autosuggest suggestions={suggestions}
+            <div className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
+              <input className='mdl-textfield__input'
+                     type='text'
+                     id='filter'
+                     defaultValue='All types'
+                     readOnly
+                     tabIndex='-1'
+              />
+              <label htmlFor='filter' className={styles.selectBoxLabel}>
+                <i className='mdl-icon-toggle__label material-icons'>keyboard_arrow_down</i>
+              </label>
+                <ul htmlFor='filter' className='mdl-menu mdl-menu--bottom-left mdl-js-menu'>
+                  <li className='mdl-menu__item' value='all' onClick={() => this.changeFilter('all')}>All types</li>
+                  <li className='mdl-menu__item' value='happening' onClick={() => this.changeFilter('happening')}>Happening</li>
+                  <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('place')}>Place</li>
+                  <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative')}>Creative work</li>
+                  <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('person')}>Person/Group</li>
+                </ul>
+            </div>
+            <Autosuggest multiSection={true}
+                         suggestions={suggestions}
                          onSuggestionsUpdateRequested={::this.onSuggestionsUpdateRequested}
                          getSuggestionValue={::this.getSuggestionValue}
                          renderSuggestion={renderSuggestion}
+                         renderSectionTitle={renderSectionTitle}
+                         getSectionSuggestions={::this.getSectionSuggestions}
                          inputProps={searchFieldProps} />
             <Button
               className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect', styles.extraFiltersBtn)}

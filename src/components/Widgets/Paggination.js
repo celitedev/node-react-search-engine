@@ -22,7 +22,7 @@ export default class Paggination extends PureComponent {
     return (
       <div>
         {children}
-        <Paginator.Context className='pagify-pagination'
+        <Paginator.Context className={classnames('pagify-pagination', styles.root)}
                            segments={segmentize({
                              page: page,
                              pages: pages,

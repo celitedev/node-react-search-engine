@@ -1,22 +1,64 @@
-.root {
-  .title {
-    padding: 10px;
-    font-size: large;
+.dialog {
+  position: relative;
+
+  .dialogClose {
+    position: absolute;
+    right: 24px;
+    top: 14px;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+    min-width: 0;
+    padding: 0;
+    transition: .2s all ease;
+    outline: none;
+
+    &:hover {
+      opacity: 1;
+      text-shadow: none;
+      background: none;
+    }
+  }
+
+  .dialogTitle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
     background: #FF6D45;
     color: white;
+
+    h5 {
+      margin: 0.25rem 0;
+    }
   }
-  .hr {
-    margin-top: 0;
+
+  .dialogBody {
+    padding: 70px 0;
+    width: 600px;
+    max-width: 100%;
+    min-height: 500px;
+    height: 80%;
   }
-  .dilogContainer {
-    padding: 20px 20px;
-  }
-  .modalBody {
-    padding: 0;
-    min-width: 400px;
+
+  .dialogContent {
+    width: 100%;
+    height: calc(100% - 160px);
     position: absolute;
-    top: 20px !important;
-    max-height: calc(100vh - 80px);
+    top: 80px;
     overflow-y: auto;
   }
+
+  .dialogFooter {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+  }
+
 }

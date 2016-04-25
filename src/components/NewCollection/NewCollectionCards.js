@@ -1,6 +1,7 @@
 import React from 'react';
 import PureComponent from '../../../node_modules/react-pure-render/component';
 import classnames from 'classnames';
+import _ from 'lodash';
 import CollectionCardsList from './CollectionCardsList';
 import CollectionCardsAddButton from './CollectionCardsAddButton';
 import { connect } from 'redux-simple';
@@ -21,7 +22,7 @@ export default class NewCollectionCards extends PureComponent {
   }
   render() {
     const { savedCollectionInfo } = this.props;
-    const cards = savedCollectionInfo.cards;
+    const cards = _.reverse(savedCollectionInfo.cards);
     return (
         <div className={ classnames(styles.root) }>
           <div className={ classnames('mdl-grid') }>
