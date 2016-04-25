@@ -1,0 +1,52 @@
+.root {
+  .collectionList {
+    width: 100%;
+    padding: 0;
+  }
+  .card {
+    min-height: 45px;
+    width: 100%;
+  }
+  .noResults {
+    text-align: center;
+  }
+  .cardList {
+    width: 95%;
+    margin: 5px auto;
+    display: inline-block;
+    position: relative;
+    min-height: 20px;
+    max-height: 100px;
+    .cardImage{
+      position: absolute;
+      right: 0;
+      top: 0;
+      max-height: 100px;
+    }
+    .cardActions {
+      padding: 0 10px;
+      border-top: 1px solid;
+    }
+    .cardActionButton {
+      float: left;
+      font-size: xx-small;
+      height: 25px;
+    }
+    .cardInfo {
+      font-size: large;
+    }
+    .cardImage {
+      width: 20%;
+    }
+  }
+  .collectionFilterName {
+    padding-left: 10px;
+  }
+  .pagination{
+    margin: 20px 0;
+    padding: 0;
+    li {
+      padding: 0;
+    }
+  }
+}

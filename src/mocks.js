@@ -74,7 +74,7 @@ let state = {
       title: 'Nice event',
       content: 'card text',
       description: 'some nice optional description',
-      type: 'event',
+      type: 'creative',
       img: 'http://placehold.it/350x150'
     },
     {
@@ -87,6 +87,126 @@ let state = {
     },
     {
       id: '8d0c761b-5cd5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '43545234',
+      title: 'New card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '5645623433343243242',
+      title: 'Nice event',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'creative',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '234234142423123132',
+      title: 'Another card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '8d0c76134343b-5cd5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '3434234234',
+      title: 'New card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '564562321214243242',
+      title: 'Nice event',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'creative',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '23423412123123123132',
+      title: 'Another card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '8d0c761b-5c2323d5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '4354524545434',
+      title: 'New card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '56456234333432323243242',
+      title: 'Nice event',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'creative',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '2342341434342423123132',
+      title: 'Another card',
+      content: 'card text',
+      description: 'some nice optional description',
+      type: 'person',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: 'sd-5cd5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: 'sda-5cd5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '8d0c76rerdfd134343b-5cd5-554c-ad10-56a9d0f58df02',
+      title: 'Card title',
+      content: 'card text',
+      description: 'This card also belongs here...',
+      type: 'place',
+      img: 'http://placehold.it/350x150'
+    },
+    {
+      id: '8d0c76rsssser134343b-5cd5-554c-ad10-56a9d0f58df02',
       title: 'Card title',
       content: 'card text',
       description: 'This card also belongs here...',
@@ -127,10 +247,10 @@ loadState();
 Get suggestions
  */
 
-function escapeRegexCharacters(str, data) {
+function escapeRegexCharacters(str, data, filter = 'all') {
   const escapedValue = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regex = new RegExp('^' + escapedValue, 'i');
-  return data.filter(card => regex.test(card.title));
+  return data.filter(card => regex.test(card.title) && (card.type === filter || filter === 'all'));
 }
 
 function getParameterByName(name, url) {
@@ -151,8 +271,11 @@ server.respondWith('GET', /\/me/, (xhr, id) => {
   respond(xhr, state.me);
 });
 
-server.respondWith('GET', /\/cards/, (xhr, id) => {
-  respond(xhr, state.cards);
+server.respondWith('GET', /\/cards\/getcards/, (xhr, id) => {
+  const queryParam = getParameterByName('query', xhr.url);
+  const type = getParameterByName('type', xhr.url);
+  const requestedCards = escapeRegexCharacters(queryParam.trim(), state.cards, type);
+  respond(xhr, requestedCards);
 });
 
 server.respondWith('GET', /\/cards\/suggestions/, (xhr, id) => {
