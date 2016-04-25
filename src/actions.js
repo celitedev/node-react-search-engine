@@ -70,11 +70,12 @@ export function saveCollectionInfo(info) {
   };
 }
 
-export function getCards() {
+export function getCards(query = '', type = 'all') {
   return {
     type: API_REQUEST,
     method: 'get',
-    path: '/cards'
+    path: '/cards/getcards',
+    query: {query, type}
   };
 }
 

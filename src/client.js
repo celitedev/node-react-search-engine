@@ -99,7 +99,7 @@ async function bootstrap() {
         method: 'get',
         path: '/me'
       });
-      authenticate(user[0]);
+      authenticate(user);
     } catch (err) {
       // pass
     }

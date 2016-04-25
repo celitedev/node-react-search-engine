@@ -7,8 +7,9 @@ import {getCards, addCardToCollection, getCardsSuggestions, deleteCardFromCollec
 import {Radio, RadioGroup, Button} from 'react-mdl';
 import 'material-design-icons';
 import Autosuggest from 'react-autosuggest';
+import CardsList from '../Cards/CardsList';
 
-const debug = require('debug')('app: cardsSearch');
+const debug = require('debug')('app:cardsSearch');
 
 function searchedCards(state) {
   const { savedCollectionInfo } = state.collection;
@@ -29,7 +30,7 @@ export default class CollectionCardSearch extends PureComponent {
     this.state = {
       filter: 'all',
       cards: [],
-      cardTypes: ['place', 'event', 'person'],
+      cardTypes: ['place', 'creative', 'person', 'happening'],
       value: '',
       suggestions: [],
       noSuggestions: false
@@ -81,7 +82,7 @@ export default class CollectionCardSearch extends PureComponent {
 
   async loadCards() {
     const {getCards} = this.props;
-    const cards = await getCards();
+    const cards = await getCards(this.state.value, this.state.filter);
     debug('Finished fetch cards', cards);
     this.setState({cards});
   }
@@ -92,31 +93,14 @@ export default class CollectionCardSearch extends PureComponent {
     });
   }
 
-  filterResults(obj, type, search, filter) {
-    const escapedValue = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp('^' + escapedValue, 'i');
-    const filterArray = obj.filter(card => regex.test(card.title) && (card.type === type || type === 'all'));
-    if (filter && filter !== 'all') {
-      return _.filter(filterArray, {'type': filter});
-    }
-    return filterArray;
-  }
-
-  findCardById(id) {
-    return _.find(this.props.savedCollectionInfo.cards, {'id': id});
-  }
-
   searchResults(e) {
     e.preventDefault();
-    this.filterResults(
-      this.state.cards,
-      this.state.filter,
-      this.state.value
-    );
+    debug('Start to search cards:', this.state.value, this.state.filter);
+    this.loadCards();
   }
 
   render() {
-    const {className, addCardToCollection, savedCollectionInfo, deleteCardFromCollection} = this.props;
+    const {className} = this.props;
     const {cards, cardTypes, filter, value, suggestions, noSuggestions} = this.state;
     const searchFieldProps = {
       placeholder: 'Seach cards',
@@ -131,14 +115,17 @@ export default class CollectionCardSearch extends PureComponent {
               <Radio className={styles.radio} value='all' onClick={() => this.changeFilter('all')}>
                 All types
               </Radio>
+              <Radio className={styles.radio} value='happening' onClick={() => this.changeFilter('happening')}>
+                Happening
+              </Radio>
               <Radio className={styles.radio} value='place' onClick={() => this.changeFilter('place')}>
                 Place
               </Radio>
-              <Radio className={styles.radio} value='event' onClick={() => this.changeFilter('event')}>
-                Event
+              <Radio className={styles.radio} value='creative' onClick={() => this.changeFilter('creative')}>
+                Creative work
               </Radio>
               <Radio className={styles.radio} value='person' onClick={() => this.changeFilter('person')}>
-                Person
+                Person/Group
               </Radio>
             </RadioGroup>
             <Autosuggest suggestions={suggestions}
@@ -159,54 +146,7 @@ export default class CollectionCardSearch extends PureComponent {
             }
           </form>
         </div>
-        { cardTypes.map((type, i) => (
-          <div key={i}>
-            {(_.find(cards, {'type': type}) && filter === 'all') || _.find(cards, {'type': type}) && filter === type ? (
-              <li className={classnames('mdl-list__item', styles.collectionList)}>
-                <div className={classnames('mdl-card', styles.card)}>
-                  <label htmlFor='' className={styles.collectionFilterName}>{type}</label>
-                  {::this.filterResults(cards, type, value).map((card) =>
-                    <div key={card.id} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
-                      <div className='mdl-card__title'>
-                        <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
-                      </div>
-                      <div className={styles.cardImage}>
-                        <img className={styles.cardImg} src='http://placehold.it/350x150'/>
-                      </div>
-                      <div className={classnames('mdl-card__supporting-text', styles.cardActions)}>
-                        {::this.findCardById(card.id) ?
-                          <Button
-                          accent
-                          className={classnames(styles.cardActionButton, 'mdl-js-ripple-effect button--colored')}
-                          onClick={() => deleteCardFromCollection(::this.findCardById(card.id).collectionId, card.id)}
-                          >
-                          Remove card
-                          </Button>
-                          :
-                          < Button
-                          colored
-                          className={classnames(styles.cardActionButton, 'mdl-js-ripple-effect')}
-                          onClick={() => addCardToCollection(Math.random() * 10, card)}
-                          >
-                          Add card
-                          </Button>
-                        }
-                      </div>
-                    </div>
-                  )}
-                  {::this.filterResults(cards, type, value).length ?
-                    < ul className={classnames('pagination', styles.pagination)}>
-                    <li className='mdl-button mdl-js-button mdl-button--icon'><a href='#!'>1</a></li>
-                    </ul>
-                  : <div className={styles.noResults}>
-                    No results
-                  </div>
-                  }
-                </div>
-              </li>
-            ) : null }
-          </div>
-        ))}
+        <CardsList cardTypes={cardTypes} cards={cards} filter={filter}/>
       </div>
     );
   }
