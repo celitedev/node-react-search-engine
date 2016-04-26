@@ -19,7 +19,10 @@ export default createStore({
   updateCollectionModal: false,
   deleteCollectionModal: false,
   data: [],
-  savedCollectionInfo: {}
+  savedCollectionInfo: {
+    cards: [],
+    img: {}
+  }
 }, {
 
   [CREATE_COLLECTION]: (state, action) => {
@@ -43,7 +46,7 @@ export default createStore({
     return {data: [...updatedCollection]};
   },
   [SAVE_COLLECTION_INFO]: (state, action) => {
-    return {savedCollectionInfo: action.info};
+    return {savedCollectionInfo: {...state.savedCollectionInfo, ...action.info}};
   },
 
   [SWITCH_PLACEHOLDER]: (state, action) => {
@@ -53,7 +56,7 @@ export default createStore({
     return {addCardModal: !state.addCardModal};
   },
   [ADD_CARD_TO_COLLECTION]: (state, action) => {
-    const updatedCollection = [ ...state.savedCollectionInfo.cards, Object.assign({}, action.card, { collectionId: action.collectionId })];
+    const updatedCollection = [ Object.assign({}, action.card, { collectionId: action.collectionId }), ...state.savedCollectionInfo.cards];
     return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: updatedCollection})};
   },
 

@@ -13,7 +13,6 @@ import NewCollectionHeader from '../../components/NewCollection/NewCollectionHea
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
 import CollectionAddCardDialog from '../../components/NewCollection/CollectionAddCardDialog';
-import CollectionInfo from '../../components/NewCollection/CollectionInfo';
 
 function collection(state) {
   const {showPlaceholders} = state.collection;
@@ -37,7 +36,7 @@ export default class Index extends PureComponent {
     return (
       <div className={classnames(styles.background)}>
         <NewCollectionHeader />
-        {showPlaceholders ? <NewCollectionDescription /> : <CollectionInfo />}
+        <NewCollectionDescription />
         <NewCollectionCards collection={data}/>
         <CollectionAddCardDialog />
       </div>

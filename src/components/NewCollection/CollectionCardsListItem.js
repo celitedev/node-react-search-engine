@@ -3,17 +3,10 @@ import PureComponent from '../../../node_modules/react-pure-render/component';
 import _ from 'lodash';
 import classnames from 'classnames';
 import 'material-design-icons';
-import Form from 'react-formal';
-import { cardSchema } from './collectionSchemas';
 import { connect } from 'redux-simple';
 import { deleteCardFromCollection } from '../../actions';
-function FormGroup({ children }) {
-  return (
-    <div className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', styles.formInput)}>
-      {children}
-    </div>
-  );
-}
+import MediumEditor from 'react-medium-editor';
+
 function collection(state) {
   const { showPlaceholders } = state.collection;
   return { showPlaceholders };
@@ -22,32 +15,21 @@ function collection(state) {
 @connect(collection, { deleteCardFromCollection })
 export default class CollectionCardsListItem extends PureComponent {
   constructor(props) {
-    const { item } = props;
     super();
     this.state = {
-      model: item,
-      errors: {}
+      description: props.item.description
     };
   }
 
-  onFormErrors(errors) {
-    if (!_.isEqual(errors, this.state.errors)) {
-      this.setState({
-        errors
-      });
-    }
-  }
-
-  onFormChange(model) {
-    if (!_.isEqual(model, this.state.model)) {
-      this.setState({
-        model
-      });
-    }
-  }
-
   checkInput(modelName) {
-    return _.isEmpty(this.state.model[modelName]) ? styles.formPlaceholder : '';
+    return _.isEmpty(this.state[modelName]) && this.props.showPlaceholders ?
+      styles.formPlaceholder : '';
+  }
+
+  handleDesciptionChange(description, medium) {
+    this.setState({
+      description
+    });
   }
 
   saveCard() {
@@ -56,8 +38,7 @@ export default class CollectionCardsListItem extends PureComponent {
 
   render() {
     const { item, showPlaceholders, deleteCardFromCollection } = this.props;
-    const { model, errors } = this.state;
-
+    const { description } = this.state;
     return (
       <div className={styles.root}>
         <div className={styles.collectionCardWide}>
@@ -77,39 +58,18 @@ export default class CollectionCardsListItem extends PureComponent {
               </button>
             </div>
           </div>
-          {(() => {
-            if (!showPlaceholders) {
-              return item.description ? (
-                <div
-                  className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description')) }>
-                  <p>{item.description}</p>
-                </div>
-              ) : null;
-            }
-            return (
-              <div className={ classnames('mdl-card__supporting-text mdl-shadow--2dp', styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description')) }>
-                <Form
-                  className={classnames('mdl-cell mdl-cell--8-col', styles.formLayout)}
-                  schema={cardSchema}
-                  value={model}
-                  errors={errors}
-                  onChange={this.onFormChange.bind(this)}
-                  onError={this.onFormErrors.bind(this)}
-                  onSubmit={this.saveCard.bind(this)}
-                >
-                  <FormGroup>
-                    <Form.Field name='description' type='textarea' id='description' onFocus={::this.checkInput}
-                                className={classnames('mdl-textfield__input', styles.descriptionLabel)}
-                                errorClass='form-error'/>
-                    <label className={classnames('mdl-textfield__label', styles.descriptionLabel)} htmlFor='description'>
-                      {model.description ? '' : 'Card description'}
-                    </label>
-                    <Form.Message for='description' className='form-error-message'/>
-                  </FormGroup>
-                </Form>
-              </div>
-            );
-          })()}
+            <MediumEditor
+              className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description'))}
+              tag='p'
+              text={description}
+              onChange={::this.handleDesciptionChange}
+              options={{
+                toolbar: {buttons: ['bold', 'italic', 'underline']},
+                placeholder: {
+                  text: 'Card description',
+                  hideOnClick: true
+                }}}
+            />
         </div>
       </div>
     );

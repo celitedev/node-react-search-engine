@@ -49,4 +49,27 @@
   .hideDragZone {
     display: none;
   }
+  .deleteImage {
+    position: absolute;
+    right: 7px;
+    top: 14px;
+    font-size: 21px;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    filter: alpha(opacity=20);
+    opacity: .2;
+    min-width: 0;
+    padding: 0;
+    transition: .2s all ease;
+    outline: none;
+
+    &:hover {
+      opacity: 1;
+      text-shadow: none;
+      background: none;
+    }
+  }
+
 }

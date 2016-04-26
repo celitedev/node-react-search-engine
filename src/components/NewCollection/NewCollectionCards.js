@@ -15,14 +15,12 @@ function collection(state) {
 
 @connect(collection, {saveCollectionInfo})
 export default class NewCollectionCards extends PureComponent {
-  constructor(props, state) {
+  constructor(props, context) {
     super();
-    this.state = {
-    };
   }
   render() {
     const { savedCollectionInfo } = this.props;
-    const cards = _.reverse(savedCollectionInfo.cards);
+    const cards = savedCollectionInfo.cards;
     return (
         <div className={ classnames(styles.root) }>
           <div className={ classnames('mdl-grid') }>

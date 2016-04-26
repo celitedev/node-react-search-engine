@@ -4,7 +4,7 @@ import { connect } from 'redux-simple';
 import { switchAddCardModal } from '../../actions';
 import classnames from 'classnames';
 
-import {Dialog, DialogTitle, Button, DialogActions, DialogContent} from 'react-mdl';
+import {Dialog, Button, DialogContent} from 'react-mdl';
 import 'material-design-icons';
 
 import CollectionCardSearch from './CollectionCardSearch';
