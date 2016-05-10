@@ -4,7 +4,7 @@ import classnames from 'classnames';
 
 import {page} from '../page';
 
-import MyCollections from '../../components/MyCollections';
+import KwhenSearch from '../../components/Index/KwhenSearch.js';
 import {API_REQUEST} from '../../actionTypes';
 
 @page('Index')
@@ -14,7 +14,7 @@ export default class Index extends PureComponent {
       collections: dispatch({
         type: API_REQUEST,
         method: 'get',
-        path: '/collections'
+        path: '/collections/all'
       })
     };
   }
@@ -23,9 +23,8 @@ export default class Index extends PureComponent {
     const {data, loaded} = this.props;
     return (
       <div className={classnames(styles.background)}>
-        <MyCollections collections={loaded && data.collections || []}/>
+        <KwhenSearch />
       </div>
     );
   }
-
 }

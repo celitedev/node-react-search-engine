@@ -22,7 +22,7 @@ export default class CollectionCardsListItem extends PureComponent {
   }
 
   checkInput(modelName) {
-    return _.isEmpty(this.state[modelName]) && this.props.showPlaceholders ?
+    return _.isEmpty(this.state.description) && this.props.showPlaceholders ?
       styles.formPlaceholder : '';
   }
 
@@ -30,10 +30,6 @@ export default class CollectionCardsListItem extends PureComponent {
     this.setState({
       description
     });
-  }
-
-  saveCard() {
-
   }
 
   render() {
@@ -50,16 +46,13 @@ export default class CollectionCardsListItem extends PureComponent {
               { item.content }
             </div>
             <div className='mdl-card__menu'>
-              <button className='mdl-button mdl-js-button mdl-button--raised'>
-                Drag
-              </button>
               <button className='mdl-button mdl-js-button mdl-button--raised' onClick={() => deleteCardFromCollection(item.collectionId, item.id)}>
-                <i className='material-icons'>delete</i> Delete
+                <i className='material-icons'>delete</i>
               </button>
             </div>
           </div>
             <MediumEditor
-              className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput('description'))}
+              className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
               tag='p'
               text={description}
               onChange={::this.handleDesciptionChange}

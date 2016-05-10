@@ -2,6 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Paggination from './Widgets/Paggination';
+import { Link } from 'react-router';
 
 function paginate(data = [], o) {
   // adapt to zero indexed logic
@@ -58,7 +59,11 @@ export default class MyCollections extends PureComponent {
         <li key={i} className='mdl-list__item'>
           <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
             <div className='mdl-card__title'>
-              <h4 className='mdl-card__title-text'>{c.title}</h4>
+              <h4 className='mdl-card__title-text'>
+                <Link to={`collections/${c.id}`}>
+                  {c.title}
+                </Link>
+              </h4>
             </div>
             {c.cards.map((card, i) => (
             <div key={i} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>

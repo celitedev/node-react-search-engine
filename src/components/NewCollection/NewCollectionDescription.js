@@ -19,23 +19,12 @@ export default class NewCollectionDescription extends PureComponent {
   constructor(props) {
     super();
     this.state = {
-      info: {
-        title: props.savedCollectionInfo.title || '',
-        subTitle: props.savedCollectionInfo.subTitle || '',
-        description: props.savedCollectionInfo.description || ''
-      },
-      model: props.savedCollectionInfo,
-      image: props.savedCollectionInfo.img
+      savedCollectionInfo: props.savedCollectionInfo
     };
   }
 
-  componentDidMount() {
-    const collection = this.props.savedCollectionInfo;
-    this.props.saveCollectionInfo({cards: collection ? collection.cards : this.props.collection.collection[0].cards});
-  }
-
   checkInput(modelName) {
-    return _.isEmpty(this.state.model[modelName]) ? styles.formPlaceholder : '';
+    return _.isEmpty(this.state.savedCollectionInfo[modelName]) ? styles.formPlaceholder : '';
   }
 
   onDrop(file) {
@@ -50,31 +39,17 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   saveCollection() {
-    this.props.saveCollectionInfo({...this.state.info});
+    this.props.saveCollectionInfo({...this.state.savedCollectionInfo});
   }
 
-  handleTitleChange(title, medium) {
-    this.setState({info: {
-      ...this.state.info,
-      title
-    }});
-    this.saveCollection();
-  }
-
-  handleSubTitleChange(subTitle, medium) {
-    this.setState({info: {
-      ...this.state.info,
-      subTitle
-    }});
-    this.saveCollection();
-  }
-
-  handleDesciptionChange(description, medium) {
-    this.setState({info: {
-      ...this.state.info,
-      description
-    }});
-    this.saveCollection();
+  handleChange(field) {
+    return (value, medium) => {
+      this.setState({savedCollectionInfo: {
+        ...this.state.savedCollectionInfo,
+        [field]: value
+      }});
+      this.saveCollection();
+    };
   }
 
   isEmptyField(fieldName) {
@@ -82,44 +57,48 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   render() {
-    const {info} = this.state;
+    const {title, subTitle, description, img} = this.state.savedCollectionInfo;
     const {showPlaceholders, savedCollectionInfo} = this.props;
-    const image = savedCollectionInfo.img.preview;
+    const image = img[0] ? img[0].preview : '';
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
-          {::this.isEmptyField(info.title) ?
+          {::this.isEmptyField(title) ?
+            <div>
             <MediumEditor
               className={styles.mediumEdit}
               tag='h4'
-              text={info.title}
-              onChange={::this.handleTitleChange}
+              text={title}
+              onChange={::this.handleChange('title')}
               options={{
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
                   text: 'Collection title',
                   hideOnClick: true
-                }}}
+                }}
+              }
             />
+            </div>
             : null
           }
-          {::this.isEmptyField(info.subTitle) ?
+          {::this.isEmptyField(subTitle) ?
           <MediumEditor
             className={styles.mediumEdit}
             tag='h6'
-            text={info.subTitle}
-            onChange={::this.handleSubTitleChange}
+            text={subTitle}
+            onChange={::this.handleChange('subTitle')}
             options={{
               toolbar: {buttons: ['bold', 'italic', 'underline']},
               placeholder: {
-                text: 'Subtitle',
+                text: 'Collection subtitle',
                 hideOnClick: true
-              }}}
+              }}
+            }
           />
             : null
           }
           {showPlaceholders ?
-            <Dropzone onDrop={this.onDrop.bind(this)}
+            <Dropzone onDrop={::this.handleChange('img')}
                       className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
@@ -131,18 +110,19 @@ export default class NewCollectionDescription extends PureComponent {
             </Button>
             <img className={styles.colImage} src={image}/>
           </div>
-          {::this.isEmptyField(info.description) ?
+          {::this.isEmptyField(description) ?
             <MediumEditor
               className={styles.mediumEdit}
               tag='p'
-              text={info.description}
-              onChange={::this.handleDesciptionChange}
+              text={description}
+              onChange={::this.handleChange('description')}
               options={{
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
-                  text: 'Description',
+                  text: 'Collection description',
                   hideOnClick: true
-                }}}
+                }}
+              }
             />
             : null
           }

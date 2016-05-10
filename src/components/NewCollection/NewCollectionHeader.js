@@ -3,6 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect} from '../../actions';
 import {connect} from 'redux-simple';
+import { Link } from 'react-router';
 
 import {Textfield} from 'react-mdl';
 import MediumEditor from 'react-medium-editor';
@@ -63,7 +64,9 @@ export default class NewCollectionHeader extends PureComponent {
       <div className='mdl-grid'>
         <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
           <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
-            <a className='' href='' ref='name'>My Collections </a>
+            <Link to='/'>
+              My Collections
+            </Link>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
             { savedCollectionInfo ?
               <MediumEditor

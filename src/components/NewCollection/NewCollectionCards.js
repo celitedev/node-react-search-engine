@@ -1,12 +1,10 @@
 import React from 'react';
 import PureComponent from '../../../node_modules/react-pure-render/component';
 import classnames from 'classnames';
-import _ from 'lodash';
 import CollectionCardsList from './CollectionCardsList';
 import CollectionCardsAddButton from './CollectionCardsAddButton';
 import { connect } from 'redux-simple';
 import { saveCollectionInfo } from '../../actions';
-import 'material-design-icons';
 
 function collection(state) {
   const { savedCollectionInfo } = state.collection;
@@ -18,18 +16,19 @@ export default class NewCollectionCards extends PureComponent {
   constructor(props, context) {
     super();
   }
+
   render() {
     const { savedCollectionInfo } = this.props;
-    const cards = savedCollectionInfo.cards;
+    const {cards} = savedCollectionInfo;
     return (
-        <div className={ classnames(styles.root) }>
-          <div className={ classnames('mdl-grid') }>
+        <div className={styles.root}>
+          <div className='mdl-grid'>
             <CollectionCardsAddButton cards={cards} />
           </div>
-          <div className={ classnames('mdl-grid') }>
+          <div className='mdl-grid'>
             <CollectionCardsList cards={cards} />
           </div>
-          <div className={ classnames('mdl-grid') }>
+          <div className='mdl-grid'>
             {(() => {
               if (cards && cards.length) {
                 return (

@@ -1,0 +1,79 @@
+/* ===========================
+   Base (default overwrites / settings for Kwhen)
+
+   Base rules determine the website's default and reset styling.
+   They should include only:
+   - single element selectors (html, body, form, a {}),
+   - attribute selectors (input[type="text"] {}),
+   - pseudo-class selectors (a:hover {}),
+   - child selectors (ul li, {}, ul > li {})
+   - sibling selectors (h2 ~ p {}).
+
+   This should also include:
+   - heading sizes
+   - font styles,
+   - default link styles
+   - body background.
+
+   =========================== */
+
+
+body{
+	background: $c_background;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+.b_lightgray{
+   background: #f6f6f6;
+}
+.b_red{
+   background: #f00;
+}
+.b_green{
+   background: #0f0;
+}
+.b_blue{
+   background: #00f;
+}
+.c_green{
+  color: $c_gr100;
+}
+
+ul, ol {
+   font-size: 13px;
+   margin:0;
+   padding: 0;
+   list-style-type: none;
+}
+
+.mdl-button{
+   font-size: 13px;
+}
+
+
+h2{
+   color: rgba(0,0,0, 0.80); //up opacity from 0.54
+}
+
+//fallback image to be placed on .card--media
+.imgFallback{
+  background-size: cover !important;
+  background-image: url('../images/noImage.jpg') !important;
+
+  &.in-card-map{
+    background: none !important;
+  }
+}
+
+//bit more subtle dropshadow on static header
+.mdl-layout__header{
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 2px 1px -2px rgba(0, 0, 0, 0.1);
+}
+
+/////////////////
+///Helpers
+/////////////////
+
+.h-floatRight{
+  float: right;
+}

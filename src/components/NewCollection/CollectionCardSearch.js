@@ -126,10 +126,10 @@ export default class CollectionCardSearch extends PureComponent {
         <div id='cardsDialogStickyHeader'>
           <form onsubmit={::this.searchResults}>
             <div className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
-              <input className='mdl-textfield__input'
+              <input className={classnames('mdl-textfield__input', styles.filterInput)}
                      type='text'
                      id='filter'
-                     defaultValue='All types'
+                     value={filter}
                      readOnly
                      tabIndex='-1'
               />
