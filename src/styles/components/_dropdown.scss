@@ -1,0 +1,56 @@
+.mdl-dropdown {
+  display: inline-block;
+  position: relative;
+  height: 36px;
+  line-height: normal;
+  z-index: 1;
+  box-sizing: content-box;
+  border: 1px solid $c_gr100;
+  background-color: white;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 30px;
+    height: 100%;
+    background-color: inherit;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 3;
+    top: 50%;
+    margin-top: -3px;
+    right: 9px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid $c_gr100;
+    pointer-events: none;
+  }
+
+  select {
+    width: 100%;
+    height: inherit;
+    margin: 0;
+    box-sizing: border-box;
+    border: none;
+    padding: 0 20px 0 10px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 14px;
+    line-height: 34px;
+    background-color: inherit;
+    cursor: pointer;
+    color: $dark_text_color;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

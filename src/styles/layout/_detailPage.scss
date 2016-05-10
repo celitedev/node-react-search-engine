@@ -1,0 +1,116 @@
+.l-detailPage {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 40px;
+
+    &--cardContainer{
+      padding: 8px;
+    }
+
+
+    .card--detail{
+      width: inherit;
+      box-shadow:none;
+      background: none;
+
+
+      .card--inner, .card--actions{
+        &.card--inner{
+          border-radius: 2px 2px 0 0;
+        }
+        &.card--actions{
+          border-radius: 0 0 2px 2px;
+        }
+        max-width: 900px;
+        margin: 0 auto;
+        background: white;
+        box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+      }
+
+      &.m-card-imgTopWide .card--media{
+        padding-top: 35%; //empherical
+      }
+
+      .card--inner{
+        box-sizing: border-box;
+        padding: 20px 12px;
+        margin-top: 18% !important; //empherical. !important bc. otherwise overwritten by modifier grrr.
+      }
+    }
+
+    .card--mediaDetail{
+      @media (max-width: 600px){
+       display: none !important;
+      }
+    }
+
+    .card.has-map{
+      .card--mediaDetail{
+        width: 50%;
+        max-width: 350px;
+        @media (max-width: 780px){
+          width: 25%;
+        }
+      }
+    }
+    .card.no-cover-photo{
+       .card--inner{
+          margin-top: 0 !important;
+       }
+       .card--media{
+        display: none;
+       }
+    }
+
+    .mdl-tabs{
+      margin: 0 auto;
+      box-sizing: border-box;
+      max-width: 900px;
+      padding: 8px;
+    }
+
+    .relatedcards {
+      margin-bottom: 20px;
+      margin-left: -8px; //break the grid
+      margin-right: -8px;
+      ul.controls {
+        margin-top: 8px;
+      }
+      &--hover{
+        display: block;
+        z-index: 0;
+        // background:blue;
+        position:absolute;
+        top:0;
+        bottom:0;
+        left: -1000px;
+        right: -1000px;
+        &:hover + .relatedcards{
+          background: red;
+        }
+      }
+      &--container{
+        position:relative;
+      }
+
+      //adapt the curtains. THis is a hack so we don't need overflow:hidden.
+      //we couldn't use that because we need carousel overlays.
+      .l-cardCarousel-container{
+        &:before, &:after{
+          background: rgb(250, 250, 250);
+          width: 900px;
+        }
+        &:before{
+          left: -1800px;
+        }
+        &:after{
+          right: -1800px;
+        }
+      }
+
+    }
+
+
+}
+

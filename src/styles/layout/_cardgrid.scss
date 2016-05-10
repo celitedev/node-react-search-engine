@@ -1,0 +1,48 @@
+
+//A cardgrid is a single row of cards.
+//It uses css3 flexbox to make sure cards stay within a single row.
+//if less cards exists than the screenwidh can accomodate, than cards are centered.
+.l-cardgrid {
+    @extend .mdl-grid;
+
+    //flex stuff:
+    //- single line
+    //- show in center. Especially important for row with less items than columns
+    justify-content: center;
+    flex-wrap: nowrap;
+
+    //we cannot add margin-left/right, because this would result in unintended peek-in of columns.
+    //we do this on cardCarousel instead
+    margin: 0;
+
+    //once a card is placed inside a cardgrid it will assume certain dimensions
+    .card{
+
+        @extend .mdl-cell;
+
+        //between 480 and 640px is a bit of a deadzone, where we can't display 2 column grid
+        //but one is too large. Result is that second column starts peeping in from the right
+        //Not THAT bad.
+    	min-width:278px;
+    	max-width:464px; //+ 16 = 480 = width on iphone 4s.
+
+    	flex: 1 0 100%;
+
+        margin-top: 0;
+        margin-bottom: 0;
+
+    	@media (min-width: $resp_size_tablet){ //min2width * 2 + some margin + some side gutter. Currently set empherically
+    	  flex-basis: 50%; //fallback. Not 100% correct
+			  flex-basis: calc(50% - 8px); //leave room for space at side
+    	}
+
+      .js-answer &{ //only do 3 in a row on answer. Not an detail
+
+        @media (min-width: $resp_size_desktop){
+          flex-basis: 33.33333333%; //fallback. Not 100% correct
+          flex-basis: calc(33.33333333% - 8px); //leave room for space at side
+        }
+      }
+    }
+
+}

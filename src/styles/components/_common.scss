@@ -1,0 +1,63 @@
+@mixin box-shadow($params) {
+  -webkit-box-shadow:$params;
+  -moz-box-shadow: $params;
+  box-shadow: $params;
+}
+
+@mixin curtain(){
+  content: "";
+  position: absolute;
+  margin: 0 auto;
+  height: 100%;
+  width: 1200px;
+  z-index: 1;
+  background: #fafafa;
+  top: 0;
+}
+
+
+//Add this modifier to wrap an image around the card on smaller displays so the image is 100% the viewport.
+//
+//USAGE:
+//- answer page / detail page
+@mixin m-card-imgBackdrop(){
+
+  .card--media{
+    padding-top: 9/21 * 100%; //21:9
+  }
+
+  .card--inner{
+      margin-top: 90px; //emperical
+      margin-top: calc(9/21 * 100% - 54px); //54px = emperical
+    }
+
+  .card--media{
+    $pull: -8px; //pull
+    left: $pull;
+    position: absolute;
+    right: $pull;
+  }
+
+  .card--inner{
+    //show card--inner on top of image if latter is displayed as backdrop
+    position: relative;
+    z-index: 1;
+  }
+
+  // .js-answer &, .js-search &, .js-detail .relatedcards &{
+
+  //   //jump back to non-backdrop (but top) image
+  //   @media (min-width: 464px + 16px) {
+  //     .card--media{
+  //         position: relative;
+  //         left: 0;
+  //         right: 0;
+  //       }
+  //       .card--inner{
+  //         position: static; //allow position-absolute to use entire card-size as reference. I.e.: menu can be pushed on top of image
+  //         margin-top: 0 !important; //let's be practical here with !important
+  //       }
+  //   }
+  // }
+}
+

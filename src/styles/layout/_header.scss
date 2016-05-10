@@ -1,0 +1,75 @@
+header.mdl-layout__header {
+  background-color: $c_gr100;
+  z-index: 7;
+
+  .close {
+    display: block;
+    width: 32px;
+    height: 32px;
+    background: url('../images/close-icon.png');
+    background-size: cover;
+    cursor: pointer;
+  }
+
+
+  .back {
+    width: 70px;
+    background: url("../images/next.png") no-repeat;
+    margin-left: 20px;
+    min-height: 50px;
+  }
+
+}
+
+//the logo of kwhen
+.header--logo {
+  display: inline-block;
+  height: 50px;
+  width: 34px;
+  background: url('../images/logo.png') center left no-repeat;
+  background-size: 165px;
+}
+
+//the kwhen type
+.header--logotext {
+  display: inline-block;
+  @media screen and (max-width: 1024px) {
+    display: none;
+  }
+  height: 50px;
+  width: 140px;
+  background: url('../images/logo.png') -32px center no-repeat;
+  background-size: 165px;
+}
+
+.mdl-layout__header{
+  display: flex !important; //don't hide on small. Auto by mdl
+
+  .search-field{ //layout like setting margin when searchbox in navbar
+    margin-left: 12px;
+    flex-grow:1;
+    flex-basis: 0;
+
+    > div{
+      min-width: 0;
+      max-height: 43px;
+    }
+  }
+}
+
+.mdl-layout__header-row {
+  width: 100%;
+  padding-left: 24px;
+  padding-right: 0; //there's an icon with padding-right: 24px already
+}
+
+//account icon navigation
+.profile{
+  &--nav{
+    opacity: 1;
+  }
+  &--icon{
+    font-size: 36px;
+  }
+}
+

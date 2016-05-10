@@ -1,0 +1,415 @@
+
+/**
+ * Cards are the liveblood of Kwhen.
+ * Cards represent our entities: Places, Events, People, you name it. Cards rule that game.
+ *
+ * An important goal is to allow the same card structure for all circumstances. From search-detail cards (page wide)
+ * to detail page cards, and answer page cards. The below CSS does just that.
+ *
+ * This allows us to just drop in content given 1 card structure and be done with it.
+ * The pagetype then adds a simple class to a card or cardcontainer (i.e.: a row of cards that are visualized the same)
+ *
+ * For this to work the card structure may seem a bit more involved than needed on first glance. However,
+ * everything in there fulfills a role, sometimes only in certain circumstances (screensizes, pagetypes, etc.)
+ *
+ * The card structure is as follows:
+ *
+ * .card
+ *   div
+ *     .card--media
+ *     .card--inner
+ *       .card--category (also called 'type/subtype' in documentation)
+ *       .card--identifier
+ *         .card--identifier--title (identifier1)
+ *         card--identifier--subtitle (identifier2)
+ *       .card--headsup
+ *         div (headsup 1)
+ *         div (headsup 2)
+ *       .card--databits
+ *         div (databits1)
+ *         ul (databits2)
+ *       .card--whyshown
+ *       	 div
+ *   .card--actions
+ *
+ */
+
+$card-vertical-rhythm:16px; //16 for mobile
+$card-vertical-rhythm-spacy:21px; //tablet and up
+$card-padding-top: 5px;
+$card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardActionBar)
+
+//1 line with defined height and ellipses overflow.
+//Extends responsibly in height for a tad more whitespace
+//
+//This makes sure the line to which this mixin is applied will never grow in height.
+@mixin oneLineEllipsisOverflow($height: $card-vertical-rhythm, $heightTabletUp: $card-vertical-rhythm-spacy){
+	line-height: $height;
+	height: $height;
+	overflow:hidden;
+	white-space: nowrap;
+	text-overflow: hidden;
+	text-overflow: ellipsis;
+	@media (min-width: $resp_size_tablet){
+		line-height: $heightTabletUp;
+		height: $heightTabletUp;
+	}
+}
+
+
+
+.card{
+
+	//We simply extend from the material design lite card.
+	//read up here: http://www.getmdl.io/components/#cards-section
+	@extend .mdl-card;
+	@extend .mdl-shadow--2dp;
+
+  //niceer / softer shadow
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+
+	//allow picture (when shown as backdrop) to overflow card
+	overflow: inherit;
+
+
+  //make room for abs positioned actionbar
+  padding-bottom: $card-actionbar-height;
+
+  transition: box-shadow 0.15s;
+  &:hover{
+    box-shadow: 0 0 10px $brightBlue;
+  }
+
+
+  //unless it's a detail card.
+  //Here we need to set card--actions to relative again,
+  //so auto-centering can take effect.
+  //We don't need position absolute here since that's means to nicely
+  //align multiple cards with same height without causing a tall actionbar
+  //for cards that took up less height than others in the same row
+  &.card--detail{
+    padding-bottom: 0;
+    .card--actions {
+      position: relative !important;
+    }
+  }
+
+  &.actionBarHidden{
+      padding-bottom: 0;
+      .card--actions {
+        display: none
+      }
+  }
+
+
+	//A hackish fix, that results in scrollWidth of container to be equal
+	//regardless if backdrop image is used or not.
+	//background: this resulted from last backdrop component overflowing boundary.
+	//This is what was needed for correct JS alignment, and is mimicked here
+	//Relates to GH#3
+	&:after{
+		content: "";
+        position: absolute;
+        height: 1px;
+        width: 1px;
+        right: -8px;
+        z-index:-1;
+	}
+  > div{
+      position: relative;
+  }
+
+  //the clickable card
+  .js-cardAnchor{
+    display: inline; //!
+    cursor: pointer;
+    cursor: hand;
+  }
+
+  &.no-link{
+    .js-cardAnchor{
+      cursor: default;
+    }
+  }
+}
+
+//Container for an image
+.card--media{
+	position: relative;
+	background-size: cover;
+	background-position: center;  /* Internet Explorer 7/8 */
+}
+
+//second media used on detail page. Hidden by default
+.card--mediaDetail{
+  box-sizing: border-box;
+  display: none;
+  margin-left: 16px;
+
+  width: 25%;
+  max-width: 200px;
+
+  background-size: cover;
+  background-position: center;  /* Internet Explorer 7/8 */
+}
+
+
+
+//Used by .card--inner. See below
+@mixin layout-cardComponents($verticalHeight:$card-vertical-rhythm){
+	line-height: $verticalHeight;
+  > div > div{
+    padding: $verticalHeight/2 $card-horizontal-padding;
+    &:last-child{
+      padding-bottom: $verticalHeight/2 + $card-padding-top;
+    }
+
+    //whyshown uses margin to deal with overflow
+    //Consequence is that we can't use nice stretching background color
+    &.card--whyshown{
+      padding: 0;
+      margin: $verticalHeight/2 $card-horizontal-padding;
+    }
+    &.card--headsup:last-child{ //card-headsup doesn't need extra padding if it's the last child
+      padding-bottom: $verticalHeight/2;
+    }
+  }
+}
+
+
+//card--inner structure allows for picture to be shown as backdrop
+//on small devices
+.card--inner{
+
+  display: flex;
+  flex-wrap: nowrap;
+	overflow: hidden; //needed when this is adorned with flex-col.
+
+	//be the actual visual card representation.
+	//Needed when image as presented as backdrop which card partially overflows
+	background: white;
+
+	//Establish some vertical rhythem of components.
+	//This allows for more roomy feel on larger devices
+  @include layout-cardComponents();
+	@media (min-width: $resp_size_tablet){
+		@include layout-cardComponents($card-vertical-rhythm-spacy);
+	}
+
+	color: $card-supporting-text-text-color;
+	font-size: $card-supporting-text-font-size;
+
+	padding-top: $card-padding-top;
+}
+
+//container of all contents
+.card--contents{
+  flex-grow: 1;
+  flex-basis:0;
+}
+//container of image right
+.card--mediaDetail{
+  flex-grow: 1;
+  flex-basis:0;
+}
+
+
+//the category of the card
+.card--category{
+	font-variant: small-caps;
+  color: $c_bl; //blue link
+	// opacity: 0.5;
+	overflow: hidden;
+	@include oneLineEllipsisOverflow();
+
+}
+
+.card--number {
+  display: inline-block;
+  padding: 0 6px;
+
+  line-height: 14px;
+  margin-top: -1px;
+  margin-right: 2px;
+  font-size: 12px;
+
+  border: 1px solid #ffd182;
+  border-radius: 8px;
+  color: #ffd182;
+  font-weight: 500;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  vertical-align: middle;
+}
+
+
+
+//1 or 2 lines that identify the card
+//e.g.: 'name' is an obvious one, but also
+//address/location, time could or a combination work
+.card--identifier{
+  display: block;
+  box-sizing: border-box;
+	&--title{
+	  margin: 0;
+    color: rgba(0, 0, 0, 0.7);
+ 	  font-size: 24px;
+		font-weight: 700;
+		@include oneLineEllipsisOverflow(36px, 36px);
+
+    //set by JS
+    //long titles that couldn't fit on 1 line even on smaller font-size
+    &-multiline{
+      white-space: normal;
+      line-height: 14px;
+      > span{
+        font-size: 16px !important;
+      }
+    }
+	}
+	&--subtitle {
+		@include oneLineEllipsisOverflow();
+		// font-size: 12px;
+	}
+}
+
+
+
+//important data that's important to know now.
+//1 or 2 lines
+
+//data shown here isn't shown in databits anymore
+//This data shown can specifically be based on context, e.g.:
+//'starting in 2 hours', 'act now, last 10 seats',
+//'15% discount today on Iphone6'
+//
+//Data is shown in 'partial sentences'
+.card--headsup{
+	margin-bottom: 4px;
+	&:last-child{
+		margin-bottom:0;
+	}
+	> div{
+		@include oneLineEllipsisOverflow(21px); //18px not enough since font-size is increased. Feels cramped
+		font-size: 14px;
+		&.accent{
+      font-size: 16px;
+			font-weight: 700;
+			color: $c_gr100;
+		}
+	}
+}
+
+
+
+//A selection of databits that's important to be shown
+//1 or 2 lines
+//data shown is *not* context sensitive and is displayed as
+//data, not partial sentence
+.card--databits{
+	> div, >ul{
+		@include oneLineEllipsisOverflow();
+	}
+	li{
+	 	float: left;
+	 	&:before{
+	 		content: "\a0\b7\a0"; //space + middot + space
+	 	}
+	 	&:first-child:before{
+	 		content:"";
+	 	}
+	 }
+}
+
+//Cards are sorted. Here we show why.
+//From "Tom and Elly are also going", "Best Indian restaurant 2015"
+
+.card--whyshown{
+	opacity: 0.5;
+	font-style: italic;
+	font-size: 0; //so ghost object doesn't take up space
+	overflow: hidden;
+	line-height: 14px;
+	height: 2 * 14px; //only exception to working with multiplier of card-padding
+	//text-overflow: ellipsis; //doesn't work since child itself grows
+
+	//vertical centering using ghost object:
+	//https://css-tricks.com/centering-in-the-unknown/
+
+	// The ghost, nudged to maintain perfect centering
+	&:before{
+		content: '';
+		display: inline-block;
+		height: 100%;
+		vertical-align: middle;
+	}
+	//vertical centering that works in all (modern) browsers.
+	//Needs a bit of fiddling, but this seems the smallest nr to get this to work
+	> div{
+		font-size: 12px;
+		display: inline-block;
+  		vertical-align: middle;
+	}
+}
+
+//top right menu hinding behing icon
+.card--menu {
+  @extend .mdl-card__menu;
+  z-index: 2;
+}
+
+//actions popup (bottom right)
+//This is placed outsode if actions container since that's set to overflow:hidden
+//TODO: DOES THIS BREAK ANY OTHER POPOVERS? DON'T SEE A WAY TO BE MORE SPECIFIC THAN
+//THIS CSS-CLASS...
+.mdl-menu__container{
+  position: absolute !important;
+  margin-bottom: -16px;
+}
+
+
+.card--actions{
+	background: white;
+	margin-top: -1px; //negate border, so it's displayed next to instead of below left/right placed image
+	z-index: 1; //otherwise margin-top doesn't work reliably.
+	@extend .mdl-card__actions;
+	@extend .mdl-card--border;
+  height: $card-actionbar-height; //needed for js: moving overflowing items in popup menu
+  overflow:hidden;
+
+  //sometimes cards in a row are of different sizes internally.
+  //Although flexbox makes the outersize the same.
+  //This was rendered as a tall card--actions to compenstate, which is ugly.
+  //The below fixes this.
+  position: absolute !important;
+  bottom: 0;
+}
+
+
+.card--rate-star {
+  width: 16px;
+  margin-top: -4px;
+}
+
+
+///////////////
+//Sometimes we need some more specific css-selectors to override default Material Design Lite behavior
+//DON'T TOUCH THIS WITHOUT DISCUSSING...
+//
+.card--inner .card--category{
+	padding-bottom: 0;
+		margin-bottom: -0.5 * $card-vertical-rhythm;
+		@media (min-width: $resp_size_tablet){
+			margin-bottom: -0.5 * $card-vertical-rhythm-spacy;
+		}
+}
+
+//all subcomponents except headsup and whyshown
+.card--inner > div:not(.card--headsup) + .card--whyshown{
+	//collapse margin-top, since whyshown is line only normally (vertical centered)
+	//and that would give to big a gap.
+	//Do this if pre -sibling is NOT card--headsup, bc otherwise the extra
+	//gap is exactly what we want, bc headsup has a background which calls
+	//for extra whitespace below
+	margin-top: 0;
+}
+

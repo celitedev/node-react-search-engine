@@ -1,0 +1,276 @@
+//Search Page Layout
+
+
+html.js-search body{
+  overflow-y: hidden;
+}
+
+.search-page,.l-searchPage, .filters{
+  max-width: 700px;
+  @media only screen and (max-width: 1200px) {
+    max-width: 550px;
+  }
+}
+
+.search-page {
+  height: 100%;
+  overflow-y: scroll; //for making sure sticky filter-header margin-right can be set consistently.
+}
+
+.l-searchPage {
+  position: relative;
+  z-index: 2;
+  padding-top: 1px; //correct outline on hover for first card.
+
+  .bullets {
+    display: none;
+  }
+  .left-arrow, .right-arrow {
+    display: none;
+  }
+}
+
+
+/* ==|====================
+   Layout of card results.
+   ======================= */
+
+$resp_cardResultsThreshold: 920px;
+
+.l-cardResults {
+  position: relative; //allow children to set percentage width
+
+  &.is-slider {
+    overflow: hidden;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    white-space: nowrap;
+    font-size: 0;
+    text-align: left;
+
+    .card {
+      display: inline-block;
+      width: 100%;
+    }
+  }
+
+  .card {
+    width: 100%;
+
+    //by default have a vertical spacing between results
+    //This can be altered by adding 'm-card-results'. See modifiers/_cardResults.scss
+    margin-bottom: 16px;
+    &:last-child{
+        margin-bottom: 0;
+    }
+    &:hover, &.active {
+      z-index: 10;
+      > div{
+        outline: 2px solid $brightBlue; //just some nice clear blue
+      }
+    }
+  }
+}
+
+
+.ui-loading, .ui-loader {
+  display: none;
+}
+
+/////////
+//Show < > on non-touch small screens
+.no-touch {
+  .l-cardResults.slider {
+
+    .left-arrow, .right-arrow {
+      display: block;
+      position: absolute;
+      bottom: 2px;
+      z-index: 6;
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 14px;
+      color: $c_bl;
+      font-weight: bold;
+      padding: 0 4px;
+      vertical-align: top;
+    }
+
+    .left-arrow {
+      right: 26px;
+    }
+
+    .right-arrow {
+      right: 8px;
+    }
+  }
+}
+
+//"<"-button overlayed on expanded map on small map
+.back-to-list {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 48px;
+  height: 48px;
+  background: url('../images/ic_keyboard_arrow_left_black_24dp_2x.png') no-repeat center center;
+}
+
+
+//On small screens:
+//- small map that can be expanded
+//- results at 100%;
+//- hide filters on default
+//
+
+#map{
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  right:0;
+  left: 700px;
+  @media only screen and (max-width: 1200px) {
+    left: 550px;
+  }
+  @media only screen and (max-width: 1024px) {
+    top: 56px;
+  }
+  &.map-notused{
+    &:before{
+      content: "";
+      z-index: 1;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0.4;
+      background: black;
+    }
+    &:after{
+      content: "Map disabled for this search";
+
+      box-sizing: border-box;
+      position: absolute;
+      z-index: 3;
+
+      top: 50%;
+      left: 50%;
+
+      font-size: 14px;
+      line-height: 18px;
+      padding: 6px 12px;
+      width: 160px;
+      margin-left: -80px;
+
+      text-align:center;
+      color: #fff;
+      font-weight: 900;
+
+      background: #009DFF;
+      border-radius: 4px;
+      text-transform: uppercase;
+      box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+@media only screen and (max-width: 800px) {
+
+  $mapHeightCollapsed : 70px;
+  $filtersContainerHeight: 48px;
+  #map{
+    position: relative;
+    top: $filtersContainerHeight; //filters (and only filters bc position: relative)
+    height: $mapHeightCollapsed;
+    left: 0;
+    z-index: 2;
+
+    .mobile-cover {
+      display: block;
+    }
+    .leaflet-control-zoom{
+      display: none;
+    }
+    &.is-opened {
+      position:absolute;
+      bottom: auto;
+      .mobile-cover{
+        display: none  !important;
+      }
+
+      .leaflet-control-zoom{
+        display: inherit;
+      }
+    }
+    &.map-notused{
+      display: none;
+    }
+  }
+
+  .mobile-cover{
+    display: block !important;
+  }
+
+  .l-searchPage{
+    margin-top: $filtersContainerHeight;
+  }
+
+  &.search-page,.l-searchPage,.filters{
+    max-width: 100%;
+  }
+
+  .l-cardResults.is-slider {
+    padding-bottom: 16px;
+    background-color: white;
+
+    > .card{
+      display: inline-block;
+      vertical-align:top;
+    }
+    .bullets {
+      display: block;
+      height: 16px;
+      position: absolute;
+      bottom: 0;
+      left: 16px;
+      z-index: 4;
+      font-size: 0;
+
+      li {
+        width: 16px;
+        line-height: 16px;
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        cursor: pointer;
+
+        &::after {
+          content: "";
+          display: inline-block;
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background-color: #d4dde2;
+          line-height: 16px;
+        }
+
+        &.active::after {
+          background-color: $c_bl;
+        }
+
+        &:first-of-type {
+          margin-left: -5px;
+        }
+      }
+    }
+  }
+}
+
+
+
+

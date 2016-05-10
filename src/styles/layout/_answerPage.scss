@@ -1,0 +1,124 @@
+
+.l-answerPage {
+  position: relative;
+  // max-width: 1200px;
+  // margin: 0 auto;
+
+  .l-cardCarousel-js {
+    margin-bottom: 40px;
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  .related-answer-text {
+
+    box-sizing: border-box;
+    position: relative;
+    max-width: 1200px;
+    margin: 10px auto;
+    padding: 25px 40px;
+    background-color: #fff9ea;
+
+    ul {
+      li {
+        display: inline;
+        font-size: 16px;
+        color: $dark_text_color;
+        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+
+        &:last-of-type {
+          a {
+            color: $c_bl;
+            text-transform: uppercase;
+            font-weight: 500;
+            text-decoration: none;
+          }
+
+          &::before {
+            content: "\a0\b7\a0";
+          }
+        }
+      }
+    }
+  }
+
+  .show-more {
+    text-decoration: none;
+  }
+
+  .m-card-imgRight{
+    @media (max-width: 479px) {
+      &.m-card-imgBackdropOnAnswerAndSmallScreen{
+        @include m-card-imgBackdrop;
+        .card--media{
+          padding-top: 9/21 * 100%; //21:9
+          max-width: inherit;
+          width: inherit;
+        }
+        &.m-card-imgBackdrop{
+          .card--inner{
+            margin-top: 90px; //emperical
+            margin-top: calc(9/21 * 100% - 54px); //54px = emperical
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+nav.timeline {
+  background-color: $c_gr_dark;
+  padding: 12px 0;
+
+  a {
+    color: white;
+    text-decoration: none;
+    line-height: 28px;
+    font-size: 14px;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    display: inline-block;
+    padding: 0 10px;
+
+    &:first-of-type {
+      text-transform: uppercase;
+      padding-left: 30px;
+      margin-right: 36px;
+      position: relative;
+
+      &::after, &::before {
+        left: 100%;
+        top: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+      }
+
+      &::after {
+        border-left-color: $c_gr_dark;
+        border-width: 33px;
+        margin-top: -33px;
+      }
+      &::before {
+        border-left-color: $c_gr100;
+        border-width: 36px;
+        margin-top: -36px;
+      }
+    }
+
+    &.active {
+      color: #f68e56;
+      background-color: white;
+      border-radius: 14px;
+    }
+  }
+}

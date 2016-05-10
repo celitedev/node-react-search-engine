@@ -1,0 +1,22 @@
+.css-icon {
+  display: block;
+  background: url('../images/map-marker-filled.png') no-repeat center center;
+  background-size: 40px 40px;
+  text-align: center;
+  color: white;
+  font-size: 16px;
+  padding-top: 7px;
+
+  &.active, &:hover {
+    background-image: url('../images/map-marker-filled-green.png');
+    z-index: 9999 !important;
+  }
+
+  span {
+    pointer-events: none;
+  }
+}
+
+.css-icon-detail {
+  background-image: url('../images/map-marker.png');
+}

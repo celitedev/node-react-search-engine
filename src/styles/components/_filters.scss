@@ -1,0 +1,81 @@
+
+//////////////////
+//Filters / Facets
+///////////////////
+
+//An individual filter/facet
+
+// .btn-filters-cancel, .btn-filters-apply, .btn-filters-more, .filters--active{
+//   float: left; //display: inline-block takses whitespace into account, which messes with vertical align
+// }
+
+.filters {
+
+  z-index: 4;
+  background-color: white;
+  padding: 12px 16px;
+  box-sizing: border-box;
+  position: relative;
+  width: 100%;
+
+  //container for active filters / facets
+  &--active {
+    display: inline-block;
+  }
+  &--activeDialog{
+    display: none;
+  }
+
+  ///////////
+  //States
+
+  @mixin stickyFilter(){
+    position: fixed;
+    left:0;
+    z-index: 10;
+    box-shadow: 0px 0px 150px 0px rgba(0,0,0,0.75);
+
+    .no-touch &{
+      //offset scrollbar
+      //This assumes 15px on all non-touch devices. Better than nothing.
+      padding-right: $padding + 15px;
+    }
+  }
+  &.is-sticky {
+    @include stickyFilter;
+  }
+
+  @media only screen and (max-width: 800px) {
+
+    @include stickyFilter;
+
+    padding-top:8px;
+    padding-bottom: 8px;
+
+    //auto-inherited by mdl.tag
+    .mdl-button{
+      height: 32px;
+      line-height: 32px;
+      padding: 0 8px;
+    }
+
+    &--active{
+      display: none;
+    }
+    &--activeDialog{
+
+      float:right;
+      display: inline-block;
+      .mdl-badge[data-badge="0"]{
+        display: none;
+      }
+      button{
+        background-color: $c_gr100 !important;
+        &:active{
+          background-color: darken($c_gr100, 10%) !important;
+        }
+      }
+    }
+
+  }
+}
