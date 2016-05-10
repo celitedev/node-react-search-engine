@@ -1,4 +1,4 @@
-import _ from 'lodash';
+/* eslint no-console: 0 */
 
 import {
   REDIRECT,
@@ -6,20 +6,15 @@ import {
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
   SWITCH_PLACEHOLDER,
-  CREATE_COLLECTION_MODAL,
-  UPDATE_COLLECTION_MODAL,
-  DELETE_COLLECTION_MODAL,
   SEARCH_CARDS,
   ADD_CARD_TO_COLLECTION,
   DELETE_CARD_FROM_COLLECTION,
-  ADD_CARDS,
   SWITCH_ADD_CARD_MODAL,
   SAVE_COLLECTION_INFO,
   API_REQUEST
 } from './actionTypes';
 
-
-export function redirect(path, query = {}) {
+export function redirect (path, query = {}) {
   return {
     type: REDIRECT,
     path,
@@ -29,14 +24,14 @@ export function redirect(path, query = {}) {
 /**
  *Collection actions
  */
-export function createCollection(collection) {
+export function createCollection (collection) {
   return {
     type: CREATE_COLLECTION,
     collection
   };
 }
 
-export function updateCollection(id, collection) {
+export function updateCollection (id, collection) {
   return {
     type: UPDATE_COLLECTIION,
     id,
@@ -44,33 +39,33 @@ export function updateCollection(id, collection) {
   };
 }
 
-export function deleteCollection(id) {
+export function deleteCollection (id) {
   return {
     type: DELETE_COLLECTION,
     id
   };
 }
 
-export function switchPlaceholdersVisibility() {
+export function switchPlaceholdersVisibility () {
   return {
     type: SWITCH_PLACEHOLDER
   };
 }
 
-export function switchAddCardModal() {
+export function switchAddCardModal () {
   return {
     type: SWITCH_ADD_CARD_MODAL
   };
 }
 
-export function saveCollectionInfo(info) {
+export function saveCollectionInfo (info) {
   return {
     type: SAVE_COLLECTION_INFO,
     info
   };
 }
 
-export function getCards(query = '', type = 'all') {
+export function getCards (query = '', type = 'all') {
   return {
     type: API_REQUEST,
     method: 'get',
@@ -79,7 +74,7 @@ export function getCards(query = '', type = 'all') {
   };
 }
 
-export function getCardsSuggestions(input) {
+export function getCardsSuggestions (input) {
   return {
     type: API_REQUEST,
     method: 'get',
@@ -88,62 +83,26 @@ export function getCardsSuggestions(input) {
   };
 }
 
-export function saveCollection(collection) {
+export function saveCollection (collection) {
   return {
     type: API_REQUEST,
     method: 'post',
-    path: '/collections',
+    path: '/collections/save',
     data: collection
   };
 }
 
-//export function createCollectionModalShow() {
-//  return {
-//    type: CREATE_COLLECTION_MODAL_SHOW
-//  };
-//}
-//
-//export function updateCollectionModalSHow() {
-//  return {
-//    type: UPDATE_COLLECTION_MODAL_SHOW
-//  };
-//}
-//
-//export function deleteCollectionModalShow() {
-//  return {
-//    type: DELETE_COLLECTION_MODAL_SHOW
-//  };
-//}
-//
-//export function createCollectionModalHide() {
-//  return {
-//    type: CREATE_COLLECTION_MODAL_HIDE
-//  };
-//}
-//
-//export function updateCollectionModalHide() {
-//  return {
-//    type: UPDATE_COLLECTION_MODAL_HIDE
-//  };
-//}
-//
-//export function deleteCollectionModalHide() {
-//  return {
-//    type: DELETE_COLLECTION_MODAL_HIDE
-//  };
-//}
-
 /**
  *Card actions
  */
-export function searchCards(text) {
+export function searchCards (text) {
   return {
     type: SEARCH_CARDS,
     text
   };
 }
 
-export function addCardToCollection(collectionId, card) {
+export function addCardToCollection (collectionId, card) {
   return {
     type: ADD_CARD_TO_COLLECTION,
     collectionId,
@@ -151,7 +110,7 @@ export function addCardToCollection(collectionId, card) {
   };
 }
 
-export function deleteCardFromCollection(collectionId, cardId) {
+export function deleteCardFromCollection (collectionId, cardId) {
   return {
     type: DELETE_CARD_FROM_COLLECTION,
     collectionId,

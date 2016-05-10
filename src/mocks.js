@@ -246,6 +246,16 @@ function respond(xhr, data, code = 200) {
 loadState();
 
 /*
+Collections
+ */
+
+function editCollection(obj) {
+  const cl = state.collections;
+  const index = _.indexOf(cl, _.find(cl, {id: obj.id}));
+  return cl.splice(index, 1, obj);
+}
+
+/*
 Get suggestions
  */
 
@@ -291,13 +301,28 @@ server.respondWith('GET', /\/cards\/suggestions/, (xhr, id) => {
   respond(xhr, suggestedCards);
 });
 
-server.respondWith('GET', /\/collections/, (xhr, id) => {
-  respond(xhr, _.reverse(state.collections));
+server.respondWith('GET', /\/collections\/all/, (xhr, id) => {
+  respond(xhr, state.collections);
+});
+server.respondWith('GET', /\/collections\/one/, (xhr, id) => {
+  const queryParam = getParameterByName('collectionId', xhr.url);
+  let collection;
+  if (queryParam) {
+    collection = _.find(state.collections, {id: parseInt(queryParam, 10)});
+  } else {
+    collection = [];
+  }
+  respond(xhr, collection);
 });
 
-server.respondWith('POST', /\/collections/, (xhr, id) => {
+server.respondWith('POST', /\/collections\/save/, (xhr, id) => {
   const obj = xhr.requestBody;
-  obj.id = ++state.idx;
-  state.collections.push(obj);
+  if (obj.id) {
+    state.collections = editCollection(obj);
+    debug('Saved existing collection', xhr.requestBody.id);
+  } else {
+    obj.id = ++state.idx;
+    state.collections.push(obj);
+  }
   respond(xhr, obj);
 });
