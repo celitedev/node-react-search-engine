@@ -1,6 +1,6 @@
 /* eslint no-console: 0 */
 
-import './mocks';
+//import './mocks';
 import './polyfills';
 
 import React from 'react';
@@ -26,6 +26,8 @@ import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
 
 import 'material-design-lite';
+
+import config from './config';
 
 const middlewares = [
   thunk,
@@ -94,12 +96,12 @@ async function bootstrap() {
     }
   } else {
     try {
-      const user = await store.dispatch({
-        type: API_REQUEST,
-        method: 'get',
-        path: '/me'
-      });
-      authenticate(user);
+      // const user = await store.dispatch({
+      //   type: API_REQUEST,
+      //   method: 'get',
+      //   path: '/me'
+      // });
+      // authenticate(user);
     } catch (err) {
       // pass
     }

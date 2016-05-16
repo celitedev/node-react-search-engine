@@ -53,6 +53,7 @@ function tmpGet(path, query, method, data) {
       reject(req);
     };
     req.open(method.toUpperCase(), url, false);
+    req.setRequestHeader('Content-Type', 'application/json');
     req.send(data);
   });
 }

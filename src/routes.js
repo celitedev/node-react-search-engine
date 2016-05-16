@@ -7,8 +7,14 @@ export default (
     <Route component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Index/Index')}/>
     </Route>
-    <Route path='/answer/question=:question' component={require('./components/layouts/AdvancedLayout')}>
+    <Route path='/answer/:question' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Answer/Answer')}/>
+    </Route>
+    <Route path='/details/:id' component={require('./components/layouts/AdvancedLayout')}>
+      <IndexRoute component={require('./pages/Details/Details')}/>
+    </Route>
+    <Route path='/search' component={require('./components/layouts/AdvancedLayout')}>
+      <IndexRoute component={require('./pages/Search/Search')}/>
     </Route>
     <Route path='/mycollections' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/MyCollections/MyCollections')}/>
