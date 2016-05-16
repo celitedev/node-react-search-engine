@@ -90,6 +90,9 @@
 @import "~getmdl-select/getmdl-select.min.css";
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/default.css";
+@import "../../bower_components/slick-carousel/slick/slick.css";
+@import "../../bower_components/slick-carousel/slick/slick-theme.css";
+@import url(https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css);
 
 @font-face {
   font-family: 'Material Icons';
@@ -127,4 +130,30 @@
 }
 .itemClassReorder.placeholder {
   visibility: hidden;
+}
+
+.slick-slider {
+  min-height: 220px;
+}
+
+.slick-list {
+  min-height: 220px;
+  margin-bottom: 30px;
+}
+
+.slick-slide  {
+  max-height: 200px;
+}
+
+.slick-track {
+  min-height: 220px;
+  padding-top: 10px;
+}
+
+.slick-dots {
+  text-align: left;
+}
+
+.infinite-grid .item {
+  width:100%;
 }
