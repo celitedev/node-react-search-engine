@@ -39,7 +39,6 @@ export default class CardsCarousel extends PureComponent {
 
   render() {
     const {settings, sliderStyle, cardsStyle, results, question} = this.props;
-    debugger;
     const setCarouselParams = {
       dots: true,
       infinite: false,
