@@ -73,7 +73,7 @@ const config = {
   output: {
     path: path.resolve('build'),
     filename: outputName,
-    publicPath: yamlConfig.django.staticUrl,
+    publicPath: yamlConfig.publicPath,
     libraryTarget: 'umd'
   },
 

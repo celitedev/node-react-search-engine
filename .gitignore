@@ -1,5 +1,23 @@
-/node_modules
-/build
+# System
+.DS_Store
+*.swp
+~*
+
+# IDE
 /.idea
-/webpack-stats.json
+
+# NPM
+/node_modules
 /npm-debug.log
+
+# Bower
+/bower_components
+
+# Webpack
+/build
+/webpack-stats.json
+/webpack-records.json
+
+# Project
+#/local-config-private.yml
+#/local-config-public.yml
