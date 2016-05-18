@@ -1,8 +1,6 @@
 //The following modifiers change the layout of cards.
 //They can be either applied to a single card (.card) or to a parent (e.g.: .l-cardgrid)
 
-
-
 //Set image to top fullwidth + responsive height as percentage of width
 //
 //This requires extra wrapper divs (see html) for FF to work, since
@@ -11,26 +9,22 @@
 //
 //See: http://stackoverflow.com/questions/23717953/padding-bottom-top-not-working-in-flexbox-layout-firefox
 
-
 //USAGE:
 //- detail page
-.m-card-imgTopWide{
-  .card--media{
+.m-card-imgTopWide {
+  .card--media {
     padding-top: 9/21 * 100%; //21:9
   }
-  &.m-card-imgBackdrop{
+  &.m-card-imgBackdrop {
     @include m-card-imgBackdrop;
   }
 }
 
-
-.card--mediaDetail{
-  &-do-show{
-    display:block;
+.card--mediaDetail {
+  &-do-show {
+    display: block;
   }
 }
-
-
 
 //image on the left filling height
 //acting like the good ol' media-object
@@ -38,17 +32,17 @@
 //USAGE:
 //- answer page
 //- results page
-.m-card-imgLeft{
+.m-card-imgLeft {
   //media object using flexbox:
   //https://philipwalton.github.io/solved-by-flexbox/demos/media-object/
   .card,
-  &.card{
+  &.card {
     .js-cardAnchor {
       display: flex;
     }
   }
 
-  .card--media{
+  .card--media {
     //should overflow border of actionbar which sits at zindex=1
     //this should NOT live on all images, since backdrop will otherwise overflow card
     // z-index: 2;
@@ -56,15 +50,15 @@
     width: 25%;
   }
 
-  .card--inner{
+  .card--inner {
     flex: 1;
   }
 
 }
 
 //this should hide image when image is NOT shown as backdrop but to the right
-.m-card-hideImgOnLarge{
-   .card--media{
+.m-card-hideImgOnLarge {
+  .card--media {
     display: none;
     @media (max-width: 479px) {
       display: block;
@@ -72,29 +66,23 @@
   }
 }
 
-
-
-
 //image on the right filling height
 //acting like the good ol' media-object
 //
 //USAGE:
 //- answer page
 //- results page
-.m-card-imgRight{
+.m-card-imgRight {
 
   @extend .m-card-imgLeft;
 
   .card,
-  &.card{
+  &.card {
     .js-cardAnchor {
       flex-direction: row-reverse;
     }
   }
 }
-
-
-
 
 //fuse together headsup and databits
 //Used for smaller cards
@@ -102,20 +90,19 @@
 //USAGE:
 //- answer page
 //- results page (automatically as part of .m-card-results)
-.m-card-fuse{
-  .card--inner{
-    .card--headsup{
+.m-card-fuse {
+  .card--inner {
+    .card--headsup {
       padding-top: 0;
       // padding-bottom: 0;
       // margin-bottom: 0;
     }
-    .card--databits{
+    .card--databits {
       margin-top: 0;
       padding-top: 0;
     }
   }
 }
-
 
 .card--inner {
   position: relative;
@@ -132,7 +119,6 @@
     color: $dark_text_color;
   }
 }
-
 
 @media only screen and (max-width: 800px) {
   .card--inner .card--databits > div {

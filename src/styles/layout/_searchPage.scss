@@ -1,11 +1,10 @@
 //Search Page Layout
 
-
-html.js-search body{
+html.js-search body {
   overflow-y: hidden;
 }
 
-.search-page,.l-searchPage, .filters{
+.search-page, .l-searchPage, .filters {
   max-width: 700px;
   @media only screen and (max-width: 1200px) {
     max-width: 550px;
@@ -29,7 +28,6 @@ html.js-search body{
     display: none;
   }
 }
-
 
 /* ==|====================
    Layout of card results.
@@ -62,18 +60,17 @@ $resp_cardResultsThreshold: 920px;
     //by default have a vertical spacing between results
     //This can be altered by adding 'm-card-results'. See modifiers/_cardResults.scss
     margin-bottom: 16px;
-    &:last-child{
-        margin-bottom: 0;
+    &:last-child {
+      margin-bottom: 0;
     }
     &:hover, &.active {
       z-index: 10;
-      > div{
+      > div {
         outline: 2px solid $brightBlue; //just some nice clear blue
       }
     }
   }
 }
-
 
 .ui-loading, .ui-loader {
   display: none;
@@ -120,18 +117,17 @@ $resp_cardResultsThreshold: 920px;
   background: url('../images/ic_keyboard_arrow_left_black_24dp_2x.png') no-repeat center center;
 }
 
-
 //On small screens:
 //- small map that can be expanded
 //- results at 100%;
 //- hide filters on default
 //
 
-#map{
+#map {
   position: fixed;
   top: 64px;
   bottom: 0;
-  right:0;
+  right: 0;
   left: 700px;
   @media only screen and (max-width: 1200px) {
     left: 550px;
@@ -139,8 +135,8 @@ $resp_cardResultsThreshold: 920px;
   @media only screen and (max-width: 1024px) {
     top: 56px;
   }
-  &.map-notused{
-    &:before{
+  &.map-notused {
+    &:before {
       content: "";
       z-index: 1;
       position: absolute;
@@ -151,7 +147,7 @@ $resp_cardResultsThreshold: 920px;
       opacity: 0.4;
       background: black;
     }
-    &:after{
+    &:after {
       content: "Map disabled for this search";
 
       box-sizing: border-box;
@@ -167,7 +163,7 @@ $resp_cardResultsThreshold: 920px;
       width: 160px;
       margin-left: -80px;
 
-      text-align:center;
+      text-align: center;
       color: #fff;
       font-weight: 900;
 
@@ -181,9 +177,9 @@ $resp_cardResultsThreshold: 920px;
 
 @media only screen and (max-width: 800px) {
 
-  $mapHeightCollapsed : 70px;
+  $mapHeightCollapsed: 70px;
   $filtersContainerHeight: 48px;
-  #map{
+  #map {
     position: relative;
     top: $filtersContainerHeight; //filters (and only filters bc position: relative)
     height: $mapHeightCollapsed;
@@ -193,34 +189,34 @@ $resp_cardResultsThreshold: 920px;
     .mobile-cover {
       display: block;
     }
-    .leaflet-control-zoom{
+    .leaflet-control-zoom {
       display: none;
     }
     &.is-opened {
-      position:absolute;
+      position: absolute;
       bottom: auto;
-      .mobile-cover{
-        display: none  !important;
+      .mobile-cover {
+        display: none !important;
       }
 
-      .leaflet-control-zoom{
+      .leaflet-control-zoom {
         display: inherit;
       }
     }
-    &.map-notused{
+    &.map-notused {
       display: none;
     }
   }
 
-  .mobile-cover{
+  .mobile-cover {
     display: block !important;
   }
 
-  .l-searchPage{
+  .l-searchPage {
     margin-top: $filtersContainerHeight;
   }
 
-  &.search-page,.l-searchPage,.filters{
+  &.search-page, .l-searchPage, .filters {
     max-width: 100%;
   }
 
@@ -228,9 +224,9 @@ $resp_cardResultsThreshold: 920px;
     padding-bottom: 16px;
     background-color: white;
 
-    > .card{
+    > .card {
       display: inline-block;
-      vertical-align:top;
+      vertical-align: top;
     }
     .bullets {
       display: block;

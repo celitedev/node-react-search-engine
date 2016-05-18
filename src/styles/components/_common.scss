@@ -1,10 +1,10 @@
 @mixin box-shadow($params) {
-  -webkit-box-shadow:$params;
+  -webkit-box-shadow: $params;
   -moz-box-shadow: $params;
   box-shadow: $params;
 }
 
-@mixin curtain(){
+@mixin curtain() {
   content: "";
   position: absolute;
   margin: 0 auto;
@@ -15,30 +15,29 @@
   top: 0;
 }
 
-
 //Add this modifier to wrap an image around the card on smaller displays so the image is 100% the viewport.
 //
 //USAGE:
 //- answer page / detail page
-@mixin m-card-imgBackdrop(){
+@mixin m-card-imgBackdrop() {
 
-  .card--media{
+  .card--media {
     padding-top: 9/21 * 100%; //21:9
   }
 
-  .card--inner{
-      margin-top: 90px; //emperical
-      margin-top: calc(9/21 * 100% - 54px); //54px = emperical
-    }
+  .card--inner {
+    margin-top: 90px; //emperical
+    margin-top: calc(9 / 21 * 100% - 54px); //54px = emperical
+  }
 
-  .card--media{
+  .card--media {
     $pull: -8px; //pull
     left: $pull;
     position: absolute;
     right: $pull;
   }
 
-  .card--inner{
+  .card--inner {
     //show card--inner on top of image if latter is displayed as backdrop
     position: relative;
     z-index: 1;

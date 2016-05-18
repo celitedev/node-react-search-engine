@@ -5,7 +5,7 @@
   color: white;
   margin-left: 4px;
   background-color: $c_gr100;
-  &:active{
+  &:active {
     background-color: darken($c_gr100, 10%);
   }
 }

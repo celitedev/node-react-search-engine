@@ -51,19 +51,19 @@
     text-decoration: none;
   }
 
-  .m-card-imgRight{
+  .m-card-imgRight {
     @media (max-width: 479px) {
-      &.m-card-imgBackdropOnAnswerAndSmallScreen{
+      &.m-card-imgBackdropOnAnswerAndSmallScreen {
         @include m-card-imgBackdrop;
-        .card--media{
+        .card--media {
           padding-top: 9/21 * 100%; //21:9
           max-width: inherit;
           width: inherit;
         }
-        &.m-card-imgBackdrop{
-          .card--inner{
+        &.m-card-imgBackdrop {
+          .card--inner {
             margin-top: 90px; //emperical
-            margin-top: calc(9/21 * 100% - 54px); //54px = emperical
+            margin-top: calc(9 / 21 * 100% - 54px); //54px = emperical
           }
         }
       }
@@ -71,7 +71,6 @@
   }
 
 }
-
 
 nav.timeline {
   background-color: $c_gr_dark;

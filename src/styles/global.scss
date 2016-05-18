@@ -1,26 +1,20 @@
 // bower:scss
 // endbower
-
 /////////////////////////////////////////////////////////////////
 //WE FOLLOW CSS CONVENTIONS IS CONCISELY OUTLINED IN
 //https://gist.github.com/wrumsby/8908260
 ////////////////////////////////////////////////////////////////////
-
-
 //////////////////////////////
 //IMPORT MATIARL DESIGN LITE
-
 /* Site settings */
-@import "site-settings"; //Our own defaults. Material Design Lite doesn't overwrite these. Neat.
-
+@import "site-settings";
+//Our own defaults. Material Design Lite doesn't overwrite these. Neat.
 // Variables and mixins
 @import "../../node_modules/material-design-lite/src/variables";
 @import "../../node_modules/material-design-lite/src/mixins";
-
 // Resets and dependencies
 @import "../../node_modules/material-design-lite/src/resets/resets";
 @import "../../node_modules/material-design-lite/src/typography/typography";
-
 // Components
 @import "../../node_modules/material-design-lite/src/palette/palette";
 // @import "../../node_modules/material-design-lite/src/ripple/ripple";
@@ -45,10 +39,8 @@
 @import "../../node_modules/material-design-lite/src/tooltip/tooltip";
 @import "../../node_modules/material-design-lite/src/shadow/shadow";
 @import "../../node_modules/material-design-lite/src/grid/grid";
-
 /* Base */
 @import "base";
-
 /* components */
 @import "components/card";
 @import "components/common";
@@ -58,20 +50,15 @@
 @import "components/searchBox";
 @import "components/filters";
 @import "components/map";
-
 /* Layouts / container components*/
 @import "layout/cardgrid";
 @import "layout/cardCarousel";
-
-
 /* Page layouts */
 @import "layout/header";
 @import "layout/answerPage";
 @import "layout/searchPage";
 @import "layout/detailPage";
 @import "layout/questionPage";
-
-
 /* modifiers  (after layouts, because layouts may have modifiers too) */
 @import "modifiers/cardModifiers";
 @import "modifiers/cardResults";
@@ -120,14 +107,17 @@
 .listClassReorder {
 
 }
+
 .itemClassReorder {
 
 }
+
 .itemClassReorder.dragged {
   z-index: 1;
-  opacity:0.7;
+  opacity: 0.7;
   border: 1px solid teal;
 }
+
 .itemClassReorder.placeholder {
   visibility: hidden;
 }
@@ -141,7 +131,7 @@
   margin-bottom: 30px;
 }
 
-.slick-slide  {
+.slick-slide {
   max-height: 200px;
 }
 
@@ -155,5 +145,5 @@
 }
 
 .infinite-grid .item {
-  width:100%;
+  width: 100%;
 }

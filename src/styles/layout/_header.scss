@@ -11,7 +11,6 @@ header.mdl-layout__header {
     cursor: pointer;
   }
 
-
   .back {
     width: 70px;
     background: url("../images/next.png") no-repeat;
@@ -42,15 +41,15 @@ header.mdl-layout__header {
   background-size: 165px;
 }
 
-.mdl-layout__header{
+.mdl-layout__header {
   display: flex !important; //don't hide on small. Auto by mdl
 
-  .search-field{ //layout like setting margin when searchbox in navbar
+  .search-field { //layout like setting margin when searchbox in navbar
     margin-left: 12px;
-    flex-grow:1;
+    flex-grow: 1;
     flex-basis: 0;
 
-    > div{
+    > div {
       min-width: 0;
       max-height: 43px;
     }
@@ -64,11 +63,11 @@ header.mdl-layout__header {
 }
 
 //account icon navigation
-.profile{
-  &--nav{
+.profile {
+  &--nav {
     opacity: 1;
   }
-  &--icon{
+  &--icon {
     font-size: 36px;
   }
 }

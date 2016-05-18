@@ -10,14 +10,14 @@ $marginHor: 12px;
 
   background: white;
 
-  box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,0.15); //oeew subtle
+  box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.15); //oeew subtle
   border-radius: 4px;
 
   //flex for media-object behavior. I.e.: also on multiline
   display: flex;
   align-items: flex-start;
 
-  > span.searchIcon{
+  > span.searchIcon {
     //mediaObject
 
     margin-top: 6px;
@@ -31,7 +31,7 @@ $marginHor: 12px;
 
   }
 
-  > div{
+  > div {
     flex: 1;
 
     outline: 0px solid transparent; //contenteditable outline
@@ -44,7 +44,7 @@ $marginHor: 12px;
     min-width: 320px - (2 * $marginHor) - 32px - 8px; //minus search icon etc
     max-width: 1200px;
     //on smaller screen, go full screen
-    @media screen and (max-width:540px) {
+    @media screen and (max-width: 540px) {
       max-width: 100%;
     }
 
@@ -55,19 +55,19 @@ $marginHor: 12px;
     padding: 6px 12px 4px 8px;
 
   }
-  [contenteditable=true]:empty:before{
-  content: attr(placeholder);
-  display: block; /* For Firefox */
-}
+  [contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    display: block; /* For Firefox */
+  }
 }
 
 //home page overwrites
-.js-index{
-  .l-searchbox{
+.js-index {
+  .l-searchbox {
     display: inline-block;
     padding: 12px;
   }
-  .search-field > div{
+  .search-field > div {
 
     max-width: 500px;
 

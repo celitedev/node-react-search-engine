@@ -9,43 +9,43 @@
 //
 //USAGE: RESULTS PAGE
 
-.m-card-results{
+.m-card-results {
 
-    //a card-results always fuses headsup + databits
-    @extend .m-card-fuse;
+  //a card-results always fuses headsup + databits
+  @extend .m-card-fuse;
 
-    //push a bit to the side. Normally indent = 16px;
-    .card--menu{
-        right: 8px;
-        top: 8px;
-    }
+  //push a bit to the side. Normally indent = 16px;
+  .card--menu {
+    right: 8px;
+    top: 8px;
+  }
 
-    .card{
-        overflow: visible; //for card to overlay border - redundant but just to make clear
-        margin-bottom: 0;
-        margin-top:0;
-        box-shadow:none;
-        border: 1px solid #e5e5e5;
-        border-bottom: 0 none;
-        border-radius: 0;
-        &:last-child{
-            border-bottom: 1px solid #e5e5e5;
-        }
+  .card {
+    overflow: visible; //for card to overlay border - redundant but just to make clear
+    margin-bottom: 0;
+    margin-top: 0;
+    box-shadow: none;
+    border: 1px solid #e5e5e5;
+    border-bottom: 0 none;
+    border-radius: 0;
+    &:last-child {
+      border-bottom: 1px solid #e5e5e5;
     }
-    &.m-card-imgLeft, &.m-card-imgRight{
-        .card--media{
-            margin: 8px 0;
-        }
+  }
+  &.m-card-imgLeft, &.m-card-imgRight {
+    .card--media {
+      margin: 8px 0;
     }
-    &.m-card-imgLeft{
-        .card--media{
-            margin-left: -1px;
-        }
+  }
+  &.m-card-imgLeft {
+    .card--media {
+      margin-left: -1px;
     }
-    &.m-card-imgRight{
-        .card--media{
-            margin-right: -1px;
-        }
+  }
+  &.m-card-imgRight {
+    .card--media {
+      margin-right: -1px;
     }
+  }
 }
 
