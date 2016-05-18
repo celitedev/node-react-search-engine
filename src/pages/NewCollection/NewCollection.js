@@ -2,12 +2,9 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import _ from 'lodash';
-
 import {page} from '../page';
-
 import {API_REQUEST} from '../../actionTypes';
-import { saveCollectionInfo } from '../../actions';
-
+import {saveCollectionInfo} from '../../actions';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
@@ -19,10 +16,8 @@ function collection(state) {
 }
 
 @page('NewCollection', collection, {saveCollectionInfo})
-export default class Index extends PureComponent {
-  constructor(props, context) {
-    super();
-  }
+export default class NewCollection extends PureComponent {
+
   static fetchData({dispatch, params}) {
     return {
       collection: dispatch({
@@ -34,14 +29,14 @@ export default class Index extends PureComponent {
     };
   }
 
-  writeToStorage(collection) {
+  saveCollection(collection) {
     this.props.saveCollectionInfo({...collection});
   }
 
   render() {
-    const {data, loading, showPlaceholders, savedCollectionInfo, params} = this.props;
+    const {data, loading, savedCollectionInfo, params} = this.props;
     if (data && savedCollectionInfo.id !== data.collection.id) {
-      this.writeToStorage(data.collection);
+      this.saveCollection(data.collection);
     }
     if (loading || (!_.isEmpty(params) && !savedCollectionInfo.id)) {
       return <div>Loading...</div>;

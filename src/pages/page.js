@@ -1,14 +1,14 @@
 import React from 'react';
-import { pushState } from 'redux-router';
+import {pushState} from 'redux-router';
 import _ from 'lodash';
 
-import { connect } from 'redux-simple';
+import {connect} from 'redux-simple';
 
 import {
   PAGE_PREFIX,
   makeTriplet
 } from '../actionTypes';
-import { pageReducer, pageReducers } from '../reducers/pages';
+import {pageReducer, pageReducers} from '../reducers/pages';
 import mergePromise from '../utils/mergePromise';
 
 export const pagePropTypes = {

@@ -1,8 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import classnames from 'classnames';
 import {page} from '../page';
-
 import Header from '../../components/Common/Header.js';
 import DetailsContent from '../../components/Details/Details';
 import {API_REQUEST} from '../../actionTypes';
@@ -18,14 +16,19 @@ export default class Details extends PureComponent {
       })
     };
   }
+
   render() {
-    const {data, loaded} = this.props;
+    const {data, loaded, params} = this.props;
     return (
       <div className='mdl-layout__container'>
-      <div className='mdl-layout mdl-js-layout'>
-        <Header />
-        <DetailsContent answer={data}/>
-      </div>
+        <div className='mdl-layout mdl-js-layout'>
+          <Header params={params}/>
+          {loaded && (
+            <DetailsContent params={params} answer={data}/>
+          ) || (
+            <h3>Loading...</h3>
+          )}
+        </div>
       </div>
     );
   }

@@ -1,9 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import classnames from 'classnames';
-
 import {page} from '../page';
-
 import MyCollections from '../../components/MyCollections';
 import {API_REQUEST} from '../../actionTypes';
 
@@ -22,7 +19,7 @@ export default class Index extends PureComponent {
   render() {
     const {data, loaded} = this.props;
     return (
-      <div className={classnames(styles.background)}>
+      <div className={styles.background}>
         <MyCollections collections={loaded && data.collections || []}/>
       </div>
     );
