@@ -1,10 +1,10 @@
 /* eslint no-console: 0 */
 import _ from 'lodash';
 
-const debug = require('debug')('tutor:logger');
+const debug = require('debug')('kwhen:logger');
 
 export default store => next => action => {
-  const { type, ...rest } = action;
+  const {type, ...rest} = action;
   let succeed = false;
   if (type && type.substring(0, 2) !== '@@' && type.substring(0, 7) !== 'EFFECT_') {
     if (console.group) {

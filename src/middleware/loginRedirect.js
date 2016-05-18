@@ -16,7 +16,7 @@ export default store => next => action => {
       }
     }
     if (loginRequired) {
-      const { authenticated } = store.getState().auth;
+      const {authenticated} = store.getState().auth;
       if (!authenticated) {
         store.dispatch({
           type: REDIRECT,

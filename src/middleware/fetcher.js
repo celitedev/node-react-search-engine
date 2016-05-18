@@ -5,11 +5,11 @@ import {
   ENABLE_FETCHER
 } from '../actionTypes';
 
-const debug = require('debug')('tutor:fetcher');
+const debug = require('debug')('kwhen:fetcher');
 
 function varyOn(state) {
-  const { components, params, location: { query, pathname } } = state.router || { location: {} };
-  return { components, params, query, pathname };
+  const {components, params, location: {query, pathname}} = state.router || {location: {}};
+  return {components, params, query, pathname};
 }
 
 function getPageConfig(comp, state) {

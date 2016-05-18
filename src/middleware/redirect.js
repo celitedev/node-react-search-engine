@@ -1,5 +1,5 @@
-import { getHistory } from '../history';
-import { REDIRECT } from '../actionTypes';
+import {getHistory} from '../history';
+import {REDIRECT} from '../actionTypes';
 
 export default () => next => action => {
   if (action.type === REDIRECT) {
