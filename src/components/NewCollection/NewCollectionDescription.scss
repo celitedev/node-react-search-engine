@@ -3,7 +3,7 @@
 .root {
   .formLayout {
     margin: auto;
-    .formInput{
+    .formInput {
       margin-bottom: 0;
       padding-top: 0;
       label {
@@ -22,10 +22,10 @@
     }
   }
   .formPlaceholder {
-      border: 1px dashed;
-      input {
-        border-bottom: none;
-      }
+    border: 1px dashed;
+    input {
+      border-bottom: none;
+    }
   }
   .filledInput {
     border: none;

@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Paggination from './Widgets/Paggination';
-import { Link } from 'react-router';
+import {Link} from 'react-router';
 
 function paginate(data = [], o) {
   // adapt to zero indexed logic
@@ -47,7 +47,7 @@ export default class MyCollections extends PureComponent {
     const {collections} = this.props;
     const {pagination} = this.state;
     return (
-      <ul className={styles.root + ' mdl-list'}>
+      <ul className={classnames(styles.root, 'mdl-list')}>
         <div className='mdl-card__title'>
           <h2 className='mdl-card__title-text'>My collections</h2>
         </div>
@@ -55,33 +55,33 @@ export default class MyCollections extends PureComponent {
                      page={pagination.page}
                      perPage={pagination.perPage}
                      selectPage={(page) => ::this.selectPage(page)}>
-        {paginate(collections, pagination).data.map((c, i) => (
-        <li key={i} className='mdl-list__item'>
-          <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
-            <div className='mdl-card__title'>
-              <h4 className='mdl-card__title-text'>
-                <Link to={`collections/${c.id}`}>
-                  {c.title}
-                </Link>
-              </h4>
-            </div>
-            {c.cards.map((card, i) => (
-            <div key={i} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
-              <div className='mdl-card__title'>
-                <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
-              </div>
-              <div className={styles.cardImage}>
-                <img className={styles.cardImg} src='http://placehold.it/350x150'/>
-              </div>
-              <div className={classnames('mdl-card__supporting-text', styles.cardInfo)}>
-                {card.description}
-              </div>
-            </div>
-            ))}
+          {paginate(collections, pagination).data.map((c, i) => (
+            <li key={i} className='mdl-list__item'>
+              <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
+                <div className='mdl-card__title'>
+                  <h4 className='mdl-card__title-text'>
+                    <Link to={`collections/${c.id}`}>
+                      {c.title}
+                    </Link>
+                  </h4>
+                </div>
+                {c.cards.map((card, i) => (
+                  <div key={i} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
+                    <div className='mdl-card__title'>
+                      <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
+                    </div>
+                    <div className={styles.cardImage}>
+                      <img className={styles.cardImg} src='http://placehold.it/350x150'/>
+                    </div>
+                    <div className={classnames('mdl-card__supporting-text', styles.cardInfo)}>
+                      {card.description}
+                    </div>
+                  </div>
+                ))}
 
-          </div>
-        </li>
-        ))}
+              </div>
+            </li>
+          ))}
         </Paggination>
       </ul>
 

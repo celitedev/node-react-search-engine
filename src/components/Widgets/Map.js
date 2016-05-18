@@ -5,6 +5,8 @@ import {connect} from 'redux-simple';
 import _ from 'lodash';
 import config from '../../config.js';
 
+const debug = require('debug')('app:map');
+
 let L;
 if (!process.env.SERVER_RENDERING) {
   L = require('mapbox.js');
@@ -21,55 +23,79 @@ export default class Map extends PureComponent {
     super();
     this.map = null;
     this.state = {
-      oldMarker: null,
-      defaultView: [[
+      viewPoint: props.setView || [[
         40.735654,
         -73.990382
-      ], 13]
+      ], 13],
+      oldMarker: null
     };
   }
 
   componentDidMount() {
-    const {options, setView, zoomControls, multipleMarkers} = this.props;
+    const {multipleMarkers} = this.props;
+    this.initMap();
+    this.showMarkers(multipleMarkers);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.multipleMarkers.length !== this.props.multipleMarkers.length) {
+      debug('Map new props');
+      this.showMarkers(nextProps.multipleMarkers);
+    }
+  }
+
+  initMap() {
+    const {options, zoomControls} = this.props;
     const container = findDOMNode(this.refs.map);
     const {accessToken, kwhenMapId} = config.mapbox;
-    const view = setView ? setView : this.state.defaultView;
-    function iconParams (index) {
-      return {
-        className: 'css-icon',
-        iconSize: [40, 40],
-        html: `<i>${index}</i>`
-      };
-    }
+    const {viewPoint} = this.state;
+
     L.mapbox.accessToken = accessToken;
-    this.map = L.mapbox.map(container, kwhenMapId, options).setView([...view], 13);
+    this.map = L.mapbox.map(container, kwhenMapId, options).setView([...viewPoint], 13);
 
     if (zoomControls) {
       const zoomCtrl = new L.Control.Zoom({
         ...zoomControls
       }).addTo(this.map);
     }
-    if (multipleMarkers) {
+  }
+
+  showMarkers(multipleMarkers) {
+    const {viewPoint} = this.state;
+
+    function iconParams(index) {
+      if (!_.isUndefined(index)) {
+        return {
+          className: 'css-icon',
+          iconSize: [40, 40],
+          html: index + 1
+        };
+      }
+      return {
+        className: 'css-icon-detail',
+        iconSize: [32, 32]
+      };
+    }
+
+    if (multipleMarkers && multipleMarkers.length > 1) {
       _.map(multipleMarkers, (marker, index) => {
+        const geo = marker.raw.geo;
+        if (!geo) {
+          return;
+        }
         L.marker([
-          marker.raw.geo.latitude,
-          marker.raw.geo.longitude,
+          geo.latitude,
+          geo.longitude
         ], {
           icon: L.divIcon(iconParams(index))
         }).addTo(this.map);
       });
     } else {
-      const marker = L.marker([
-        ...view
+      L.marker([
+        ...viewPoint
       ], {
-        icon: L.divIcon(iconParams)
+        icon: L.divIcon(iconParams())
       }).addTo(this.map);
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.searchResults !== this.props.searchResults) {
-      console.log('Map new props');
     }
   }
 
@@ -77,8 +103,8 @@ export default class Map extends PureComponent {
     const {className, id, children} = this.props;
     return (
       <div ref='map' id={id} className={className}>
-          <div className='mobile-cover'></div>
-          <div className='back-to-list'></div>
+        <div className='mobile-cover'></div>
+        <div className='back-to-list'></div>
       </div>
     );
   }

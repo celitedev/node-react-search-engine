@@ -1,8 +1,7 @@
 import React from 'react';
-import PureComponent from '../../../node_modules/react-pure-render/component';
+import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
-import _ from 'lodash';
 import {getCards, addCardToCollection, getCardsSuggestions, deleteCardFromCollection} from '../../actions';
 import {Button} from 'react-mdl';
 import 'material-design-icons';
@@ -16,7 +15,7 @@ if (!process.env.SERVER_RENDERING) {
 const debug = require('debug')('app:cardsSearch');
 
 function searchedCards(state) {
-  const { savedCollectionInfo } = state.collection;
+  const {savedCollectionInfo} = state.collection;
   return {savedCollectionInfo};
 }
 
@@ -52,7 +51,7 @@ export default class CollectionCardSearch extends PureComponent {
   }
 
   async makeSuggestionRequest(value) {
-    const { getCardsSuggestions } = this.props;
+    const {getCardsSuggestions} = this.props;
     try {
       debug('Start cards search:', this.props);
       const cardsSuggestions = await getCardsSuggestions({value});
@@ -62,6 +61,7 @@ export default class CollectionCardSearch extends PureComponent {
       debug('Error with search card query:', err);
     }
   }
+
   async getSuggestions(value) {
     await this.makeSuggestionRequest(value);
     return this.makeSuggestionRequest(value);
@@ -75,7 +75,7 @@ export default class CollectionCardSearch extends PureComponent {
     return section.cards;
   }
 
-  async onSuggestionsUpdateRequested({ value }) {
+  async onSuggestionsUpdateRequested({value}) {
     const suggestions = await this.getSuggestions(value);
     debug('got suggestions', suggestions);
     const isInputBlank = value.trim() === '';
@@ -101,7 +101,7 @@ export default class CollectionCardSearch extends PureComponent {
     this.setState({cards});
   }
 
-  searchCreteriaChange(event, { newValue, method }) {
+  searchCreteriaChange(event, {newValue, method}) {
     this.setState({
       value: newValue
     });
@@ -125,7 +125,8 @@ export default class CollectionCardSearch extends PureComponent {
       <div className={classnames(className, styles.root)}>
         <div id='cardsDialogStickyHeader'>
           <form onsubmit={::this.searchResults}>
-            <div className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
+            <div
+              className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
               <input className={classnames('mdl-textfield__input', styles.filterInput)}
                      type='text'
                      id='filter'
@@ -136,13 +137,18 @@ export default class CollectionCardSearch extends PureComponent {
               <label htmlFor='filter' className={styles.selectBoxLabel}>
                 <i className='mdl-icon-toggle__label material-icons'>keyboard_arrow_down</i>
               </label>
-                <ul htmlFor='filter' className='mdl-menu mdl-menu--bottom-left mdl-js-menu'>
-                  <li className='mdl-menu__item' value='all' onClick={() => this.changeFilter('all')}>All types</li>
-                  <li className='mdl-menu__item' value='happening' onClick={() => this.changeFilter('happening')}>Happening</li>
-                  <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('place')}>Place</li>
-                  <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative')}>Creative work</li>
-                  <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('person')}>Person/Group</li>
-                </ul>
+              <ul htmlFor='filter' className='mdl-menu mdl-menu--bottom-left mdl-js-menu'>
+                <li className='mdl-menu__item' value='all' onClick={() => this.changeFilter('all')}>All types</li>
+                <li className='mdl-menu__item' value='happening' onClick={() => this.changeFilter('happening')}>
+                  Happening
+                </li>
+                <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('place')}>Place</li>
+                <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative')}>Creative
+                  work
+                </li>
+                <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('person')}>Person/Group
+                </li>
+              </ul>
             </div>
             <Autosuggest multiSection={true}
                          suggestions={suggestions}
@@ -151,18 +157,17 @@ export default class CollectionCardSearch extends PureComponent {
                          renderSuggestion={renderSuggestion}
                          renderSectionTitle={renderSectionTitle}
                          getSectionSuggestions={::this.getSectionSuggestions}
-                         inputProps={searchFieldProps} />
+                         inputProps={searchFieldProps}/>
             <Button
               className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect', styles.extraFiltersBtn)}
               onClick={::this.searchResults}>
               Show Cards
             </Button>
-            {
-              noSuggestions &&
+            {noSuggestions && (
               <div className='no-suggestions'>
                 No suggestions
               </div>
-            }
+            )}
           </form>
         </div>
         <CardsList cardTypes={cardTypes} cards={cards} filter={filter}/>

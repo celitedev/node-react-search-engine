@@ -1,7 +1,7 @@
 import React from 'react';
-import PureComponent from '../../../node_modules/react-pure-render/component';
-import { connect } from 'redux-simple';
-import { switchAddCardModal } from '../../actions';
+import PureComponent from 'react-pure-render/component';
+import {connect} from 'redux-simple';
+import {switchAddCardModal} from '../../actions';
 import classnames from 'classnames';
 
 import {Dialog, Button, DialogContent} from 'react-mdl';
@@ -10,15 +10,15 @@ import 'material-design-icons';
 import CollectionCardSearch from './CollectionCardSearch';
 
 function modal(state) {
-  const { addCardModal } = state.collection;
-  return { addCardModal };
+  const {addCardModal} = state.collection;
+  return {addCardModal};
 }
 
-@connect(modal, { switchAddCardModal })
+@connect(modal, {switchAddCardModal})
 export default class CollectionAddCardDialog extends PureComponent {
 
   render() {
-    const { addCardModal, switchAddCardModal } = this.props;
+    const {addCardModal, switchAddCardModal} = this.props;
     return (
       <div className={styles.dialog}>
         <Dialog id='cardsDialogModal' open={addCardModal} className={styles.dialogBody}>
@@ -33,7 +33,8 @@ export default class CollectionAddCardDialog extends PureComponent {
           </DialogContent>
           <DialogContent className={styles.dialogFooter}>
 
-            <Button className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect')} onClick={switchAddCardModal}>
+            <Button className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect')}
+                    onClick={switchAddCardModal}>
               Done
             </Button>
           </DialogContent>

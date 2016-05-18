@@ -1,28 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import PureComponent from 'react-pure-render/component';
-import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
-import { Link } from 'react-router';
-import _ from 'lodash';
-import classnames from 'classnames';
-import config from '../../config.js';
-
 import Card from '../Cards/Card';
 import Map from '../Widgets/Map';
 import CardsCarousel from '../Cards/CardsCarousel';
 
 export default class Details extends PureComponent {
-  constructor(props, context) {
-    super();
-  }
 
   render() {
-    const {answer} = this.props;
+    const {answer, params} = this.props;
     const {latitude, longitude} = answer.result.raw.geo;
     const carouselSettings = {
       slidesToShow: 2,
-      slidesToScroll: 2,
+      slidesToScroll: 2
     };
     const mapOptions = {
       scrollWheelZoom: false,
@@ -37,7 +27,8 @@ export default class Details extends PureComponent {
         <div className='page-content'>
           <div className='l-detailPage'>
             <div className='l-detailPage--cardContainer'>
-              <Card ref='card' className='card card--detail m-card-imgTopWide  m-card-imgBackdrop  has-map no-link' data={answer.result}>
+              <Card ref='card' className='card card--detail m-card-imgTopWide  m-card-imgBackdrop  has-map no-link'
+                    data={answer.result}>
                 <Map className='card--mediaDetail card--mediaDetail-do-show' options={mapOptions} setView={setMapView}/>
               </Card>
             </div>
@@ -101,7 +92,8 @@ export default class Details extends PureComponent {
                       Details
                     </div>
                     <div>
-                      Apple retail store some text some text some text some text some text some text some text some text some text some text some text some text some text some text some text some text some text
+                      Apple retail store some text some text some text some text some text some text some text some text
+                      some text some text some text some text some text some text some text some text some text
                     </div>
                   </div>
                 </div>
@@ -121,7 +113,8 @@ export default class Details extends PureComponent {
                 <div className='relatedcards--container'>
                   <div className='relatedcards--hover'>&nbsp;</div>
                   <div id='js-carouselContainer' className='relatedcards'>
-                    <CardsCarousel settings={carouselSettings} cardsStyle={styles.sliderCard} results={answer}/>
+                    <CardsCarousel settings={carouselSettings} question={params.question} cardsStyle={styles.sliderCard}
+                                   results={answer}/>
                   </div>
                 </div>
               </div>

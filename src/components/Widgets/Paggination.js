@@ -1,7 +1,6 @@
 import React from 'react';
-import PureComponent from '../../../node_modules/react-pure-render/component';
+import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import _ from 'lodash';
 import Paginator from 'react-pagify';
 import segmentize from 'segmentize';
 import 'material-design-icons';
@@ -30,23 +29,23 @@ export default class Paggination extends PureComponent {
                              endPages: 1,
                              sidePages: 2
                            })} onSelect={selectPage} ellipsis={'…'}>
-          <Paginator.Segment field='beginPages' />
+          <Paginator.Segment field='beginPages'/>
 
           <Paginator.Ellipsis className='ellipsis'
                               previousField='beginPages' nextField='previousPages'>
             ***
           </Paginator.Ellipsis>
 
-          <Paginator.Segment field='previousPages' />
-          <Paginator.Segment field='centerPage' className='selected' />
-          <Paginator.Segment field='nextPages' />
+          <Paginator.Segment field='previousPages'/>
+          <Paginator.Segment field='centerPage' className='selected'/>
+          <Paginator.Segment field='nextPages'/>
 
           <Paginator.Ellipsis className='ellipsis'
                               previousField='nextPages' nextField='endPages'>
             ***
           </Paginator.Ellipsis>
 
-          <Paginator.Segment field='endPages' />
+          <Paginator.Segment field='endPages'/>
         </Paginator.Context>
       </div>
     );

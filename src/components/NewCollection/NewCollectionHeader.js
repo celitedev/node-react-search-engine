@@ -3,9 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect} from '../../actions';
 import {connect} from 'redux-simple';
-import { Link } from 'react-router';
-
-import {Textfield} from 'react-mdl';
+import {Link} from 'react-router';
 import MediumEditor from 'react-medium-editor';
 import 'material-design-icons';
 
@@ -36,10 +34,7 @@ export default class NewCollectionHeader extends PureComponent {
 
   validateCollection() {
     const col = this.props.savedCollectionInfo;
-    if (col.name && col.title && col.description && col.cards.length > 1) {
-      return false;
-    }
-    return true;
+    return !(col.name && col.title && col.description && col.cards.length > 1);
   }
 
   async saveCollection() {
@@ -68,7 +63,7 @@ export default class NewCollectionHeader extends PureComponent {
               My Collections
             </Link>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
-            { savedCollectionInfo ?
+            {savedCollectionInfo && (
               <MediumEditor
                 className={styles.mediumEdit}
                 tag='p'
@@ -81,8 +76,9 @@ export default class NewCollectionHeader extends PureComponent {
                     hideOnClick: true
                   }}}
               />
-              : <span className={styles.myColName}>{name}</span>
-            }
+            ) || (
+              <span className={styles.myColName}>{name}</span>
+            )}
             <span
               className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection() ? styles.error : styles.accept)}>
               {label}
