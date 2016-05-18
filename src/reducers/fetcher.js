@@ -1,4 +1,4 @@
-import { FETCHER_START, FETCHER_SUCCESS, FETCHER_FAILURE } from '../actionTypes';
+import {FETCHER_START, FETCHER_SUCCESS, FETCHER_FAILURE} from '../actionTypes';
 
 const DEFAULT_STATE = {
   loading: false,
@@ -9,13 +9,13 @@ const DEFAULT_STATE = {
 
 export default function fetcher(state = DEFAULT_STATE, action = {}) {
   switch (action.type) {
-  case FETCHER_START:
-    return { ...state, loading: true, pending: state.pending + 1 };
-  case FETCHER_FAILURE:
-    return { ...state, loading: state.pending > 1, pending: state.pending - 1, error: action.error };
-  case FETCHER_SUCCESS:
-    return { ...state, state: action.state, loading: state.pending > 1, pending: state.pending - 1 };
-  default:
-    return state;
+    case FETCHER_START:
+      return {...state, loading: true, pending: state.pending + 1};
+    case FETCHER_FAILURE:
+      return {...state, loading: state.pending > 1, pending: state.pending - 1, error: action.error};
+    case FETCHER_SUCCESS:
+      return {...state, state: action.state, loading: state.pending > 1, pending: state.pending - 1};
+    default:
+      return state;
   }
 }

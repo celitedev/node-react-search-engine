@@ -1,4 +1,4 @@
-import { update } from '../utils/updateIn';
+import {update} from '../utils/updateIn';
 
 export const RESET_STORE = Symbol('RESET_STORE');
 
@@ -14,7 +14,7 @@ export default function createStore(defaultState, handlers, finalizer = x => x) 
         if (result === null && typeof result === 'object') {
           return state;
         }
-        return finalizer({ ...state, ...result });
+        return finalizer({...state, ...result});
       }
     }
     return state;

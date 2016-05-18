@@ -1,6 +1,5 @@
-import createStore, { RESET_STORE } from './createStore';
+import createStore from './createStore';
 import _ from 'lodash';
-
 import {
   CREATE_COLLECTION,
   UPDATE_COLLECTIION,
@@ -56,13 +55,13 @@ export default createStore({
     return {addCardModal: !state.addCardModal};
   },
   [ADD_CARD_TO_COLLECTION]: (state, action) => {
-    const updatedCollection = [ Object.assign({}, action.card, { collectionId: action.collectionId }), ...state.savedCollectionInfo.cards];
+    const updatedCollection = [Object.assign({}, action.card, {collectionId: action.collectionId}), ...state.savedCollectionInfo.cards];
     return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: updatedCollection})};
   },
 
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
     const collection = state.savedCollectionInfo;
-    return { savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, { cards: _.filter(collection.cards, (item) => item.id !== action.cardId ) } ) };
+    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.id !== action.cardId)})};
   }
 
 });

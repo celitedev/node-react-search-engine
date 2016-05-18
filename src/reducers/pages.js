@@ -1,4 +1,4 @@
-import { makeTriplet } from '../actionTypes';
+import {makeTriplet} from '../actionTypes';
 import createStore from '../reducers/createStore';
 
 export function pageReducer(name) {
@@ -10,9 +10,9 @@ export function pageReducer(name) {
     data: null,
     error: null
   }, {
-    [START]: () => ({ loaded: false, loading: true, data: null, error: null }),
-    [SUCCESS]: (state, action) => ({ loaded: true, loading: false, data: action.payload, error: null }),
-    [FAILURE]: (state, action) => ({ loaded: false, loading: false, data: null, error: action.error })
+    [START]: () => ({loaded: false, loading: true, data: null, error: null}),
+    [SUCCESS]: (state, action) => ({loaded: true, loading: false, data: action.payload, error: null}),
+    [FAILURE]: (state, action) => ({loaded: false, loading: false, data: null, error: action.error})
   });
 }
 
