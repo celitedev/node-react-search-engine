@@ -27,8 +27,6 @@ import createHistory from './history';
 
 import 'material-design-lite';
 
-import config from './config';
-
 const middlewares = [
   thunk,
   triplet,

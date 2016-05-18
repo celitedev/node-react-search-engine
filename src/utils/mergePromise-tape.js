@@ -9,7 +9,7 @@ test('mergePromise', t => {
     foo: Promise.resolve('bar'),
     spam: Promise.resolve('eggs')
   }).then(res => {
-    t.deepEqual(res, { foo: 'bar', spam: 'eggs' });
+    t.deepEqual(res, {foo: 'bar', spam: 'eggs'});
   }).catch(() => {
     t.fail();
   });

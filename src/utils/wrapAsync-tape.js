@@ -8,11 +8,11 @@ test('wrapAsync', t => {
   let step = 0;
 
   const states = [
-    { loading: true, error: null },
-    { loading: false },
-    { loading: true, error: null },
-    { error: 'fail' },
-    { loading: false }
+    {loading: true, error: null},
+    {loading: false},
+    {loading: true, error: null},
+    {error: 'fail'},
+    {loading: false}
   ];
 
   class ComponentMock {

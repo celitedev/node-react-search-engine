@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, IndexRoute, Redirect } from 'react-router';
+import {Route, IndexRoute, Redirect} from 'react-router';
 
 export default (
   <Route path='/' component={require('./components/layouts/BaseLayout')}>
@@ -10,10 +10,10 @@ export default (
     <Route path='/answer/:question' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Answer/Answer')}/>
     </Route>
-    <Route path='/details/:id' component={require('./components/layouts/AdvancedLayout')}>
+    <Route path='/details/:question/:id' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Details/Details')}/>
     </Route>
-    <Route path='/search' component={require('./components/layouts/AdvancedLayout')}>
+    <Route path='/search/:question' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Search/Search')}/>
     </Route>
     <Route path='/mycollections' component={require('./components/layouts/AdvancedLayout')}>

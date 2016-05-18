@@ -222,9 +222,6 @@ let state = {
   }
 };
 
-/*
-State
- */
 function updateState() {
   localStorage.setItem('state', JSON.stringify(state));
 }
@@ -245,20 +242,16 @@ function respond(xhr, data, code = 200) {
 
 loadState();
 
-/*
-Collections
- */
+// Collections
 
 function editCollection(obj) {
-  const cl = state.collections;
-  const index = _.indexOf(cl, _.find(cl, {id: obj.id}));
-  return cl.splice(index, 1, obj);
+  const {collections} = state;
+  const index = _.indexOf(collections, _.find(collections, {id: obj.id}));
+  return collections.splice(index, 1, obj);
 }
 
-/*
-Get suggestions
- */
-
+// Get suggestions
+// TODO: change with qs
 function escapeRegexCharacters(str, data, filter = 'all') {
   const escapedValue = str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   const regex = new RegExp('^' + escapedValue, 'i');
@@ -269,7 +262,7 @@ function escapeRegexCharacters(str, data, filter = 'all') {
     };
   }).filter(section => section.cards.length > 0);
 }
-
+// todo: remove this shit
 function getParameterByName(name, url) {
   const param = name.replace(/[\[\]]/g, '\\$&');
   const regex = new RegExp('[?&]' + param + '(=([^&#]*)|&|#|$)');
@@ -279,15 +272,13 @@ function getParameterByName(name, url) {
   return decodeURIComponent(results[2].replace(/\+/g, ' '));
 }
 
-/*
-Server routes
- */
+// Server routes
 const server = sinon.fakeServer.create();
 
 server.respondWith('GET', /\/me/, (xhr, id) => {
   respond(xhr, state.me);
 });
-
+// todo: make RESTful
 server.respondWith('GET', /\/cards\/getcards/, (xhr, id) => {
   const queryParam = getParameterByName('query', xhr.url);
   const type = getParameterByName('type', xhr.url);

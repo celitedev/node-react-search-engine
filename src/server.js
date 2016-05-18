@@ -1,11 +1,11 @@
 /* eslint no-console: 0 */
 
 import React from 'react';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
-import { createStore, applyMiddleware, compose } from 'redux';
-import { ReduxRouter } from 'redux-router';
-import { reduxReactRouter, match } from 'redux-router/server';
-import { Provider } from 'redux-simple';
+import {renderToString, renderToStaticMarkup} from 'react-dom/server';
+import {createStore, applyMiddleware, compose} from 'redux';
+import {ReduxRouter} from 'redux-router';
+import {reduxReactRouter, match} from 'redux-router/server';
+import {Provider} from 'redux-simple';
 import _ from 'lodash';
 
 import Html from './components/Html';
@@ -25,7 +25,7 @@ import fetcher from './middleware/fetcher';
 import triplet from './middleware/triplet';
 import api from './middleware/api';
 
-const debug = require('debug')('tutor:server');
+const debug = require('debug')('kwhen:server');
 
 const middlewares = [thunk, api, triplet, fetcher, logger];
 
@@ -59,23 +59,23 @@ function promisedMatch(store, location) {
     store.dispatch(match(location, (error, redirect) => {
       if (error) {
         debug('error', error);
-        resolve({ error });
+        resolve({error});
         return;
       }
       if (redirect) {
         debug('redirect', redirect);
-        resolve({ redirect });
+        resolve({redirect});
         return;
       }
 
       const state = store.getState();
-      const { components } = state.router;
-      const { authenticated } = state.auth;
+      const {components} = state.router;
+      const {authenticated} = state.auth;
       if (!authenticated) {
         for (const comp of components) {
           if (comp.loginRequired || (comp.WrappedComponent && comp.WrappedComponent.loginRequired)) {
             debug('auth redirect');
-            resolve({ redirect: { pathname: '/', search: '' } });
+            resolve({redirect: {pathname: '/', search: ''}});
             return;
           }
         }
@@ -104,13 +104,13 @@ export async function renderFull(location, cookies, callback) {
   debug('begin');
 
   const store = compose(
-    reduxReactRouter({ routes }),
+    reduxReactRouter({routes}),
     applyMiddleware.apply(null, middlewares)
   )(createStore)(reducers);
 
   await tryAuthenticate(store, cookies);
 
-  const { error, redirect, notFound } = await promisedMatch(store, location);
+  const {error, redirect, notFound} = await promisedMatch(store, location);
 
   if (notFound) {
     debug('not found');

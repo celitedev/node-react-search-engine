@@ -13,7 +13,7 @@ export default function updateIn(target, keyPath, fn) {
   }
   const [key, ...rest] = keyPath;
   const child = target ? target[key] : undefined;
-  return { ...target, [key]: updateIn(child, rest, fn) };
+  return {...target, [key]: updateIn(child, rest, fn)};
 }
 
 /**
@@ -88,7 +88,7 @@ export function unsetIn(target, keyPath, key) {
  * @returns {Object}
  */
 export function mergeIn(target, keyPath, item) {
-  return updateIn(target, keyPath, val => ({ ...val, ...item }));
+  return updateIn(target, keyPath, val => ({...val, ...item}));
 }
 
 const mappingFunctions = {
@@ -105,7 +105,7 @@ const mappingFunctions = {
 function collectUpdates(spec, keyPath = []) {
   return Object.keys(spec).reduce((updates, key) => {
     if (mappingFunctions[key]) {
-      return [...updates, { keyPath, fn: mappingFunctions[key], value: spec[key] }];
+      return [...updates, {keyPath, fn: mappingFunctions[key], value: spec[key]}];
     } else if (typeof spec[key] === 'object') {
       return [...updates, ...collectUpdates(spec[key], [...keyPath, key])];
     }

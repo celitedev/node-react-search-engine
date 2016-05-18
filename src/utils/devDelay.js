@@ -1,5 +1,5 @@
 import delay from './delay';
-const debug = require('debug')('tutor:devDelay');
+const debug = require('debug')('kwhen:devDelay');
 
 let devDelay;
 if (process.env.NODE_ENV === 'production') {
