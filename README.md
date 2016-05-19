@@ -15,6 +15,7 @@
 
 ## Local development
  - `npm install`
+ - `bower install`
  - `npm start`
  - `npm run rendering`
  - `open localhost:7000`
