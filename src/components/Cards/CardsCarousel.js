@@ -10,18 +10,23 @@ import {redirect} from '../../actions';
 
 class NextArrow extends PureComponent {
   render() {
+    const {onClick} = this.props;
     return (
+      _.isFunction(onClick) && (
       <a href='#' {...this.props}
          className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows)}>&gt;</a>
+         )
     );
   }
 }
 
 class PrevArrow extends PureComponent {
   render() {
+    const {onClick} = this.props;
     return (
-      <a href='#' {...this.props}
+      _.isFunction(onClick) && (<a href='#' {...this.props}
          className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows)}>&lt;</a>
+         )
     );
   }
 }
@@ -38,7 +43,7 @@ export default class CardsCarousel extends PureComponent {
   }
 
   render() {
-    const {settings, sliderStyle, cardsStyle, results, question} = this.props;
+    const {settings, sliderStyle, cardsStyle, results, question, showAll, afterChange} = this.props;
     const setCarouselParams = {
       dots: true,
       infinite: false,
@@ -53,7 +58,7 @@ export default class CardsCarousel extends PureComponent {
         <div className='l-cardCarousel-container l-cardCarousel-container-peek hasNext'>
           <div className={classnames('l-cardCarousel-js', styles.root)}>
             <div className=''>
-              <Slider {...setCarouselParams} dotsClass={styles.dotss}>
+              <Slider {...setCarouselParams} afterChange={afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
                     <Link to={`/details/${question}/${result.raw.id}`}>
@@ -63,11 +68,13 @@ export default class CardsCarousel extends PureComponent {
                 ))}
               </Slider>
             </div>
-            <div className='controls-wrapper'>
-              <ul className='controls'>
-              </ul>
-              <Link to={`/search/${question}`} className='show-more'>Show all</Link>
-            </div>
+            {showAll && (
+              <div className='controls-wrapper'>
+                <ul className='controls'>
+                </ul>
+                <Link to={`/search/${question}`} className='show-more'>Show all</Link>
+              </div>
+              ) }
           </div>
         </div>
       </div>

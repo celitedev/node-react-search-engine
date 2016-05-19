@@ -6,7 +6,7 @@ import _ from 'lodash';
 import {addCardToCollection, deleteCardFromCollection} from '../../actions';
 import {Button} from 'react-mdl';
 
-import Paggination from '../Widgets/Paggination';
+import Pagination from '../Widgets/Pagination';
 
 const debug = require('debug')('app: cardsSearch');
 
@@ -83,7 +83,7 @@ export default class CardsList extends PureComponent {
         {cards.map((section, i) => (
           <div key={i}>
             {filter === 'all' || filter === section.title && (
-              <Paggination data={section.cards}
+              <Pagination data={section.cards}
                            page={this.state[section.title].page}
                            perPage={this.state[section.title].perPage}
                            selectPage={(page) => ::this.selectPage(page, section.cards.length, section.title)}>
@@ -123,7 +123,7 @@ export default class CardsList extends PureComponent {
                     ))}
                   </div>
                 </li>
-              </Paggination>
+              </Pagination>
             )}
           </div>
         ))}

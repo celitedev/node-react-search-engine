@@ -7,7 +7,7 @@ import 'material-design-icons';
 
 const debug = require('debug')('app: cardsSearch');
 
-export default class Paggination extends PureComponent {
+export default class Pagination extends PureComponent {
   constructor(props, contex) {
     super(props);
   }

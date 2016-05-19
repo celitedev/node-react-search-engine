@@ -1,7 +1,7 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import Paggination from './Widgets/Paggination';
+import Pagination from './Widgets/Pagination';
 import {Link} from 'react-router';
 
 function paginate(data = [], o) {
@@ -51,7 +51,7 @@ export default class MyCollections extends PureComponent {
         <div className='mdl-card__title'>
           <h2 className='mdl-card__title-text'>My collections</h2>
         </div>
-        <Paggination data={collections}
+        <Pagination data={collections}
                      page={pagination.page}
                      perPage={pagination.perPage}
                      selectPage={(page) => ::this.selectPage(page)}>
@@ -82,7 +82,7 @@ export default class MyCollections extends PureComponent {
               </div>
             </li>
           ))}
-        </Paggination>
+        </Pagination>
       </ul>
 
     );

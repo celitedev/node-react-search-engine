@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
+import classnames from 'classnames';
 import _ from 'lodash';
 import config from '../../config.js';
 
@@ -19,6 +20,15 @@ export default class Map extends PureComponent {
     multipleMarkers: PropTypes.array
   }
 
+  static childContextTypes = {
+    map: PropTypes.object
+  }
+  getChildContext() {
+    return {
+        map: this.map
+    };
+  }
+
   constructor(props, context) {
     super();
     this.map = null;
@@ -34,12 +44,20 @@ export default class Map extends PureComponent {
   componentDidMount() {
     const {multipleMarkers} = this.props;
     this.initMap();
-    this.showMarkers(multipleMarkers);
+     this.showMarkers(multipleMarkers);
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.multipleMarkers.length !== this.props.multipleMarkers.length) {
-      debug('Map new props');
+    if (nextProps.multipleMarkers.length === 1) {
+      this.map.remove();
+    this.setState({
+      viewPoint: nextProps.setView
+    });
+    setTimeout(() => {
+      this.initMap();
+      this.showMarkers(nextProps.multipleMarkers);
+    }, 100);
+    } else {
       this.showMarkers(nextProps.multipleMarkers);
     }
   }
@@ -62,7 +80,6 @@ export default class Map extends PureComponent {
 
   showMarkers(multipleMarkers) {
     const {viewPoint} = this.state;
-
     function iconParams(index) {
       if (!_.isUndefined(index)) {
         return {
@@ -78,17 +95,31 @@ export default class Map extends PureComponent {
     }
 
     if (multipleMarkers && multipleMarkers.length > 1) {
+      let markerElement = null;
       _.map(multipleMarkers, (marker, index) => {
         const geo = marker.raw.geo;
         if (!geo) {
           return;
         }
-        L.marker([
+        markerElement = L.marker([
           geo.latitude,
           geo.longitude
         ], {
           icon: L.divIcon(iconParams(index))
-        }).addTo(this.map);
+        })
+        .on('mouseover', (e) => {
+          document.querySelector(`.card-${index}`)
+            .classList.add('highlightedCard');
+        })
+        .on('mouseout', (e) => {
+          document.querySelector(`.card-${index}`)
+            .classList.remove('highlightedCard');
+        })
+        .on('click', (e) => {
+          document.querySelector(`.card-${index}`)
+            .scrollIntoView({block: 'end', behavior: 'auto'});
+        })
+        .addTo(this.map);
       });
     } else {
       L.marker([
@@ -102,9 +133,8 @@ export default class Map extends PureComponent {
   render() {
     const {className, id, children} = this.props;
     return (
-      <div ref='map' id={id} className={className}>
-        <div className='mobile-cover'></div>
-        <div className='back-to-list'></div>
+      <div ref='map' id={id} className={classnames(className)}>
+        {children}
       </div>
     );
   }
