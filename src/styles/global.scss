@@ -71,7 +71,7 @@
 @import "~bootstrap/scss/normalize";
 @import "~bootstrap/scss/reboot";
 @import "~react-mdl/extra/material.css";
-@import "paggination";
+@import "pagination";
 @import "autosuggest";
 @import "~react-pagify/style.css";
 @import "~getmdl-select/getmdl-select.min.css";
@@ -104,14 +104,6 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.listClassReorder {
-
-}
-
-.itemClassReorder {
-
-}
-
 .itemClassReorder.dragged {
   z-index: 1;
   opacity: 0.7;
@@ -122,12 +114,7 @@
   visibility: hidden;
 }
 
-.slick-slider {
-  min-height: 220px;
-}
-
 .slick-list {
-  min-height: 220px;
   margin-bottom: 30px;
 }
 
@@ -136,8 +123,7 @@
 }
 
 .slick-track {
-  min-height: 220px;
-  padding-top: 10px;
+  max-height: 220px;
 }
 
 .slick-dots {
@@ -146,4 +132,11 @@
 
 .infinite-grid .item {
   width: 100%;
+}
+
+.highlightedCard {
+  z-index: 10;
+      > div {
+        outline: 2px solid $brightBlue; //just some nice clear blue
+      }
 }
