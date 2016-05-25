@@ -117,19 +117,42 @@ export function deleteCardFromCollection(collectionId, cardId) {
 
 // API
 
-export function answerTheQuestion(question) {
+export function answerTheQuestion(question, type = 'PlaceWithOpeninghours', filter = {} ) {
   return {
     type: API_REQUEST,
     method: 'post',
     path: 'http://testing123.kwhen.com:3000/question',
     data: JSON.stringify({
       badRequestIs200: true,
-      question: question,
+      question,
       meta: {
         includeCardFormatting: true
       },
-      type: 'PlaceWithOpeninghours',
+      type,
       wantUnique: false,
+      filter
+    })
+  };
+}
+
+export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page = 0) {
+  return {
+    type: API_REQUEST,
+    method: 'post',
+    path: 'http://testing123.kwhen.com:3000/search',
+    data: JSON.stringify({
+      meta: {
+        includeCardFormatting: true
+      },
+      sort: [
+        {
+          type: 'doc'
+        }
+      ],
+      page,
+      type,
+      wantUnique: false,
+      filter
     })
   };
 }

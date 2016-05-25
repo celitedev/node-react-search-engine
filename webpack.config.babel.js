@@ -67,7 +67,7 @@ const config = {
   entry: server ? {
     server: entry('./src/server', true)
   } : {
-    client: hotEntry(8084, ...entry('./src/client'))
+    client: hotEntry(8080, ...entry('./src/client'))
   },
 
   output: {

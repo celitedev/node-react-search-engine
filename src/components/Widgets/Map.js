@@ -1,12 +1,9 @@
 import React, {PropTypes} from 'react';
 import {findDOMNode} from 'react-dom';
 import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
 import classnames from 'classnames';
 import _ from 'lodash';
 import config from '../../config.js';
-
-const debug = require('debug')('app:map');
 
 let L;
 if (!process.env.SERVER_RENDERING) {
@@ -30,7 +27,7 @@ export default class Map extends PureComponent {
   }
 
   constructor(props, context) {
-    super();
+    super(props, context);
     this.map = null;
     this.state = {
       viewPoint: props.setView || [[
@@ -42,21 +39,25 @@ export default class Map extends PureComponent {
   }
 
   componentDidMount() {
-    const {multipleMarkers} = this.props;
     this.initMap();
-     this.showMarkers(multipleMarkers);
+    this.showMarkers(this.props.multipleMarkers);
   }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.multipleMarkers.length === 1) {
-      this.map.remove();
-    this.setState({
-      viewPoint: nextProps.setView
-    });
-    setTimeout(() => {
-      this.initMap();
-      this.showMarkers(nextProps.multipleMarkers);
-    }, 100);
+      _.each(this.map._layers, (layer) => {
+        if (!_.isUndefined(layer) && layer.options.icon) {
+          this.map.removeLayer(layer);
+        }
+      });
+      this.setState({
+        viewPoint: nextProps.setView
+      });
+      setTimeout(() => {
+        this.map.setView(nextProps.setView, 13);
+        this.map.invalidateSize();
+        this.showMarkers(nextProps.multipleMarkers);
+      }, 200);
     } else {
       this.showMarkers(nextProps.multipleMarkers);
     }
@@ -69,10 +70,22 @@ export default class Map extends PureComponent {
     const {viewPoint} = this.state;
 
     L.mapbox.accessToken = accessToken;
-    this.map = L.mapbox.map(container, kwhenMapId, options).setView([...viewPoint], 13);
+    this.map = L.mapbox.map(container, kwhenMapId, options);
+    this.map.setView([...viewPoint], 15);
+    setTimeout(() => {
+      this.map.setView([...viewPoint], 13, {
+      'animate': true,
+      'pan': {
+        'duration': 10
+      },
+      'zoom': {
+        'animate': true
+      }
+    });
+    }, 100);
 
     if (zoomControls) {
-      const zoomCtrl = new L.Control.Zoom({
+      new L.Control.Zoom({
         ...zoomControls
       }).addTo(this.map);
     }
@@ -93,31 +106,29 @@ export default class Map extends PureComponent {
         iconSize: [32, 32]
       };
     }
-
     if (multipleMarkers && multipleMarkers.length > 1) {
-      let markerElement = null;
       _.map(multipleMarkers, (marker, index) => {
         const geo = marker.raw.geo;
         if (!geo) {
           return;
         }
-        markerElement = L.marker([
+        L.marker([
           geo.latitude,
           geo.longitude
         ], {
           icon: L.divIcon(iconParams(index))
         })
-        .on('mouseover', (e) => {
+        .on('mouseover', () => {
           document.querySelector(`.card-${index}`)
             .classList.add('highlightedCard');
         })
-        .on('mouseout', (e) => {
+        .on('mouseout', () => {
           document.querySelector(`.card-${index}`)
             .classList.remove('highlightedCard');
         })
-        .on('click', (e) => {
+        .on('click', () => {
           document.querySelector(`.card-${index}`)
-            .scrollIntoView({block: 'end', behavior: 'auto'});
+            .scrollIntoView({block: 'end', behavior: 'smooth'});
         })
         .addTo(this.map);
       });

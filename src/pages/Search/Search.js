@@ -7,35 +7,18 @@ import {API_REQUEST} from '../../actionTypes';
 
 @page('Search')
 export default class Search extends PureComponent {
-  static fetchData({dispatch, params}) {
-    let filter = {};
-    if (params.question.length < 10) {
-      filter = {
-        name: params.question
-      };
-    } else {
-      filter = {
-        subtypes: 'restaurant'
-      };
-    }
+  static fetchData({dispatch, params, query}) {
+    const q = JSON.parse(query.filter);
+    const {filter, meta, page, pageSize, similarTo, sort, spatial, type, wantUnique} = q;
+    const {question} = params;
     return {
       searchResults: dispatch({
         type: API_REQUEST,
         method: 'post',
         path: 'http://testing123.kwhen.com:3000/search',
         data: JSON.stringify({
-          filter: filter,
-          sort: [
-            {
-              type: 'doc'
-            }
-          ],
-          page: 0,
-          meta: {
-            includeCardFormatting: true
-          },
-          type: 'PlaceWithOpeninghours',
-          wantUnique: false,
+          filter, pageSize, similarTo, spatial, sort,
+          page, meta, type, wantUnique, question
         })
       })
     };

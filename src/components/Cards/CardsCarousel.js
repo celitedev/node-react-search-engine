@@ -10,11 +10,11 @@ import {redirect} from '../../actions';
 
 class NextArrow extends PureComponent {
   render() {
-    const {onClick} = this.props;
+    const {onClick, miniMap} = this.props;
     return (
       _.isFunction(onClick) && (
       <a href='#' {...this.props}
-         className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows)}>&gt;</a>
+         className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&gt;</a>
          )
     );
   }
@@ -22,10 +22,10 @@ class NextArrow extends PureComponent {
 
 class PrevArrow extends PureComponent {
   render() {
-    const {onClick} = this.props;
+    const {onClick, miniMap} = this.props;
     return (
       _.isFunction(onClick) && (<a href='#' {...this.props}
-         className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows)}>&lt;</a>
+         className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&lt;</a>
          )
     );
   }
@@ -43,14 +43,15 @@ export default class CardsCarousel extends PureComponent {
   }
 
   render() {
-    const {settings, sliderStyle, cardsStyle, results, question, showAll, afterChange} = this.props;
+    const {settings, sliderStyle, cardsStyle, results, question, showAll, afterChange, filterContext, miniMap} = this.props;
+    const f = JSON.stringify(filterContext);
     const setCarouselParams = {
       dots: true,
       infinite: false,
       speed: 500,
       initialSlide: 0,
-      nextArrow: <NextArrow />,
-      prevArrow: <PrevArrow />,
+      nextArrow: <NextArrow miniMap={miniMap}/>,
+      prevArrow: <PrevArrow miniMap={miniMap}/>,
       ...settings
     };
     return (
@@ -67,14 +68,14 @@ export default class CardsCarousel extends PureComponent {
                   </div>
                 ))}
               </Slider>
-            </div>
-            {showAll && (
+              {showAll && (
               <div className='controls-wrapper'>
                 <ul className='controls'>
                 </ul>
-                <Link to={`/search/${question}`} className='show-more'>Show all</Link>
+                <Link to={`/search/${question}`} query={{ filter: f }} className={classnames('show-more', styles.showAllBtn)}>Show all</Link>
               </div>
               ) }
+            </div>
           </div>
         </div>
       </div>

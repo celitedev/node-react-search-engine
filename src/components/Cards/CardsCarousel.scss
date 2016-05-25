@@ -1,5 +1,6 @@
 .root {
   padding: 0 !important;
+  position: initial !important;
   .dots {
     width: inherit;
   }
@@ -14,5 +15,11 @@
 
 .arrows {
   display: block;
-  margin-top: -50px;
+}
+.arrowsStyle {
+  margin-top: -35px;
+}
+
+.showAllBtn {
+  margin-top: -65px;
 }

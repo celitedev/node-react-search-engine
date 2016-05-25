@@ -81,6 +81,10 @@
 @import "../../bower_components/slick-carousel/slick/slick-theme.css";
 @import url(https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css);
 
+body {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+}
+
 @font-face {
   font-family: 'Material Icons';
   font-style: normal;
@@ -101,6 +105,7 @@
   word-wrap: normal;
   direction: ltr;
   -webkit-font-feature-settings: 'liga';
+  font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
 
@@ -122,12 +127,18 @@
   max-height: 200px;
 }
 
+.slick-slider {
+  position: initial;
+}
+
 .slick-track {
   max-height: 220px;
 }
 
 .slick-dots {
   text-align: left;
+  width: auto;
+  position: initial;
 }
 
 .infinite-grid .item {

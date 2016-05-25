@@ -1,6 +1,5 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
 import _ from 'lodash';
 import CardsCarousel from '../Cards/CardsCarousel.js';
 
@@ -52,7 +51,7 @@ export default class Answer extends PureComponent {
                       </li>
                     </ul>
                   </div>
-                  <CardsCarousel settings={carouselSettings} showAll={true} question={params.question} results={answer.results}
+                  <CardsCarousel settings={carouselSettings} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
                     cardsStyle={styles.sliderCard}/>
                 </div>
               ) || null;

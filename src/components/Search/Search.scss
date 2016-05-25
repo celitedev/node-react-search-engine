@@ -12,15 +12,9 @@
   }
 }
 
-.dots {
-    position: absolute;
-    bottom: -25px;
-    display: block;
-    width: 100%;
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    text-align: center;
+.carouselStyle {
+  height: 160px;
+  margin-top: 70px;
 }
 
 .is_opened {
@@ -34,3 +28,31 @@
         outline: 2px solid #009DFF; //just some nice clear blue
       }
 }
+
+.mobileFilters {
+  top: 10px;
+  right: 26px;
+}
+
+.showBackArrow {
+  display: block;
+}
+
+.arrows {
+    display: none;
+    box-sizing: border-box;
+    position: absolute;
+    content: "";
+    z-index: 999;
+    background: rgba(0, 0, 0, 0.5);
+    width: 40px;
+    height: 80px;
+    line-height: 80px;
+    top: 50%;
+    margin-top: -35px;
+    color: white;
+    text-decoration: none;
+    font-size: 36px;
+    transition: all 0.3s;
+}
+

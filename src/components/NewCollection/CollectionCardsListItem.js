@@ -14,8 +14,8 @@ function collection(state) {
 
 @connect(collection, {deleteCardFromCollection})
 export default class CollectionCardsListItem extends PureComponent {
-  constructor(props) {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       description: props.item.description
     };

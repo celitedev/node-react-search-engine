@@ -1,6 +1,5 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
 import classnames from 'classnames';
 
 export default class Card extends PureComponent {

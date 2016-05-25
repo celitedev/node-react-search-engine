@@ -1,20 +1,19 @@
 import React from 'react';
-import {findDOMNode} from 'react-dom';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import classnames from 'classnames';
 import {Menu, MenuItem} from 'react-mdl';
 import Map from '../Widgets/Map';
-import Marker from '../Widgets/Marker';
 import Card from '../Cards/Card';
 import Waypoint from 'react-waypoint';
-import {loadMoreResults} from '../../actions';
-import {Element} from 'react-scroll';
+import _ from 'lodash';
+import {loadMoreResults, filterResults} from '../../actions';
 import CardsCarousel from '../Cards/CardsCarousel';
+import {types} from '../Index/exampleQuestions';
 const debug = require('debug')('app:search');
 
-@connect(null, {loadMoreResults})
+@connect(null, {loadMoreResults, filterResults})
 export default class Search extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -30,10 +29,10 @@ export default class Search extends PureComponent {
   }
   async loadNewResults() {
     const {loadMoreResults} = this.props;
-    const {results, resultsPage} = this.state;
-
+    const {results, resultsPage, answer} = this.state;
+    debug('Load new results start:', 'results: ', results, 'page: ', resultsPage, 'answer: ', answer);
     try {
-      const newResults = await loadMoreResults(resultsPage, {subtypes: 'restaurant'});
+      const newResults = await loadMoreResults(resultsPage, answer.filterContext.filter);
       this.setState({
         results: [...results, ...newResults.results],
         resultsPage: resultsPage + 1
@@ -47,14 +46,11 @@ export default class Search extends PureComponent {
     this.loadNewResults();
   }
 
-  filterHandler(e) {
+  filterHandler(type) {
+    this.filterResults({}, types[type]);
     this.setState({
-      filter: e.target.innerHTML
+      filter: type
     });
-  }
-
-  selectMarker(markerId) {
-    console.log(markerId);
   }
 
   showMap() {
@@ -62,9 +58,17 @@ export default class Search extends PureComponent {
       isSlider: true
     });
   }
+
+  closeMap() {
+    this.setState({
+      isSlider: false
+    });
+  }
+
   cardChanged(index) {
     const {results} = this.state;
     if (results.length - 2 === index) {
+      debug('Reached wayPoint ', results);
       this.handleWaypointEnter();
     }
     this.setState({
@@ -73,17 +77,54 @@ export default class Search extends PureComponent {
   }
 
   setMapView(index) {
-    const {raw} = this.state.results[index];
+    if (this.state.results[index]) {
+      const {raw} = this.state.results[index];
     if (raw.geo) {
       return [raw.geo.latitude,
             raw.geo.longitude];
     }
+    }
+  }
+
+  async filterResults(filter, type) {
+    const {filterResults} = this.props;
+    try {
+      debug('fetch strat', 'type:', type, 'filter', filter);
+      const answer = await filterResults(type, filter);
+      debug('searchRequest results', answer);
+      this.setState({
+        answer: answer,
+        results: answer.results
+      });
+    } catch (err) {
+      debug('searchRequest Error', err);
+    }
+  }
+
+  removeFilter() {
+    const {filter, answer} = this.state;
+    const {subtype, name} = answer.filterContext.filter;
+    debug('removeFilter', subtype, name);
+    this.filterResults({}, types[filter]);
+  }
+
+  filtersPin(e) {
+    console.log(e);
   }
 
   render() {
     const {params} = this.props;
     const {answer, results, filter, selectedMarker, isSlider, slideIndex} = this.state;
-    const {raw} = answer.results[0];
+    let raw;
+    let setMapView;
+    if (!_.isEmpty(answer.results)) {
+      raw = answer.results[0].raw;
+      setMapView = [
+      raw.geo.latitude,
+      raw.geo.longitude
+    ];
+    }
+    const {subtypes, name} = answer.filterContext.filter;
     let oneResult = [];
     if (isSlider) {
       oneResult = [results[slideIndex]];
@@ -93,14 +134,11 @@ export default class Search extends PureComponent {
       scrollWheelZoom: true,
       zoomControl: false
     };
-    const setMapView = [
-      raw.geo.latitude,
-      raw.geo.longitude
-    ];
     const zoomControls = {
       position: 'topright'
     };
     const carouselSettings = {
+      dots: false,
       responsive: [{
         settings: {
           slidesToShow: 1,
@@ -111,48 +149,50 @@ export default class Search extends PureComponent {
     return (
       <main className='search-page'>
         <div id='js-filtersContainerPartial-container' className='filters'>
-          <button id='type-selector' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
-                  data-upgraded=',MaterialButton'>
+          <button id='type-selector' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
             {filter}
             <i className='material-icons'>keyboard_arrow_right</i>
           </button>
           <Menu target='type-selector' >
-            <MenuItem onClick={::this.filterHandler}>Happening</MenuItem>
-            <MenuItem onClick={::this.filterHandler}>Places</MenuItem>
-            <MenuItem onClick={::this.filterHandler}>Creative work</MenuItem>
-            <MenuItem onClick={::this.filterHandler}>Person / Group</MenuItem>
+            <MenuItem onClick={() => this.filterHandler('happening')}>Happening</MenuItem>
+            <MenuItem onClick={() => this.filterHandler('places')}>Places</MenuItem>
+            <MenuItem onClick={() => this.filterHandler('creative Work')}>Creative work</MenuItem>
+            <MenuItem onClick={() => this.filterHandler('Person / Group')}>Person / Group</MenuItem>
           </Menu>
           <div className='mdl-menu__container is-upgraded'>
             <div className='mdl-menu__outline mdl-menu--bottom-left'></div>
           </div>
-
-          <div className='filters--active'>
-            <div className='mdl-tag'>restaurant</div>
-          </div>
-
+          {!_.isEmpty(answer.filterContext.filter) && (
+            <div className='filters--active'>
+              <div className='mdl-tag' onClick={() => this.removeFilter()}>{subtypes || name}</div>
+            </div>
+          )}
+          {!_.isEmpty(answer.filterContext.filter) && (
           <div className='filters--activeDialog'>
-              <span className='mdl-badge mdl-badge--overlap' data-badge='1'>
-                <button id='activeFilters-selector'
-                        className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'
-                        data-upgraded=',MaterialButton'><i className='material-icons'>filter_list</i></button>
-              </span>
-            <div className='mdl-menu__container is-upgraded'>
+            <span className='mdl-badge mdl-badge--overlap' data-badge='1'>
+              <button id='activeFilters-selector'
+                className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
+                <i className='material-icons'>filter_list</i></button>
+            </span>
+            <div className={classnames('mdl-menu__container is-upgraded', styles.mobileFilters)}>
               <div className='mdl-menu__outline mdl-menu--bottom-right'></div>
-              <ul className='mdl-menu mdl-menu--bottom-right mdl-js-menu' htmlFor='activeFilters-selector'
-                  data-upgraded=',MaterialMenu'>
-                <li className='mdl-menu__item' tabIndex='-1'>restaurant</li>
+              <ul className='mdl-menu mdl-menu--bottom-right mdl-js-menu' htmlFor='activeFilters-selector'>
+                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{subtypes || name}</li>
               </ul>
             </div>
           </div>
+          )}
         </div>
-        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} options={mapOptions} multipleMarkers={isSlider ? oneResult : results} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
-          <div className='mobile-cover' onClick={() => this.showMap()}></div>
-          <div className='back-to-list'></div>
-        </Map>
+        {results.length && (
+          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} options={mapOptions} multipleMarkers={isSlider ? oneResult : results} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+            <div className='mobile-cover' onClick={() => this.showMap()}></div>
+            <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
+          </Map>
+        ) || null}
         <div classNmae='page-content'>
-          <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', isSlider && 'is-slider')}>
+          <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', isSlider && 'is-slider' && styles.carouselStyle)}>
             { isSlider && (
-              <CardsCarousel afterChange={(e) => this.cardChanged(e)} settings={carouselSettings} question={params.question} results={results}
+              <CardsCarousel afterChange={(e) => this.cardChanged(e)} miniMap={true} settings={carouselSettings} question={params.question} results={results}
                 cardsStyle={classnames(`card actionBarHidden`, styles.cardStyle) }/>
             ) || (
               results.map((result, index) => (
@@ -163,10 +203,12 @@ export default class Search extends PureComponent {
               ))
             )
             }
+            {results.length && (
             <Waypoint
               onEnter={::this.handleWaypointEnter}
               threshold={0.2}
             />
+            ) || null}
           </div>
         </div>
       </main>

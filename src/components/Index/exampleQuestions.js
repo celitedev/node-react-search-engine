@@ -1,3 +1,10 @@
+export const types = {
+  places: 'PlaceWithOpeninghours',
+  happening: 'Event',
+  'creative Work': 'CreativeWork',
+  'Person / Group': 'OrganizationAndPerson'
+};
+
 export default [{
   question: 'show me some restaurants',
   context: {

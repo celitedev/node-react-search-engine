@@ -1,6 +1,5 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
 import Card from '../Cards/Card';
 import Map from '../Widgets/Map';
 import CardsCarousel from '../Cards/CardsCarousel';
@@ -11,8 +10,32 @@ export default class Details extends PureComponent {
     const {answer, params} = this.props;
     const {latitude, longitude} = answer.result.raw.geo;
     const carouselSettings = {
-      slidesToShow: 2,
-      slidesToScroll: 2
+      responsive: [{
+        breakpoint: 4000,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      }, {
+          breakpoint: 1600,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          },
+          className: 'class'
+        }, {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        }, {
+          breakpoint: 800,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }]
     };
     const mapOptions = {
       scrollWheelZoom: false,
