@@ -108,10 +108,6 @@ export default class Search extends PureComponent {
     this.filterResults({}, types[filter]);
   }
 
-  filtersPin(e) {
-    console.log(e);
-  }
-
   render() {
     const {params} = this.props;
     const {answer, results, filter, selectedMarker, isSlider, slideIndex} = this.state;

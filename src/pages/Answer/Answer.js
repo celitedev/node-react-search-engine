@@ -46,6 +46,10 @@ export default class Answer extends PureComponent {
     };
   }
 
+  componentDidMount() {
+  }
+
+
   render() {
     const {data, loaded, params} = this.props;
     return (

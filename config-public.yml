@@ -3,3 +3,12 @@ publicPath: https://localhost:8080/static/
 mapbox:
   accessToken: 'pk.eyJ1Ijoia3doZW4iLCJhIjoiY2lnMmIxOWo5MWFpZHR1bTMzdDQ2OXI3bCJ9.dYs9YWilTsA-MwCD6HqTaQ'
   kwhenMapId: 'kwhen.cig2b17kj1ak8tjluug9gwvzv'
+
+db:
+  dbName: 'collections'
+  servers: [
+    {
+      host: '127.0.0.1',
+      port: 28015
+    }
+  ]

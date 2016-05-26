@@ -32,6 +32,12 @@ export default class IndexSearch extends PureComponent {
       <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
+            <Link to='mycollections'>
+              <button
+                className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--accent', styles.myCollectionsBtn)}>
+                My Collections
+              </button>
+            </Link>
             <div className='logo'></div>
 
             <div className='l-searchbox'>

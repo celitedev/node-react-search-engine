@@ -32,5 +32,4 @@ export default class Details extends PureComponent {
       </div>
     );
   }
-
 }

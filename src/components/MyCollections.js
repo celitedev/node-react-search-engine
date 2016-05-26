@@ -47,6 +47,7 @@ export default class MyCollections extends PureComponent {
     const {collections} = this.props;
     const {pagination} = this.state;
     return (
+      <div className='mdl-layout mdl-js-layout'>
       <ul className={classnames(styles.root, 'mdl-list')}>
         <div className='mdl-card__title'>
           <h2 className='mdl-card__title-text'>My collections</h2>
@@ -84,7 +85,7 @@ export default class MyCollections extends PureComponent {
           ))}
         </Pagination>
       </ul>
-
+      </div>
     );
   }
 }

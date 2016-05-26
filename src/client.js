@@ -1,5 +1,4 @@
 /* eslint no-console: 0 */
-
 //import './mocks';
 import './polyfills';
 
@@ -24,8 +23,16 @@ import api from './middleware/api';
 import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
-
 import 'material-design-lite';
+import Horizon from '@horizon/client';
+import PatchedHorizonConnector from './patchHorizonConnector';
+
+const debug = require('debug')('app: client');
+
+const horizon = Horizon({host: '127.0.0.1:8181'});
+horizon.onReady(() => {
+  debug('Horizon ready');
+});
 
 const middlewares = [
   thunk,
@@ -67,13 +74,16 @@ try {
 } catch (err) {
   console.error(err);
 }
+
 function render() {
   domready(() => {
     const root = document.getElementById('react-app');
 
     ReactDOM.render((
       <Provider store={store}>
-        <ReduxRouter />
+        <PatchedHorizonConnector store={store} horizon={horizon}>
+          <ReduxRouter />
+        </PatchedHorizonConnector>
       </Provider>
     ), root);
   });

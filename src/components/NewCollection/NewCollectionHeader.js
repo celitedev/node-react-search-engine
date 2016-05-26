@@ -16,10 +16,15 @@ function collection(state) {
 
 @connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect})
 export default class NewCollectionHeader extends PureComponent {
+  static contextTypes = {
+    horizon: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.state = {
-      name: props.savedCollectionInfo.name
+      name: props.savedCollectionInfo.name,
+      horizon: context.horizon
     };
 
     debug('constructor', props, context, this.state);
@@ -37,17 +42,18 @@ export default class NewCollectionHeader extends PureComponent {
     return !(col.name && col.title && col.description && col.cards.length > 1);
   }
 
-  async saveCollection() {
+  saveCollection() {
     debug('saveCollection start', this.props.savedCollectionInfo);
     if (!this.validateCollection()) {
-      try {
-        debug('validCollection true');
-        const collection = await this.props.saveCollection(this.props.savedCollectionInfo);
-        debug('saveCollection finish', collection);
-        this.props.redirect('/');
-      } catch (err) {
-        debug('saveCollection:error', err);
-      }
+      const {horizon} = this.state;
+      const {savedCollectionInfo} = this.props;
+      debug('Collection valid');
+      const collections = horizon('collections');
+      collections.upsert({
+        ...savedCollectionInfo
+      });
+      debug('saveCollection finish', collection);
+      this.props.redirect('/mycollections');
     }
   }
 
@@ -59,7 +65,7 @@ export default class NewCollectionHeader extends PureComponent {
       <div className='mdl-grid'>
         <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
           <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
-            <Link to='/'>
+            <Link to='/mycollections'>
               My Collections
             </Link>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>

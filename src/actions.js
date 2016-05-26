@@ -22,28 +22,6 @@ export function redirect(path, query = {}) {
 
 // Collections
 
-export function createCollection(collection) {
-  return {
-    type: CREATE_COLLECTION,
-    collection
-  };
-}
-
-export function updateCollection(id, collection) {
-  return {
-    type: UPDATE_COLLECTIION,
-    id,
-    collection
-  };
-}
-
-export function deleteCollection(id) {
-  return {
-    type: DELETE_COLLECTION,
-    id
-  };
-}
-
 export function switchPlaceholdersVisibility() {
   return {
     type: SWITCH_PLACEHOLDER
@@ -157,23 +135,23 @@ export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page 
   };
 }
 
-export function loadMoreResults(page, filter) {
+export function loadMoreResults(page, filter, type = 'PlaceWithOpeninghours') {
   return {
     type: API_REQUEST,
     method: 'post',
     path: 'http://testing123.kwhen.com:3000/search',
     data: JSON.stringify({
-      filter: filter,
+      filter,
       sort: [
         {
           type: 'doc'
         }
       ],
-      page: page,
+      page,
       meta: {
         includeCardFormatting: true
       },
-      type: 'PlaceWithOpeninghours',
+      type,
       wantUnique: false
     })
   };

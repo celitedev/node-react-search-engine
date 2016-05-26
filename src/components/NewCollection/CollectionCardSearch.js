@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
-import {getCards, addCardToCollection, getCardsSuggestions, deleteCardFromCollection} from '../../actions';
+import {getCards, addCardToCollection, getCardsSuggestions, answerTheQuestion, deleteCardFromCollection} from '../../actions';
 import {Button} from 'react-mdl';
 import 'material-design-icons';
 import Autosuggest from 'react-autosuggest';
@@ -32,7 +32,7 @@ function renderSectionTitle(section) {
 }
 
 
-@connect(searchedCards, {getCards, addCardToCollection, deleteCardFromCollection, getCardsSuggestions})
+@connect(searchedCards, {getCards, addCardToCollection, deleteCardFromCollection, answerTheQuestion, getCardsSuggestions})
 export default class CollectionCardSearch extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -47,14 +47,14 @@ export default class CollectionCardSearch extends PureComponent {
   }
 
   componentDidMount() {
-    this.loadCards();
+    //this.loadCards();
   }
 
   async makeSuggestionRequest(value) {
-    const {getCardsSuggestions} = this.props;
+    const {answerTheQuestion} = this.props;
     try {
       debug('Start cards search:', this.props);
-      const cardsSuggestions = await getCardsSuggestions({value});
+      const cardsSuggestions = await answerTheQuestion({value});
       debug('Finished cards search', cardsSuggestions);
       return cardsSuggestions;
     } catch (err) {
@@ -95,8 +95,9 @@ export default class CollectionCardSearch extends PureComponent {
 
 
   async loadCards() {
-    const {getCards} = this.props;
-    const cards = await getCards(this.state.value, this.state.filter);
+    const {filter, value} = this.state;
+    const {answerTheQuestion} = this.props;
+    const cards = await answerTheQuestion(value, filter);
     debug('Finished fetch cards', cards);
     this.setState({cards});
   }
