@@ -8,7 +8,8 @@ import {
   SWITCH_ADD_CARD_MODAL,
   SAVE_COLLECTION_INFO,
   ADD_CARD_TO_COLLECTION,
-  DELETE_CARD_FROM_COLLECTION
+  DELETE_CARD_FROM_COLLECTION,
+  RESET_COLLECTION_INFO
 } from '../actionTypes';
 
 export default createStore({
@@ -48,6 +49,19 @@ export default createStore({
     return {savedCollectionInfo: {...state.savedCollectionInfo, ...action.info}};
   },
 
+  [RESET_COLLECTION_INFO]: () => {
+    return {
+      savedCollectionInfo: {
+        cards: [],
+        img: {},
+        description: '',
+        title: '',
+        subTitle: '',
+        name: ''
+      }
+    };
+  },
+
   [SWITCH_PLACEHOLDER]: (state, action) => {
     return {showPlaceholders: !state.showPlaceholders};
   },
@@ -55,13 +69,13 @@ export default createStore({
     return {addCardModal: !state.addCardModal};
   },
   [ADD_CARD_TO_COLLECTION]: (state, action) => {
-    const updatedCollection = [Object.assign({}, action.card, {collectionId: action.collectionId}), ...state.savedCollectionInfo.cards];
+    const updatedCollection = [Object.assign({}, action.card, {id: action.card.raw.id}), ...state.savedCollectionInfo.cards];
     return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: updatedCollection})};
   },
 
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
     const collection = state.savedCollectionInfo;
-    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.id !== action.cardId)})};
+    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.raw.id !== action.cardId)})};
   }
 
 });

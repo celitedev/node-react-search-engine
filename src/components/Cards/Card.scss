@@ -4,6 +4,17 @@
   height: 30px;
 }
 
+.deleteCardBtn {
+  z-index: 10;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .background {
   background: none;
+}
+
+.cardActionButton {
+  float: left;
 }

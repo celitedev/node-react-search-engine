@@ -2,10 +2,10 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
+import {Link} from 'react-router';
 import _ from 'lodash';
-import {addCardToCollection, deleteCardFromCollection} from '../../actions';
 import {Button} from 'react-mdl';
-
+import Card from './Card';
 import Pagination from '../Widgets/Pagination';
 
 const debug = require('debug')('app: cardsSearch');
@@ -31,32 +31,28 @@ function searchedCards(state) {
   return {savedCollectionInfo};
 }
 
-@connect(searchedCards, {addCardToCollection, deleteCardFromCollection})
+@connect(searchedCards)
 export default class CardsList extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      creative: {
+      event: {
         page: 1,
         perPage: 5
       },
-      place: {
+      placewithopeninghours: {
         page: 1,
         perPage: 5
       },
-      person: {
+      creativework: {
         page: 1,
         perPage: 5
       },
-      happening: {
+      organizationandperson: {
         page: 1,
         perPage: 5
       }
     };
-  }
-
-  findCardById(id) {
-    return _.find(this.props.savedCollectionInfo.cards, {'id': id});
   }
 
   filterCardsByType(type) {
@@ -81,51 +77,27 @@ export default class CardsList extends PureComponent {
     return (
       <div className={classnames(styles.root)}>
         {cards.map((section, i) => (
-          <div key={i}>
-            {filter === 'all' || filter === section.title && (
-              <Pagination data={section.cards}
-                           page={this.state[section.title].page}
-                           perPage={this.state[section.title].perPage}
-                           selectPage={(page) => ::this.selectPage(page, section.cards.length, section.title)}>
-                <li className={classnames('mdl-list__item', styles.collectionList)}>
-                  <div className={classnames('mdl-card', styles.card)}>
-                    <label htmlFor='' className={styles.collectionFilterName}>{section.title}</label>
-                    {paginate(section.cards, this.state[section.title]).data.map((card) => (
-                      <div key={card.id} className={styles.listItem}>
-                        <div className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
-                          <div className='mdl-card__title'>
-                            <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
-                          </div>
-                          <div className={styles.cardImage}>
-                            <img className={styles.cardImg} src='http://placehold.it/350x150'/>
-                          </div>
-                          <div className={classnames('mdl-card__supporting-text', styles.cardActions)}>
-                            {::this.findCardById(card.id) && (
-                              <Button
-                                accent
-                                className={classnames(styles.cardActionButton, 'mdl-js-ripple-effect button--colored')}
-                                onClick={() => deleteCardFromCollection(::this.findCardById(card.id).collectionId, card.id)}
-                              >
-                                Remove card
-                              </Button>
-                            ) || (
-                              < Button
-                                colored
-                                className={classnames(styles.cardActionButton, 'mdl-js-ripple-effect')}
-                                onClick={() => addCardToCollection(Math.random() * 10, card)}
-                              >
-                                Add card
-                              </Button>
-                            )}
-                          </div>
+          section.results.length && (
+            <div key={i}>
+              {(filter === 'all' || filter === section.filterContext.type.toLowerCase()) && (
+                <Pagination data={section.results}
+                            page={this.state[section.filterContext.type.toLowerCase()].page}
+                            perPage={this.state[section.filterContext.type.toLowerCase()].perPage}
+                            selectPage={(page) => ::this.selectPage(page, section.results.length, section.filterContext.type.toLowerCase())}>
+                  <li className={classnames('mdl-list__item', styles.collectionList)}>
+                    <div className={classnames('mdl-card', styles.card)}>
+                      <label htmlFor='' className={styles.collectionFilterName}>{section.filterContext.type}</label>
+                      {paginate(section.results, this.state[section.filterContext.type.toLowerCase()]).data.map((card, index) => (
+                        <div key={index} className={styles.listItem}>
+                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card} addCards={true}/>
                         </div>
-                      </div>
-                    ))}
-                  </div>
-                </li>
-              </Pagination>
-            )}
-          </div>
+                      ))}
+                    </div>
+                  </li>
+                </Pagination>
+              )}
+            </div>
+          ) || null
         ))}
       </div>
     );

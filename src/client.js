@@ -28,8 +28,9 @@ import Horizon from '@horizon/client';
 import PatchedHorizonConnector from './patchHorizonConnector';
 
 const debug = require('debug')('app: client');
+Horizon.clearAuthTokens();
+const horizon = Horizon({host: '127.0.0.1:8188'});
 
-const horizon = Horizon({host: '127.0.0.1:8181'});
 horizon.onReady(() => {
   debug('Horizon ready');
 });

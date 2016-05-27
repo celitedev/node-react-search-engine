@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {page} from '../page';
-import {saveCollectionInfo} from '../../actions';
+import {saveCollectionInfo, resetCollectionInfo} from '../../actions';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
@@ -15,7 +15,7 @@ function collection(state) {
   return {showPlaceholders, savedCollectionInfo};
 }
 
-@page('NewCollection', collection, {saveCollectionInfo})
+@page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo})
 export default class NewCollection extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -42,23 +42,33 @@ export default class NewCollection extends PureComponent {
 
   getUserCollection() {
     const {horizon} = this.state;
-    const {params, saveCollectionInfo, savedCollectionInfo} = this.props;
+    const {params, saveCollectionInfo, location} = this.props;
     const collections = horizon('collections');
-    collections.find({id: parseInt(params.collectionId, 10)}).fetch().subscribe(collection => {
-        debug('Fetched collection', collection);
-        saveCollectionInfo({...collection});
-        debug('Collection saved to redux');
-      },
-      (err) => debug('Error fetch data from db', err),
-      () => {
-        debug('Compleated fetch data');
+    if (location.pathname === '/collections/new') {
+      setTimeout(() => {
         this.setState({
-          loaded: true
-        });
+        loaded: true
       });
+      }, 100);
+    } else {
+      collections.find({id: params.collectionId}).fetch().subscribe(collection => {
+          debug('Fetched collection', collection);
+          saveCollectionInfo({...collection});
+          debug('Collection saved to redux');
+        },
+        (err) => debug('Error fetch data from db', err),
+        () => {
+          debug('Compleated fetch data');
+          this.setState({
+            loaded: true
+          });
+        });
+    }
   }
 
   componentDidMount() {
+    const {resetCollectionInfo} = this.props;
+    resetCollectionInfo();
     this.getUserCollection();
   }
 
@@ -73,7 +83,7 @@ export default class NewCollection extends PureComponent {
       <div>
       <Header params={params}/>
         {loaded && (
-        <div className={classnames(styles.background)}>
+        <div className={styles.background}>
           <NewCollectionHeader />
           <NewCollectionDescription />
           <NewCollectionCards />

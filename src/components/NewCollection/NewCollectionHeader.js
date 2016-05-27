@@ -50,10 +50,12 @@ export default class NewCollectionHeader extends PureComponent {
       debug('Collection valid');
       const collections = horizon('collections');
       collections.upsert({
-        ...savedCollectionInfo
+        ...savedCollectionInfo, userId: 1
       });
       debug('saveCollection finish', collection);
-      this.props.redirect('/mycollections');
+      setTimeout(() => {
+        this.props.redirect('/mycollections');
+      }, 100);
     }
   }
 

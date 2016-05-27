@@ -99,7 +99,7 @@ export default class CollectionCardSearch extends PureComponent {
     const {answerTheQuestion} = this.props;
     const cards = await answerTheQuestion(value, filter);
     debug('Finished fetch cards', cards);
-    this.setState({cards});
+    this.setState({cards: cards.results});
   }
 
   searchCreteriaChange(event, {newValue, method}) {

@@ -1,14 +1,41 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
+import {connect} from 'redux-simple';
+import _ from 'lodash';
+import {Button} from 'react-mdl';
+import {addCardToCollection, deleteCardFromCollection} from '../../actions';
 
+function searchedCards(state) {
+  const {savedCollectionInfo} = state.collection;
+  return {savedCollectionInfo};
+}
+
+@connect(searchedCards, {addCardToCollection, deleteCardFromCollection})
 export default class Card extends PureComponent {
+  constructor(props, context) {
+    super(props, context);
+  }
+
+  findCardById(id) {
+    return _.find(this.props.savedCollectionInfo.cards, (card) => {
+      return card.raw.id === id;
+    });
+  }
   render() {
-    const {className, children, data, bgImage, cardNumber} = this.props;
+    const {className, children, data = [], bgImage, cardNumber, addCards, delteCardBtn, savedCollectionInfo, addCardToCollection, deleteCardFromCollection} = this.props;
     const {formatted, raw} = data;
     return (
       <div className={className}>
         <div className='js-cardAnchor'>
+          {delteCardBtn && (
+          <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
+            <button className='mdl-button mdl-js-button mdl-button--raised mdl-button--accent'
+                    onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
+              <i className='material-icons'>delete</i>
+            </button>
+          </div>
+          )}
           <div
             className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
             style={{backgroundImage: `url(${raw.image[0]})`}}></div>
@@ -52,12 +79,28 @@ export default class Card extends PureComponent {
             {children}
           </div>
         </div>
-
         <div className='card--actions'>
-          <div className='js-overflowCheck'>
-            <button className='mdl-button mdl-button--colored'>Get Directions</button>
-            <button className='mdl-button mdl-button--colored'>Manage Reservation</button>
-          </div>
+          {addCards && (
+              ::this.findCardById(raw.id) && (
+                <button
+                  className='mdl-button mdl-button--colored mdl-button--accent'
+                  onClick={() => deleteCardFromCollection(::this.findCardById(raw.id).collectionId, raw.id)}
+                >
+                  Remove card
+                </button>
+              ) || (
+                <button className='mdl-button mdl-button--colored button--colored'
+                  onClick={() => addCardToCollection(savedCollectionInfo.id, data)}
+                >
+                  Add card
+                </button>
+              )
+          ) || (
+            <div className='js-overflowCheck'>
+              <button className='mdl-button mdl-button--colored'>Get Directions</button>
+              <button className='mdl-button mdl-button--colored'>Manage Reservation</button>
+            </div>
+          )}
         </div>
       </div>
     );

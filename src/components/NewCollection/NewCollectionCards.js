@@ -26,7 +26,7 @@ export default class NewCollectionCards extends PureComponent {
         <div className='mdl-grid'>
           {cards && cards.length && (
             <CollectionCardsAddButton cards={cards}/>
-          )}
+          ) || null}
         </div>
       </div>
     );

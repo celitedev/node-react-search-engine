@@ -16,11 +16,24 @@ function collection(state) {
 
 @connect(collection, {saveCollectionInfo})
 export default class NewCollectionDescription extends PureComponent {
-  constructor(props) {
-    super();
+  constructor(props, context) {
+    super(props, context);
     this.state = {
       savedCollectionInfo: props.savedCollectionInfo
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.savedCollectionInfo.cards.length !== this.state.savedCollectionInfo.cards.length) {
+      this.setState({
+        savedCollectionInfo: nextProps.savedCollectionInfo
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    const {showPlaceholders} = this.props;
+    return showPlaceholders !== nextProps.showPlaceholders;
   }
 
   checkInput(modelName) {
@@ -39,7 +52,8 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   saveCollection() {
-    this.props.saveCollectionInfo({...this.state.savedCollectionInfo});
+    const {savedCollectionInfo} = this.state;
+    this.props.saveCollectionInfo({...savedCollectionInfo});
   }
 
   handleChange(field) {
@@ -73,7 +87,7 @@ export default class NewCollectionDescription extends PureComponent {
                 text={title}
                 onChange={::this.handleChange('title')}
                 options={{
-                toolbar: {buttons: ['bold', 'italic', 'underline']},
+                toolbar: {buttons: []},
                 placeholder: {
                   text: 'Collection title',
                   hideOnClick: true

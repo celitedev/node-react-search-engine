@@ -2,28 +2,26 @@
 
 .root {
   width: 95%;
-  margin: auto;
+  margin: 0 auto;
+}
+.cardStyle {
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
 }
 
-.cardList {
-  width: 90%;
-  margin: 20px auto;
-  display: inline-block;
-  position: relative;
-  min-height: 20px;
-  max-height: 100px;
-  .cardImage {
-    position: absolute;
-    right: 0;
-    top: 0;
-    max-height: 100px;
-  }
-  .cardInfo {
-    width: 80%;
-  }
-  .cardImage {
-    width: 20%;
-  }
+.newCollectionAdd {
+  float: right;
+  top: 15px;
+}
+
+.deleteCollection {
+  position: absolute;
+  right: 10px;
+}
+
+.cardsList {
+  padding: 0 10px;
 }
 
 .pagination {

@@ -8,7 +8,15 @@ export default class Details extends PureComponent {
 
   render() {
     const {answer, params} = this.props;
-    const {latitude, longitude} = answer.result.raw.geo;
+    const {geo} = answer.result.raw;
+    let setMapView = [];
+    if (geo) {
+      const {latitude, longitude} = answer.result.raw.geo;
+      setMapView = [
+        latitude,
+        longitude
+      ];
+    }
     const carouselSettings = {
       responsive: [{
         breakpoint: 4000,
@@ -41,10 +49,6 @@ export default class Details extends PureComponent {
       scrollWheelZoom: false,
       zoomControl: false
     };
-    const setMapView = [
-      latitude,
-      longitude
-    ];
     return (
       <main className='mdl-layout__content'>
         <div className='page-content'>

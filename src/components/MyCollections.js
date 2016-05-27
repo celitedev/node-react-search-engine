@@ -3,6 +3,9 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Pagination from './Widgets/Pagination';
 import {Link} from 'react-router';
+import Card from './Cards/Card';
+
+const debug = require('debug')('app:myCollectionsCmp');
 
 function paginate(data = [], o) {
   // adapt to zero indexed logic
@@ -20,14 +23,41 @@ function paginate(data = [], o) {
 }
 
 export default class MyCollections extends PureComponent {
+  static contextTypes = {
+    horizon: React.PropTypes.func
+  };
+
   constructor(props, context) {
     super(props, context);
     this.state = {
+      collections: props.collections,
+      horizon: context.horizon,
       pagination: {
         page: 1,
         perPage: 5
       }
     };
+  }
+
+  deleteCollection(collectionId) {
+    const {horizon} = this.state;
+    const collections = horizon('collections');
+    collections.remove(collectionId);
+    setTimeout(() => {
+      collections.findAll({userId: 1}).fetch().subscribe(collections => {
+          debug('Fetched collections', collections);
+          this.setState({
+            collections
+          });
+        },
+        (err) => debug('Error fetch data from db', err),
+        () => {
+          debug('Compleated fetching data');
+          this.setState({
+            loaded: true
+          });
+        });
+    }, 100);
   }
 
   selectPage(page) {
@@ -44,47 +74,51 @@ export default class MyCollections extends PureComponent {
   }
 
   render() {
-    const {collections} = this.props;
-    const {pagination} = this.state;
+    const {pagination, collections} = this.state;
     return (
       <div className='mdl-layout mdl-js-layout'>
-      <ul className={classnames(styles.root, 'mdl-list')}>
-        <div className='mdl-card__title'>
-          <h2 className='mdl-card__title-text'>My collections</h2>
-        </div>
-        <Pagination data={collections}
-                     page={pagination.page}
-                     perPage={pagination.perPage}
-                     selectPage={(page) => ::this.selectPage(page)}>
-          {paginate(collections, pagination).data.map((c, i) => (
-            <li key={i} className='mdl-list__item'>
-              <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
-                <div className='mdl-card__title'>
-                  <h4 className='mdl-card__title-text'>
-                    <Link to={`collections/${c.id}`}>
-                      {c.title}
-                    </Link>
-                  </h4>
-                </div>
-                {c.cards.map((card, i) => (
-                  <div key={i} className={classnames('mdl-card mdl-shadow--8dp', styles.cardList)}>
+        <ul className={classnames(styles.root, 'mdl-list')}>
+          <Link to={`/collections/new`}>
+            <button
+              className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent', styles.newCollectionAdd)}>
+              New collection
+            </button>
+          </Link>
+          <div className='mdl-card__title'>
+            <h2 className='mdl-card__title-text'>My collections</h2>
+          </div>
+          {collections.length && (
+            <Pagination data={collections}
+                        page={pagination.page}
+                        perPage={pagination.perPage}
+                        selectPage={(page) => ::this.selectPage(page)}>
+              {paginate(collections, pagination).data.map((c, i) => (
+                <li key={i} className='mdl-list__item'>
+                  <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
                     <div className='mdl-card__title'>
-                      <h2 className={classnames('mdl-card__title-text', styles.cardInfo)}>{card.title}</h2>
+                      <button onClick={() => ::this.deleteCollection(c.id)}
+                              className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent', styles.deleteCollection)}>
+                        <i className='material-icons'>delete</i>
+                      </button>
+                      <h4 className='mdl-card__title-text'>
+                        <Link to={`collections/${c.id}`}>
+                          {c.title}
+                        </Link>
+                      </h4>
                     </div>
-                    <div className={styles.cardImage}>
-                      <img className={styles.cardImg} src='http://placehold.it/350x150'/>
-                    </div>
-                    <div className={classnames('mdl-card__supporting-text', styles.cardInfo)}>
-                      {card.description}
+                    <div className={styles.cardsList}>
+                      {c.cards.map((card, i) => (
+                        <Link key={i} to={`/details/${card.raw.name}/${card.id}`}>
+                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card}/>
+                        </Link>
+                      ))}
                     </div>
                   </div>
-                ))}
-
-              </div>
-            </li>
-          ))}
-        </Pagination>
-      </ul>
+                </li>
+              ))}
+            </Pagination>
+          ) || null}
+        </ul>
       </div>
     );
   }

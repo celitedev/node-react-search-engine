@@ -1,8 +1,6 @@
 import {
   REDIRECT,
-  CREATE_COLLECTION,
-  UPDATE_COLLECTIION,
-  DELETE_COLLECTION,
+  RESET_COLLECTION_INFO,
   SWITCH_PLACEHOLDER,
   SEARCH_CARDS,
   ADD_CARD_TO_COLLECTION,
@@ -38,6 +36,12 @@ export function saveCollectionInfo(info) {
   return {
     type: SAVE_COLLECTION_INFO,
     info
+  };
+}
+
+export function resetCollectionInfo() {
+  return {
+    type: RESET_COLLECTION_INFO
   };
 }
 
@@ -95,7 +99,7 @@ export function deleteCardFromCollection(collectionId, cardId) {
 
 // API
 
-export function answerTheQuestion(question, type = 'PlaceWithOpeninghours', filter = {} ) {
+export function answerTheQuestion(question, type = '', filter = {} ) {
   return {
     type: API_REQUEST,
     method: 'post',

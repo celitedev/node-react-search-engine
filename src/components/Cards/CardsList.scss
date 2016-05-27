@@ -13,6 +13,10 @@
   .listItem {
     padding-left: 10px;
   }
+  .cardStyle {
+    width: 97%;
+    margin-bottom: 10px;
+  }
   .cardList {
     width: 95%;
     margin: 5px auto;
@@ -29,11 +33,6 @@
     .cardActions {
       padding: 0 10px;
       border-top: 1px solid;
-    }
-    .cardActionButton {
-      float: left;
-      font-size: xx-small;
-      height: 25px;
     }
     .cardInfo {
       font-size: large;

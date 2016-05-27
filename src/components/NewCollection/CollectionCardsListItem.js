@@ -4,15 +4,16 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import 'material-design-icons';
 import {connect} from 'redux-simple';
-import {deleteCardFromCollection} from '../../actions';
+import {deleteCardFromCollection, saveCollectionInfo} from '../../actions';
 import MediumEditor from 'react-medium-editor';
+import Card from '../Cards/Card';
 
 function collection(state) {
-  const {showPlaceholders} = state.collection;
-  return {showPlaceholders};
+  const {showPlaceholders, savedCollectionInfo} = state.collection;
+  return {showPlaceholders, savedCollectionInfo};
 }
 
-@connect(collection, {deleteCardFromCollection})
+@connect(collection, {deleteCardFromCollection, saveCollectionInfo})
 export default class CollectionCardsListItem extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -21,37 +22,38 @@ export default class CollectionCardsListItem extends PureComponent {
     };
   }
 
-  checkInput(modelName) {
+  checkInput() {
     return _.isEmpty(this.state.description) && this.props.showPlaceholders ?
       styles.formPlaceholder : '';
+  }
+
+  saveCollection() {
+    const {description} = this.state;
+    const {item, savedCollectionInfo} = this.props;
+    const updatedCards = _.map(savedCollectionInfo.cards, (el) => {
+      if (el.id === item.raw.id) {
+        el.description = description;
+      }
+      return el;
+    });
+    this.props.saveCollectionInfo({...savedCollectionInfo, cards: updatedCards});
   }
 
   handleDesciptionChange(description, medium) {
     this.setState({
       description
     });
+    this.saveCollection();
   }
 
   render() {
-    const {item, showPlaceholders, deleteCardFromCollection} = this.props;
+    const {item} = this.props;
+    const {raw} = item;
     const {description} = this.state;
     return (
-      <div className={styles.root}>
+      <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
-          <div className={classnames('mdl-card mdl-shadow--2dp')}>
-            <div className='mdl-card__title'>
-              <h2 className='mdl-card__title-text'>{ item.title }</h2>
-            </div>
-            <div className='mdl-card__supporting-text'>
-              {item.content}
-            </div>
-            <div className='mdl-card__menu'>
-              <button className='mdl-button mdl-js-button mdl-button--raised'
-                      onClick={() => deleteCardFromCollection(item.collectionId, item.id)}>
-                <i className='material-icons'>delete</i>
-              </button>
-            </div>
-          </div>
+          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={true} delteCardBtn={true} hideActionButns={true}/>
           <MediumEditor
             className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
             tag='p'
