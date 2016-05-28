@@ -7,7 +7,9 @@ import {
   DELETE_CARD_FROM_COLLECTION,
   SWITCH_ADD_CARD_MODAL,
   SAVE_COLLECTION_INFO,
-  API_REQUEST
+  API_REQUEST,
+  LOGIN,
+  LOGOUT
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -15,6 +17,20 @@ export function redirect(path, query = {}) {
     type: REDIRECT,
     path,
     query
+  };
+}
+
+// Auth
+
+export function toggleLoginModal() {
+  return {
+    type: LOGIN
+  };
+}
+
+export function logout() {
+  return {
+    type: LOGOUT
   };
 }
 
@@ -54,12 +70,15 @@ export function getCards(query = '', type = 'all') {
   };
 }
 
-export function getCardsSuggestions(input) {
+export function getCardsSuggestions(query, type = '') {
   return {
     type: API_REQUEST,
-    method: 'get',
-    path: '/cards/suggestions',
-    query: input
+    method: 'post',
+    path: 'suggest',
+    data: {
+      query,
+      type
+    }
   };
 }
 
@@ -103,8 +122,8 @@ export function answerTheQuestion(question, type = '', filter = {} ) {
   return {
     type: API_REQUEST,
     method: 'post',
-    path: 'http://testing123.kwhen.com:3000/question',
-    data: JSON.stringify({
+    path: 'question',
+    data: {
       badRequestIs200: true,
       question,
       meta: {
@@ -113,7 +132,7 @@ export function answerTheQuestion(question, type = '', filter = {} ) {
       type,
       wantUnique: false,
       filter
-    })
+    }
   };
 }
 
@@ -121,8 +140,8 @@ export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page 
   return {
     type: API_REQUEST,
     method: 'post',
-    path: 'http://testing123.kwhen.com:3000/search',
-    data: JSON.stringify({
+    path: 'search',
+    data: {
       meta: {
         includeCardFormatting: true
       },
@@ -135,7 +154,7 @@ export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page 
       type,
       wantUnique: false,
       filter
-    })
+    }
   };
 }
 
@@ -143,8 +162,8 @@ export function loadMoreResults(page, filter, type = 'PlaceWithOpeninghours') {
   return {
     type: API_REQUEST,
     method: 'post',
-    path: 'http://testing123.kwhen.com:3000/search',
-    data: JSON.stringify({
+    path: 'search',
+    data: {
       filter,
       sort: [
         {
@@ -157,6 +176,6 @@ export function loadMoreResults(page, filter, type = 'PlaceWithOpeninghours') {
       },
       type,
       wantUnique: false
-    })
+    }
   };
 }

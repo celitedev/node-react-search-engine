@@ -13,7 +13,7 @@ import {Provider} from 'redux-simple';
 import routes from './routes';
 
 import reducers from './reducers';
-import {LOGIN, API_REQUEST, ENABLE_FETCHER} from './actionTypes';
+import {LOGIN, SET_USER, ENABLE_FETCHER} from './actionTypes';
 import rafScheduler from './middleware/rafScheduler';
 import thunk from './middleware/thunk';
 import logger from './middleware/logger';
@@ -24,16 +24,12 @@ import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
 import 'material-design-lite';
-import Horizon from '@horizon/client';
 import PatchedHorizonConnector from './patchHorizonConnector';
 
-const debug = require('debug')('app: client');
-Horizon.clearAuthTokens();
-const horizon = Horizon({host: '127.0.0.1:8188'});
+const debug = require('debug')('app:client');
 
-horizon.onReady(() => {
-  debug('Horizon ready');
-});
+let Horizon;
+let horizon;
 
 const middlewares = [
   thunk,
@@ -66,7 +62,6 @@ const store = compose(
   window.devToolsExtension ? window.devToolsExtension() : f => f
 )(createStore)(reducers, window.reduxState);
 
-
 try {
   const debugConfig = localStorage.getItem('debug');
   if (/.*logger.*/.test(debugConfig)) {
@@ -98,27 +93,29 @@ function authenticate(user) {
 }
 
 async function bootstrap() {
-  if (process.env.NODE_ENV === 'production') {
-    const user = window.reduxState.auth.user;
-    if (user) {
-      authenticate(user);
-    }
-  } else {
-    try {
-      // const user = await store.dispatch({
-      //   type: API_REQUEST,
-      //   method: 'get',
-      //   path: '/me'
-      // });
-      // authenticate(user);
-    } catch (err) {
-      // pass
-    }
-  }
   store.dispatch({
     type: ENABLE_FETCHER
   });
+  if (!process.env.SERVER_RENDERING) {
+    horizon = require('@horizon/client')();
+    horizon.connect();
+    horizon.onReady(() => {
+      debug('Connected to Horizon server');
+      if (horizon.hasAuthToken()) {
+        horizon.currentUser().fetch().subscribe( (user) => {
+          debug('Current user', user);
+          if (user.id) {
+            store.dispatch({
+              type: SET_USER,
+              user
+            });
+          }
+        } );
+      }
+    });
+
+    horizon.status(status => debug('Horizon status: ', status.type));
+  }
   render();
 }
-
 bootstrap();

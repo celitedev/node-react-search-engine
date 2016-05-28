@@ -1,6 +1,6 @@
 export const types = {
-  places: 'PlaceWithOpeninghours',
-  happening: 'Event',
+  'places': 'PlaceWithOpeninghours',
+  'happening': 'Event',
   'creative Work': 'CreativeWork',
   'Person / Group': 'OrganizationAndPerson'
 };

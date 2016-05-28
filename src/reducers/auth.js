@@ -9,11 +9,11 @@ import {
 export default createStore({
   authenticated: false,
   user: null,
-  modalReason: null
+  loginModal: false
 }, {
-  [SET_USER]: (state, action) => ({user: {...state.user, ...action.user}}),
+  [SET_USER]: (state, action) => ({user: {...state.user, ...action.user}, authenticated: true}),
 
-  [LOGIN]: (state, action) => ({user: action.user, authenticated: true, showModal: false, modalReason: null}),
+  [LOGIN]: (state, action) => ({loginModal: !state.loginModal}),
 
-  [LOGOUT]: () => RESET_STORE
+  [LOGOUT]: () => ({authenticated: false, user: null})
 });
