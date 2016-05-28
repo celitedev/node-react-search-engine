@@ -15,11 +15,11 @@ export default class Search extends PureComponent {
       searchResults: dispatch({
         type: API_REQUEST,
         method: 'post',
-        path: 'http://testing123.kwhen.com:3000/search',
-        data: JSON.stringify({
+        path: 'search',
+        data: {
           filter, pageSize, similarTo, spatial, sort,
           page, meta, type, wantUnique, question
-        })
+        }
       })
     };
   }

@@ -12,7 +12,7 @@ export default class Details extends PureComponent {
       result: dispatch({
         type: API_REQUEST,
         method: 'get',
-        path: `http://testing123.kwhen.com:3000/entities/${params.id}`
+        path: `entities/${params.id}`
       })
     };
   }
