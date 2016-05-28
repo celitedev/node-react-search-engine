@@ -5,6 +5,10 @@
 
 # IDE
 /.idea
+/typings
+jsconfig.json
+typings.json
+.tern-project
 
 # NPM
 /node_modules
@@ -17,6 +21,9 @@
 /build
 /webpack-stats.json
 /webpack-records.json
+
+# DB
+/rethinkdb_data
 
 # Project
 #/local-config-private.yml

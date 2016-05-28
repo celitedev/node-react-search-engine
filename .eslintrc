@@ -22,7 +22,9 @@
     "jsx-quotes": [2, "prefer-single"],
     "no-constant-condition": 0,
     "indent": 0,
-    "no-unused-vars": 0
+    "no-undef": 0,
+    "no-unused-vars": 0,
+    "new-cap": 0
   },
   "globals": {
     "styles": true
