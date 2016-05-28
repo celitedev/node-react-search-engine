@@ -7,10 +7,11 @@ import {Menu, MenuItem} from 'react-mdl';
 import Map from '../Widgets/Map';
 import Card from '../Cards/Card';
 import Waypoint from 'react-waypoint';
+import Headroom from 'react-headroom';
 import _ from 'lodash';
 import {loadMoreResults, filterResults} from '../../actions';
 import CardsCarousel from '../Cards/CardsCarousel';
-import {types} from '../Index/exampleQuestions';
+import {types} from '../../exampleQuestions';
 const debug = require('debug')('app:search');
 
 @connect(null, {loadMoreResults, filterResults})
@@ -24,7 +25,8 @@ export default class Search extends PureComponent {
       filter: 'Places',
       selectedMarker: null,
       isSlider: false,
-      slideIndex: 0
+      slideIndex: 0,
+      removeFilter: false
     };
   }
   async loadNewResults() {
@@ -102,15 +104,18 @@ export default class Search extends PureComponent {
   }
 
   removeFilter() {
-    const {filter, answer} = this.state;
+    const {filter, answer, removeFilter} = this.state;
     const {subtype, name} = answer.filterContext.filter;
     debug('removeFilter', subtype, name);
     this.filterResults({}, types[filter]);
+    this.setState({
+      removeFilter: !removeFilter
+    });
   }
 
   render() {
     const {params} = this.props;
-    const {answer, results, filter, selectedMarker, isSlider, slideIndex} = this.state;
+    const {answer, results, filter, selectedMarker, isSlider, slideIndex, removeFilter} = this.state;
     let raw;
     let setMapView;
     if (!_.isEmpty(answer.results)) {
@@ -143,8 +148,8 @@ export default class Search extends PureComponent {
       }]
     };
     return (
-      <main className='search-page'>
-        <div id='js-filtersContainerPartial-container' className='filters'>
+      <main className={classnames('search-page', !isSlider && styles.containerMargin)}>
+        <div id='js-filtersContainerPartial-container' className={classnames('filters', !isSlider && styles.stickyHeader)}>
           <button id='type-selector' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
             {filter}
             <i className='material-icons'>keyboard_arrow_right</i>
@@ -180,7 +185,7 @@ export default class Search extends PureComponent {
           )}
         </div>
         {results.length && (
-          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} options={mapOptions} multipleMarkers={isSlider ? oneResult : results} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))}refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : results} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
             <div className='mobile-cover' onClick={() => this.showMap()}></div>
             <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
           </Map>

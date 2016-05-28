@@ -4,17 +4,32 @@ import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import classnames from 'classnames';
-import {redirect} from '../../actions';
-import exampleQuestions from './exampleQuestions';
+import {redirect, toggleLoginModal, logout} from '../../actions';
+import exampleQuestions from './../../exampleQuestions';
+import {Button} from 'react-mdl';
+import LoginModal from '../Common/LoginModal';
+import {clearAuthToken} from '../../horizon';
 
 const debug = require('debug')('app:collections:new');
-@connect(null, {redirect})
+
+function auth(state) {
+  const {authenticated} = state.auth;
+  return {authenticated};
+}
+
+@connect(auth, {redirect, toggleLoginModal, logout})
 export default class IndexSearch extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
       searchText: ''
     };
+  }
+
+  logout() {
+    const {logout} = this.props;
+    logout();
+    clearAuthToken();
   }
 
   searchText(e) {
@@ -28,16 +43,31 @@ export default class IndexSearch extends PureComponent {
 
   render() {
     const {searchText} = this.state;
+    const {toggleLoginModal, authenticated} = this.props;
     return (
       <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
-            <Link to='mycollections'>
-              <button
-                className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--accent', styles.myCollectionsBtn)}>
-                My Collections
-              </button>
-            </Link>
+            {authenticated && (
+              <div>
+                <Link to='mycollections'>
+                  <Button raised accent ripple
+                          className={styles.myCollectionsBtn}>
+                    My Collections
+                  </Button>
+                </Link>
+                <Button raised accent ripple className={styles.loginBtn}
+                        onClick={() => ::this.logout()}>
+                  Logout
+                </Button>
+              </div>
+            ) || ( <Button raised accent ripple className={styles.loginBtn}
+                           onClick={toggleLoginModal}>
+                Login
+              </Button>
+            )
+            }
+            <LoginModal />
             <div className='logo'></div>
 
             <div className='l-searchbox'>

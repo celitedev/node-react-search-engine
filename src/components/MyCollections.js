@@ -2,6 +2,8 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Pagination from './Widgets/Pagination';
+import {connect} from 'redux-simple';
+import {toggleLoginModal} from '../actions';
 import {Link} from 'react-router';
 import Card from './Cards/Card';
 
@@ -22,6 +24,12 @@ function paginate(data = [], o) {
   };
 }
 
+function userInfo(state) {
+  const {user} = state.auth;
+  return {user};
+}
+
+@connect(userInfo, {toggleLoginModal})
 export default class MyCollections extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -39,25 +47,31 @@ export default class MyCollections extends PureComponent {
     };
   }
 
+  getCollections(collections) {
+    const {id} = this.props.user;
+      collections.findAll({userId: id}).fetch().subscribe(collections => {
+        debug('Fetched collections', collections);
+        this.setState({
+          collections
+        });
+      },
+      (err) => debug('Error fetch data from db', err),
+      () => {
+        debug('Compleated fetching data');
+    });
+  }
+
   deleteCollection(collectionId) {
     const {horizon} = this.state;
     const collections = horizon('collections');
-    collections.remove(collectionId);
-    setTimeout(() => {
-      collections.findAll({userId: 1}).fetch().subscribe(collections => {
-          debug('Fetched collections', collections);
-          this.setState({
-            collections
-          });
-        },
-        (err) => debug('Error fetch data from db', err),
-        () => {
-          debug('Compleated fetching data');
-          this.setState({
-            loaded: true
-          });
-        });
-    }, 100);
+    collections.remove(collectionId).subscribe(collection => {
+        debug('Fetched collections', collections);
+        this.getCollections(collections);
+      },
+      (err) => debug('Error fetch data from db', err),
+      () => {
+        debug('Compleated fetching data');
+      });
   }
 
   selectPage(page) {
@@ -87,6 +101,7 @@ export default class MyCollections extends PureComponent {
           <div className='mdl-card__title'>
             <h2 className='mdl-card__title-text'>My collections</h2>
           </div>
+
           {collections.length && (
             <Pagination data={collections}
                         page={pagination.page}

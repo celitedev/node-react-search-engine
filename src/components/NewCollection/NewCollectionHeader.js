@@ -10,8 +10,9 @@ import 'material-design-icons';
 const debug = require('debug')('app:collections:new');
 
 function collection(state) {
+  const {user} = state.auth;
   const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo};
+  return {showPlaceholders, savedCollectionInfo, user};
 }
 
 @connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect})
@@ -46,16 +47,19 @@ export default class NewCollectionHeader extends PureComponent {
     debug('saveCollection start', this.props.savedCollectionInfo);
     if (!this.validateCollection()) {
       const {horizon} = this.state;
-      const {savedCollectionInfo} = this.props;
+      const {savedCollectionInfo, user} = this.props;
       debug('Collection valid');
       const collections = horizon('collections');
       collections.upsert({
-        ...savedCollectionInfo, userId: 1
-      });
-      debug('saveCollection finish', collection);
-      setTimeout(() => {
+        ...savedCollectionInfo, userId: user.id
+      }).subscribe(collection => {
+        debug('Collection updeted');
         this.props.redirect('/mycollections');
-      }, 100);
+      },
+      (err) => debug('Collection update error', err),
+      () => {
+        debug('Collection update finished', collection);
+      });
     }
   }
 

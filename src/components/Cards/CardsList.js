@@ -2,9 +2,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
-import {Link} from 'react-router';
-import _ from 'lodash';
-import {Button} from 'react-mdl';
 import Card from './Card';
 import Pagination from '../Widgets/Pagination';
 
@@ -55,10 +52,6 @@ export default class CardsList extends PureComponent {
     };
   }
 
-  filterCardsByType(type) {
-    return _.filter(this.props.cards, {'type': type});
-  }
-
   selectPage(page, cardsLength, type) {
     const perPage = this.state[type].perPage || {};
     const pages = Math.ceil(cardsLength / perPage);
@@ -73,7 +66,7 @@ export default class CardsList extends PureComponent {
   }
 
   render() {
-    const {addCardToCollection, deleteCardFromCollection, cards, filter} = this.props;
+    const {cards, filter} = this.props;
     return (
       <div className={classnames(styles.root)}>
         {cards.map((section, i) => (

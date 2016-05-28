@@ -3,11 +3,19 @@ import PureComponent from 'react-pure-render/component';
 import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
-import {answerTheQuestion, redirect} from '../../actions';
+import {answerTheQuestion, redirect, toggleLoginModal, logout} from '../../actions';
+import {Menu, MenuItem} from 'react-mdl';
+import {clearAuthToken} from '../../horizon';
+import LoginModal from '../Common/LoginModal';
 
 const debug = require('debug')('app:searchRequest');
 
-@connect(null, {redirect, answerTheQuestion})
+function auth(state) {
+  const {authenticated} = state.auth;
+  return {authenticated};
+}
+
+@connect(auth, {redirect, answerTheQuestion, toggleLoginModal, logout})
 export default class Header extends PureComponent {
 
   constructor(props, context) {
@@ -26,6 +34,13 @@ export default class Header extends PureComponent {
     }
   }
 
+
+  logout() {
+    const {logout} = this.props;
+    logout();
+    clearAuthToken();
+  }
+
   searchText(e) {
     if (e.which === 13) {
       this.searchRequest(e.target.textContent);
@@ -38,9 +53,9 @@ export default class Header extends PureComponent {
 
   render() {
     const {searchText} = this.state;
+    const {authenticated, toggleLoginModal} = this.props;
     return (
       <header className='mdl-layout__header'>
-
         <div className='mdl-layout__header-row'>
           <Link to='/' className='header--logo' title='back to home'/>
           <Link to='/' className='header--logotext' title='back to home'/>
@@ -50,15 +65,23 @@ export default class Header extends PureComponent {
               className='placeholder'
               html={searchText} // innerHTML of the editable div ;
               placeholder='When...'
-              disabled={false}       // use true to disable edition ;
+              disabled={false}  // use true to disable edition ;
               onKeyPress={::this.searchText}
             />
           </div>
           <nav className='mdl-navigation'>
-            <a title='your profile' className='mdl-navigation__link profile--nav' href='#'><i
+            <a title='your profile' className='mdl-navigation__link profile--nav' id='demo-menu-lower-right' href='#'><i
               className='material-icons profile--icon'>account_circle</i></a>
+            <Menu target='demo-menu-lower-right' align='right'>
+              {authenticated && (
+                <MenuItem onClick={() => ::this.logout()}>Logout</MenuItem>
+              ) || (
+                <MenuItem onClick={toggleLoginModal}>Login</MenuItem>
+              )}
+            </Menu>
           </nav>
         </div>
+        <LoginModal />
       </header>
     );
   }

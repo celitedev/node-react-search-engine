@@ -2,11 +2,18 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
-import {getCards, addCardToCollection, getCardsSuggestions, answerTheQuestion, deleteCardFromCollection} from '../../actions';
+import {
+  getCards,
+  addCardToCollection,
+  getCardsSuggestions,
+  answerTheQuestion,
+  deleteCardFromCollection
+} from '../../actions';
 import {Button} from 'react-mdl';
 import 'material-design-icons';
 import Autosuggest from 'react-autosuggest';
 import CardsList from '../Cards/CardsList';
+import {types} from '../../exampleQuestions';
 
 if (!process.env.SERVER_RENDERING) {
   require('getmdl-select/getmdl-select.min');
@@ -21,7 +28,7 @@ function searchedCards(state) {
 
 function renderSuggestion(suggestion) {
   return (
-    <span>{suggestion.title}</span>
+    <span>{suggestion.text}</span>
   );
 }
 
@@ -32,7 +39,13 @@ function renderSectionTitle(section) {
 }
 
 
-@connect(searchedCards, {getCards, addCardToCollection, deleteCardFromCollection, answerTheQuestion, getCardsSuggestions})
+@connect(searchedCards, {
+  getCards,
+  addCardToCollection,
+  deleteCardFromCollection,
+  answerTheQuestion,
+  getCardsSuggestions
+})
 export default class CollectionCardSearch extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -46,15 +59,11 @@ export default class CollectionCardSearch extends PureComponent {
     };
   }
 
-  componentDidMount() {
-    //this.loadCards();
-  }
-
   async makeSuggestionRequest(value) {
-    const {answerTheQuestion} = this.props;
+    const {getCardsSuggestions} = this.props;
     try {
-      debug('Start cards search:', this.props);
-      const cardsSuggestions = await answerTheQuestion({value});
+      debug('Start suggestions search:', value);
+      const cardsSuggestions = await getCardsSuggestions(value);
       debug('Finished cards search', cardsSuggestions);
       return cardsSuggestions;
     } catch (err) {
@@ -78,11 +87,17 @@ export default class CollectionCardSearch extends PureComponent {
   async onSuggestionsUpdateRequested({value}) {
     const suggestions = await this.getSuggestions(value);
     debug('got suggestions', suggestions);
+    suggestionsValues = Object.keys(suggestions).map((key) => {
+      return {
+        title: key || '',
+        cards: suggestions[key]
+      };
+    });
     const isInputBlank = value.trim() === '';
-    const noSuggestions = !isInputBlank && suggestions.length === 0;
+    const noSuggestions = !isInputBlank && suggestionsValues.length === 0;
 
     this.setState({
-      suggestions,
+      suggestions: suggestionsValues,
       noSuggestions
     });
   }
@@ -102,10 +117,20 @@ export default class CollectionCardSearch extends PureComponent {
     this.setState({cards: cards.results});
   }
 
-  searchCreteriaChange(event, {newValue, method}) {
+  onSuggestionSelected(event, {suggestion, suggestionValue, sectionIndex, method}) {
+    debug('onSuggestionSelected', suggestion, suggestionValue, method);
     this.setState({
-      value: newValue
+      value: suggestion.text
     });
+  }
+
+  searchCreteriaChange(event, {newValue, method}) {
+    debug('search change', newValue, method);
+    if (method === 'type') {
+      this.setState({
+        value: newValue
+      });
+    }
   }
 
   searchResults(e) {
@@ -117,10 +142,12 @@ export default class CollectionCardSearch extends PureComponent {
   render() {
     const {className} = this.props;
     const {cards, cardTypes, filter, value, suggestions, noSuggestions} = this.state;
+    const filterType = types[filter] || filter;
+    debug('Filter Type', filterType);
     const searchFieldProps = {
       placeholder: 'Seach cards',
       value,
-      onChange: this.searchCreteriaChange.bind(this)
+      onChange: ::this.searchCreteriaChange
     };
     return (
       <div className={classnames(className, styles.root)}>
@@ -143,21 +170,23 @@ export default class CollectionCardSearch extends PureComponent {
                 <li className='mdl-menu__item' value='happening' onClick={() => this.changeFilter('happening')}>
                   Happening
                 </li>
-                <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('place')}>Place</li>
-                <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative')}>Creative
+                <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('places')}>Places</li>
+                <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative Work')}>Creative
                   work
                 </li>
-                <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('person')}>Person/Group
+                <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('Person / Group')}>Person/Group
                 </li>
               </ul>
             </div>
             <Autosuggest multiSection={true}
+                         focusInputOnSuggestionClick={false}
                          suggestions={suggestions}
                          onSuggestionsUpdateRequested={::this.onSuggestionsUpdateRequested}
                          getSuggestionValue={::this.getSuggestionValue}
                          renderSuggestion={renderSuggestion}
                          renderSectionTitle={renderSectionTitle}
                          getSectionSuggestions={::this.getSectionSuggestions}
+                         onSuggestionSelected={::this.onSuggestionSelected}
                          inputProps={searchFieldProps}/>
             <Button
               className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect', styles.extraFiltersBtn)}
@@ -171,7 +200,7 @@ export default class CollectionCardSearch extends PureComponent {
             )}
           </form>
         </div>
-        <CardsList cardTypes={cardTypes} cards={cards} filter={filter}/>
+        <CardsList cardTypes={cardTypes} cards={cards} filter={filterType.toLowerCase()}/>
       </div>
     );
   }

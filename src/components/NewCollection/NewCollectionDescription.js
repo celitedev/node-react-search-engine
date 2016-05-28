@@ -24,11 +24,11 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.savedCollectionInfo.cards.length !== this.state.savedCollectionInfo.cards.length) {
-      this.setState({
-        savedCollectionInfo: nextProps.savedCollectionInfo
-      });
-    }
+    //if (nextProps.savedCollectionInfo.cards.length !== this.state.savedCollectionInfo.cards.length) {
+    this.setState({
+      savedCollectionInfo: nextProps.savedCollectionInfo
+    });
+    //}
   }
 
   shouldComponentUpdate(nextProps) {

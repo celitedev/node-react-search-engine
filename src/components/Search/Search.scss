@@ -2,6 +2,17 @@
   width: 100%;
 }
 
+@media (min-width: 800px) {
+  .containerMargin {
+    margin-top: 60px;
+  }
+
+  .stickyHeader {
+    position: fixed;
+    top: 60px;
+  }
+}
+
 .cardStyle {
   width: 100%;
   height: 150px;

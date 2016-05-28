@@ -61,6 +61,10 @@ export default class Map extends PureComponent {
     } else {
       this.showMarkers(nextProps.multipleMarkers);
     }
+    if (this.props.refreshMap !== nextProps.refreshMap) {
+      this.map.remove();
+      this.initMap();
+    }
   }
 
   initMap() {
