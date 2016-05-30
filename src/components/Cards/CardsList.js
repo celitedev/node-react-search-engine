@@ -73,7 +73,8 @@ export default class CardsList extends PureComponent {
           section.results.length && (
             <div key={i}>
               {(filter === 'all' || filter === section.filterContext.type.toLowerCase()) && (
-                <Pagination data={section.results}
+                <Pagination className={styles.pagginationPosition}
+                            data={section.results}
                             page={this.state[section.filterContext.type.toLowerCase()].page}
                             perPage={this.state[section.filterContext.type.toLowerCase()].perPage}
                             selectPage={(page) => ::this.selectPage(page, section.results.length, section.filterContext.type.toLowerCase())}>

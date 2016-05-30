@@ -81,7 +81,7 @@ export default class NewCollection extends PureComponent {
       <div>
       <Header params={params}/>
         {loaded && (
-        <div className={styles.background}>
+        <div className={styles.overflow}>
           <NewCollectionHeader />
           <NewCollectionDescription />
           <NewCollectionCards />

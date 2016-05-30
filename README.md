@@ -16,6 +16,7 @@
 ## Local development
  - `npm install`
  - `bower install`
+ -  install RethinkDB // https://www.rethinkdb.com
  - `npm start`
- - `npm run rendering`
- - `open localhost:7000`
+ - `npm run db`
+ - `open https://localhost:7000`

@@ -13,7 +13,7 @@ export default class Pagination extends PureComponent {
   }
 
   render() {
-    const {children, selectPage, data, page, perPage} = this.props;
+    const {children, selectPage, data, page, perPage, className} = this.props;
     const pages = Math.ceil(data.length / Math.max(
         isNaN(perPage) ? 1 : perPage, 1)
     );
@@ -21,7 +21,7 @@ export default class Pagination extends PureComponent {
     return (
       <div>
         {children}
-        <Paginator.Context className={classnames('pagify-pagination', styles.root)}
+        <Paginator.Context className={classnames('pagify-pagination', styles.root, className)}
                            segments={segmentize({
                              page: page,
                              pages: pages,

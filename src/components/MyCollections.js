@@ -103,7 +103,8 @@ export default class MyCollections extends PureComponent {
           </div>
 
           {collections.length && (
-            <Pagination data={collections}
+            <Pagination className={styles.pagginationPosition}
+                        data={collections}
                         page={pagination.page}
                         perPage={pagination.perPage}
                         selectPage={(page) => ::this.selectPage(page)}>
