@@ -45,7 +45,7 @@ if (extractText) {
   cssSelectorName = '[name]_[local]_[hash:hex:5]';
 }
 
-function entry(path, server = false) {
+function entry(path, server) {
   const entry = ['babel-polyfill', path];
   if (!server) {
     entry.unshift('./src/styles/global.scss');
