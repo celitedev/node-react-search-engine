@@ -9,6 +9,8 @@ import MediumEditor from 'react-medium-editor';
 import {Button} from 'react-mdl';
 import 'material-design-icons';
 
+const debug = require('debug')('app:collection');
+
 function collection(state) {
   const {showPlaceholders, savedCollectionInfo} = state.collection;
   return {showPlaceholders, savedCollectionInfo};
@@ -24,16 +26,9 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    //if (nextProps.savedCollectionInfo.cards.length !== this.state.savedCollectionInfo.cards.length) {
     this.setState({
       savedCollectionInfo: nextProps.savedCollectionInfo
     });
-    //}
-  }
-
-  shouldComponentUpdate(nextProps) {
-    const {showPlaceholders} = this.props;
-    return showPlaceholders !== nextProps.showPlaceholders;
   }
 
   checkInput(modelName) {
@@ -44,7 +39,8 @@ export default class NewCollectionDescription extends PureComponent {
     this.setState({
       image: file[0]
     });
-    this.props.saveCollectionInfo({img: file[0]});
+    this.props.saveCollectionInfo({...this.state.savedCollectionInfo, img: file[0]});
+    debug('Image saved');
   }
 
   deleteImageFromCollection() {
@@ -54,6 +50,7 @@ export default class NewCollectionDescription extends PureComponent {
   saveCollection() {
     const {savedCollectionInfo} = this.state;
     this.props.saveCollectionInfo({...savedCollectionInfo});
+    debug('Collection saved: ', this.props.savedCollectionInfo);
   }
 
   handleChange(field) {
@@ -73,9 +70,10 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   render() {
-    const {title, subTitle, description, img} = this.state.savedCollectionInfo;
+    const {title, subTitle, description} = this.state.savedCollectionInfo;
+    const {img} = this.props.savedCollectionInfo;
     const {showPlaceholders} = this.props;
-    const image = img[0] ? img[0].preview : '';
+    const image = img.preview;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
@@ -112,7 +110,7 @@ export default class NewCollectionDescription extends PureComponent {
             />
           )}
           {showPlaceholders && (
-            <Dropzone onDrop={::this.handleChange('img')}
+            <Dropzone onDrop={::this.onDrop}
                       className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>

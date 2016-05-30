@@ -124,6 +124,10 @@ export default class CollectionCardSearch extends PureComponent {
     });
   }
 
+  shouldRenderSuggestions(e) {
+    return (e && e.trim().length) ? true : false;
+  }
+
   searchCreteriaChange(event, {newValue, method}) {
     debug('search change', newValue, method);
     if (method === 'type') {
@@ -181,6 +185,7 @@ export default class CollectionCardSearch extends PureComponent {
             <Autosuggest multiSection={true}
                          focusInputOnSuggestionClick={false}
                          suggestions={suggestions}
+                         shouldRenderSuggestions={::this.shouldRenderSuggestions}
                          onSuggestionsUpdateRequested={::this.onSuggestionsUpdateRequested}
                          getSuggestionValue={::this.getSuggestionValue}
                          renderSuggestion={renderSuggestion}

@@ -32,15 +32,15 @@ export default class LoginModal extends PureComponent {
   render() {
     const {loginModal} = this.props;
     return (
-      <Dialog open={loginModal} onCancel={::this.handleCloseDialog} className={styles.dialog}>
-        <DialogTitle>Login with ...</DialogTitle>
+      <Dialog open={loginModal} onCancel={::this.handleCloseDialog} className={classnames('mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet', styles.dialog)}>
+        <DialogTitle className={styles.dialogTitle}>Login with ...</DialogTitle>
         <DialogContent className={styles.dialogContent}>
           <Button ripple raised colored onClick={() => ::this.login('facebook')} className={styles.socialBtn}>Facebook</Button>
           <Button ripple raised onClick={() => ::this.login('twitter')} className={classnames(styles.socialBtn, styles.twitterBtn)}>Twitter</Button>
           <Button ripple raised accent onClick={() => ::this.login('google')} className={styles.socialBtn}>Google</Button>
           <Button ripple raised onClick={() => ::this.login('github')} className={classnames(styles.socialBtn, styles.githubBtn)}>GitHub</Button>
         </DialogContent>
-        <DialogActions fullWidth>
+        <DialogActions>
           <Button ripple onClick={::this.handleCloseDialog}>Cancel</Button>
         </DialogActions>
       </Dialog>

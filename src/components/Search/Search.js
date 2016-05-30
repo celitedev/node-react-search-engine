@@ -35,6 +35,7 @@ export default class Search extends PureComponent {
     debug('Load new results start:', 'results: ', results, 'page: ', resultsPage, 'answer: ', answer);
     try {
       const newResults = await loadMoreResults(resultsPage, answer.filterContext.filter);
+      debug('Load new results finished: ', newResults);
       this.setState({
         results: [...results, ...newResults.results],
         resultsPage: resultsPage + 1
@@ -69,7 +70,7 @@ export default class Search extends PureComponent {
 
   cardChanged(index) {
     const {results} = this.state;
-    if (results.length - 2 === index) {
+    if (results.length - 2 === index || results.length - 1 === index) {
       debug('Reached wayPoint ', results);
       this.handleWaypointEnter();
     }
@@ -139,7 +140,7 @@ export default class Search extends PureComponent {
       position: 'topright'
     };
     const carouselSettings = {
-      dots: false,
+      dots: true,
       responsive: [{
         settings: {
           slidesToShow: 1,
@@ -196,20 +197,23 @@ export default class Search extends PureComponent {
               <CardsCarousel afterChange={(e) => this.cardChanged(e)} miniMap={true} settings={carouselSettings} question={params.question} results={results}
                 cardsStyle={classnames(`card actionBarHidden`, styles.cardStyle) }/>
             ) || (
+              <div>
+              {
               results.map((result, index) => (
                 <Link key={index} to={`/details/${params.question}/${result.raw.id}`}>
                   <Card data={result} cardNumber={index + 1}
                     className={classnames(`card actionBarHidden card-${index}`, { [styles.active]: selectedMarker === result.id }, styles.cardStyle) } bgImage={true}/>
                 </Link>
-              ))
+              ))}
+              {results.length && (
+                <Waypoint
+                  onEnter={::this.handleWaypointEnter}
+                  threshold={0.2}
+                />
+                ) || null}
+              </div>
             )
             }
-            {results.length && (
-            <Waypoint
-              onEnter={::this.handleWaypointEnter}
-              threshold={0.2}
-            />
-            ) || null}
           </div>
         </div>
       </main>

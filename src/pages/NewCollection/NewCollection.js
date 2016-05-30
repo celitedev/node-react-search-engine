@@ -17,7 +17,7 @@ function collection(state) {
 }
 
 @page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect})
-export default class NewCollection extends PureComponent {
+export default class NewCollection extends React.Component {
   static contextTypes = {
     horizon: React.PropTypes.func
   };

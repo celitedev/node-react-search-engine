@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import 'material-design-icons';
 import {connect} from 'redux-simple';
-import {switchAddCardModal} from '../../actions';
+import {switchAddCardModal, switchPlaceholdersVisibility} from '../../actions';
 import classnames from 'classnames';
 
 function collection(state) {
@@ -10,8 +10,14 @@ function collection(state) {
   return {showPlaceholders};
 }
 
-@connect(collection, {switchAddCardModal})
+@connect(collection, {switchAddCardModal, switchPlaceholdersVisibility})
 export default class CollectionCardsAddButton extends PureComponent {
+
+  showModal() {
+    const {switchAddCardModal, switchPlaceholdersVisibility} = this.props;
+    switchPlaceholdersVisibility();
+    switchAddCardModal();
+  }
   render() {
     const {cards, switchAddCardModal, showPlaceholders} = this.props;
     const label = (cards && cards.length) ? 'Add Card' : 'Add your first Card';
@@ -20,7 +26,7 @@ export default class CollectionCardsAddButton extends PureComponent {
       <div className={classnames('mdl-grid mdl-js-ripple-effect', styles.root)}>
         <button
           className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect', styles.addCardBtn)}
-          onClick={switchAddCardModal}>{ label }</button>
+          onClick={() => this.showModal()}>{ label }</button>
       </div>
     );
   }
