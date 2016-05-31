@@ -2,6 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import CollectionCardsList from './CollectionCardsList';
 import CollectionCardsAddButton from './CollectionCardsAddButton';
+import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import {saveCollectionInfo} from '../../actions';
 
@@ -23,8 +24,8 @@ export default class NewCollectionCards extends PureComponent {
         <div className='mdl-grid'>
           <CollectionCardsList cards={cards}/>
         </div>
-        <div className='mdl-grid'>
-          {cards && cards.length && (
+        <div className={classnames('mdl-grid', styles.bottomAddCardBtn)}>
+          {(cards && cards.length) && (
             <CollectionCardsAddButton cards={cards}/>
           ) || null}
         </div>

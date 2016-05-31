@@ -1,5 +1,5 @@
 @import "../../styles/shared";
-
+$marginHor: 12px;
 .root {
   .formLayout {
     margin: auto;
@@ -11,6 +11,23 @@
       }
     }
   }
+
+.contentEditable {
+  [contenteditable=true]:empty:before {
+    content: attr(placeholder);
+    display: block; /* For Firefox */
+  }
+}
+
+.contentEditableTitle {
+  font-size: 28px;
+  line-height: 1.2em;
+}
+.contentEditableSubTitle {
+  font-size: 20px;
+  line-height: 1.2em;
+}
+
   .mediumEdit {
     border-bottom: 1px solid lightgray;
   }

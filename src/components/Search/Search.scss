@@ -2,6 +2,10 @@
   width: 100%;
 }
 
+.carouselOverflowFix {
+  overflow-x: hidden;
+}
+
 @media (min-width: 800px) {
   .containerMargin {
     margin-top: 60px;
@@ -27,6 +31,9 @@
 }
 
 .carouselStyle {
+}
+
+.carouselStyle div.slick-list {
   height: 160px;
 }
 

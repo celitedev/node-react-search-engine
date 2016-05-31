@@ -6,6 +6,7 @@ import Dropzone from 'react-dropzone';
 import {saveCollectionInfo} from '../../actions';
 import {connect} from 'redux-simple';
 import MediumEditor from 'react-medium-editor';
+import ContentEditable from 'react-contenteditable';
 import {Button} from 'react-mdl';
 import 'material-design-icons';
 
@@ -21,14 +22,10 @@ export default class NewCollectionDescription extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      savedCollectionInfo: props.savedCollectionInfo
+      savedCollectionInfo: props.savedCollectionInfo,
+      stateTitle: '',
+      stateSubTitle: ''
     };
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      savedCollectionInfo: nextProps.savedCollectionInfo
-    });
   }
 
   checkInput(modelName) {
@@ -36,6 +33,16 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   onDrop(file) {
+    const reader = new FileReader();
+    debugger;
+    reader.onload = ((theFile) => {
+        return (e) => {
+            debugger;
+          };
+      })(file[0]);
+
+      // Read in the image file as a data URL.
+      debug('IMG', reader.readAsDataURL(file[0]));
     this.setState({
       image: file[0]
     });
@@ -55,13 +62,13 @@ export default class NewCollectionDescription extends PureComponent {
 
   handleChange(field) {
     return (value, medium) => {
+      const fieldValue = _.isString(value) ? value : value.target.value;
       this.setState({
         savedCollectionInfo: {
           ...this.state.savedCollectionInfo,
-          [field]: value
+          [field]: fieldValue
         }
-      });
-      this.saveCollection();
+      }, () => this.saveCollection());
     };
   }
 
@@ -71,6 +78,7 @@ export default class NewCollectionDescription extends PureComponent {
 
   render() {
     const {title, subTitle, description} = this.state.savedCollectionInfo;
+    const {stateTitle, stateSubTitle} = this.state;
     const {img} = this.props.savedCollectionInfo;
     const {showPlaceholders} = this.props;
     const image = img.preview;
@@ -78,36 +86,28 @@ export default class NewCollectionDescription extends PureComponent {
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
           {::this.isEmptyField(title) && (
-            <div>
-              <MediumEditor
-                className={styles.mediumEdit}
-                tag='h4'
-                text={title}
+            <div className={styles.contentEditable}>
+              <ContentEditable
+                className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
+                html={stateTitle || title} // innerHTML of the editable div ;
+                placeholder='Collection title'
+                disabled={false}  // use true to disable edition ;
+                //onKeyPress={::this.handleDataChange('title')}
                 onChange={::this.handleChange('title')}
-                options={{
-                toolbar: {buttons: []},
-                placeholder: {
-                  text: 'Collection title',
-                  hideOnClick: true
-                }}
-              }
               />
             </div>
           )}
           {::this.isEmptyField(subTitle) && (
-            <MediumEditor
-              className={styles.mediumEdit}
-              tag='h6'
-              text={subTitle}
+            <div className={styles.contentEditable}>
+            <ContentEditable
+              className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
+              html={stateSubTitle || subTitle} // innerHTML of the editable div ;
+              placeholder='Collection subtitle'
+              disabled={false}  // use true to disable edition ;
+              //onKeyPress={::this.handleDataChange('title')}
               onChange={::this.handleChange('subTitle')}
-              options={{
-              toolbar: {buttons: ['bold', 'italic', 'underline']},
-              placeholder: {
-                text: 'Collection subtitle',
-                hideOnClick: true
-              }}
-            }
             />
+            </div>
           )}
           {showPlaceholders && (
             <Dropzone onDrop={::this.onDrop}

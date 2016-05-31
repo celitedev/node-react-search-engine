@@ -141,6 +141,7 @@ export default class Search extends PureComponent {
     };
     const carouselSettings = {
       dots: true,
+      speed: 100,
       responsive: [{
         settings: {
           slidesToShow: 1,
@@ -192,10 +193,10 @@ export default class Search extends PureComponent {
           </Map>
         ) || null}
         <div classNmae='page-content'>
-          <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', isSlider && 'is-slider' && styles.carouselStyle)}>
+          <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', styles.carouselOverflowFix, isSlider && 'is-slider')}>
             { isSlider && (
               <CardsCarousel afterChange={(e) => this.cardChanged(e)} miniMap={true} settings={carouselSettings} question={params.question} results={results}
-                cardsStyle={classnames(`card actionBarHidden`, styles.cardStyle) }/>
+                cardsStyle={classnames(`card actionBarHidden fixDots`, styles.cardStyle) }/>
             ) || (
               <div>
               {

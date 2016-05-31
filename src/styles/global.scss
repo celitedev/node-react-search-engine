@@ -146,6 +146,10 @@ body {
   width: 100%;
 }
 
+.fixDots .slick-list{
+  heigth: 155px;
+}
+
 .highlightedCard {
   z-index: 10;
       > div {

@@ -38,7 +38,6 @@ export default class LoginModal extends PureComponent {
           <Button ripple raised colored onClick={() => ::this.login('facebook')} className={styles.socialBtn}>Facebook</Button>
           <Button ripple raised onClick={() => ::this.login('twitter')} className={classnames(styles.socialBtn, styles.twitterBtn)}>Twitter</Button>
           <Button ripple raised accent onClick={() => ::this.login('google')} className={styles.socialBtn}>Google</Button>
-          <Button ripple raised onClick={() => ::this.login('github')} className={classnames(styles.socialBtn, styles.githubBtn)}>GitHub</Button>
         </DialogContent>
         <DialogActions>
           <Button ripple onClick={::this.handleCloseDialog}>Cancel</Button>

@@ -20,7 +20,7 @@ export default class CollectionCardsAddButton extends PureComponent {
   }
   render() {
     const {cards, switchAddCardModal, showPlaceholders} = this.props;
-    const label = (cards && cards.length) ? 'Add Card' : 'Add your first Card';
+    const label = (cards && cards.length) ? 'Add Cards' : 'Add your first Card';
     if (!showPlaceholders) return null;
     return (
       <div className={classnames('mdl-grid mdl-js-ripple-effect', styles.root)}>

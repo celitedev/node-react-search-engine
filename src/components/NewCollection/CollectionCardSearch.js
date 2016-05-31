@@ -9,7 +9,7 @@ import {
   answerTheQuestion,
   deleteCardFromCollection
 } from '../../actions';
-import {Button} from 'react-mdl';
+import {Button, Textfield} from 'react-mdl';
 import 'material-design-icons';
 import Autosuggest from 'react-autosuggest';
 import CardsList from '../Cards/CardsList';
@@ -182,6 +182,11 @@ export default class CollectionCardSearch extends PureComponent {
                 </li>
               </ul>
             </div>
+            <Textfield
+                onChange={() => {}}
+                label='Text...'
+                style={{width: '200px'}}
+            />
             <Autosuggest multiSection={true}
                          focusInputOnSuggestionClick={false}
                          suggestions={suggestions}

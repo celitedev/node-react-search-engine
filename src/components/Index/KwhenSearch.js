@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-import {Button} from 'react-mdl';
+import {Button, Menu, MenuItem, FABButton, Icon} from 'react-mdl';
 import LoginModal from '../Common/LoginModal';
 import {clearAuthToken} from '../../horizon';
 
@@ -48,25 +48,21 @@ export default class IndexSearch extends PureComponent {
       <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
-            {authenticated && (
-              <div>
-                <Link to='mycollections'>
-                  <Button raised accent ripple
-                          className={styles.myCollectionsBtn}>
-                    My Collections
-                  </Button>
-                </Link>
-                <Button raised accent ripple className={styles.loginBtn}
-                        onClick={() => ::this.logout()}>
-                  Logout
-                </Button>
-              </div>
-            ) || ( <Button raised accent ripple className={styles.loginBtn}
-                           onClick={toggleLoginModal}>
-                Login
-              </Button>
-            )
-            }
+          <nav className='mdl-navigation'>
+              <FABButton mini id='demo-menu-lower-right' className={styles.loginBtn}>
+                <Icon name='account_circle' />
+              </FABButton>
+              <Menu target='demo-menu-lower-right' align='right' >
+                {authenticated && (
+                  <div>
+                    <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
+                    <MenuItem onClick={() => ::this.logout()}>Logout</MenuItem>
+                  </div>
+                ) || (
+                  <MenuItem onClick={toggleLoginModal}>Login</MenuItem>
+                )}
+              </Menu>
+            </nav>
             <LoginModal />
             <div className='logo'></div>
 
