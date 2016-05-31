@@ -135,6 +135,17 @@ export function answerTheQuestion(question, type = '', filter = {} ) {
     }
   };
 }
+export function suggestCards(query, type = '') {
+  return {
+    type: API_REQUEST,
+    method: 'post',
+    path: 'suggestCards',
+    data: {
+      query,
+      type
+    }
+  };
+}
 
 export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page = 0) {
   return {

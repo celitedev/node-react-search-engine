@@ -92,7 +92,6 @@ export default class NewCollectionDescription extends PureComponent {
                 html={stateTitle || title} // innerHTML of the editable div ;
                 placeholder='Collection title'
                 disabled={false}  // use true to disable edition ;
-                //onKeyPress={::this.handleDataChange('title')}
                 onChange={::this.handleChange('title')}
               />
             </div>

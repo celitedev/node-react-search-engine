@@ -13,7 +13,7 @@ import {clearAuthToken} from '../../horizon';
 const debug = require('debug')('app:collections:new');
 
 function auth(state) {
-  const {authenticated} = state.auth;
+  const {authenticated, loginModal} = state.auth;
   return {authenticated};
 }
 
@@ -43,7 +43,7 @@ export default class IndexSearch extends PureComponent {
 
   render() {
     const {searchText} = this.state;
-    const {toggleLoginModal, authenticated} = this.props;
+    const {toggleLoginModal, authenticated, loginModal} = this.props;
     return (
       <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>

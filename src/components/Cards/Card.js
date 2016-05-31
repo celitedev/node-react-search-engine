@@ -40,7 +40,7 @@ export default class Card extends PureComponent {
             className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
             style={{backgroundImage: `url(${raw.image[0]})`}}></div>
           <div className={classnames('card--inner', styles.background)}>
-            <div className='card--contents'>
+            <div className={classnames('card--contents', styles.cardContent)}>
               <div className={classnames('card--category hideCategoryClass', styles.formatedNumber)}>
                 {cardNumber && (
                   <span className={classnames('card--number hideNumberClass')}>{cardNumber}</span>
@@ -49,16 +49,19 @@ export default class Card extends PureComponent {
               </div>
               <div className='card--identifier'>
                 <h2 className='card--identifier--title hideIdentifier1Class'><span>{formatted.identifiers1}</span></h2>
-                <div
-                  className='card--identifier--subtitle hideIdentifier2Class'>{formatted.identifiers2.join(', ')}</div>
+                { formatted.identifiers2 && (
+                  <div className='card--identifier--subtitle hideIdentifier2Class'>
+                      {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
+                  </div>
+                )}
               </div>
-              {formatted.headsup1 || formatted.headsup2 && (
+              {(formatted.headsup1 || formatted.headsup2) && (
                 <div className='card--headsup headsupAccentBackgroundClass hideHeadsupTotalClass'>
                   {formatted.headsup1 && (
                     <div className='accent hideHeadsup1Class'>{formatted.headsup1}</div>
                   )}
-                  {formatted.headsup1 && (
-                    <div className='hideHeadsup2Class'>{formatted.headsup2}</div>
+                  {formatted.headsup2 && (
+                    <div className='hideHeadsup2Class'>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
                   )}
                 </div>
               )}

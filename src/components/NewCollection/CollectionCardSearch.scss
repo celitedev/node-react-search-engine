@@ -12,12 +12,26 @@
   .selectBoxLabel {
     display: initial;
   }
-  .search {
-    width: 100%;
-    label {
-      font-size: small;
+
+  @media screen and (min-width: 320px) {
+    .search {
+      width: 76%;
+      height: 50px;
     }
   }
+  @media screen and (max-width: 320px) {
+    .search {
+      width: 65%;
+      height: 50px;
+    }
+  }
+  @media screen and (min-width: 800px) {
+    .search {
+      width: 85%;
+      height: 50px;
+    }
+  }
+
   .extraFiltersBtn {
     float: right;
     font-size: xx-small;

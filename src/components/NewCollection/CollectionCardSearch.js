@@ -6,7 +6,7 @@ import {
   getCards,
   addCardToCollection,
   getCardsSuggestions,
-  answerTheQuestion,
+  suggestCards,
   deleteCardFromCollection
 } from '../../actions';
 import {Button, Textfield} from 'react-mdl';
@@ -26,24 +26,11 @@ function searchedCards(state) {
   return {savedCollectionInfo};
 }
 
-function renderSuggestion(suggestion) {
-  return (
-    <span>{suggestion.text}</span>
-  );
-}
-
-function renderSectionTitle(section) {
-  return (
-    <strong>{section.title}</strong>
-  );
-}
-
-
 @connect(searchedCards, {
   getCards,
   addCardToCollection,
   deleteCardFromCollection,
-  answerTheQuestion,
+  suggestCards,
   getCardsSuggestions
 })
 export default class CollectionCardSearch extends PureComponent {
@@ -59,49 +46,6 @@ export default class CollectionCardSearch extends PureComponent {
     };
   }
 
-  async makeSuggestionRequest(value) {
-    const {getCardsSuggestions} = this.props;
-    try {
-      debug('Start suggestions search:', value);
-      const cardsSuggestions = await getCardsSuggestions(value);
-      debug('Finished cards search', cardsSuggestions);
-      return cardsSuggestions;
-    } catch (err) {
-      debug('Error with search card query:', err);
-    }
-  }
-
-  async getSuggestions(value) {
-    await this.makeSuggestionRequest(value);
-    return this.makeSuggestionRequest(value);
-  }
-
-  getSuggestionValue(suggestion) {
-    return suggestion.title;
-  }
-
-  getSectionSuggestions(section) {
-    return section.cards;
-  }
-
-  async onSuggestionsUpdateRequested({value}) {
-    const suggestions = await this.getSuggestions(value);
-    debug('got suggestions', suggestions);
-    suggestionsValues = Object.keys(suggestions).map((key) => {
-      return {
-        title: key || '',
-        cards: suggestions[key]
-      };
-    });
-    const isInputBlank = value.trim() === '';
-    const noSuggestions = !isInputBlank && suggestionsValues.length === 0;
-
-    this.setState({
-      suggestions: suggestionsValues,
-      noSuggestions
-    });
-  }
-
   changeFilter(filter) {
     this.setState({
       filter
@@ -111,30 +55,22 @@ export default class CollectionCardSearch extends PureComponent {
 
   async loadCards() {
     const {filter, value} = this.state;
-    const {answerTheQuestion} = this.props;
-    const cards = await answerTheQuestion(value, filter);
-    debug('Finished fetch cards', cards);
-    this.setState({cards: cards.results});
-  }
-
-  onSuggestionSelected(event, {suggestion, suggestionValue, sectionIndex, method}) {
-    debug('onSuggestionSelected', suggestion, suggestionValue, method);
-    this.setState({
-      value: suggestion.text
+    const filterType = types[filter] || '';
+    const {suggestCards} = this.props;
+    const cards = await suggestCards(value, filterType.toLowerCase());
+    const cardsValues = Object.keys(cards).map((key) => {
+      return {
+        ...cards[key]
+      };
     });
+    debug('Finished fetch cards', cardsValues);
+    this.setState({cards: cardsValues});
   }
 
-  shouldRenderSuggestions(e) {
-    return (e && e.trim().length) ? true : false;
-  }
-
-  searchCreteriaChange(event, {newValue, method}) {
-    debug('search change', newValue, method);
-    if (method === 'type') {
-      this.setState({
-        value: newValue
-      });
-    }
+  handleSearch(e) {
+    this.setState({
+      value: e.target.value
+    }, () => this.loadCards());
   }
 
   searchResults(e) {
@@ -148,11 +84,6 @@ export default class CollectionCardSearch extends PureComponent {
     const {cards, cardTypes, filter, value, suggestions, noSuggestions} = this.state;
     const filterType = types[filter] || filter;
     debug('Filter Type', filterType);
-    const searchFieldProps = {
-      placeholder: 'Seach cards',
-      value,
-      onChange: ::this.searchCreteriaChange
-    };
     return (
       <div className={classnames(className, styles.root)}>
         <div id='cardsDialogStickyHeader'>
@@ -183,21 +114,10 @@ export default class CollectionCardSearch extends PureComponent {
               </ul>
             </div>
             <Textfield
-                onChange={() => {}}
-                label='Text...'
-                style={{width: '200px'}}
+                onChange={::this.handleSearch}
+                label='Cards search...'
+                className={styles.search}
             />
-            <Autosuggest multiSection={true}
-                         focusInputOnSuggestionClick={false}
-                         suggestions={suggestions}
-                         shouldRenderSuggestions={::this.shouldRenderSuggestions}
-                         onSuggestionsUpdateRequested={::this.onSuggestionsUpdateRequested}
-                         getSuggestionValue={::this.getSuggestionValue}
-                         renderSuggestion={renderSuggestion}
-                         renderSectionTitle={renderSectionTitle}
-                         getSectionSuggestions={::this.getSectionSuggestions}
-                         onSuggestionSelected={::this.onSuggestionSelected}
-                         inputProps={searchFieldProps}/>
             <Button
               className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect', styles.extraFiltersBtn)}
               onClick={::this.searchResults}>
