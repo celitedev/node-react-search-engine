@@ -23,12 +23,12 @@ export default class CollectionCardsList extends PureComponent {
           {Reorder && (
             <Reorder
               itemKey='id'
-              holdTime='300'
+              holdTime='100'
               list={cards}
               template={CollectionCardsListItem}
               callback={::this.callback}
               listClass='listClassReorder'
-              itemClass='itemClassReorder'
+              itemClass={classnames('itemClassReorder', styles.clickCursor)}
             />
           )}
         </div>

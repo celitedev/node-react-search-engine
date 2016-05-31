@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-import {Button, Menu, MenuItem, FABButton, Icon} from 'react-mdl';
+import {Button, Menu, MenuItem, FABButton, Icon, Layout} from 'react-mdl';
 import LoginModal from '../Common/LoginModal';
 import {clearAuthToken} from '../../horizon';
 
@@ -45,7 +45,7 @@ export default class IndexSearch extends PureComponent {
     const {searchText} = this.state;
     const {toggleLoginModal, authenticated, loginModal} = this.props;
     return (
-      <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
+      <Layout className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
           <nav className='mdl-navigation'>
@@ -91,7 +91,7 @@ export default class IndexSearch extends PureComponent {
 
           </div>
         </main>
-      </div>
+      </Layout>
     );
   }
 }

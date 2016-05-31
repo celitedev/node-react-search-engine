@@ -28,7 +28,6 @@ import PatchedHorizonConnector from './patchHorizonConnector';
 
 const debug = require('debug')('app:client');
 
-let Horizon;
 let horizon;
 
 const middlewares = [

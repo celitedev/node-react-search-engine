@@ -20,8 +20,8 @@ const compiler = webpack(webpackConfig);
 
 const serverBundle = require('./build/server');
 
-const privateKey = fs.readFileSync('./horizon-key.pem', 'utf8');
-const certificate = fs.readFileSync('./horizon-cert.pem', 'utf8');
+const privateKey = fs.readFileSync('./certs/my-private-root-ca.privkey.pem', 'utf8');
+const certificate = fs.readFileSync('./certs/my-private-root-ca.cert.pem', 'utf8');
 
 if (cluster.isMaster) {
   const numCpus = 1;//os.cpus().length;
