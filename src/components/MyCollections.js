@@ -124,9 +124,7 @@ export default class MyCollections extends PureComponent {
                     </div>
                     <div className={styles.cardsList}>
                       {c.cards.map((card, i) => (
-                        <Link key={i} to={`/details/${card.raw.name}/${card.id}`}>
-                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card}/>
-                        </Link>
+                          <Card key={i} className={classnames('card m-card-imgRight', styles.cardStyle)} data={card}/>
                       ))}
                     </div>
                   </div>

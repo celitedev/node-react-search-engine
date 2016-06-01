@@ -24,11 +24,18 @@ import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
 import createHistory from './history';
 import 'material-design-lite';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PatchedHorizonConnector from './patchHorizonConnector';
-
 const debug = require('debug')('app:client');
 
 let horizon;
+
+// Needed for onTouchTap
+// Check this repo:
+// https://github.com/zilverline/react-tap-event-plugin
+injectTapEventPlugin();
 
 const middlewares = [
   thunk,
@@ -77,7 +84,9 @@ function render() {
     ReactDOM.render((
       <Provider store={store}>
         <PatchedHorizonConnector store={store} horizon={horizon}>
-          <ReduxRouter />
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <ReduxRouter />
+          </MuiThemeProvider>
         </PatchedHorizonConnector>
       </Provider>
     ), root);

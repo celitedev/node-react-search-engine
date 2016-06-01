@@ -2,6 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import _ from 'lodash';
 import CardsCarousel from '../Cards/CardsCarousel.js';
+import classnames from 'classnames';
 
 export default class Answer extends PureComponent {
   render() {
@@ -41,7 +42,7 @@ export default class Answer extends PureComponent {
             {_.map(answer.results, (answer, index) => {
               return answer.results.length && (
                 <div key={index}>
-                  <div className='related-answer-text'>
+                  <div className={classnames('related-answer-text', styles.topicHeader)}>
                     <ul>
                       <li>
                         {answer.answerNLP}

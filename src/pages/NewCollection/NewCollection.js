@@ -34,7 +34,7 @@ export default class NewCollection extends React.Component {
     };
   }
 
-  getUserCollection() {
+  getUserCollection(user) {
     const {horizon} = this.state;
     const {params, saveCollectionInfo, location} = this.props;
     const collections = horizon('collections');
@@ -61,17 +61,21 @@ export default class NewCollection extends React.Component {
   }
 
   componentDidMount() {
-    const {resetCollectionInfo, user, redirect} = this.props;
-    if (!user || !user.id) {
-      redirect('/');
-    } else {
-      resetCollectionInfo();
-      this.getUserCollection();
+    const {user} = this.props;
+    resetCollectionInfo();
+    if (user) {
+      this.getUserCollection(user);
     }
   }
 
   componentWillReceiveProps(nextProps) {
     debug('Next props', nextProps);
+    const {authenticated, user} = nextProps;
+    const {loaded} = this.state;
+    resetCollectionInfo();
+    if (authenticated && !loaded) {
+      this.getUserCollection(user);
+    }
   }
 
   render() {

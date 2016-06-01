@@ -17,6 +17,7 @@
  - `npm install`
  - `bower install`
  -  install RethinkDB // https://www.rethinkdb.com
+ - `bash make-certs.sh 'localhost:7000'`
  - `npm start`
  - `npm run db`
  - `open https://localhost:7000`

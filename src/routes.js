@@ -10,7 +10,7 @@ export default (
     <Route path='/answer/:question' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Answer/Answer')}/>
     </Route>
-    <Route path='/details/:question/:id' component={require('./components/layouts/AdvancedLayout')}>
+    <Route path='/details/:id' component={require('./components/layouts/AdvancedLayout')}>
       <IndexRoute component={require('./pages/Details/Details')}/>
     </Route>
     <Route path='/search/:question' component={require('./components/layouts/AdvancedLayout')}>

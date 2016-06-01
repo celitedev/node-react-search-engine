@@ -3,16 +3,16 @@ import PureComponent from 'react-pure-render/component';
 import {page} from '../page';
 import MyCollections from '../../components/MyCollections';
 import Header from '../../components/Common/Header.js';
-import {redirect} from '../../actions';
+import {redirect, resetCollectionInfo} from '../../actions';
 
 const debug = require('debug')('app:mycollections');
 
 function userInfo(state) {
-  const {user} = state.auth;
-  return {user};
+  const {user, authenticated} = state.auth;
+  return {user, authenticated};
 }
 
-@page('MyCollections', userInfo, {redirect})
+@page('MyCollections', userInfo, {redirect, resetCollectionInfo})
 export default class Index extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -31,11 +31,10 @@ export default class Index extends PureComponent {
     return {};
   }
 
-  getUserCollections() {
+  getUserCollections(user) {
     const {horizon} = this.state;
-    const {id} = this.props.user;
     const collections = horizon('collections');
-    collections.findAll({userId: id}).fetch().subscribe(collections => {
+    collections.findAll({userId: user.id}).fetch().subscribe(collections => {
         debug('Fetched collections', collections);
         this.setState({
           collections
@@ -51,19 +50,21 @@ export default class Index extends PureComponent {
   }
 
   componentDidMount() {
-    const {user, redirect} = this.props;
-    if (!user || !user.id) {
-      redirect('/');
-    } else {
-      this.getUserCollections();
+    const {user} = this.props;
+    if (user) {
+      this.getUserCollections(user);
     }
   }
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
+    const {authenticated, user, resetCollectionInfo} = nextProps;
+    resetCollectionInfo();
     this.setState({
       loaded: false
     });
-    this.getUserCollections();
+    if (authenticated) {
+      this.getUserCollections(user);
+    }
   }
 
   render() {

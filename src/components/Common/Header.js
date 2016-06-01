@@ -4,7 +4,9 @@ import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import {answerTheQuestion, redirect, toggleLoginModal, logout} from '../../actions';
-import {Menu, MenuItem} from 'react-mdl';
+import {IconMenu, MenuItem} from 'material-ui';
+import IconButton from 'material-ui/IconButton/IconButton';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import {clearAuthToken} from '../../horizon';
 import LoginModal from '../Common/LoginModal';
 
@@ -70,15 +72,20 @@ export default class Header extends PureComponent {
             />
           </div>
           <nav className='mdl-navigation'>
-            <a title='your profile' className='mdl-navigation__link profile--nav' id='demo-menu-lower-right' href='#'><i
-              className='material-icons profile--icon'>account_circle</i></a>
-            <Menu target='demo-menu-lower-right' align='right'>
+          <IconMenu
+            iconButtonElement={<IconButton><AccountCircle color='white'/></IconButton>}
+            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'right', vertical: 'top'}}
+          >
               {authenticated && (
-                <MenuItem onClick={() => ::this.logout()}>Logout</MenuItem>
+                <div>
+                  <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
+                  <MenuItem onClick={() => ::this.logout()} primaryText='Logout' />
+                </div>
               ) || (
-                <MenuItem onClick={toggleLoginModal}>Login</MenuItem>
+                <MenuItem onClick={toggleLoginModal} primaryText='Login'/>
               )}
-            </Menu>
+          </IconMenu>
           </nav>
         </div>
         <LoginModal />

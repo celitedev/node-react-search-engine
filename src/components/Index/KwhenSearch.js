@@ -6,7 +6,10 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-import {Button, Menu, MenuItem, FABButton, Icon, Layout} from 'react-mdl';
+//import {Button, Menu, MenuItem, FABButton, Icon, Layout} from 'react-mdl';
+import {IconMenu, MenuItem} from 'material-ui';
+import IconButton from 'material-ui/IconButton/IconButton';
+import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import LoginModal from '../Common/LoginModal';
 import {clearAuthToken} from '../../horizon';
 
@@ -45,23 +48,25 @@ export default class IndexSearch extends PureComponent {
     const {searchText} = this.state;
     const {toggleLoginModal, authenticated, loginModal} = this.props;
     return (
-      <Layout className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
+      <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
           <nav className='mdl-navigation'>
-              <FABButton mini id='demo-menu-lower-right' className={styles.loginBtn}>
-                <Icon name='account_circle' />
-              </FABButton>
-              <Menu target='demo-menu-lower-right' align='right' >
-                {authenticated && (
-                  <div>
-                    <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
-                    <MenuItem onClick={() => ::this.logout()}>Logout</MenuItem>
-                  </div>
-                ) || (
-                  <MenuItem onClick={toggleLoginModal}>Login</MenuItem>
-                )}
-              </Menu>
+            <IconMenu
+              iconButtonElement={<IconButton><AccountCircle color='white'/></IconButton>}
+              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'right', vertical: 'top'}}
+              className={styles.accountDropdown}
+            >
+              {authenticated && (
+                <div>
+                  <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
+                  <MenuItem onClick={() => ::this.logout()} primaryText='Logout' />
+                </div>
+              ) || (
+                <MenuItem onClick={toggleLoginModal} primaryText='Login'/>
+              )}
+            </IconMenu>
             </nav>
             <LoginModal />
             <div className='logo'></div>
@@ -91,7 +96,7 @@ export default class IndexSearch extends PureComponent {
 
           </div>
         </main>
-      </Layout>
+      </div>
     );
   }
 }

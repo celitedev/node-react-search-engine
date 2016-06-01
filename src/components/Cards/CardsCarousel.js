@@ -62,18 +62,16 @@ export default class CardsCarousel extends PureComponent {
               <Slider {...setCarouselParams} afterChange={afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
-                    <Link to={`/details/${question}/${result.raw.id}`}>
                       <Card className={classnames('card m-card-imgRight', cardsStyle)} data={result}/>
-                    </Link>
                   </div>
                 ))}
               </Slider>
               {showAll && (
-              <div className='controls-wrapper'>
-                <ul className='controls'>
-                </ul>
-                <Link to={`/search/${question}`} query={{ filter: f }} className={classnames('show-more', styles.showAllBtn)}>Show all</Link>
-              </div>
+                <span className={classnames(styles.showAllBtn)}>
+                  <Link to={`/search/${question}`} query={{ filter: f }}>
+                    Show all
+                  </Link>
+                </span>
               ) }
             </div>
           </div>

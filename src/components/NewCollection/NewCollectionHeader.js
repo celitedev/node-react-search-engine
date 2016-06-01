@@ -1,7 +1,7 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect} from '../../actions';
+import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo} from '../../actions';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import MediumEditor from 'react-medium-editor';
@@ -15,7 +15,7 @@ function collection(state) {
   return {showPlaceholders, savedCollectionInfo, user};
 }
 
-@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect})
+@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo})
 export default class NewCollectionHeader extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -64,14 +64,14 @@ export default class NewCollectionHeader extends PureComponent {
   }
 
   render() {
-    const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility} = this.props;
+    const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo} = this.props;
     const {name} = this.state;
     const label = this.validateCollection() ? 'Collection needs a name, title, description and at least 2 cards' : 'Collection is valid';
     return (
       <div className='mdl-grid'>
         <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
           <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
-            <Link to='/mycollections'>
+            <Link to='/mycollections' onClick={resetCollectionInfo}>
               My Collections
             </Link>
             <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>

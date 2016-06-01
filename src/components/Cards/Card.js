@@ -3,18 +3,29 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
-import {Button} from 'react-mdl';
-import {addCardToCollection, deleteCardFromCollection} from '../../actions';
+import {Paper, Menu, MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
+import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect} from '../../actions';
+
+const debug = require('debug')('app:card');
 
 function searchedCards(state) {
   const {savedCollectionInfo} = state.collection;
-  return {savedCollectionInfo};
+  const {authenticated, user} = state.auth;
+  return {savedCollectionInfo, authenticated, user};
 }
 
-@connect(searchedCards, {addCardToCollection, deleteCardFromCollection})
+@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect})
 export default class Card extends PureComponent {
+  static contextTypes = {
+    horizon: React.PropTypes.func
+  };
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      addCardToColMenu: false,
+      horizon: context.horizon,
+      collections: []
+    };
   }
 
   findCardById(id) {
@@ -22,8 +33,60 @@ export default class Card extends PureComponent {
       return card.raw.id === id;
     });
   }
+
+  handleItemChange(open, reason) {
+    debug('Add to collection', open, reason);
+  }
+
+  findCardInCollection(collection) {
+    const {data} = this.props;
+    const isCardInCollection = _.find(collection.cards, {id: data.raw.id});
+    if (!isCardInCollection) {
+      this.addCardToCollection(collection);
+    } else {
+      debug('Card already in collection');
+    }
+  }
+
+  addCardToCollection(collection) {
+    const {horizon} = this.state;
+    const {user, data} = this.props;
+    const collections = horizon('collections');
+    collections.upsert({
+      ...collection, cards: [...collection.cards, {...data, id: data.raw.id}], userId: user.id
+    }).subscribe(collection => {
+      debug('Collection updeted');
+    },
+    (err) => debug('Collection update error', err),
+    () => {
+      debug('Collection update finished');
+    });
+  }
+
+  handleOpenMenu(e) {
+    const {authenticated, toggleLoginModal, user} = this.props;
+    if (!authenticated) {
+      toggleLoginModal();
+    } else {
+      const {addCardToColMenu, horizon} = this.state;
+      const collections = horizon('collections').findAll({userId: user.id}).fetch().subscribe(collections => {
+        debug('User collections: ', collections);
+        this.setState({
+          collections,
+          addCardToColMenu: !addCardToColMenu
+        });
+      });
+    }
+  }
+
+  redirectToCard() {
+    const {data, redirect, question} = this.props;
+    redirect(`/details/${data.raw.id}`);
+  }
+
   render() {
-    const {className, children, data = [], bgImage, cardNumber, addCards, delteCardBtn, savedCollectionInfo, addCardToCollection, deleteCardFromCollection} = this.props;
+    const {className, authenticated, toggleLoginModal, children, data = [], bgImage, cardNumber, addCards, delteCardBtn, savedCollectionInfo, addCardToCollection, deleteCardFromCollection} = this.props;
+    const {addCardToColMenu, collections} = this.state;
     const {formatted, raw} = data;
     return (
       <div className={className}>
@@ -39,7 +102,7 @@ export default class Card extends PureComponent {
           <div
             className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
             style={{backgroundImage: `url(${raw.image[0]})`}}></div>
-          <div className={classnames('card--inner', styles.background)}>
+          <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
             <div className={classnames('card--contents', styles.cardContent)}>
               <div className={classnames('card--category hideCategoryClass', styles.formatedNumber)}>
                 {cardNumber && (
@@ -100,8 +163,17 @@ export default class Card extends PureComponent {
               )
           ) || (
             <div className='js-overflowCheck'>
-              <button className='mdl-button mdl-button--colored'>Get Directions</button>
-              <button className='mdl-button mdl-button--colored'>Manage Reservation</button>
+            <IconMenu
+                iconButtonElement={<FlatButton onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+                onRequestChange={::this.handleItemChange}
+                open={authenticated && null}
+              >
+              <MenuItem primaryText='Add to new collection' />
+              <Divider />
+              {collections.map((col, i) => {
+                return <MenuItem key={i} onClick={() => ::this.findCardInCollection(col)} primaryText={col.title} />;
+              })}
+              </IconMenu>
             </div>
           )}
         </div>
