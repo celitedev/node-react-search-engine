@@ -5,7 +5,11 @@ import Pagination from './Widgets/Pagination';
 import {connect} from 'redux-simple';
 import {toggleLoginModal} from '../actions';
 import {Link} from 'react-router';
-import Card from './Cards/Card';
+import {RaisedButton, FlatButton} from 'material-ui';
+import {List, ListItem} from 'material-ui/List';
+import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import DeleteIcon from 'material-ui/svg-icons/action/delete';
+import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 
 const debug = require('debug')('app:myCollectionsCmp');
 
@@ -93,10 +97,7 @@ export default class MyCollections extends PureComponent {
       <div className='mdl-layout mdl-js-layout'>
         <ul className={classnames(styles.root, 'mdl-list')}>
           <Link to={`/collections/new`}>
-            <button
-              className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent', styles.newCollectionAdd)}>
-              New collection
-            </button>
+            <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd}/>
           </Link>
           <div className='mdl-card__title'>
             <h2 className='mdl-card__title-text'>My collections</h2>
@@ -109,26 +110,29 @@ export default class MyCollections extends PureComponent {
                         perPage={pagination.perPage}
                         selectPage={(page) => ::this.selectPage(page)}>
               {paginate(collections, pagination).data.map((c, i) => (
-                <li key={i} className='mdl-list__item'>
-                  <div className={classnames('mdl-card mdl-shadow--4dp', styles.root)}>
-                    <div className='mdl-card__title'>
-                      <button onClick={() => ::this.deleteCollection(c.id)}
-                              className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent', styles.deleteCollection)}>
-                        <i className='material-icons'>delete</i>
-                      </button>
-                      <h4 className='mdl-card__title-text'>
+                <List key={i}>
+                  <ListItem>
+                    <Card className={styles.cardStyle}>
+                    {!_.isEmpty(c.img) && (
+                      <CardMedia className={styles.imageWrap} style={{backgroundImage: `url(${c.img})`}}/>
+                    )}
+                    <div className={styles.cardFlexGrow}>
+                      <CardTitle title={c.title} subtitle={c.subTitle} />
+                      {c.description && (
+                        <CardText>
+                          {c.description.replace(/<.*?>/g, '')}
+                        </CardText>
+                      )}
+                      <CardActions>
                         <Link to={`collections/${c.id}`}>
-                          {c.title}
+                          <RaisedButton primary={true} labelPosition='before' icon={<EditIcon />} label='Edit' />
                         </Link>
-                      </h4>
-                    </div>
-                    <div className={styles.cardsList}>
-                      {c.cards.map((card, i) => (
-                          <Card key={i} className={classnames('card m-card-imgRight', styles.cardStyle)} data={card}/>
-                      ))}
-                    </div>
-                  </div>
-                </li>
+                        <RaisedButton label='Delete' labelPosition='before' icon={<DeleteIcon />} secondary={true} onClick={() => ::this.deleteCollection(c.id)}/>
+                      </CardActions>
+                      </div>
+                    </Card>
+                  </ListItem>
+                </List>
               ))}
             </Pagination>
           ) || null}

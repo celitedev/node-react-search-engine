@@ -120,11 +120,15 @@ export default class Search extends PureComponent {
     let raw;
     let setMapView;
     if (!_.isEmpty(answer.results)) {
-      raw = answer.results[0].raw;
-      setMapView = [
-      raw.geo.latitude,
-      raw.geo.longitude
-    ];
+      raw = _.find(answer.results, (result) => {
+        return !_.isUndefined(result.raw.geo);
+      });
+      if (raw) {
+        setMapView = [
+          raw.geo.latitude,
+          raw.geo.longitude
+        ];
+      }
     }
     const {subtypes, name} = answer.filterContext.filter;
     let oneResult = [];

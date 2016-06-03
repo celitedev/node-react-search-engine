@@ -4,8 +4,7 @@ import {connect} from 'redux-simple';
 import {switchAddCardModal, switchPlaceholdersVisibility} from '../../actions';
 import classnames from 'classnames';
 
-import {Dialog, Button, DialogContent} from 'react-mdl';
-import 'material-design-icons';
+import {Dialog, FlatButton, RaisedButton} from 'material-ui';
 
 import CollectionCardSearch from './CollectionCardSearch';
 
@@ -25,25 +24,29 @@ export default class CollectionAddCardDialog extends PureComponent {
 
   render() {
     const {addCardModal, switchAddCardModal} = this.props;
+    const actions = [
+      <FlatButton
+        label='Done'
+        primary={true}
+        onTouchTap={() => this.showModal()}
+      />
+    ];
     return (
       <div className={styles.dialog}>
-        <Dialog id='cardsDialogModal' open={addCardModal} className={styles.dialogBody}>
-          <DialogContent className={styles.dialogTitle}>
-            <h5>Add cards</h5>
-            <Button className={styles.dialogClose} onClick={() => this.showModal()}>
-              <span>&times;</span>
-            </Button>
-          </DialogContent>
-          <DialogContent className={styles.dialogContent}>
-            <CollectionCardSearch />
-          </DialogContent>
-          <DialogContent className={styles.dialogFooter}>
-
-            <Button className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect')}
-                    onClick={() => this.showModal()}>
-              Done
-            </Button>
-          </DialogContent>
+        <Dialog
+          title='Add cards'
+          actions={actions}
+          modal={false}
+          open={addCardModal}
+          onRequestClose={() => this.showModal()}
+          autoScrollBodyContent={true}
+          autoDetectWindowHeight={false}
+          className={styles.dialog}
+          titleClassName={styles.dialogTitle}
+          bodyClassName={styles.dialogBody}
+          actionsContainerClassName={styles.dialogActionsBar}
+        >
+          <CollectionCardSearch />
         </Dialog>
       </div>
     );

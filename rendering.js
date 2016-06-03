@@ -76,7 +76,7 @@ if (cluster.isMaster) {
   app.use('/api', proxy(url.parse('http://testing123.kwhen.com:3000')));
 
   app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
-  //app.use(webpackHotMiddleware(compiler));
+  app.use(webpackHotMiddleware(compiler));
 
   app.get('*', (req, res, next) => {
     readStats((err, chunks) => {

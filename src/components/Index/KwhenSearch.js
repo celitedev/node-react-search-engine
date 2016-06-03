@@ -6,7 +6,6 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-//import {Button, Menu, MenuItem, FABButton, Icon, Layout} from 'react-mdl';
 import {IconMenu, MenuItem} from 'material-ui';
 import IconButton from 'material-ui/IconButton/IconButton';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';

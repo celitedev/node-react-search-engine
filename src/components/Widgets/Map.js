@@ -30,21 +30,27 @@ export default class Map extends PureComponent {
     super(props, context);
     this.map = null;
     this.state = {
-      viewPoint: props.setView || [[
-        40.735654,
-        -73.990382
-      ], 13],
+      viewPoint: props.setView,
       oldMarker: null
     };
   }
 
   componentDidMount() {
-    this.initMap();
-    this.showMarkers(this.props.multipleMarkers);
+    const {viewPoint} = this.state;
+    const isMarkers = _.find(this.props.multipleMarkers, (result) => {
+      return !_.isUndefined(result.raw.geo);
+    });
+    if (isMarkers) {
+      this.initMap();
+      this.showMarkers(this.props.multipleMarkers);
+    }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.multipleMarkers.length === 1) {
+    const isMarkers = _.find(nextProps.multipleMarkers, (result) => {
+      return !_.isUndefined(result.raw.geo);
+    });
+    if (nextProps.multipleMarkers.length === 1 && isMarkers) {
       _.each(this.map._layers, (layer) => {
         if (!_.isUndefined(layer) && layer.options.icon) {
           this.map.removeLayer(layer);
@@ -58,12 +64,14 @@ export default class Map extends PureComponent {
         this.map.invalidateSize();
         this.showMarkers(nextProps.multipleMarkers);
       }, 200);
-    } else {
+    } else if (isMarkers) {
       this.showMarkers(nextProps.multipleMarkers);
     }
     if (this.props.refreshMap !== nextProps.refreshMap) {
+      if (isMarkers) {
       this.map.remove();
       this.initMap();
+      }
     }
   }
 

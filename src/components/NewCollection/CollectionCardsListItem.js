@@ -42,8 +42,9 @@ export default class CollectionCardsListItem extends PureComponent {
   handleDesciptionChange(description, medium) {
     this.setState({
       description
+    }, () => {
+      this.saveCollection();
     });
-    this.saveCollection();
   }
 
   render() {
@@ -53,7 +54,7 @@ export default class CollectionCardsListItem extends PureComponent {
     return (
       <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
-          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={true} delteCardBtn={true} hideActionButns={true}/>
+          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={true}/>
           <MediumEditor
             className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
             tag='p'

@@ -11,8 +11,11 @@
 .deleteCardBtn {
   z-index: 10;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -12px;
+  right: -12px;
+  button >div {
+    background-color: beige;
+  }
 }
 
 .background {

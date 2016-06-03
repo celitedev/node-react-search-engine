@@ -1,6 +1,5 @@
 .dialog {
-  position: relative;
-
+  padding-top: 0;
   .dialogClose {
     position: absolute;
     right: 24px;
@@ -25,24 +24,15 @@
   }
 
   .dialogTitle {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    background: #FF6D45;
-    color: white;
-
-    h5 {
-      margin: 0.25rem 0;
-    }
+    text-align: center;
+    background: deepskyblue;
+    color: white !important;
+    font-size: xx-large;
+    margin-bottom: 25px !important;
   }
 
   .dialogBody {
-    padding: 70px 0;
-    width: 600px;
-    max-width: 100%;
-    min-height: 500px;
-    height: 80%;
+    height: 500px;
   }
 
   .dialogContent {
@@ -53,12 +43,8 @@
     overflow-y: auto;
   }
 
-  .dialogFooter {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    text-align: right;
+  .dialogActionsBar {
+    margin-top: 0 !important;
   }
 
 }

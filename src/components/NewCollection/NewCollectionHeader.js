@@ -5,7 +5,7 @@ import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redire
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import MediumEditor from 'react-medium-editor';
-import 'material-design-icons';
+import ArrowRightIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
 const debug = require('debug')('app:collections:new');
 
@@ -24,23 +24,16 @@ export default class NewCollectionHeader extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      name: props.savedCollectionInfo.name,
+      title: props.savedCollectionInfo.title,
       horizon: context.horizon
     };
 
     debug('constructor', props, context, this.state);
   }
 
-  saveCollectionName(name) {
-    this.setState({
-      name: name
-    });
-    this.props.saveCollectionInfo({...this.props.savedCollectionInfo, name});
-  }
-
   validateCollection() {
     const col = this.props.savedCollectionInfo;
-    return !(col.name && col.title && col.description && col.cards.length > 1);
+    return !(col.title && col.cards.length);
   }
 
   saveCollection() {
@@ -50,8 +43,12 @@ export default class NewCollectionHeader extends PureComponent {
       const {savedCollectionInfo, user} = this.props;
       debug('Collection valid');
       const collections = horizon('collections');
+      const cards = savedCollectionInfo.cards.map((card) => {
+        const {id, description} = card;
+        return {id, description};
+      });
       collections.upsert({
-        ...savedCollectionInfo, userId: user.id
+        ...savedCollectionInfo, cards, userId: user.id
       }).subscribe(collection => {
         debug('Collection updeted');
         this.props.redirect('/mycollections');
@@ -65,8 +62,8 @@ export default class NewCollectionHeader extends PureComponent {
 
   render() {
     const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo} = this.props;
-    const {name} = this.state;
-    const label = this.validateCollection() ? 'Collection needs a name, title, description and at least 2 cards' : 'Collection is valid';
+    const {title} = savedCollectionInfo;
+    const label = this.validateCollection() ? 'Collection needs title, and at least 1 card' : 'Collection is valid';
     return (
       <div className='mdl-grid'>
         <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
@@ -74,25 +71,10 @@ export default class NewCollectionHeader extends PureComponent {
             <Link to='/mycollections' onClick={resetCollectionInfo}>
               My Collections
             </Link>
-            <i className={classnames('material-icons', styles.materialIconSmall)}>navigate_next</i>
-            {savedCollectionInfo && (
-              <MediumEditor
-                className={styles.mediumEdit}
-                tag='p'
-                text={name}
-                onChange={::this.saveCollectionName}
-                options={{
-                  toolbar: {buttons: ['bold', 'italic', 'underline']},
-                  placeholder: {
-                    text: 'Collection name',
-                    hideOnClick: true
-                  }}}
-              />
-            ) || (
-              <span className={styles.myColName}>{name}</span>
-            )}
+            <ArrowRightIcon />
+            <span className={styles.myColName}>{title.replace(/&.*;/g, ' ')}</span>
             <span
-              className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection() ? styles.error : styles.accept)}>
+              className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection())}>
               {label}
             </span>
           </nav>

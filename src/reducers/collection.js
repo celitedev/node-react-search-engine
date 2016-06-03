@@ -1,7 +1,7 @@
 import createStore from './createStore';
 import _ from 'lodash';
 import {
-  CREATE_COLLECTION,
+  CREATE_COLLECTION_DIALOG,
   UPDATE_COLLECTIION,
   DELETE_COLLECTION,
   SWITCH_PLACEHOLDER,
@@ -16,35 +16,19 @@ export default createStore({
   showPlaceholders: true,
   addCardModal: false,
   createCollectionModal: false,
+  cardId: null,
   updateCollectionModal: false,
   deleteCollectionModal: false,
-  data: [],
   savedCollectionInfo: {
     cards: [],
     img: {}
   }
 }, {
 
-  [CREATE_COLLECTION]: (state, action) => {
-    return {data: [...state.data.collections, action.collection]};
+  [CREATE_COLLECTION_DIALOG]: (state, action) => {
+    return {createCollectionModal: !state.createCollectionModal, cardId: action.cardId};
   },
 
-  [UPDATE_COLLECTIION]: (state, action) => {
-    const updatedCollection = _.map(state.data.collections, col => {
-      if (col.id === action.id) {
-        return action.collection;
-      }
-      return col;
-    });
-    return {data: [...updatedCollection]};
-  },
-
-  [DELETE_COLLECTION]: (state, action) => {
-    const updatedCollection = _.filter(state.data.collections, col => {
-      return col.id !== action.id;
-    });
-    return {data: [...updatedCollection]};
-  },
   [SAVE_COLLECTION_INFO]: (state, action) => {
     return {savedCollectionInfo: {...state.savedCollectionInfo, ...action.info}};
   },
@@ -75,7 +59,7 @@ export default createStore({
 
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
     const collection = state.savedCollectionInfo;
-    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.raw.id !== action.cardId)})};
+    return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.id !== action.cardId)})};
   }
 
 });

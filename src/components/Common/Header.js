@@ -9,6 +9,7 @@ import IconButton from 'material-ui/IconButton/IconButton';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import {clearAuthToken} from '../../horizon';
 import LoginModal from '../Common/LoginModal';
+import NewCollectionModal from '../Common/NewCollectionModal';
 
 const debug = require('debug')('app:searchRequest');
 
@@ -88,6 +89,7 @@ export default class Header extends PureComponent {
           </IconMenu>
           </nav>
         </div>
+        <NewCollectionModal />
         <LoginModal />
       </header>
     );

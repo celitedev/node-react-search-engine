@@ -22,9 +22,7 @@ export default class NewCollectionDescription extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      savedCollectionInfo: props.savedCollectionInfo,
-      stateTitle: '',
-      stateSubTitle: ''
+      savedCollectionInfo: props.savedCollectionInfo
     };
   }
 
@@ -34,24 +32,33 @@ export default class NewCollectionDescription extends PureComponent {
 
   onDrop(file) {
     const reader = new FileReader();
-    debugger;
-    reader.onload = ((theFile) => {
-        return (e) => {
-            debugger;
-          };
-      })(file[0]);
+    const self = this;
+    reader.onload = ((file) => {
+      return (e) => {
+        self.props.saveCollectionInfo({...self.state.savedCollectionInfo, img: reader.result});
+        debug('Image saved');
+      };
+    })(file[0]);
 
-      // Read in the image file as a data URL.
-      debug('IMG', reader.readAsDataURL(file[0]));
-    this.setState({
-      image: file[0]
-    });
-    this.props.saveCollectionInfo({...this.state.savedCollectionInfo, img: file[0]});
-    debug('Image saved');
+    if (file[0]) {
+      reader.readAsDataURL(file[0]);
+    }
   }
 
   deleteImageFromCollection() {
     this.props.saveCollectionInfo({img: {}});
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.savedCollectionInfo !== this.props.savedCollectionInfo) {
+      this.setState({
+        savedCollectionInfo: nextProps.savedCollectionInfo
+      });
+    }
+  }
+
+  shouldComponentUpdate(nextProps) {
+    return nextProps.savedCollectionInfo !== this.props.savedCollectionInfo || nextProps.showPlaceholders !== this.props.showPlaceholders;
   }
 
   saveCollection() {
@@ -77,11 +84,8 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   render() {
-    const {title, subTitle, description} = this.state.savedCollectionInfo;
-    const {stateTitle, stateSubTitle} = this.state;
-    const {img} = this.props.savedCollectionInfo;
+    const {title, subTitle, description, img} = this.state.savedCollectionInfo;
     const {showPlaceholders} = this.props;
-    const image = img.preview;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
@@ -89,7 +93,7 @@ export default class NewCollectionDescription extends PureComponent {
             <div className={styles.contentEditable}>
               <ContentEditable
                 className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
-                html={stateTitle || title} // innerHTML of the editable div ;
+                html={title || ''} // innerHTML of the editable div ;
                 placeholder='Collection title'
                 disabled={false}  // use true to disable edition ;
                 onChange={::this.handleChange('title')}
@@ -100,7 +104,7 @@ export default class NewCollectionDescription extends PureComponent {
             <div className={styles.contentEditable}>
             <ContentEditable
               className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
-              html={stateSubTitle || subTitle} // innerHTML of the editable div ;
+              html={subTitle || ''} // innerHTML of the editable div ;
               placeholder='Collection subtitle'
               disabled={false}  // use true to disable edition ;
               //onKeyPress={::this.handleDataChange('title')}
@@ -110,16 +114,16 @@ export default class NewCollectionDescription extends PureComponent {
           )}
           {showPlaceholders && (
             <Dropzone onDrop={::this.onDrop}
-                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
+                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(img) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           )}
           <div
-            className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(image) ? styles.hideDragZone : '')}>
+            className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(img) ? styles.hideDragZone : '')}>
             <Button className={styles.deleteImage} onClick={::this.deleteImageFromCollection}>
               <span>&times;</span>
             </Button>
-            <img className={styles.colImage} src={image}/>
+            <img className={styles.colImage} src={img}/>
           </div>
           {::this.isEmptyField(description) && (
             <MediumEditor

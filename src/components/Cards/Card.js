@@ -4,7 +4,9 @@ import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
 import {Paper, Menu, MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
-import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect} from '../../actions';
+import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog} from '../../actions';
+import DeleteIcon from 'material-ui/svg-icons/navigation/close';
+import IconButton from 'material-ui/IconButton';
 
 const debug = require('debug')('app:card');
 
@@ -14,7 +16,7 @@ function searchedCards(state) {
   return {savedCollectionInfo, authenticated, user};
 }
 
-@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect})
+@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog})
 export default class Card extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -85,7 +87,20 @@ export default class Card extends PureComponent {
   }
 
   render() {
-    const {className, authenticated, toggleLoginModal, children, data = [], bgImage, cardNumber, addCards, delteCardBtn, savedCollectionInfo, addCardToCollection, deleteCardFromCollection} = this.props;
+    const {className,
+            authenticated,
+            toggleLoginModal,
+            children,
+            data = [],
+            bgImage,
+            cardNumber,
+            addCards,
+            delteCardBtn,
+            savedCollectionInfo,
+            addCardToCollection,
+            deleteCardFromCollection,
+            switchCreateCollectionDialog
+          } = this.props;
     const {addCardToColMenu, collections} = this.state;
     const {formatted, raw} = data;
     return (
@@ -93,15 +108,17 @@ export default class Card extends PureComponent {
         <div className='js-cardAnchor'>
           {delteCardBtn && (
           <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
-            <button className='mdl-button mdl-js-button mdl-button--raised mdl-button--accent'
-                    onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
-              <i className='material-icons'>delete</i>
-            </button>
+            <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
+              <DeleteIcon />
+            </IconButton>
           </div>
           )}
+          {raw.image && (
           <div
             className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
-            style={{backgroundImage: `url(${raw.image[0]})`}}></div>
+            style={{backgroundImage: `url(${raw.image[0]})`}}>
+          </div>
+          )}
           <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
             <div className={classnames('card--contents', styles.cardContent)}>
               <div className={classnames('card--category hideCategoryClass', styles.formatedNumber)}>
@@ -168,7 +185,7 @@ export default class Card extends PureComponent {
                 onRequestChange={::this.handleItemChange}
                 open={authenticated && null}
               >
-              <MenuItem primaryText='Add to new collection' />
+              <MenuItem primaryText='Add to new collection' onClick={() => switchCreateCollectionDialog(raw.id)}/>
               <Divider />
               {collections.map((col, i) => {
                 return <MenuItem key={i} onClick={() => ::this.findCardInCollection(col)} primaryText={col.title} />;

@@ -86,7 +86,6 @@ export default class CollectionCardSearch extends PureComponent {
     debug('Filter Type', filterType);
     return (
       <div className={classnames(className, styles.root)}>
-        <div id='cardsDialogStickyHeader'>
           <form onsubmit={::this.searchResults}>
             <div
               className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
@@ -129,7 +128,6 @@ export default class CollectionCardSearch extends PureComponent {
               </div>
             )}
           </form>
-        </div>
         <CardsList cardTypes={cardTypes} cards={cards} filter={filterType.toLowerCase()}/>
       </div>
     );

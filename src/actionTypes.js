@@ -15,7 +15,7 @@ export function makeTriplet(name) {
   ];
 }
 
-export const CREATE_COLLECTION = 'CREATE_COLLECTION';
+export const CREATE_COLLECTION_DIALOG = 'CREATE_COLLECTION_DIALOG';
 export const UPDATE_COLLECTIION = 'UPDATE_COLLECTION';
 export const DELETE_COLLECTION = 'DELETE_COLLECTION';
 export const ADD_CARDS = 'ADD_CARDS';

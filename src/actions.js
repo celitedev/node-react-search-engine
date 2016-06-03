@@ -9,7 +9,8 @@ import {
   SAVE_COLLECTION_INFO,
   API_REQUEST,
   LOGIN,
-  LOGOUT
+  LOGOUT,
+  CREATE_COLLECTION_DIALOG
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -35,6 +36,12 @@ export function logout() {
 }
 
 // Collections
+export function switchCreateCollectionDialog(cardId) {
+  return {
+    type: CREATE_COLLECTION_DIALOG,
+    cardId
+  };
+}
 
 export function switchPlaceholdersVisibility() {
   return {
@@ -187,6 +194,17 @@ export function loadMoreResults(page, filter, type = 'PlaceWithOpeninghours') {
       },
       type,
       wantUnique: false
+    }
+  };
+}
+
+export function loadCards(ids) {
+  return {
+    type: API_REQUEST,
+    method: 'post',
+    path: 'entities/actions/getBatch',
+    data: {
+      ids
     }
   };
 }

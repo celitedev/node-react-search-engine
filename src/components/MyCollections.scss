@@ -5,14 +5,35 @@
   margin: 0 auto;
 }
 .cardStyle {
-  width: 100%;
-  padding: 0;
-  margin-bottom: 10px;
+  @media(min-width: 700px) {
+    >div {
+      display: flex;
+      flex-direction: row-reverse;
+    }
+  }
+  .cardFlexGrow {
+    flex-grow: 1
+  }
+}
+
+
+.imageWrap {
+  background-size: cover;
+  background-position: center;
+  @media(min-width: 700px) {
+    width: 30%;
+    flex-shrink: 0;
+  }
+  @media(max-width: 699px) {
+    width: 100%;
+    height: 200px;
+  }
 }
 
 .newCollectionAdd {
-  float: right;
-  top: 15px;
+  position: absolute;
+  top: 20px;
+  right: 40px;
 }
 
 .deleteCollection {
