@@ -28,3 +28,6 @@ typings.json
 # Project
 #/local-config-private.yml
 #/local-config-public.yml
+
+# SSL Certs
+/certs

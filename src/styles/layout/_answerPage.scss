@@ -1,4 +1,8 @@
 
+.accentColor{
+  color: $c_gr100;
+}
+
 .l-answerPage {
   position: relative;
   // max-width: 1200px;
@@ -21,17 +25,17 @@
     position: relative;
     max-width: 1200px;
     margin: 10px auto;
-    padding: 25px 40px;
+    padding: 25px 40px 0 0;
 
     ul {
       li {
         display: inline;
-        font-size: 24px;
-        color: $c_gr100;
-        padding-bottom: 0px;
-        padding-left: 16px;
+        font-size: 22px;
+        padding-left: 24px;
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-
+        &:last-child{
+           padding-left: 0;
+        }
         &:last-of-type {
           a {
             color: $c_bl;
