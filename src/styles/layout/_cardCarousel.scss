@@ -55,6 +55,10 @@
   // background: red;
   position: relative;
 
+  padding-bottom: 25px;
+  .slick-dots{
+    bottom: 0;
+  }
   @media (min-width: $resp_size_tablet) {
 
     &-peek .l-cardCarousel-js {
