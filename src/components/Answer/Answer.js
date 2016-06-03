@@ -35,6 +35,7 @@ export default class Answer extends PureComponent {
           }
         }]
     };
+
     return (
       <main className='mdl-layout__content'>
         <div className='page-content'>
@@ -46,9 +47,6 @@ export default class Answer extends PureComponent {
                     <ul>
                       <li>
                         {answer.answerNLP}
-                      </li>
-                      <li>
-                        <a href=''>View</a>
                       </li>
                     </ul>
                   </div>
@@ -63,3 +61,31 @@ export default class Answer extends PureComponent {
     );
   }
 }
+
+
+    // return (
+    //   <main className='mdl-layout__content'>
+    //     <div className='page-content'>
+    //       <div className='l-answerPage'>
+    //         {_.map(answer.results, (answer, index) => {
+    //           return answer.results.length && (
+    //             <div key={index}>
+    //               <div className={classnames('related-answer-text', styles.topicHeader)}>
+    //                 <ul>
+    //                   <li>
+    //                     {answer.answerNLP}
+    //                   </li>
+    //                    <li>
+    //                      <a href=''>View</a>
+    //                    </li>
+    //                 </ul>
+    //               </div>
+    //               <CardsCarousel settings={carouselSettings} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
+    //                 cardsStyle={styles.sliderCard}/>
+    //             </div>
+    //           ) || null;
+    //         }) }
+    //       </div>
+    //     </div>
+    //   </main>
+    // );
