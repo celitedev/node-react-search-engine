@@ -35,6 +35,7 @@ export default class Answer extends PureComponent {
           }
         }]
     };
+    function createHumanAnswerAsHTML(sHtml) { return {__html: sHtml}; }
 
     return (
       <main className='mdl-layout__content'>
@@ -45,9 +46,7 @@ export default class Answer extends PureComponent {
                 <div key={index}>
                   <div className={classnames('related-answer-text', styles.topicHeader)}>
                     <ul>
-                      <li>
-                        {answer.answerNLP}
-                      </li>
+                      <li dangerouslySetInnerHTML={createHumanAnswerAsHTML(answer.answerNLP)}/>
                     </ul>
                   </div>
                   <CardsCarousel settings={carouselSettings} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}

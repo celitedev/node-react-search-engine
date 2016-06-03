@@ -25,7 +25,7 @@
     position: relative;
     max-width: 1200px;
     margin: 10px auto;
-    padding: 25px 40px 0 0;
+    padding: 10px 40px 0 12px;
     color: $dark_text_color;
     ul {
       li {
@@ -44,9 +44,9 @@
             text-decoration: none;
           }
 
-          &::before {
-            content: "\a0\b7\a0";
-          }
+          // &::before {
+          //   content: "\a0\b7\a0";
+          // }
         }
       }
     }
