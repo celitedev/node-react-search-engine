@@ -106,6 +106,8 @@ async function bootstrap() {
   });
   if (!process.env.SERVER_RENDERING) {
     horizon = require('@horizon/client')();
+    // Horizon = require('@horizon/client');
+    // Horizon.clearAuthTokens();
     horizon.connect();
     horizon.onReady(() => {
       debug('Connected to Horizon server');

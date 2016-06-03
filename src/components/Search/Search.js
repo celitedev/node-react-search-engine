@@ -120,16 +120,19 @@ export default class Search extends PureComponent {
     let raw;
     let setMapView;
     if (!_.isEmpty(answer.results)) {
-      raw = _.find(answer.results, (result) => {
+      isGeo = _.find(answer.results, (result) => {
         return !_.isUndefined(result.raw.geo);
       });
-      if (raw) {
+      if (isGeo) {
         setMapView = [
-          raw.geo.latitude,
-          raw.geo.longitude
+          isGeo.raw.geo.latitude,
+          isGeo.raw.geo.longitude
         ];
       }
     }
+    const mapMarkers = _.filter(results, (result) => {
+      return result.raw.geo;
+    });
     const {subtypes, name} = answer.filterContext.filter;
     let oneResult = [];
     if (isSlider) {
@@ -191,7 +194,7 @@ export default class Search extends PureComponent {
           )}
         </div>
         {results.length && (
-          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))}refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : results} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
             <div className='mobile-cover' onClick={() => this.showMap()}></div>
             <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
           </Map>

@@ -3,19 +3,17 @@ import PureComponent from 'react-pure-render/component';
 import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
+import classnames from 'classnames';
 import {answerTheQuestion, redirect, toggleLoginModal, logout} from '../../actions';
-import {IconMenu, MenuItem} from 'material-ui';
-import IconButton from 'material-ui/IconButton/IconButton';
-import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import {clearAuthToken} from '../../horizon';
-import LoginModal from '../Common/LoginModal';
+import {clearAuthToken, login} from '../../horizon';
+import LoginPopover from '../Common/LoginPopover';
 import NewCollectionModal from '../Common/NewCollectionModal';
 
 const debug = require('debug')('app:searchRequest');
 
 function auth(state) {
-  const {authenticated} = state.auth;
-  return {authenticated};
+  const {authenticated, loginModal} = state.auth;
+  return {authenticated, loginModal};
 }
 
 @connect(auth, {redirect, answerTheQuestion, toggleLoginModal, logout})
@@ -24,7 +22,8 @@ export default class Header extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      searchText: props.params.question || ''
+      searchText: props.params.question || '',
+      open: false
     };
   }
 
@@ -54,11 +53,32 @@ export default class Header extends PureComponent {
     });
   }
 
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
+  };
+
+  handleRequestClose = () => {
+    this.setState({
+      open: false,
+    });
+  };
+
+  login(provider) {
+    debug('Start login with', provider);
+    this.handleRequestClose();
+    login(provider);
+  }
+
   render() {
     const {searchText} = this.state;
-    const {authenticated, toggleLoginModal} = this.props;
+    const {authenticated, toggleLoginModal, lodinModal} = this.props;
     return (
-      <header className='mdl-layout__header'>
+      <header className={classnames('mdl-layout__header', styles.root)}>
         <div className='mdl-layout__header-row'>
           <Link to='/' className='header--logo' title='back to home'/>
           <Link to='/' className='header--logotext' title='back to home'/>
@@ -73,24 +93,10 @@ export default class Header extends PureComponent {
             />
           </div>
           <nav className='mdl-navigation'>
-          <IconMenu
-            iconButtonElement={<IconButton><AccountCircle color='white'/></IconButton>}
-            anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'right', vertical: 'top'}}
-          >
-              {authenticated && (
-                <div>
-                  <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
-                  <MenuItem onClick={() => ::this.logout()} primaryText='Logout' />
-                </div>
-              ) || (
-                <MenuItem onClick={toggleLoginModal} primaryText='Login'/>
-              )}
-          </IconMenu>
+            <LoginPopover />
           </nav>
         </div>
         <NewCollectionModal />
-        <LoginModal />
       </header>
     );
   }

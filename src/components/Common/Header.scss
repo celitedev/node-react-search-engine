@@ -1,25 +1,15 @@
-.root {
-  .signInBtn {
+.root{
+
+}
+.signInBtn {
     position: absolute;
     right: 20px;
     top: 20px;
-  }
-  .exampleQuestions {
-    color: rgb(255, 64, 129);
-    font-weight: 500;
-    text-decoration: underline;
-    font-size: initial;
-  }
-  .myCollectionsBtn {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  }
-  .accountDropdown {
+}
+.accountDropdown {
     position: absolute !important;
     top: 10px;
     right: 10px;
-  }
 }
 
 .socialBtn {

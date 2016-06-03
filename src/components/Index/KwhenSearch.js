@@ -6,11 +6,14 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-import {IconMenu, MenuItem} from 'material-ui';
+import LoginModal from '../Common/LoginModal';
+import {clearAuthToken, login} from '../../horizon';
+import {Popover, PopoverAnimationVertical} from 'material-ui/Popover';
+import LogInIcon from 'material-ui/svg-icons/action/input';
+import {IconMenu, Menu, MenuItem, FlatButton, Paper} from 'material-ui';
 import IconButton from 'material-ui/IconButton/IconButton';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
-import LoginModal from '../Common/LoginModal';
-import {clearAuthToken} from '../../horizon';
+import LoginPopover from '../Common/LoginPopover';
 
 const debug = require('debug')('app:collections:new');
 
@@ -24,14 +27,8 @@ export default class IndexSearch extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      searchText: ''
+      searchText: '',
     };
-  }
-
-  logout() {
-    const {logout} = this.props;
-    logout();
-    clearAuthToken();
   }
 
   searchText(e) {
@@ -50,24 +47,9 @@ export default class IndexSearch extends PureComponent {
       <div className={classnames('mdl-layout mdl-js-layout js-index no-js', styles.root)}>
         <main className='mdl-layout__content'>
           <div className='page-content question-page'>
-          <nav className='mdl-navigation'>
-            <IconMenu
-              iconButtonElement={<IconButton><AccountCircle color='white'/></IconButton>}
-              anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
-              targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              className={styles.accountDropdown}
-            >
-              {authenticated && (
-                <div>
-                  <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
-                  <MenuItem onClick={() => ::this.logout()} primaryText='Logout' />
-                </div>
-              ) || (
-                <MenuItem onClick={toggleLoginModal} primaryText='Login'/>
-              )}
-            </IconMenu>
-            </nav>
-            <LoginModal />
+          <nav className={classnames('mdl-navigation', styles.signInBtn)}>
+            <LoginPopover />
+          </nav>
             <div className='logo'></div>
 
             <div className='l-searchbox'>

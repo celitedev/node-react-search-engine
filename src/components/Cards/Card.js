@@ -7,6 +7,7 @@ import {Paper, Menu, MenuItem, FlatButton, IconMenu, Divider} from 'material-ui'
 import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog} from '../../actions';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
+import LoginPopover from '../Common/LoginPopover';
 
 const debug = require('debug')('app:card');
 
@@ -180,10 +181,11 @@ export default class Card extends PureComponent {
               )
           ) || (
             <div className='js-overflowCheck'>
-            <IconMenu
-                iconButtonElement={<FlatButton onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
-                onRequestChange={::this.handleItemChange}
-                open={authenticated && null}
+            {authenticated && (
+              <IconMenu
+              iconButtonElement={<FlatButton onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+              onRequestChange={::this.handleItemChange}
+              open={authenticated && null}
               >
               <MenuItem primaryText='Add to new collection' onClick={() => switchCreateCollectionDialog(raw.id)}/>
               <Divider />
@@ -191,6 +193,11 @@ export default class Card extends PureComponent {
                 return <MenuItem key={i} onClick={() => ::this.findCardInCollection(col)} primaryText={col.title} />;
               })}
               </IconMenu>
+            ) || (
+              <nav className='mdl-navigation'>
+                <LoginPopover />
+              </nav>
+            )}
             </div>
           )}
         </div>
