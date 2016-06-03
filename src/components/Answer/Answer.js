@@ -42,7 +42,7 @@ export default class Answer extends PureComponent {
             {_.map(answer.results, (answer, index) => {
               return answer.results.length && (
                 <div key={index}>
-                  <div className={classnames('related-answer-text', styles.topicHeader)}>
+                  <div className={classnames('related-answer-text accentColor', styles.topicHeader)}>
                     <ul>
                       <li>
                         {answer.answerNLP}

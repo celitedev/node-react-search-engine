@@ -195,7 +195,7 @@ export default class Card extends PureComponent {
               </IconMenu>
             ) || (
               <nav className='mdl-navigation'>
-                <LoginPopover />
+                <LoginPopover cardAction={true}/>
               </nav>
             )}
             </div>

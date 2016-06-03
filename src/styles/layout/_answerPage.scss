@@ -22,13 +22,14 @@
     max-width: 1200px;
     margin: 10px auto;
     padding: 25px 40px;
-    background-color: #fff9ea;
 
     ul {
       li {
         display: inline;
-        font-size: 16px;
-        color: $dark_text_color;
+        font-size: 24px;
+        color: $c_gr100;
+        padding-bottom: 0px;
+        padding-left: 16px;
         font-family: "Roboto", "Helvetica", "Arial", sans-serif;
 
         &:last-of-type {

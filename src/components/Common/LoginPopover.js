@@ -59,7 +59,7 @@ export default class LoginPopover extends PureComponent {
   }
 
   render() {
-    const {authenticated} = this.props;
+    const {authenticated, cardAction} = this.props;
 
     return (
       <div>
@@ -67,6 +67,8 @@ export default class LoginPopover extends PureComponent {
             <IconButton onTouchTap={this.handleTouchTap}>
               <AccountCircle color='white'/>
             </IconButton>
+          ) || cardAction && (
+            <FlatButton onTouchTap={::this.handleTouchTap} label='Add to collection' />
           ) || (
             <FlatButton
               onTouchTap={this.handleTouchTap}
