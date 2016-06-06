@@ -2,3 +2,28 @@
 .detailsCard {
   width: inherit;
 }
+
+.sectionStyle {
+  padding: 0 10px;
+}
+
+.sectionName {
+  margin-bottom: 0;
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-aroun;
+  .gridList {
+    overflow-y: auto;
+    margin-bottom: 24;
+    div {
+      width: 200px !important;
+      margin: 0 10px !important;
+    }
+    .gridTile {
+      height: 200px;
+      width: 200px;
+    }
+  }
+}

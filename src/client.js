@@ -28,6 +28,9 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PatchedHorizonConnector from './patchHorizonConnector';
+// import Horizon from '@horizon/client';
+// Horizon.clearAuthTokens();
+
 const debug = require('debug')('app:client');
 
 let horizon;
@@ -106,8 +109,6 @@ async function bootstrap() {
   });
   if (!process.env.SERVER_RENDERING) {
     horizon = require('@horizon/client')();
-    // Horizon = require('@horizon/client');
-    // Horizon.clearAuthTokens();
     horizon.connect();
     horizon.onReady(() => {
       debug('Connected to Horizon server');
