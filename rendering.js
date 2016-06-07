@@ -9,7 +9,7 @@ const cluster = require('cluster');
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const AnsiConverter = require('ansi-to-html');
-const debug = require('debug')('tutor:rendering');
+const debug = require('debug')('app:rendering');
 const horizon = require('@horizon/server');
 const proxy = require('proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
@@ -125,7 +125,7 @@ if (cluster.isMaster) {
 
     auto_create_collection: true,
     auto_create_index: true,
-    permissions: false,
+    permissions: true,
     auth: {
       // success_redirect: Joi.string().default('/'),
       // failure_redirect: Joi.string().default('/'),

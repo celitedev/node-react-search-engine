@@ -45,6 +45,7 @@ export default class Header extends PureComponent {
 
   searchText(e) {
     if (e.which === 13) {
+      e.preventDefault();
       this.searchRequest(e.target.textContent);
       this.props.redirect(`/answer/${e.target.textContent}`);
     }

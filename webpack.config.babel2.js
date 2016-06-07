@@ -162,6 +162,7 @@ const config = {
       'process.env.SERVER_RENDERING': JSON.stringify(process.env.SERVER_RENDERING || null),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
   ]

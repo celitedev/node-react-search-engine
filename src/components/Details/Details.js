@@ -91,11 +91,6 @@ export default class Details extends PureComponent {
                       <img src={img} />
                     </GridTile>);
                   })}
-                  <GridTile
-                    className={styles.gridTile}
-                    >
-                    <img src='http://placehold.it/200x200' />
-                  </GridTile>
                   </GridList>
                   </div>
               </div>

@@ -7,7 +7,10 @@ import Slider from 'react-slick';
 import Card from './Card';
 import _ from 'lodash';
 import {redirect} from '../../actions';
-import '../../../modernizr';
+
+if (!process.env.SERVER_RENDERING) {
+  require('../../../modernizr');
+}
 
 class NextArrow extends PureComponent {
   render() {
