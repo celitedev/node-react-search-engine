@@ -51,8 +51,6 @@ export default class Answer extends PureComponent {
           <Header params={params}/>
           {loaded && (
             <AnswerCards params={params} answer={data.searchResults}/>
-          ) || (
-            <h3>Loading...</h3>
           )}
         </div>
       </div>

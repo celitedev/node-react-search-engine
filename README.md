@@ -2,6 +2,9 @@
  - Ansible 2.0.2
  - Vagrant 1.8.1
  - VirtualBox 5.0
+ - Node 6.0.0
+ - NPM 3.8.6
+ - Babel 5
 
 ## Installation
  - Install VirtualBox (https://www.virtualbox.org/wiki/Downloads)

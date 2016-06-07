@@ -10,12 +10,18 @@
 .sectionName {
   margin-bottom: 0;
 }
+
+.sourcesList {
+  margin-left: 10px;
+  list-style-type: disc;
+}
 .grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-aroun;
   .gridList {
     overflow-y: auto;
+    overflow-x: hidden;
     margin-bottom: 24;
     div {
       width: 200px !important;

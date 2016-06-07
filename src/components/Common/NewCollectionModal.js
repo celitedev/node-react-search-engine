@@ -23,6 +23,7 @@ export default class NewCollectionModal extends PureComponent {
     super(props, context);
     this.state = {
       title: '',
+      valid: false,
       horizon: context.horizon
     };
   }
@@ -34,7 +35,8 @@ export default class NewCollectionModal extends PureComponent {
 
   handleChange(e) {
     this.setState({
-      title: e.target.value
+      title: e.target.value,
+      valid: e.target.value ? true : false
     });
   }
 
@@ -56,9 +58,11 @@ export default class NewCollectionModal extends PureComponent {
 
   render() {
     const {createCollectionModal} = this.props;
+    const {valid} = this.state;
     const actions = [
       <FlatButton
         label='Submit'
+        disabled={!valid}
         secondary={true}
         onTouchTap={::this.createCollection}
       />,
@@ -80,6 +84,7 @@ export default class NewCollectionModal extends PureComponent {
         >
         <TextField
           hintText='New collection title'
+          errorText={!valid && 'This value is required'}
           fullWidth={true}
           onChange={::this.handleChange}
         />

@@ -64,7 +64,8 @@ export default class LoginPopover extends PureComponent {
     return (
       <div>
           {authenticated && (
-            <IconButton onTouchTap={this.handleTouchTap}>
+            <IconButton onTouchTap={this.handleTouchTap}
+                        className={styles.logedInBtn}>
               <AccountCircle color='white'/>
             </IconButton>
           ) || cardAction && (
@@ -73,7 +74,8 @@ export default class LoginPopover extends PureComponent {
             <FlatButton
               onTouchTap={this.handleTouchTap}
               label='Sign in'
-              icon={<LogInIcon color='white'/>}
+              icon={<AccountCircle color='white'/>}
+              className={styles.loginBtn}
             />
           )}
             <Popover

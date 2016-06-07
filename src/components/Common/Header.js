@@ -78,8 +78,8 @@ export default class Header extends PureComponent {
     const {searchText} = this.state;
     const {authenticated, toggleLoginModal, lodinModal} = this.props;
     return (
-      <header className={classnames('mdl-layout__header', styles.root)}>
-        <div className='mdl-layout__header-row'>
+      <header className='mdl-layout__header'>
+        <div className={classnames('mdl-layout__header-row', styles.root)}>
           <Link to='/' className='header--logo' title='back to home'/>
           <Link to='/' className='header--logotext' title='back to home'/>
           <div className='search-field'>

@@ -66,11 +66,13 @@ export default class Details extends PureComponent {
             <div className='l-detailPage--cardContainer'>
               <Card ref='card' className={classnames('card has-map no-link', styles.detailsCard)}
                     data={answer.result}>
-                <Map className='card--mediaDetail card--mediaDetail-do-show' options={mapOptions} setView={setMapView}/>
+                {geo && (
+                  <Map className='card--mediaDetail card--mediaDetail-do-show' options={mapOptions} setView={setMapView}/>
+                )}
               </Card>
             </div>
             <div className={styles.sectionStyle}>
-            {raw.image.length && (
+            {(raw.image && raw.image.length) && (
               <div>
                 <h4 className={styles.sectionName}>Images</h4>
                 <hr/>
@@ -89,6 +91,11 @@ export default class Details extends PureComponent {
                       <img src={img} />
                     </GridTile>);
                   })}
+                  <GridTile
+                    className={styles.gridTile}
+                    >
+                    <img src='http://placehold.it/200x200' />
+                  </GridTile>
                   </GridList>
                   </div>
               </div>
@@ -96,11 +103,11 @@ export default class Details extends PureComponent {
               <div className={styles.sectionStyle}>
               <h4 className={styles.sectionName}>External Sources</h4>
               <hr/>
-              <List>
-                {raw.sources.map((src, index) => {
-                  return <a href={`${src.url}`}><ListItem key={index} primaryText={`${src.name} - ${src.url}`}/></a>;
-                })}
-              </List>
+                <ul className={styles.sourcesList}>
+                  {raw.sources.map((src, index) => {
+                    return <li key={index}><a href={`${src.url}`}>{src.name}</a></li>;
+                  })}
+                </ul>
               </div>
             </div>
           </div>
