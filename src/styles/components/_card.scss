@@ -243,7 +243,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
     color: rgba(0, 0, 0, 0.7);
     font-size: 24px;
     font-weight: 700;
-    @include oneLineEllipsisOverflow(36px, 36px);
+    @include oneLineEllipsisOverflow(45px, 45px);
 
     //set by JS
     //long titles that couldn't fit on 1 line even on smaller font-size
@@ -394,4 +394,3 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
   //for extra whitespace below
   margin-top: 0;
 }
-

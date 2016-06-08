@@ -176,24 +176,14 @@ export function filterResults(type = 'PlaceWithOpeninghours', filter = {}, page 
   };
 }
 
-export function loadMoreResults(page, filter, type = 'PlaceWithOpeninghours') {
+export function loadMoreResults(page, filterContext) {
   return {
     type: API_REQUEST,
     method: 'post',
     path: 'search',
     data: {
-      filter,
-      sort: [
-        {
-          type: 'doc'
-        }
-      ],
-      page,
-      meta: {
-        includeCardFormatting: true
-      },
-      type,
-      wantUnique: false
+      ...filterContext,
+      page
     }
   };
 }

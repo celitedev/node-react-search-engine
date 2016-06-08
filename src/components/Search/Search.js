@@ -18,11 +18,15 @@ const debug = require('debug')('app:search');
 export default class Search extends PureComponent {
   constructor(props, context) {
     super(props, context);
+    const {answer} = props;
+    const filter = _.findKey(types, (o) => {
+      return o === answer.filterContext.type;
+    });
     this.state = {
-      answer: props.answer,
-      results: props.answer.results,
+      answer: answer,
+      results: answer.results,
       resultsPage: 1,
-      filter: 'Places',
+      filter: filter,
       selectedMarker: null,
       isSlider: false,
       slideIndex: 0,
@@ -34,7 +38,7 @@ export default class Search extends PureComponent {
     const {results, resultsPage, answer} = this.state;
     debug('Load new results start:', 'results: ', results, 'page: ', resultsPage, 'answer: ', answer);
     try {
-      const newResults = await loadMoreResults(resultsPage, answer.filterContext.filter);
+      const newResults = await loadMoreResults(resultsPage, answer.filterContext);
       debug('Load new results finished: ', newResults);
       this.setState({
         results: [...results, ...newResults.results],
@@ -193,7 +197,7 @@ export default class Search extends PureComponent {
           </div>
           )}
         </div>
-        {results.length && (
+        {isGeo && (
           <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
             <div className='mobile-cover' onClick={() => this.showMap()}></div>
             <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>

@@ -7,7 +7,12 @@ import Slider from 'react-slick';
 import Card from './Card';
 import _ from 'lodash';
 import {redirect} from '../../actions';
-import '../../../modernizr';
+
+const debug = require('debug')('app:CardsCarousel');
+
+if (!process.env.SERVER_RENDERING) {
+  require('../../../modernizr');
+}
 
 class NextArrow extends PureComponent {
   render() {
@@ -60,6 +65,14 @@ export default class CardsCarousel extends PureComponent {
     }
   }
 
+  beforeChange(e) {
+    debug('beforeChange: ', e);
+  }
+
+  afterChange(e) {
+    debug('afterChange: ', e);
+  }
+
   render() {
     const {settings, sliderStyle, cardsStyle, results, question, showAll, afterChange, filterContext, miniMap} = this.props;
     const {showArrowBtns} = this.state;
@@ -67,8 +80,7 @@ export default class CardsCarousel extends PureComponent {
     const setCarouselParams = {
       dots: true,
       infinite: false,
-      speed: 500,
-      initialSlide: 0,
+      speed: 100,
       nextArrow: <NextArrow miniMap={miniMap} show={showArrowBtns}/>,
       prevArrow: <PrevArrow miniMap={miniMap} show={showArrowBtns}/>,
       ...settings
@@ -79,7 +91,7 @@ export default class CardsCarousel extends PureComponent {
         <div className='l-cardCarousel-container l-cardCarousel-container-peek hasNext'>
           <div className={classnames('l-cardCarousel-js', styles.root)}>
             <div className=''>
-              <Slider {...setCarouselParams} afterChange={afterChange} className={sliderStyle}>
+              <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={::this.afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
                       <Card className={classnames('card m-card-imgRight', cardsStyle)} data={result}/>

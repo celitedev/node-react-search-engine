@@ -9,7 +9,7 @@ import {API_REQUEST} from '../../actionTypes';
 export default class Search extends PureComponent {
   static fetchData({dispatch, params, query}) {
     const q = JSON.parse(query.filter);
-    const {filter, meta, page, pageSize, similarTo, sort, spatial, type, wantUnique} = q;
+    const {filter, meta, page, pageSize, similarTo, sort, spatial, type, temporal, wantUnique} = q;
     const {question} = params;
     return {
       searchResults: dispatch({
@@ -18,7 +18,7 @@ export default class Search extends PureComponent {
         path: 'search',
         data: {
           filter, pageSize, similarTo, spatial, sort,
-          page, meta, type, wantUnique, question
+          page, meta, type, temporal, wantUnique, question
         }
       })
     };

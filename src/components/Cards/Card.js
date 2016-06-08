@@ -108,28 +108,28 @@ export default class Card extends PureComponent {
       <div className={className}>
         <div className='js-cardAnchor'>
           {delteCardBtn && (
-          <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
-            <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
-              <DeleteIcon />
-            </IconButton>
-          </div>
+            <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
+              <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </div>
           )}
           {raw.image && (
-          <div
-            className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
-            style={{backgroundImage: `url(${raw.image[0]})`}}>
-          </div>
+            <div
+              className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
+              style={{backgroundImage: `url(${raw.image[0]})`}}>
+            </div>
           )}
           <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
             <div className={classnames('card--contents', styles.cardContent)}>
               <div className={classnames('card--category hideCategoryClass', styles.formatedNumber)}>
-                {cardNumber && (
+                {(cardNumber && raw.geo) && (
                   <span className={classnames('card--number hideNumberClass')}>{cardNumber}</span>
                 )}
                 {formatted.category}
               </div>
-              <div className='card--identifier'>
-                <h2 className='card--identifier--title hideIdentifier1Class'><span>{formatted.identifiers1}</span></h2>
+              <div className={classnames('card--identifier', styles.cardIdentifier)}>
+                <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 20) && 'card--identifier--title-multiline')}><span>{formatted.identifiers1}</span></h2>
                 { formatted.identifiers2 && (
                   <div className='card--identifier--subtitle hideIdentifier2Class'>
                       {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
@@ -146,16 +146,18 @@ export default class Card extends PureComponent {
                   )}
                 </div>
               )}
-              {formatted.databits1 && (
                 <div className='card--databits hideDatabitsTotalClass'>
+                {formatted.databits1 && (
                   <div className='hideDatabits1Class'>{formatted.databits1}</div>
+                )}
+                {formatted.databits2 && (
                   <ul className='hideDatabits2Class'>
                     {formatted.databits2.map((databit, index) => (
                       <li key={index}>{databit}</li>
                     ))}
                   </ul>
+                )}
                 </div>
-              )}
               <div className='card--whyshown hideWhyshownClass'>
                 <div>{formatted.whyshown}</div>
               </div>
