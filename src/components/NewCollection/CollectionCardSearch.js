@@ -10,8 +10,7 @@ import {
   deleteCardFromCollection
 } from '../../actions';
 import {Button, Textfield} from 'react-mdl';
-import 'material-design-icons';
-import Autosuggest from 'react-autosuggest';
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import CardsList from '../Cards/CardsList';
 import {types} from '../../exampleQuestions';
 
@@ -97,7 +96,7 @@ export default class CollectionCardSearch extends PureComponent {
                      tabIndex='-1'
               />
               <label htmlFor='filter' className={styles.selectBoxLabel}>
-                <i className='mdl-icon-toggle__label material-icons'>keyboard_arrow_down</i>
+                <ArrowDownIcon className='mdl-icon-toggle__label material-icons'/>
               </label>
               <ul htmlFor='filter' className='mdl-menu mdl-menu--bottom-left mdl-js-menu'>
                 <li className='mdl-menu__item' value='all' onClick={() => this.changeFilter('all')}>All types</li>

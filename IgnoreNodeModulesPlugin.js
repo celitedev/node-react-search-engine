@@ -10,7 +10,6 @@ function IgnoreNodeModulesPlugin() {
 IgnoreNodeModulesPlugin.prototype.apply = function apply(compiler) {
   const externalsPlugin = new ExternalsPlugin('commonjs', (context, request, callback) => {
     if (/node_modules/.test(context)
-      && !/material-design-icons/.test(context)
       && !/react-redux/.test(context)
       && !/redux-router/.test(context)
     ) {
@@ -23,7 +22,6 @@ IgnoreNodeModulesPlugin.prototype.apply = function apply(compiler) {
       callback(null, res, 'commonjs');
     } else {
       if (request[0] === '.'
-        || /material-design-icons/.test(request)
         || /react-redux/.test(request)
         || /redux-router/.test(request)
         || /\.css$/.test(request)

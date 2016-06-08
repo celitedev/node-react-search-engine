@@ -3,7 +3,6 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Paginator from 'react-pagify';
 import segmentize from 'segmentize';
-import 'material-design-icons';
 
 const debug = require('debug')('app: cardsSearch');
 

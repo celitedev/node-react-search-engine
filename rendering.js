@@ -15,7 +15,7 @@ const proxy = require('proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.babel2');
+const webpackConfig = require('./webpack.config.babel');
 const compiler = webpack(webpackConfig);
 
 const serverBundle = require('./build/server');
@@ -125,7 +125,7 @@ if (cluster.isMaster) {
 
     auto_create_collection: true,
     auto_create_index: true,
-    permissions: true,
+    permissions: false,
     auth: {
       // success_redirect: Joi.string().default('/'),
       // failure_redirect: Joi.string().default('/'),

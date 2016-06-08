@@ -7,7 +7,6 @@ import {Menu, MenuItem} from 'react-mdl';
 import Map from '../Widgets/Map';
 import Card from '../Cards/Card';
 import Waypoint from 'react-waypoint';
-import Headroom from 'react-headroom';
 import _ from 'lodash';
 import {loadMoreResults, filterResults} from '../../actions';
 import CardsCarousel from '../Cards/CardsCarousel';

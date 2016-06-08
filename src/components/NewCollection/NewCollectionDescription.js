@@ -8,7 +8,6 @@ import {connect} from 'redux-simple';
 import MediumEditor from 'react-medium-editor';
 import ContentEditable from 'react-contenteditable';
 import {Button} from 'react-mdl';
-import 'material-design-icons';
 
 const debug = require('debug')('app:collection');
 

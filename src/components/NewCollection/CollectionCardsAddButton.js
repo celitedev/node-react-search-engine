@@ -1,6 +1,5 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import 'material-design-icons';
 import {connect} from 'redux-simple';
 import {switchAddCardModal, switchPlaceholdersVisibility} from '../../actions';
 import classnames from 'classnames';

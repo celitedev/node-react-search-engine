@@ -11,8 +11,12 @@ const _ = require('lodash');
 const yaml = require('js-yaml');
 const IgnoreNodeModulesPlugin = require('./IgnoreNodeModulesPlugin');
 
-const production = process.env.NODE_ENV === 'production';
-const server = process.env.SERVER_RENDERING;
+// const production = process.env.NODE_ENV === 'production';
+const production = false;
+// const server = process.env.SERVER_RENDERING;
+const server = false;
+// const hot = process.env.BABEL_ENV === 'hot';
+const hot = true;
 
 const _config = yaml.safeLoad(fs.readFileSync('config-public.yml', 'utf-8'));
 const _localConfig = yaml.safeLoad(fs.readFileSync('local-config-public.yml', 'utf-8'));
@@ -25,7 +29,7 @@ let outputName;
 if (server) {
   outputName = '[name].js';
 } else {
-  if (process.env.BABEL_ENV === 'hot') {
+  if (hot) {
     outputName = '[name]-[hash].js';
   } else {
     outputName = '[name]-[chunkhash].js';
@@ -41,7 +45,7 @@ if (extractText) {
   cssSelectorName = '[name]_[local]_[hash:hex:5]';
 }
 
-function entry(path, server = false) {
+function entry(path, server) {
   const entry = ['babel-polyfill', path];
   if (!server) {
     entry.unshift('./src/styles/global.scss');
@@ -49,15 +53,15 @@ function entry(path, server = false) {
   return entry;
 }
 
-export function hotEntry(port, ...items) {
-  if (process.env.BABEL_ENV !== 'hot') {
+function hotEntry(port, items) {
+  if (!hot) {
     return items;
   }
   return [
-    `webpack-dev-server/client?http://localhost:${port}`,
-    'webpack/hot/only-dev-server',
-    ...items
-  ];
+    // `webpack-dev-server/client?https://localhost:${port}`,
+    // 'webpack/hot/only-dev-server'
+    'webpack-hot-middleware/client'
+  ].concat(items);
 }
 
 //noinspection JSUnresolvedFunction,JSUnresolvedVariable
@@ -67,13 +71,13 @@ const config = {
   entry: server ? {
     server: entry('./src/server', true)
   } : {
-    client: hotEntry(8087, ...entry('./src/client'))
+    client: hotEntry(7000, entry('./src/client'))
   },
 
   output: {
     path: path.resolve('build'),
     filename: outputName,
-    publicPath: '/build/',
+    publicPath: '/',
     libraryTarget: 'umd'
   },
 
@@ -158,10 +162,15 @@ const config = {
       'process.env.SERVER_RENDERING': JSON.stringify(process.env.SERVER_RENDERING || null),
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
+    new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/)
   ]
 };
+
+if (hot) {
+  config.plugins.push(new webpack.HotModuleReplacementPlugin());
+}
 
 if (server) {
   config.target = 'node';
@@ -211,4 +220,4 @@ if (!server) {
   }
 }
 
-export default config;
+module.exports = config;

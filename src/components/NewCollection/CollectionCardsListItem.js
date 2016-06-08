@@ -2,7 +2,6 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import _ from 'lodash';
 import classnames from 'classnames';
-import 'material-design-icons';
 import {connect} from 'redux-simple';
 import {deleteCardFromCollection, saveCollectionInfo} from '../../actions';
 import MediumEditor from 'react-medium-editor';
