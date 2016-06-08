@@ -125,7 +125,7 @@ if (cluster.isMaster) {
 
     auto_create_collection: true,
     auto_create_index: true,
-    permissions: false,
+    permissions: true,
     auth: {
       // success_redirect: Joi.string().default('/'),
       // failure_redirect: Joi.string().default('/'),
