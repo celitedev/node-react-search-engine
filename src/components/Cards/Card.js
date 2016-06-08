@@ -104,6 +104,10 @@ export default class Card extends PureComponent {
           } = this.props;
     const {addCardToColMenu, collections} = this.state;
     const {formatted, raw} = data;
+
+    //empty databits2 array should be represented to viewlayer as null
+    formatted.databits2 = formatted.databits2.length ? formatted.databits2 : null;
+
     return (
       <div className={className}>
         <div>
