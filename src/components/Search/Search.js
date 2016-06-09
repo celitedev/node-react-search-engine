@@ -179,21 +179,31 @@ export default class Search extends PureComponent {
           </div>
           {!_.isEmpty(answer.filterContext.filter) && (
             <div className='filters--active'>
-              <div className='mdl-tag' onClick={() => this.removeFilter()}>{subtypes || name}</div>
+              {name && (
+                <div className='mdl-tag' onClick={() => this.removeFilter()}>Search: {name}</div>
+              )}
+              {subtypes && (
+                <div className='mdl-tag' onClick={() => this.removeFilter()}>{subtypes}</div>
+              )}
             </div>
           )}
           {!_.isEmpty(answer.filterContext.filter) && (
           <div className='filters--activeDialog'>
-            <span className='mdl-badge mdl-badge--overlap' data-badge='1'>
+              <span className='mdl-badge mdl-badge--overlap' data-badge={_.keys(answer.filterContext.filter).length}>
               <button id='activeFilters-selector'
-                className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
+                      className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
                 <FilterListIcon color='white' />
               </button>
             </span>
             <div className={classnames('mdl-menu__container is-upgraded', styles.mobileFilters)}>
               <div className='mdl-menu__outline mdl-menu--bottom-right'></div>
               <ul className='mdl-menu mdl-menu--bottom-right mdl-js-menu' htmlFor='activeFilters-selector'>
-                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{subtypes || name}</li>
+                {name && (
+                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{name}</li>
+                )}
+                {subtypes && (
+                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{subtypes}</li>
+                )}
               </ul>
             </div>
           </div>
