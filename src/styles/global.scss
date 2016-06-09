@@ -100,17 +100,17 @@ body {
   margin-bottom: 5px;
 }
 
-.slick-slide {
-  max-height: 260px;
-}
-
 .slick-slider {
   position: initial !important;
 }
 
-// .slick-track {
-//   max-height: 220px;
-// }
+.slick-track {
+  padding-bottom: 10px;
+}
+
+.slick-slide {
+  height: auto !important;
+}
 
 .slick-dots {
   text-align: left;

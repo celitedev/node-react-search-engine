@@ -125,6 +125,7 @@ export default class Card extends PureComponent {
                 {(cardNumber && raw.geo) && (
                   <span className={classnames('card--number')}>{cardNumber}</span>
                 )}
+                {formatted.category}
               </div>
               <div className={classnames('card--identifier', styles.cardIdentifier)}>
                 {formatted.identifiers1 && (

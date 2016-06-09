@@ -9,6 +9,7 @@ import Card from '../Cards/Card';
 import Waypoint from 'react-waypoint';
 import _ from 'lodash';
 import {loadMoreResults, filterResults} from '../../actions';
+import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import CardsCarousel from '../Cards/CardsCarousel';
 import {types} from '../../exampleQuestions';
 const debug = require('debug')('app:search');
@@ -164,7 +165,7 @@ export default class Search extends PureComponent {
         <div id='js-filtersContainerPartial-container' className={classnames('filters', !isSlider && styles.stickyHeader)}>
           <button id='type-selector' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
             {filter}
-            <i className='material-icons'>keyboard_arrow_right</i>
+            <ArrowDownIcon color='white'/>
           </button>
           <Menu target='type-selector' >
             <MenuItem onClick={() => this.filterHandler('happening')}>Happening</MenuItem>
