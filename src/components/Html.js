@@ -36,6 +36,9 @@ export default class Html extends React.Component {
     const commonCssBundle = _.find(chunks.common, isCss);
     const clientBundle = _.find(chunks.client, isJs);
     const commonBundle = _.find(chunks.common, isJs);
+  //   <meta name='description' content={state && state.meta.description}/>
+  //   <meta property='og:image' content={state && state.meta.ogImage}/>
+  // <meta property='twitter:image' content={state && state.meta.twitterImage}/>
     return (
       <html lang='en'>
       <head>
@@ -43,10 +46,7 @@ export default class Html extends React.Component {
         <meta name='viewport' content='width=device-width, initial-scale=1'/>
         <meta httpEquiv='x-ua-compatible' content='ie=edge'/>
 
-        <title>{state && state.meta.title}</title>
-        <meta name='description' content={state && state.meta.description}/>
-        <meta property='og:image' content={state && state.meta.ogImage}/>
-        <meta property='twitter:image' content={state && state.meta.twitterImage}/>
+        <title>kwhen</title>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
         <meta name='msapplication-TileColor' content='#ffffff'/>
         <meta name='theme-color' content='#ffffff'/>

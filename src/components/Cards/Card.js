@@ -3,7 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
-import {Paper, Menu, MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
+import {MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
 import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog} from '../../actions';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
@@ -90,7 +90,6 @@ export default class Card extends PureComponent {
   render() {
     const {className,
             authenticated,
-            toggleLoginModal,
             children,
             data = [],
             bgImage,
@@ -102,79 +101,70 @@ export default class Card extends PureComponent {
             deleteCardFromCollection,
             switchCreateCollectionDialog
           } = this.props;
-    const {addCardToColMenu, collections} = this.state;
+    const {collections} = this.state;
     const {formatted, raw} = data;
-
-    //empty databits2 array should be represented to viewlayer as null
-    formatted.databits2 = formatted.databits2.length ? formatted.databits2 : null;
-
     return (
       <div className={className}>
-        <div>
-          <div className='js-cardAnchor'>
-            {delteCardBtn && (
-              <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
-                <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
-                  <DeleteIcon />
-                </IconButton>
+        <div className='js-cardAnchor'>
+          {delteCardBtn && (
+            <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
+              <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
+                <DeleteIcon />
+              </IconButton>
+            </div>
+          )}
+          {raw.image && (
+            <div
+              className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
+              style={{backgroundImage: `url(${raw.image[0]})`}}>
+            </div>
+          )}
+          <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
+            <div className={classnames('card--contents', styles.cardContent)}>
+              <div className={classnames('card--category', styles.formatedNumber)}>
+                {(cardNumber && raw.geo) && (
+                  <span className={classnames('card--number')}>{cardNumber}</span>
+                )}
               </div>
-            )}
-            {raw.image && (
-              <div
-                className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
-                style={{backgroundImage: `url(${raw.image[0]})`}}>
-              </div>
-            )}
-            <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
-              <div className={classnames('card--contents', styles.cardContent)}>
-                {(formatted.category) && (
-                  <div className={classnames('card--category', styles.formatedNumber)}>
-                    {(cardNumber && raw.geo) && (
-                      <span className={classnames('card--number')}>{cardNumber}</span>
-                    )}
-                    {formatted.category}
+              <div className={classnames('card--identifier', styles.cardIdentifier)}>
+                {formatted.identifiers1 && (
+                  <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 20) && 'card--identifier--title-multiline')}><span>{formatted.identifiers1}</span></h2>
+                )}
+                { formatted.identifiers2 && (
+                  <div className='card--identifier--subtitle'>
+                      {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
                   </div>
                 )}
-                <div className={classnames('card--identifier', styles.cardIdentifier)}>
-                  <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 20) && 'card--identifier--title-multiline')}><span>{formatted.identifiers1}</span></h2>
-                  { formatted.identifiers2 && (
-                    <div className='card--identifier--subtitle'>
-                        {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
-                    </div>
+              </div>
+              {(formatted.headsup1 || formatted.headsup2) && (
+                <div className='card--headsup headsupAccentBackgroundClass'>
+                  {formatted.headsup1 && (
+                    <div className='accent'>{formatted.headsup1}</div>
+                  )}
+                  {formatted.headsup2 && (
+                    <div>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
                   )}
                 </div>
-                {(formatted.headsup1 || formatted.headsup2) && (
-                  <div className='card--headsup headsupAccentBackgroundClass'>
-                    {formatted.headsup1 && (
-                      <div className='accent'>{formatted.headsup1}</div>
-                    )}
-                    {formatted.headsup2 && (
-                      <div>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
-                    )}
-                  </div>
+              )}
+                <div className='card--databits'>
+                {formatted.databits1 && (
+                  <div>{formatted.databits1}</div>
                 )}
-                {(formatted.databits1 || formatted.databits2) && (
-                  <div className='card--databits'>
-                    {formatted.databits1 && (
-                      <div>{formatted.databits1}</div>
-                    )}
-                    {formatted.databits2 && (
-                      <ul>
-                        {formatted.databits2.map((databit, index) => (
-                          <li key={index}>{databit}</li>
-                        ))}
-                      </ul>
-                    )}
-                  </div>
+                {formatted.databits2 && (
+                  <ul>
+                    {formatted.databits2.map((databit, index) => (
+                      <li key={index}>{databit}</li>
+                    ))}
+                  </ul>
                 )}
-                {formatted.whyshown && (
-                  <div className='card--whyshown'>
-                    <div>{formatted.whyshown}</div>
-                  </div>
-                )}
-              </div>
-              {children}
+                </div>
+              {formatted.whyshown && (
+                <div className='card--whyshown'>
+                  <div>{formatted.whyshown}</div>
+                </div>
+              )}
             </div>
+            {children}
           </div>
         </div>
         <div className='card--actions'>

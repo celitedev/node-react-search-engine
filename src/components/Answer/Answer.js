@@ -5,6 +5,11 @@ import CardsCarousel from '../Cards/CardsCarousel.js';
 import classnames from 'classnames';
 
 export default class Answer extends PureComponent {
+
+  createHumanAnswerAsHTML(sHtml) {
+    return {__html: sHtml};
+  }
+
   render() {
     const {answer, params} = this.props;
     const carouselSettings = {
@@ -35,7 +40,6 @@ export default class Answer extends PureComponent {
           }
         }]
     };
-    function createHumanAnswerAsHTML(sHtml) { return {__html: sHtml}; }
 
     return (
       <main className='mdl-layout__content'>
@@ -46,7 +50,7 @@ export default class Answer extends PureComponent {
                 <div key={index}>
                   <div className={classnames('related-answer-text', styles.topicHeader)}>
                     <ul>
-                      <li dangerouslySetInnerHTML={createHumanAnswerAsHTML(answer.answerNLP)}/>
+                      <li dangerouslySetInnerHTML={::this.createHumanAnswerAsHTML(answer.answerNLP)}/>
                     </ul>
                   </div>
                   <CardsCarousel settings={carouselSettings} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}

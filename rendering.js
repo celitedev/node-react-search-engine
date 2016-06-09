@@ -71,12 +71,15 @@ if (cluster.isMaster) {
 
   const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
 
-  // app.use('/build', express.static(path.join(process.cwd(), 'build')));
   // app.use('/build', proxy(url.parse('http://localhost:8087/')));
   app.use('/api', proxy(url.parse('http://testing123.kwhen.com:3000')));
+  app.use(express.static('build'));
+  app.use(express.static('/'));
 
-  app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
-  app.use(webpackHotMiddleware(compiler));
+  if (process.env.NODE_ENV !== 'production') {
+    app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
+    app.use(webpackHotMiddleware(compiler));
+  }
 
   app.get('*', (req, res, next) => {
     readStats((err, chunks) => {

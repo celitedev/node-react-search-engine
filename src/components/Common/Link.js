@@ -12,7 +12,6 @@ export default class Link extends React.Component {
 
   onClick(e) {
     if (this.context.store.getState().navigation.confirm) {
-      debugger;
       if (!confirm("Don't go yet! Your changes aren't saved.\n\nAre you sure want to leave this page?")) {
         e.preventDefault();
       }

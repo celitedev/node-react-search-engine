@@ -2,8 +2,6 @@ import createStore from './createStore';
 import _ from 'lodash';
 import {
   CREATE_COLLECTION_DIALOG,
-  UPDATE_COLLECTIION,
-  DELETE_COLLECTION,
   SWITCH_PLACEHOLDER,
   SWITCH_ADD_CARD_MODAL,
   SAVE_COLLECTION_INFO,

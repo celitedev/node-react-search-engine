@@ -1,5 +1,4 @@
 /* eslint no-console: 0 */
-//import './mocks';
 import './polyfills';
 
 import React from 'react';
@@ -30,6 +29,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PatchedHorizonConnector from './patchHorizonConnector';
 // import Horizon from '@horizon/client';
 // Horizon.clearAuthTokens();
+
+// const muiTheme = getMuiTheme({
+//   userAgent: req.headers['user-agent']
+// });
 
 const debug = require('debug')('app:client');
 

@@ -1,4 +1,4 @@
-import createStore, {RESET_STORE} from './createStore';
+import createStore from './createStore';
 
 import {
   LOGIN,

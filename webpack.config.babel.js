@@ -11,12 +11,12 @@ const _ = require('lodash');
 const yaml = require('js-yaml');
 const IgnoreNodeModulesPlugin = require('./IgnoreNodeModulesPlugin');
 
-// const production = process.env.NODE_ENV === 'production';
-const production = false;
-// const server = process.env.SERVER_RENDERING;
-const server = false;
-// const hot = process.env.BABEL_ENV === 'hot';
-const hot = true;
+const production = process.env.NODE_ENV === 'production';
+//const production = false;
+const server = process.env.SERVER_RENDERING;
+//const server = false;
+const hot = process.env.BABEL_ENV === 'hot';
+//const hot = true;
 
 const _config = yaml.safeLoad(fs.readFileSync('config-public.yml', 'utf-8'));
 const _localConfig = yaml.safeLoad(fs.readFileSync('local-config-public.yml', 'utf-8'));

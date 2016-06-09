@@ -24,7 +24,6 @@ export default class Marker extends PureComponent {
 
   constructor(props, context) {
     super(props, context);
-    debugger;
     this.map = context.map;
     this.state = {
       viewPoint: props.setView || [[

@@ -4,9 +4,17 @@ import React from 'react';
 import {renderToString, renderToStaticMarkup} from 'react-dom/server';
 import {createStore, applyMiddleware, compose} from 'redux';
 import {ReduxRouter} from 'redux-router';
+import createHistory from 'history/lib/createMemoryHistory';
 import {reduxReactRouter, match} from 'redux-router/server';
 import {Provider} from 'redux-simple';
 import _ from 'lodash';
+
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+// const muiTheme = getMuiTheme({
+//   userAgent: req.headers['user-agent']
+// });
 
 import Html from './components/Html';
 import {
@@ -102,35 +110,54 @@ function promisedMatch(store, location) {
 
 export async function renderFull(location, cookies, callback) {
   debug('begin');
+  let store;
+  try {
+    store = compose(
+      reduxReactRouter({routes, createHistory}),
+      applyMiddleware.apply(null, middlewares)
+    )(createStore)(reducers);
+  } catch (err) {
+    console.log('store: ', err);
+  }
 
-  const store = compose(
-    reduxReactRouter({routes}),
-    applyMiddleware.apply(null, middlewares)
-  )(createStore)(reducers);
+  try {
+    await tryAuthenticate(store, cookies);
+  } catch (err) {
+    console.log('tryAuthenticate: ', err);
+  }
 
-  await tryAuthenticate(store, cookies);
+  let promise;
+  try {
+    promise = await promisedMatch(store, location);
+  } catch (err) {
+    console.log('promisedMatch: ', err);
+  }
 
-  const {error, redirect, notFound} = await promisedMatch(store, location);
-
+  const {error, redirect, notFound} = promise;
   if (notFound) {
     debug('not found');
   }
-
   if (error || redirect) {
     callback(error, redirect);
   } else {
     debug('done');
     const state = store.getState();
-    const markup = renderToString(
-      <Provider store={store}>
-        <ReduxRouter />
-      </Provider>
-    );
-    const cleanState = _.omit(state, 'router', 'session');
-    callback(null, null, notFound, chunks => {
-      const html = renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup}/>);
-      return '<!DOCTYPE html>' + html;
-    });
+    try {
+      const markup = renderToString(
+        <Provider store={store}>
+          <MuiThemeProvider muiTheme={getMuiTheme()}>
+            <ReduxRouter />
+          </MuiThemeProvider>
+        </Provider>
+      );
+      const cleanState = _.omit(state, 'router', 'session');
+      callback(null, null, notFound, chunks => {
+        const html = renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup}/>);
+        return '<!DOCTYPE html>' + html;
+      });
+    } catch (err) {
+      console.log('markup', err);
+    }
   }
 }
 
