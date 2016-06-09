@@ -152,7 +152,7 @@ export default class Card extends PureComponent {
                   <div>{formatted.databits1}</div>
                 )}
                 {formatted.databits2 && (
-                  <ul>
+                  <ul className={styles.dataBits}>
                     {formatted.databits2.map((databit, index) => (
                       <li key={index}>{databit}</li>
                     ))}

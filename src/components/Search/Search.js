@@ -10,6 +10,7 @@ import Waypoint from 'react-waypoint';
 import _ from 'lodash';
 import {loadMoreResults, filterResults} from '../../actions';
 import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import FilterListIcon from 'material-ui/svg-icons/content/filter-list';
 import CardsCarousel from '../Cards/CardsCarousel';
 import {types} from '../../exampleQuestions';
 const debug = require('debug')('app:search');
@@ -186,7 +187,8 @@ export default class Search extends PureComponent {
             <span className='mdl-badge mdl-badge--overlap' data-badge='1'>
               <button id='activeFilters-selector'
                 className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
-                <i className='material-icons'>filter_list</i></button>
+                <FilterListIcon color='white' />
+              </button>
             </span>
             <div className={classnames('mdl-menu__container is-upgraded', styles.mobileFilters)}>
               <div className='mdl-menu__outline mdl-menu--bottom-right'></div>

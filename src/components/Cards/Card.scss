@@ -4,12 +4,11 @@
   height: 30px;
 }
 
-.cardIdentifier {
-  margin-top: 10px;
-}
-
 .cardContent {
   width: 100%;
+  .dataBits {
+    margin-bottom: 0;
+  }
 }
 
 .deleteCardBtn {
