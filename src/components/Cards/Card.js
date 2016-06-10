@@ -99,8 +99,12 @@ export default class Card extends PureComponent {
             savedCollectionInfo,
             addCardToCollection,
             deleteCardFromCollection,
-            switchCreateCollectionDialog
+            switchCreateCollectionDialog,
           } = this.props;
+    let settings = this.props.settings;
+    if (!settings) {
+      settings = {};
+    }
     const {collections} = this.state;
     const {formatted, raw} = data;
     return (
@@ -128,30 +132,30 @@ export default class Card extends PureComponent {
                 {formatted.category}
               </div>
               <div className={classnames('card--identifier', styles.cardIdentifier)}>
-                {formatted.identifiers1 && (
+                {(formatted.identifiers1 || settings.identifiers1) && (
                   <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 20) && 'card--identifier--title-multiline')}><span>{formatted.identifiers1}</span></h2>
                 )}
-                { formatted.identifiers2 && (
+                { (formatted.identifiers2 || settings.identifiers2) && (
                   <div className='card--identifier--subtitle'>
                       {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
                   </div>
                 )}
               </div>
-              {(formatted.headsup1 || formatted.headsup2) && (
+              {((formatted.headsup1 || formatted.headsup2) || (settings.headsup1 || settings.headsup2)) && (
                 <div className='card--headsup headsupAccentBackgroundClass'>
-                  {formatted.headsup1 && (
+                  {(formatted.headsup1 || settings.headsup1) && (
                     <div className='accent'>{formatted.headsup1}</div>
                   )}
-                  {formatted.headsup2 && (
+                  {(formatted.headsup2 || settings.headsup2) && (
                     <div>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
                   )}
                 </div>
               )}
                 <div className='card--databits'>
-                {formatted.databits1 && (
+                {(formatted.databits1 || settings.databits1) && (
                   <div>{formatted.databits1}</div>
                 )}
-                {formatted.databits2 && (
+                {(formatted.databits2 || settings.databits2) && (
                   <ul className={styles.dataBits}>
                     {formatted.databits2.map((databit, index) => (
                       <li key={index}>{databit}</li>
@@ -159,7 +163,7 @@ export default class Card extends PureComponent {
                   </ul>
                 )}
                 </div>
-              {formatted.whyshown && (
+              {(formatted.whyshown || settings.whyshown) && (
                 <div className='card--whyshown'>
                   <div>{formatted.whyshown}</div>
                 </div>

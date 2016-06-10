@@ -74,9 +74,18 @@ export default class CardsCarousel extends PureComponent {
   }
 
   render() {
-    const {settings, sliderStyle, cardsStyle, results, question, showAll, afterChange, filterContext, miniMap} = this.props;
+    const {settings, sliderStyle, cardsStyle, results, question, showAll, filterContext, miniMap} = this.props;
     const {showArrowBtns} = this.state;
     const f = JSON.stringify(filterContext);
+    const cardSettings = {
+      identifiers1: results.find((r) => r.formatted.identifiers1),
+      identifiers2: results.find((r) => r.formatted.identifiers2),
+      headsup1: results.find((r) => r.formatted.headsup1),
+      headsup2: results.find((r) => r.formatted.headsup2),
+      databits1: results.find((r) => r.formatted.databits1),
+      databits2: results.find((r) => r.formatted.databits2),
+      whyshown: results.find((r) => r.formatted.whyshown)
+    };
     const setCarouselParams = {
       dots: true,
       infinite: false,
@@ -94,7 +103,7 @@ export default class CardsCarousel extends PureComponent {
               <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={::this.afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
-                      <Card className={classnames('card m-card-imgRight', cardsStyle)} data={result}/>
+                      <Card className={classnames('card m-card-imgRight', cardsStyle)} settings={cardSettings} data={result}/>
                   </div>
                 ))}
               </Slider>
