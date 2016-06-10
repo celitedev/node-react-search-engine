@@ -8,6 +8,7 @@ import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirec
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 import LoginPopover from '../Common/LoginPopover';
+import { Textfit } from 'react-textfit';
 
 const debug = require('debug')('app:card');
 
@@ -133,7 +134,13 @@ export default class Card extends PureComponent {
               </div>
               <div className={classnames('card--identifier', styles.cardIdentifier)}>
                 {(formatted.identifiers1 || settings.identifiers1) && (
-                  <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 20) && 'card--identifier--title-multiline')}><span>{formatted.identifiers1}</span></h2>
+                    <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 25) && 'card--identifier--title-multiline')}><span>
+                       <Textfit mode={formatted.identifiers1.length > 25 ? 'multi' : 'single'}
+                                forceSingleModeWidth={false}
+                                min={formatted.identifiers1.length > 25 ? 17 : 24}>
+                        {formatted.identifiers1}
+                       </Textfit>
+                    </span></h2>
                 )}
                 { (formatted.identifiers2 || settings.identifiers2) && (
                   <div className='card--identifier--subtitle'>
