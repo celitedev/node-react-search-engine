@@ -10,7 +10,8 @@ import {
   API_REQUEST,
   LOGIN,
   LOGOUT,
-  CREATE_COLLECTION_DIALOG
+  CREATE_COLLECTION_DIALOG,
+  SHARE_CARD_MODAL
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -99,6 +100,12 @@ export function saveCollection(collection) {
 }
 
 // Cards
+
+export function toggleShareModal() {
+  return {
+    type: SHARE_CARD_MODAL
+  };
+}
 
 export function searchCards(text) {
   return {

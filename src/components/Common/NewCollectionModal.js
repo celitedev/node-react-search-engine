@@ -1,9 +1,8 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
-import {Dialog, RaisedButton, FlatButton, TextField} from 'material-ui';
-import {toggleLoginModal, switchCreateCollectionDialog} from '../../actions';
-import {login} from '../../horizon';
+import {Dialog, FlatButton, TextField} from 'material-ui';
+import {switchCreateCollectionDialog} from '../../actions';
 
 const debug = require('debug')('app:loginModal');
 

@@ -8,6 +8,7 @@ import {answerTheQuestion, redirect, toggleLoginModal, logout} from '../../actio
 import {clearAuthToken, login} from '../../horizon';
 import LoginPopover from '../Common/LoginPopover';
 import NewCollectionModal from '../Common/NewCollectionModal';
+import ShareModal from '../Common/ShareModal';
 
 const debug = require('debug')('app:searchRequest');
 
@@ -65,7 +66,7 @@ export default class Header extends PureComponent {
 
   handleRequestClose = () => {
     this.setState({
-      open: false,
+      open: false
     });
   };
 
@@ -98,6 +99,7 @@ export default class Header extends PureComponent {
           </nav>
         </div>
         <NewCollectionModal />
+        <ShareModal />
       </header>
     );
   }

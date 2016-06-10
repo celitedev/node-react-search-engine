@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
 import {MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
-import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog} from '../../actions';
+import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog, toggleShareModal} from '../../actions';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 import LoginPopover from '../Common/LoginPopover';
@@ -18,7 +18,7 @@ function searchedCards(state) {
   return {savedCollectionInfo, authenticated, user};
 }
 
-@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog})
+@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog, toggleShareModal})
 export default class Card extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -84,8 +84,13 @@ export default class Card extends PureComponent {
   }
 
   redirectToCard() {
-    const {data, redirect, question} = this.props;
+    const {data, redirect} = this.props;
     redirect(`/details/${data.raw.id}`);
+  }
+
+  toggleShareModal() {
+    const {toggleShareModal} = this.props;
+    toggleShareModal();
   }
 
   render() {
@@ -179,7 +184,7 @@ export default class Card extends PureComponent {
             {children}
           </div>
         </div>
-        <div className='card--actions'>
+        <div className={classnames('card--actions', styles.cardActions)}>
           {addCards && (
               ::this.findCardById(raw.id) && (
                 <button
@@ -196,7 +201,7 @@ export default class Card extends PureComponent {
                 </button>
               )
           ) || (
-            <div className='js-overflowCheck'>
+            <div>
             {authenticated && (
               <IconMenu
               iconButtonElement={<FlatButton onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
@@ -216,6 +221,7 @@ export default class Card extends PureComponent {
             )}
             </div>
           )}
+          <FlatButton label='Chare card' onClick={() => ::this.toggleShareModal()}/>
         </div>
       </div>
     );

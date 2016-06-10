@@ -6,7 +6,7 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import {redirect, toggleLoginModal, logout} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
-import LoginModal from '../Common/LoginModal';
+import LoginModal from '../Common/ShareModal';
 import {clearAuthToken, login} from '../../horizon';
 import {Popover, PopoverAnimationVertical} from 'material-ui/Popover';
 import LogInIcon from 'material-ui/svg-icons/action/input';
