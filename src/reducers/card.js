@@ -5,7 +5,9 @@ import {
 } from '../actionTypes';
 
 export default createStore({
-  shareCardModal: false
+  shareCardModal: false,
+  collection: false,
+  id: null
 }, {
-  [SHARE_CARD_MODAL]: (state, action) => ({shareCardModal: !state.shareCardModal})
+  [SHARE_CARD_MODAL]: (state, action) => ({shareCardModal: !state.shareCardModal, collection: action.col, id: action.id})
 });

@@ -11,7 +11,8 @@ import {
   LOGIN,
   LOGOUT,
   CREATE_COLLECTION_DIALOG,
-  SHARE_CARD_MODAL
+  SHARE_CARD_MODAL,
+  SNACKBAR
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -99,11 +100,23 @@ export function saveCollection(collection) {
   };
 }
 
+// Snackbar
+
+export function toggleSnackbar(msg, err) {
+  return {
+    type: SNACKBAR,
+    msg,
+    err
+  };
+}
+
 // Cards
 
-export function toggleShareModal() {
+export function toggleShareModal(col, id) {
   return {
-    type: SHARE_CARD_MODAL
+    type: SHARE_CARD_MODAL,
+    col: col ? true : false,
+    id
   };
 }
 
@@ -202,6 +215,17 @@ export function loadCards(ids) {
     path: 'entities/actions/getBatch',
     data: {
       ids
+    }
+  };
+}
+
+export function share(data) {
+  return {
+    type: API_REQUEST,
+    method: 'post',
+    path: 'share',
+    data: {
+      ...data
     }
   };
 }

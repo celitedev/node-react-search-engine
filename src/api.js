@@ -49,7 +49,6 @@ async function request(method, path, data = null, query = null, session = null) 
       'Cache-Control': 'no-cache'
     }
   };
-
   if (typeof window !== 'undefined' && (data instanceof window.File || data instanceof window.Blob)) {
     options.headers = {
       ...options.headers,

@@ -1,10 +1,9 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo} from '../../actions';
+import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo, toggleShareModal} from '../../actions';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
-import MediumEditor from 'react-medium-editor';
 import ArrowRightIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
 const debug = require('debug')('app:collections:new');
@@ -15,7 +14,7 @@ function collection(state) {
   return {showPlaceholders, savedCollectionInfo, user};
 }
 
-@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo})
+@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo, toggleShareModal})
 export default class NewCollectionHeader extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -60,6 +59,12 @@ export default class NewCollectionHeader extends PureComponent {
     }
   }
 
+
+  toggleShareModal() {
+    const {toggleShareModal, savedCollectionInfo} = this.props;
+    toggleShareModal(true, savedCollectionInfo.id);
+  }
+
   render() {
     const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo} = this.props;
     const {title} = savedCollectionInfo;
@@ -81,7 +86,8 @@ export default class NewCollectionHeader extends PureComponent {
           <div className={styles.floatLeft}>
             <h6>Settings</h6>
             <div>
-              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'>
+              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
+                      onClick={() => ::this.toggleShareModal()}>
                 Share
               </button>
               <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'

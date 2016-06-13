@@ -2,16 +2,16 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import {Dialog, FlatButton, TextField} from 'material-ui';
-import {toggleShareModal} from '../../actions';
+import {toggleShareModal, share, toggleSnackbar} from '../../actions';
 
 const debug = require('debug')('app:loginModal');
 
 function getLoginModal(state) {
-  const {shareCardModal} = state.card;
-  return {shareCardModal};
+  const {shareCardModal, collection, id} = state.card;
+  return {shareCardModal, collection, id};
 }
 
-@connect(getLoginModal, {toggleShareModal})
+@connect(getLoginModal, {toggleShareModal, share, toggleSnackbar})
 export default class ShareModal extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -23,16 +23,39 @@ export default class ShareModal extends PureComponent {
       toValid: false
     };
   }
+
+  async shareData(data) {
+    const {share, toggleSnackbar} = this.props;
+    try {
+      const shareResponse = await share(data);
+      if (shareResponse.rejected) {
+        toggleSnackbar('Error');
+      } else {
+        toggleSnackbar('Kwhen told your friends!');
+      }
+    } catch (err) {
+      const errors = await err.response.json();
+      toggleSnackbar(`Error: field '${errors[0].param.toUpperCase()}' ${errors[0].msg}`, true);
+      debug('Share error: ', errors);
+    }
+  }
   handleCloseDialog() {
     const {toggleShareModal} = this.props;
     this.setState({
-      from: '',
+      fromName: '',
       to: '',
       msg: '',
-      fromValid: false,
+      fromNameValid: false,
       toValid: false
     }, () => toggleShareModal());
     debug('Close share  dialog');
+  }
+
+  submit() {
+    const {fromName, to, msg} = this.state;
+    const {collection, id} = this.props;
+    this.shareData({fromName, to, msg, type: collection ? 'collection' : 'card', shareType: 'email', id});
+    this.handleCloseDialog();
   }
 
   handleChange(e, target) {
@@ -43,14 +66,14 @@ export default class ShareModal extends PureComponent {
   }
 
   render() {
-    const {shareCardModal} = this.props;
-    const {fromValid, toValid} = this.state;
+    const {shareCardModal, collection} = this.props;
+    const {fromNameValid, toValid} = this.state;
     const actions = [
       <FlatButton
         label='Share'
         secondary={true}
-        disabled={!(toValid && fromValid)}
-        onTouchTap={::this.handleCloseDialog}
+        disabled={!(toValid && fromNameValid)}
+        onTouchTap={::this.submit}
         type='submit'
       />,
       <FlatButton
@@ -63,7 +86,7 @@ export default class ShareModal extends PureComponent {
     return (
       <Dialog
           titleClassName={styles.dialogTitle}
-          title='Share card'
+          title={collection ? 'Share collection' : 'Share card'}
           modal={false}
           actions={actions}
           open={shareCardModal}
@@ -71,9 +94,9 @@ export default class ShareModal extends PureComponent {
         >
         <TextField
           floatingLabelText='From'
-          errorText={!fromValid && 'This value is required'}
+          errorText={!fromNameValid && 'This value is required'}
           fullWidth={true}
-          onChange={(e) => ::this.handleChange(e, 'from')}
+          onChange={(e) => ::this.handleChange(e, 'fromName')}
           type='email'
         />
         <TextField

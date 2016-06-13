@@ -9,6 +9,7 @@ import {clearAuthToken, login} from '../../horizon';
 import LoginPopover from '../Common/LoginPopover';
 import NewCollectionModal from '../Common/NewCollectionModal';
 import ShareModal from '../Common/ShareModal';
+import SnackbarMsg from '../Common/SnackbarMsg';
 
 const debug = require('debug')('app:searchRequest');
 
@@ -100,6 +101,7 @@ export default class Header extends PureComponent {
         </div>
         <NewCollectionModal />
         <ShareModal />
+        <SnackbarMsg />
       </header>
     );
   }

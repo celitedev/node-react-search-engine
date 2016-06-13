@@ -88,9 +88,9 @@ export default class Card extends PureComponent {
     redirect(`/details/${data.raw.id}`);
   }
 
-  toggleShareModal() {
+  toggleShareModal(id) {
     const {toggleShareModal} = this.props;
-    toggleShareModal();
+    toggleShareModal(false, id);
   }
 
   render() {
@@ -221,7 +221,7 @@ export default class Card extends PureComponent {
             )}
             </div>
           )}
-          <FlatButton label='Chare card' onClick={() => ::this.toggleShareModal()}/>
+          <FlatButton label='Share card' onClick={() => ::this.toggleShareModal(raw.id)}/>
         </div>
       </div>
     );
