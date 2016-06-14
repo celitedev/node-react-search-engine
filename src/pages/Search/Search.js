@@ -27,11 +27,11 @@ export default class Search extends PureComponent {
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className='mdl-layout mdl-js-layout'>
+      <div className='mdl-layout'>
         <Header params={params}/>
         {loaded
-          ? <SearchResults params={params} answer={data.searchResults}/>
-          : <h3>Loading...</h3>
+          && (<SearchResults params={params} answer={data.searchResults}/>)
+          || (<h3>Loading...</h3>)
         }
       </div>
     );

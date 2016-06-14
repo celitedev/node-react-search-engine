@@ -5,6 +5,7 @@ import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redire
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import ArrowRightIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import Toggle from 'material-ui/Toggle';
 
 const debug = require('debug')('app:collections:new');
 
@@ -99,11 +100,10 @@ export default class NewCollectionHeader extends PureComponent {
           <div className={styles.floatRight}>
             <h6>Placeholders</h6>
             <div className={styles.floatRight}>
-              <label className='mdl-switch mdl-js-switch'>
-                <input type='checkbox' id='placeholders' defaultChecked className='mdl-switch__input'
-                       value={showPlaceholders} onClick={switchPlaceholdersVisibility}/>
-                <span className='mdl-switch__label'></span>
-              </label>
+              <Toggle
+                defaultToggled={showPlaceholders}
+                onToggle={switchPlaceholdersVisibility}
+              />
             </div>
           </div>
         </div>

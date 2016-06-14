@@ -249,7 +249,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
     //long titles that couldn't fit on 1 line even on smaller font-size
     &-multiline {
       white-space: normal;
-      line-height: 14px;
+      line-height: 32px;
       > span {
         font-size: 16px !important;
       }

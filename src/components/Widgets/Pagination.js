@@ -1,12 +1,13 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, {Component} from 'react';
+import { pure } from 'recompose';
 import classnames from 'classnames';
 import Paginator from 'react-pagify';
 import segmentize from 'segmentize';
 
 const debug = require('debug')('app: cardsSearch');
 
-export default class Pagination extends PureComponent {
+@pure
+export default class Pagination extends Component {
   constructor(props, contex) {
     super(props);
   }

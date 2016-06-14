@@ -1,9 +1,8 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {findDOMNode} from 'react-dom';
-import PureComponent from 'react-pure-render/component';
+import { pure } from 'recompose';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
-import config from '../../config.js';
 
 const debug = require('debug')('app:map');
 
@@ -12,15 +11,16 @@ if (!process.env.SERVER_RENDERING) {
   L = require('mapbox.js');
 }
 
-export default class Marker extends PureComponent {
+@pure
+export default class Marker extends Component {
   static propTypes = {
     x: PropTypes.number,
     y: PropTypes.number
-  }
+  };
 
   static contextTypes = {
     map: PropTypes.object
-  }
+  };
 
   constructor(props, context) {
     super(props, context);

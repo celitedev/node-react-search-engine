@@ -7,8 +7,7 @@ import {login, clearAuthToken} from '../../horizon';
 import {Link} from 'react-router';
 
 import {Popover, PopoverAnimationVertical} from 'material-ui/Popover';
-import LogInIcon from 'material-ui/svg-icons/action/input';
-import {IconMenu, Menu, MenuItem, FlatButton, Paper} from 'material-ui';
+import {Menu, MenuItem, FlatButton} from 'material-ui';
 import IconButton from 'material-ui/IconButton/IconButton';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 
@@ -48,7 +47,7 @@ export default class LoginPopover extends PureComponent {
 
   handleRequestClose = () => {
     this.setState({
-      open: false,
+      open: false
     });
   };
 
@@ -60,6 +59,7 @@ export default class LoginPopover extends PureComponent {
 
   render() {
     const {authenticated, cardAction} = this.props;
+    const {open, anchorEl} = this.state;
 
     return (
       <div>
@@ -79,8 +79,8 @@ export default class LoginPopover extends PureComponent {
             />
           )}
             <Popover
-              open={this.state.open}
-              anchorEl={this.state.anchorEl}
+              open={open}
+              anchorEl={anchorEl}
               anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
               targetOrigin={{horizontal: 'left', vertical: 'top'}}
               onRequestClose={this.handleRequestClose}

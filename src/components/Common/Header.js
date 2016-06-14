@@ -50,10 +50,11 @@ export default class Header extends PureComponent {
       e.preventDefault();
       this.searchRequest(e.target.textContent);
       this.props.redirect(`/answer/${e.target.textContent}`);
+    } else {
+      this.setState({
+        searchText: e.target.textContent
+      });
     }
-    this.setState({
-      searchText: e.target.textContent
-    });
   }
 
   handleTouchTap = (event) => {
@@ -79,7 +80,6 @@ export default class Header extends PureComponent {
 
   render() {
     const {searchText} = this.state;
-    const {authenticated, toggleLoginModal, lodinModal} = this.props;
     return (
       <header className='mdl-layout__header'>
         <div className={classnames('mdl-layout__header-row', styles.root)}>

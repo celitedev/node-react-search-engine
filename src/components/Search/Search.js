@@ -1,9 +1,11 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
+import React, {Component} from 'react';
+import { pure } from 'recompose';
+import autobind from 'autobind-decorator';
+import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import classnames from 'classnames';
-import {Menu, MenuItem} from 'react-mdl';
+import {Menu, MenuItem, RaisedButton, Badge} from 'material-ui';
+import {Popover, PopoverAnimationVertical} from 'material-ui/Popover';
 import Map from '../Widgets/Map';
 import Card from '../Cards/Card';
 import Waypoint from 'react-waypoint';
@@ -16,7 +18,8 @@ import {types} from '../../exampleQuestions';
 const debug = require('debug')('app:search');
 
 @connect(null, {loadMoreResults, filterResults})
-export default class Search extends PureComponent {
+@pure
+export default class Search extends Component {
   constructor(props, context) {
     super(props, context);
     const {answer} = props;
@@ -50,6 +53,7 @@ export default class Search extends PureComponent {
     }
   }
 
+  @autobind
   handleWaypointEnter() {
     this.loadNewResults();
   }
@@ -58,7 +62,7 @@ export default class Search extends PureComponent {
     this.filterResults({}, types[type]);
     this.setState({
       filter: type
-    });
+    }, this.handleRequestClose());
   }
 
   showMap() {
@@ -108,7 +112,7 @@ export default class Search extends PureComponent {
       debug('searchRequest Error', err);
     }
   }
-
+  @autobind
   removeFilter() {
     const {filter, answer, removeFilter} = this.state;
     const {subtype, name} = answer.filterContext.filter;
@@ -119,16 +123,42 @@ export default class Search extends PureComponent {
     });
   }
 
+  @autobind
+  handleFilterTouchTap (event) {
+    // This prevents ghost click.
+    event.preventDefault();
+    this.setState({
+      openFilters: true,
+      anchorFilters: event.currentTarget,
+    });
+  }
+
+  @autobind
+  handleBageTouchTap (event) {
+    // This prevents ghost click.
+    event.preventDefault();
+    this.setState({
+      openBageBtn: true,
+      anchorBage: event.currentTarget,
+    });
+  }
+
+  handleRequestClose = () => {
+    this.setState({
+      openFilters: false,
+      openBageBtn: false
+    });
+  };
+
   render() {
     const {params} = this.props;
-    const {answer, results, filter, selectedMarker, isSlider, slideIndex, removeFilter} = this.state;
-    let raw;
+    const {answer, results, filter, selectedMarker, isSlider, slideIndex, removeFilter, openFilters, openBageBtn, anchorFilters, anchorBage} = this.state;
     let setMapView;
     if (!_.isEmpty(answer.results)) {
       isGeo = _.find(answer.results, (result) => {
         return !_.isUndefined(result.raw.geo);
       });
-      if (isGeo) {
+      if (_.isObject(isGeo)) {
         setMapView = [
           isGeo.raw.geo.latitude,
           isGeo.raw.geo.longitude
@@ -163,58 +193,90 @@ export default class Search extends PureComponent {
     };
     return (
       <main className={classnames('search-page', !isSlider && styles.containerMargin)}>
-        <div id='js-filtersContainerPartial-container' className={classnames('filters', !isSlider && styles.stickyHeader)}>
-          <button id='type-selector' className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
-            {filter}
-            <ArrowDownIcon color='white'/>
-          </button>
-          <Menu target='type-selector' >
-            <MenuItem onClick={() => this.filterHandler('happening')}>Happening</MenuItem>
-            <MenuItem onClick={() => this.filterHandler('places')}>Places</MenuItem>
-            <MenuItem onClick={() => this.filterHandler('creative Work')}>Creative work</MenuItem>
-            <MenuItem onClick={() => this.filterHandler('Person / Group')}>Person / Group</MenuItem>
-          </Menu>
-          <div className='mdl-menu__container is-upgraded'>
-            <div className='mdl-menu__outline mdl-menu--bottom-left'></div>
-          </div>
+        <div className={classnames('filters', !isSlider && styles.stickyHeader)}>
+          <RaisedButton
+            label={filter}
+            labelPosition='before'
+            primary={true}
+            icon={<ArrowDownIcon color='white'/>}
+            onTouchTap={this.handleFilterTouchTap}
+          />
+          <Popover
+            open={openFilters}
+            anchorEl={anchorFilters}
+            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+            targetOrigin={{horizontal: 'left', vertical: 'top'}}
+            onRequestClose={this.handleRequestClose}
+            animation={PopoverAnimationVertical}
+          >
+            <Menu>
+              <MenuItem primaryText='Happening' onClick={() => this.filterHandler('happening')}/>
+              <MenuItem primaryText='Places' onClick={() => this.filterHandler('places')}/>
+              <MenuItem primaryText='Creative work' onClick={() => this.filterHandler('creative Work')}/>
+              <MenuItem primaryText='Person / Group' onClick={() => this.filterHandler('Person / Group')}/>
+            </Menu>
+          </Popover>
           {!_.isEmpty(answer.filterContext.filter) && (
             <div className='filters--active'>
               {name && (
-                <div className='mdl-tag' onClick={() => this.removeFilter()}>Search: {name}</div>
+                <RaisedButton
+                  label={`Search: ${name}`}
+                  labelPosition='before'
+                  onTouchTap={this.removeFilter}
+                  backgroundColor='#00cd75'
+                  className={styles.filters}
+                />
               )}
               {subtypes && (
-                <div className='mdl-tag' onClick={() => this.removeFilter()}>{subtypes}</div>
+                <RaisedButton
+                  label={subtypes}
+                  labelPosition='before'
+                  onTouchTap={this.removeFilter}
+                  backgroundColor='#00cd75'
+                  className={styles.filters}
+                />
               )}
             </div>
           )}
           {!_.isEmpty(answer.filterContext.filter) && (
           <div className='filters--activeDialog'>
-              <span className='mdl-badge mdl-badge--overlap' data-badge={_.keys(answer.filterContext.filter).length}>
-              <button id='activeFilters-selector'
-                      className='mdl-button mdl-js-button mdl-button--raised mdl-button--colored'>
-                <FilterListIcon color='white' />
-              </button>
-            </span>
-            <div className={classnames('mdl-menu__container is-upgraded', styles.mobileFilters)}>
-              <div className='mdl-menu__outline mdl-menu--bottom-right'></div>
-              <ul className='mdl-menu mdl-menu--bottom-right mdl-js-menu' htmlFor='activeFilters-selector'>
+            <Badge
+              badgeContent={_.keys(answer.filterContext.filter).length}
+              primary={true}
+              style={{'padding': 0, 'position': 'initial'}}
+            >
+              <RaisedButton
+                primary={true}
+                icon={<FilterListIcon color='white' />}
+                onTouchTap={this.handleBageTouchTap}
+              />
+            </Badge>
+            <Popover
+              open={openBageBtn}
+              anchorEl={anchorBage}
+              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+              targetOrigin={{horizontal: 'left', vertical: 'top'}}
+              onRequestClose={this.handleRequestClose}
+              animation={PopoverAnimationVertical}
+            >
+              <Menu>
                 {name && (
-                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{name}</li>
+                  <MenuItem primaryText={name} onClick={() => this.filterHandler()}/>
                 )}
                 {subtypes && (
-                <li className='mdl-menu__item' tabIndex='-1' onClick={() => this.removeFilter()} >{subtypes}</li>
+                  <MenuItem primaryText={subtypes} onClick={() => this.filterHandler()}/>
                 )}
-              </ul>
-            </div>
+              </Menu>
+            </Popover>
           </div>
           )}
         </div>
-        {isGeo && (
+        {_.isObject(isGeo) && (
           <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
             <div className='mobile-cover' onClick={() => this.showMap()}></div>
             <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
           </Map>
-        ) || null}
+        )}
         <div classNmae='page-content'>
           <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', styles.carouselOverflowFix, isSlider && 'is-slider')}>
             { isSlider && (
@@ -224,17 +286,17 @@ export default class Search extends PureComponent {
               <div>
               {
               results.map((result, index) => (
-                <Link key={index} to={`/details/${params.question}/${result.raw.id}`}>
+                <Link key={index} to={`/details/${result.raw.id}`}>
                   <Card data={result} cardNumber={index + 1}
                     className={classnames(`card actionBarHidden card-${index}`, { [styles.active]: selectedMarker === result.id }, styles.cardStyle) } bgImage={true}/>
                 </Link>
               ))}
-              {results.length && (
+              {results.length > 0 && (
                 <Waypoint
-                  onEnter={::this.handleWaypointEnter}
+                  onEnter={this.handleWaypointEnter}
                   threshold={0.2}
                 />
-                ) || null}
+                )}
               </div>
             )
             }

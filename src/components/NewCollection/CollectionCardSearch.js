@@ -1,6 +1,6 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
-import {connect} from 'redux-simple';
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import { pure } from 'recompose';
 import classnames from 'classnames';
 import {
   getCards,
@@ -32,7 +32,8 @@ function searchedCards(state) {
   suggestCards,
   getCardsSuggestions
 })
-export default class CollectionCardSearch extends PureComponent {
+@pure
+export default class CollectionCardSearch extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -80,9 +81,8 @@ export default class CollectionCardSearch extends PureComponent {
 
   render() {
     const {className} = this.props;
-    const {cards, cardTypes, filter, value, suggestions, noSuggestions} = this.state;
+    const {cards, cardTypes, filter} = this.state;
     const filterType = types[filter] || filter;
-    debug('Filter Type', filterType);
     return (
       <div className={classnames(className, styles.root)}>
           <form onsubmit={::this.searchResults}>
@@ -121,11 +121,6 @@ export default class CollectionCardSearch extends PureComponent {
               onClick={::this.searchResults}>
               Show Cards
             </Button>
-            {noSuggestions && (
-              <div className='no-suggestions'>
-                No suggestions
-              </div>
-            )}
           </form>
         <CardsList cardTypes={cardTypes} cards={cards} filter={filterType.toLowerCase()}/>
       </div>

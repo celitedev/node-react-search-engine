@@ -1,6 +1,6 @@
-import React, {PropTypes} from 'react';
+import React, {PropTypes, Component} from 'react';
 import {findDOMNode} from 'react-dom';
-import PureComponent from 'react-pure-render/component';
+import { pure } from 'recompose';
 import classnames from 'classnames';
 import _ from 'lodash';
 import config from '../../config.js';
@@ -10,16 +10,17 @@ if (!process.env.SERVER_RENDERING) {
   L = require('mapbox.js');
 }
 
-export default class Map extends PureComponent {
+@pure
+export default class Map extends Component {
   static propTypes = {
     options: PropTypes.object,
     setView: PropTypes.array,
     multipleMarkers: PropTypes.array
-  }
+  };
 
   static childContextTypes = {
     map: PropTypes.object
-  }
+  };
   getChildContext() {
     return {
         map: this.map

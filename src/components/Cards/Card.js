@@ -142,7 +142,7 @@ export default class Card extends PureComponent {
                     <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 25) && 'card--identifier--title-multiline')}><span>
                        <Textfit mode={formatted.identifiers1.length > 25 ? 'multi' : 'single'}
                                 forceSingleModeWidth={false}
-                                min={formatted.identifiers1.length > 25 ? 17 : 24}>
+                                max={formatted.identifiers1.length > 25 ? 17 : 24}>
                         {formatted.identifiers1}
                        </Textfit>
                     </span></h2>

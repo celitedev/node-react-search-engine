@@ -69,12 +69,8 @@ export default class CardsCarousel extends PureComponent {
     debug('beforeChange: ', e);
   }
 
-  afterChange(e) {
-    debug('afterChange: ', e);
-  }
-
   render() {
-    const {settings, sliderStyle, cardsStyle, results, question, showAll, filterContext, miniMap} = this.props;
+    const {settings, sliderStyle, cardsStyle, results, question, showAll, filterContext, miniMap, afterChange} = this.props;
     const {showArrowBtns} = this.state;
     const f = JSON.stringify(filterContext);
     const cardSettings = {
@@ -100,7 +96,7 @@ export default class CardsCarousel extends PureComponent {
         <div className='l-cardCarousel-container l-cardCarousel-container-peek hasNext'>
           <div className={classnames('l-cardCarousel-js', styles.root)}>
             <div className=''>
-              <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={::this.afterChange} className={sliderStyle}>
+              <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
                       <Card className={classnames('card m-card-imgRight', cardsStyle)} settings={cardSettings} data={result}/>
