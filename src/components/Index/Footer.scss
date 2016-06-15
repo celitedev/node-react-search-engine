@@ -1,8 +1,17 @@
+@import '../../styles/mixins';
+
 .textMuted {
   color: rgba(#fff, .9);
   bottom: 0;
-  position: absolute;
+  position: fixed;
   padding: 1em;
   right: 0;
   font-size: 12px;
+  background-color: #00cd75;
+  width: 100%;
+  text-align: right;
+
+  @include media-breakpoint-only(xs) {
+    text-align: center;
+  }
 }

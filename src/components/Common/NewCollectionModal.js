@@ -22,7 +22,7 @@ export default class NewCollectionModal extends PureComponent {
     super(props, context);
     this.state = {
       title: '',
-      valid: false,
+      valid: true,
       horizon: context.horizon
     };
   }
@@ -30,6 +30,17 @@ export default class NewCollectionModal extends PureComponent {
     const {switchCreateCollectionDialog} = this.props;
     switchCreateCollectionDialog();
     debug('Close createCollection dialog');
+  }
+
+  validate() {
+    const {title} = this.state;
+    if (!title) {
+      this.setState({
+        'valid': false
+      });
+      return false;
+    }
+    return true;
   }
 
   handleChange(e) {
@@ -40,6 +51,7 @@ export default class NewCollectionModal extends PureComponent {
   }
 
   createCollection() {
+    if (!this.validate()) return;
     const {horizon, title} = this.state;
     const {cardId, user} = this.props;
     const collections = horizon('collections');
@@ -61,7 +73,6 @@ export default class NewCollectionModal extends PureComponent {
     const actions = [
       <FlatButton
         label='Submit'
-        disabled={!valid}
         secondary={true}
         onTouchTap={::this.createCollection}
       />,

@@ -1,5 +1,6 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, {Component} from 'react';
+import {pure, compose} from 'recompose';
+import autobind from 'autobind-decorator';
 import {connect} from 'redux-simple';
 import {Dialog, FlatButton, TextField} from 'material-ui';
 import {toggleShareModal, share, toggleSnackbar} from '../../actions';
@@ -11,16 +12,21 @@ function getLoginModal(state) {
   return {shareCardModal, collection, id};
 }
 
-@connect(getLoginModal, {toggleShareModal, share, toggleSnackbar})
-export default class ShareModal extends PureComponent {
+const encance = compose(
+  connect(getLoginModal, {toggleShareModal, share, toggleSnackbar}),
+  pure
+);
+
+@encance
+export default class ShareModal extends Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
       from: '',
       to: '',
       msg: '',
-      fromValid: false,
-      toValid: false
+      fromNameValid: true,
+      toValid: true
     };
   }
 
@@ -39,25 +45,46 @@ export default class ShareModal extends PureComponent {
       debug('Share error: ', errors);
     }
   }
+
+  @autobind
   handleCloseDialog() {
     const {toggleShareModal} = this.props;
     this.setState({
       fromName: '',
       to: '',
       msg: '',
-      fromNameValid: false,
-      toValid: false
+      fromNameValid: true,
+      toValid: true
     }, () => toggleShareModal());
     debug('Close share  dialog');
   }
 
+  validate() {
+    const {fromName, to} = this.state;
+    if (!fromName) {
+      this.setState({
+        'fromNameValid': false
+      });
+      return false;
+    } else if (!to) {
+      this.setState({
+        'toValid': false
+      });
+      return false;
+    }
+    return true;
+  }
+
+  @autobind
   submit() {
+    if (!this.validate()) return;
     const {fromName, to, msg} = this.state;
     const {collection, id} = this.props;
     this.shareData({fromName, to, msg, type: collection ? 'collection' : 'card', shareType: 'email', id});
     this.handleCloseDialog();
   }
 
+  @autobind
   handleChange(e, target) {
     this.setState({
       [target]: e.target.value,
@@ -72,14 +99,13 @@ export default class ShareModal extends PureComponent {
       <FlatButton
         label='Share'
         secondary={true}
-        disabled={!(toValid && fromNameValid)}
-        onTouchTap={::this.submit}
+        onTouchTap={this.submit}
         type='submit'
       />,
       <FlatButton
         label='Cancel'
         primary={true}
-        onTouchTap={::this.handleCloseDialog}
+        onTouchTap={this.handleCloseDialog}
       />
     ];
 
@@ -90,26 +116,26 @@ export default class ShareModal extends PureComponent {
           modal={false}
           actions={actions}
           open={shareCardModal}
-          onRequestClose={::this.handleCloseDialog}
+          onRequestClose={this.handleCloseDialog}
         >
         <TextField
-          floatingLabelText='From'
+          floatingLabelText='Your name'
           errorText={!fromNameValid && 'This value is required'}
           fullWidth={true}
-          onChange={(e) => ::this.handleChange(e, 'fromName')}
+          onChange={(e) => this.handleChange(e, 'fromName')}
           type='email'
         />
         <TextField
-          floatingLabelText='To'
+          floatingLabelText='Email to send to (use ";" to separate multiple emails)'
           errorText={!toValid && 'This value is required'}
           fullWidth={true}
-          onChange={(e) => ::this.handleChange(e, 'to')}
+          onChange={(e) => this.handleChange(e, 'to')}
           type='email'
         />
         <TextField
           fullWidth={true}
-          floatingLabelText='Message'
-          onChange={(e) => ::this.handleChange(e, 'msg')}
+          floatingLabelText='Body of email (optional)'
+          onChange={(e) => this.handleChange(e, 'msg')}
           multiLine={true}
         />
       </Dialog>

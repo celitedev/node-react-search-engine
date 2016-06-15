@@ -1,3 +1,5 @@
+@import '../../styles/mixins';
+
 .question-page {
   background-color: $c_gr100;
   width: 100%;
@@ -7,11 +9,22 @@
   position: relative;
   text-align: center;
 
+  ul {
+    @include media-breakpoint-only(xs) {
+      padding-bottom: 5em;
+    }
+  }
+
   .logo {
     margin-top: 100px;
     margin-bottom: 40px;
     background: url('../images/logo.png') no-repeat center center;
     background-size: 250px;
     height: 64px;
+
+    @include media-breakpoint-only(xs) {
+      margin-top: 60px;
+      margin-bottom: 40px;
+    }
   }
 }
