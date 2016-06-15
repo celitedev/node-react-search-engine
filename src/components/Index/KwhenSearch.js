@@ -53,15 +53,17 @@ export default class IndexSearch extends Component {
                 />
               </div>
             </div>
-            <ul>
-              {exampleQuestions.map((el, index) => (
-                <li key={index}>
-                  <Link to={`answer/${el.question}`} className={styles.exampleQuestions}>
-                    {el.question}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+
+            <div className='quicklaunch'>
+              <div className='quicklaunch--title'>Try searching for things like:</div>
+              <ul>
+                {exampleQuestions.map((el, index) => (
+                  <li key={index} className='quicklaunch--item'>
+                    <Link to={`answer/${el.question}`}>{el.question}</Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </main>
       </div>

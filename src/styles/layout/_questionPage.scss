@@ -15,3 +15,51 @@
     height: 64px;
   }
 }
+
+//quick launch links on homepage
+.quicklaunch{
+
+  width: 640px;
+
+  @media only screen and (max-width: 640px) {
+    width: 294px;
+  }
+
+  margin: 40px auto;
+  text-align: left;
+
+  &--title {
+    font-size: 18px;
+    color: white;
+  }
+  > ul {
+    display: flex;
+    margin-top: 12px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  &--item > a{
+    display: inline-block;
+    border-radius: 4px;
+    width: 294px;
+    background: white;
+    margin-bottom: 10px;
+    padding: 6px 6px 0px 36px;
+    color: #00cd75;
+    transition: color 0.15s ease;
+    &:hover {
+      color: #2196F3;
+    }
+    &:before {
+      content: "";
+      width: 28px;
+      height: 28px;
+      margin-top: -2px;
+      margin-left: -32px;
+      display: inline-block;
+      float: left;
+      background-size: cover;
+      background-image: url('../images/searchIcon.png');
+    }
+  }
+}
