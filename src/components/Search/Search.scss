@@ -6,6 +6,12 @@
   overflow: hidden;
 }
 
+.dropDownFilter {
+  div div span {
+    font-size: 13px !important;
+  }
+}
+
 @media (min-width: 800px) {
   .containerMargin {
     margin-top: 60px;
@@ -17,6 +23,7 @@
     .filters {
       margin-left: 5px;
       div div span{
+        font-size: 13px !important;
         color: white !important;
       }
       button:hover {

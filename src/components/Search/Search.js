@@ -197,9 +197,11 @@ export default class Search extends Component {
           <RaisedButton
             label={filter}
             labelPosition='before'
-            primary={true}
+            labelColor='white'
+            backgroundColor='#3F51B5'
             icon={<ArrowDownIcon color='white'/>}
             onTouchTap={this.handleFilterTouchTap}
+            className={styles.dropDownFilter}
           />
           <Popover
             open={openFilters}
