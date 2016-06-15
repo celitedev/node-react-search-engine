@@ -79,7 +79,7 @@ export default class CardsCarousel extends PureComponent {
       headsup1: results.find((r) => r.formatted.headsup1),
       headsup2: results.find((r) => r.formatted.headsup2),
       databits1: results.find((r) => r.formatted.databits1),
-      databits2: results.find((r) => r.formatted.databits2 && r.formatted.databits2.length),
+      databits2: results.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
       whyshown: results.find((r) => r.formatted.whyshown)
     };
     const setCarouselParams = {

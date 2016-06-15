@@ -5,6 +5,8 @@ import classnames from 'classnames';
 import _ from 'lodash';
 import config from '../../config.js';
 
+const debug = require('debug')('app:map');
+
 let L;
 if (!process.env.SERVER_RENDERING) {
   L = require('mapbox.js');
@@ -14,8 +16,7 @@ if (!process.env.SERVER_RENDERING) {
 export default class Map extends Component {
   static propTypes = {
     options: PropTypes.object,
-    setView: PropTypes.array,
-    multipleMarkers: PropTypes.array
+    setView: PropTypes.array
   };
 
   static childContextTypes = {
@@ -37,14 +38,17 @@ export default class Map extends Component {
   }
 
   componentDidMount() {
-    const {viewPoint} = this.state;
-    if (viewPoint) {
-      this.initMap();
-      this.showMarkers(this.props.multipleMarkers);
-    }
+    const {multipleMarkers} = this.props;
+    this.initMap();
+    this.showMarkers(multipleMarkers);
   }
 
   componentWillReceiveProps(nextProps) {
+    if (this.props.refreshMap !== nextProps.refreshMap) {
+      debugger;
+      this.map.remove();
+      this.initMap();
+    }
     if (nextProps.multipleMarkers.length === 1) {
       _.each(this.map._layers, (layer) => {
         if (!_.isUndefined(layer) && layer.options.icon) {
@@ -62,10 +66,6 @@ export default class Map extends Component {
     } else {
       this.showMarkers(nextProps.multipleMarkers);
     }
-    if (this.props.refreshMap !== nextProps.refreshMap) {
-      this.map.remove();
-      this.initMap();
-    }
   }
 
   initMap() {
@@ -73,21 +73,27 @@ export default class Map extends Component {
     const container = findDOMNode(this.refs.map);
     const {accessToken, kwhenMapId} = config.mapbox;
     const {viewPoint} = this.state;
-
     L.mapbox.accessToken = accessToken;
     this.map = L.mapbox.map(container, kwhenMapId, options);
-    this.map.setView([...viewPoint], 15);
-    setTimeout(() => {
-      this.map.setView([...viewPoint], 13, {
-      'animate': true,
-      'pan': {
-        'duration': 10
-      },
-      'zoom': {
-        'animate': true
-      }
-    });
-    }, 100);
+    function viewPointSet() {
+      if (viewPoint) return viewPoint;
+      return [
+        40.723076,
+        -73.994855
+      ];
+    }
+      this.map.setView([...viewPointSet()], 15);
+      setTimeout(() => {
+        this.map.setView([...viewPointSet()], 13, {
+        'animate': true,
+        'pan': {
+          'duration': 10
+        },
+        'zoom': {
+          'animate': true
+        }
+      });
+      }, 100);
 
     if (zoomControls) {
       new L.Control.Zoom({
@@ -97,6 +103,7 @@ export default class Map extends Component {
   }
 
   showMarkers(multipleMarkers) {
+    debug('markers', multipleMarkers);
     const {viewPoint} = this.state;
     function iconParams(index) {
       if (!_.isUndefined(index)) {
@@ -113,6 +120,7 @@ export default class Map extends Component {
     }
     if (multipleMarkers && multipleMarkers.length > 1) {
       _.map(multipleMarkers, (marker, index) => {
+        debug('markers render', marker);
         const geo = marker.raw.geo;
         if (!geo) {
           return;
@@ -137,7 +145,7 @@ export default class Map extends Component {
         })
         .addTo(this.map);
       });
-    } else {
+    } else if (viewPoint) {
       L.marker([
         ...viewPoint
       ], {

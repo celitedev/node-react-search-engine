@@ -100,13 +100,15 @@ export default class Search extends Component {
 
   async filterResults(filter, type) {
     const {filterResults} = this.props;
+    const {removeFilter} = this.state;
     try {
       debug('fetch strat', 'type:', type, 'filter', filter);
       const answer = await filterResults(type, filter);
       debug('searchRequest results', answer);
       this.setState({
         answer: answer,
-        results: answer.results
+        results: answer.results,
+        removeFilter: !removeFilter
       });
     } catch (err) {
       debug('searchRequest Error', err);
@@ -154,6 +156,7 @@ export default class Search extends Component {
     const {params} = this.props;
     const {answer, results, filter, selectedMarker, isSlider, slideIndex, removeFilter, openFilters, openBageBtn, anchorFilters, anchorBage} = this.state;
     let setMapView;
+    let isGeo;
     if (!_.isEmpty(answer.results)) {
       isGeo = _.find(answer.results, (result) => {
         return !_.isUndefined(result.raw.geo);
@@ -273,7 +276,7 @@ export default class Search extends Component {
           </div>
           )}
         </div>
-        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', !_.isObject(isGeo) && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', (filter === 'creative Work' || filter === 'Person / Group') && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={!_.isObject(isGeo) || removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
           <div className='mobile-cover' onClick={() => this.showMap()}></div>
           <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
         </Map>
