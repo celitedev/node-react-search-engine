@@ -45,7 +45,6 @@ export default class Map extends Component {
 
   componentWillReceiveProps(nextProps) {
     if (this.props.refreshMap !== nextProps.refreshMap) {
-      debugger;
       this.map.remove();
       this.initMap();
     }
@@ -58,11 +57,13 @@ export default class Map extends Component {
       this.setState({
         viewPoint: nextProps.setView
       });
-      setTimeout(() => {
-        this.map.setView(nextProps.setView, 13);
-        this.map.invalidateSize();
-        this.showMarkers(nextProps.multipleMarkers);
-      }, 200);
+      if (nextProps.multipleMarkers[0].raw.geo) {
+        setTimeout(() => {
+          this.map.setView(nextProps.setView, 13);
+          this.map.invalidateSize();
+          this.showMarkers(nextProps.multipleMarkers);
+        }, 200);
+      }
     } else {
       this.showMarkers(nextProps.multipleMarkers);
     }

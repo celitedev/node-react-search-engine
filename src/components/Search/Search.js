@@ -131,7 +131,7 @@ export default class Search extends Component {
     event.preventDefault();
     this.setState({
       openFilters: true,
-      anchorFilters: event.currentTarget,
+      anchorFilters: event.currentTarget
     });
   }
 
@@ -276,7 +276,7 @@ export default class Search extends Component {
           </div>
           )}
         </div>
-        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', (filter === 'creative Work' || filter === 'Person / Group') && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={!_.isObject(isGeo) || removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', (filter === 'creative Work' || filter === 'Person / Group') && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} filter={filter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
           <div className='mobile-cover' onClick={() => this.showMap()}></div>
           <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
         </Map>
