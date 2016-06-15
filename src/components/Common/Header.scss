@@ -1,5 +1,9 @@
+@import '../../styles/mixins';
+
 .root{
-  padding: 0px 0px 0 25px;
+  @include media-breakpoint-only(xs) {
+    padding: 0 0 0 10px;
+  }
 }
 .signInBtn {
     position: absolute;

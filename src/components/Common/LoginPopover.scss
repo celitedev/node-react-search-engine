@@ -1,12 +1,26 @@
-.root{
+@import '../../styles/mixins';
 
-}
 .loginBtn {
+  @include media-breakpoint-only(xs) {
+    min-width: 50px !important;
+  }
+
   div {
     color: white;
   }
+
   svg {
     fill: white !important;
+
+    @include media-breakpoint-only(xs) {
+      margin-left: 0 !important;
+    }
+  }
+
+  span {
+    @include media-breakpoint-only(xs) {
+      display: none;
+    }
   }
 }
 
