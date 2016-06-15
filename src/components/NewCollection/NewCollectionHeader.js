@@ -78,7 +78,7 @@ export default class NewCollectionHeader extends PureComponent {
               My Collections
             </Link>
             <ArrowRightIcon />
-            <span className={styles.myColName}>{title.replace(/&.*;/g, ' ')}</span>
+            <span className={styles.myColName}>{title}</span>
             <span
               className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection())}>
               {label}

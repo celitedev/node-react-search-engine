@@ -164,18 +164,20 @@ export default class Card extends PureComponent {
                   )}
                 </div>
               )}
+              {(settings.databits1 || settings.databits2) && (
                 <div className='card--databits'>
-                {(formatted.databits1 || settings.databits1) && (
-                  <div>{formatted.databits1}</div>
-                )}
-                {(formatted.databits2 || settings.databits2) && (
-                  <ul className={styles.dataBits}>
-                    {formatted.databits2.map((databit, index) => (
-                      <li key={index}>{databit}</li>
-                    ))}
-                  </ul>
-                )}
+                  {(formatted.databits1 || settings.databits1) && (
+                    <div>{formatted.databits1}</div>
+                  )}
+                  {(formatted.databits2 || settings.databits2) && (
+                    <ul className={styles.dataBits}>
+                      {formatted.databits2.map((databit, index) => (
+                        <li key={index}>{databit}</li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
+              )}
               {(formatted.whyshown || settings.whyshown) && (
                 <div className='card--whyshown'>
                   <div>{formatted.whyshown}</div>

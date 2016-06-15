@@ -5,7 +5,7 @@ import {Link} from 'react-router';
 import classnames from 'classnames';
 import Slider from 'react-slick';
 import Card from './Card';
-import _ from 'lodash';
+import {map} from 'lodash';
 import {redirect} from '../../actions';
 
 const debug = require('debug')('app:CardsCarousel');
@@ -79,7 +79,7 @@ export default class CardsCarousel extends PureComponent {
       headsup1: results.find((r) => r.formatted.headsup1),
       headsup2: results.find((r) => r.formatted.headsup2),
       databits1: results.find((r) => r.formatted.databits1),
-      databits2: results.find((r) => r.formatted.databits2),
+      databits2: results.find((r) => r.formatted.databits2.length),
       whyshown: results.find((r) => r.formatted.whyshown)
     };
     const setCarouselParams = {
@@ -97,7 +97,7 @@ export default class CardsCarousel extends PureComponent {
           <div className={classnames('l-cardCarousel-js', styles.root)}>
             <div className=''>
               <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={afterChange} className={sliderStyle}>
-                {_.map(results, (result, index) => (
+                {map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
                       <Card className={classnames('card m-card-imgRight', cardsStyle)} shareBtn={true} settings={cardSettings} data={result}/>
                   </div>
