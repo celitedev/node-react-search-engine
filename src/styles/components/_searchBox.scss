@@ -1,42 +1,34 @@
 $marginHor: 12px;
 .search-field {
-
-  display: inline-block;
-
   font-size: 28px;
   line-height: 1.2em;
-
   color: $c_gr100;
 
   background: white;
 
   box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.15); //oeew subtle
   border-radius: 4px;
-
-  //flex for media-object behavior. I.e.: also on multiline
-  display: flex;
-  align-items: flex-start;
+  position: relative;
 
   > span.searchIcon {
-    //mediaObject
-
-    margin-top: 6px;
-    margin-left: 6px;
+    //margin-top: 6px;
+    //margin-left: 6px;
     width: 32px;
 
-    display: inline-block;
+    display: block;
+    position: absolute;
+    left: 5px;
+    top: 5px;
 
     background-size: cover !important;
     background-image: url('../images/searchIcon.png') !important;
-
   }
 
   > div {
-    flex: 1;
-
-    outline: 0px solid transparent; //contenteditable outline
-
+    outline: 0 solid transparent; //contenteditable outline
     box-sizing: border-box;
+
+    margin-left: 37px;
 
     //TODO: ON NAVBAR This should go to 100% width of AVAIL SPACE. I.e.: ex buttons left and right
     //This should use mediq-object css. MDL probably has some helper classes to get this done easily on the navbar

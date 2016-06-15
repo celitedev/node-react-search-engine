@@ -273,12 +273,10 @@ export default class Search extends Component {
           </div>
           )}
         </div>
-        {_.isObject(isGeo) && (
-          <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
-            <div className='mobile-cover' onClick={() => this.showMap()}></div>
-            <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
-          </Map>
-        )}
+        <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', !_.isObject(isGeo) && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
+          <div className='mobile-cover' onClick={() => this.showMap()}></div>
+          <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
+        </Map>
         <div classNmae='page-content'>
           <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', styles.carouselOverflowFix, isSlider && 'is-slider')}>
             { isSlider && (
