@@ -4,7 +4,8 @@
   "env": {
     "hot": {
       "plugins": [
-        "react-transform"
+        "react-transform",
+        "lodash"
       ],
       "extra": {
         "react-transform": {

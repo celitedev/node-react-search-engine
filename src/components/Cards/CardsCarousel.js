@@ -99,7 +99,7 @@ export default class CardsCarousel extends PureComponent {
               <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={afterChange} className={sliderStyle}>
                 {_.map(results, (result, index) => (
                   <div key={index} className={styles.sliderPosition}>
-                      <Card className={classnames('card m-card-imgRight', cardsStyle)} settings={cardSettings} data={result}/>
+                      <Card className={classnames('card m-card-imgRight', cardsStyle)} shareBtn={true} settings={cardSettings} data={result}/>
                   </div>
                 ))}
               </Slider>

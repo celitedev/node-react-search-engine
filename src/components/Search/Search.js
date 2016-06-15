@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { pure } from 'recompose';
 import autobind from 'autobind-decorator';
-import {connect} from 'react-redux';
+import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import classnames from 'classnames';
 import {Menu, MenuItem, RaisedButton, Badge} from 'material-ui';

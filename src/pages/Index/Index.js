@@ -1,14 +1,13 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, {Component} from 'react';
+import {pure} from 'recompose';
 import KwhenSearch from '../../components/Index/KwhenSearch.js';
+import Footer from '../../components/Index/Footer.js';
 
-export default class Index extends PureComponent {
+const Index = pure(() => (
+  <div>
+    <KwhenSearch />
+    <Footer />
+  </div>
+));
 
-  render() {
-    return (
-      <div className={styles.background}>
-        <KwhenSearch />
-      </div>
-    );
-  }
-}
+export default Index;
