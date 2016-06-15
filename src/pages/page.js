@@ -1,7 +1,6 @@
 import React from 'react';
 import {pushState} from 'redux-router';
-import _ from 'lodash';
-
+import {pick, isFunction, isObject, mapValues, isPlainObject} from 'lodash';
 import {connect} from 'redux-simple';
 
 import {
@@ -24,7 +23,7 @@ function getPageState(state, props, reducerName, extraStateMapper) {
   return Object.assign(
     {},
     state[reducerName],
-    _.pick(state.auth, 'authenticated', 'user'),
+    pick(state.auth, 'authenticated', 'user'),
     extraStateMapper ? extraStateMapper(state, props) : {}
   );
 }
@@ -33,11 +32,11 @@ function applyDispatchMapper(dispatch, props, dispatchMapper) {
   if (!dispatchMapper) {
     return {};
   }
-  if (_.isFunction(dispatchMapper)) {
+  if (isFunction(dispatchMapper)) {
     return dispatchMapper(dispatch, props);
   }
-  if (_.isObject(dispatchMapper)) {
-    return _.mapValues(dispatchMapper, action => (...args) => dispatch(action(...args)));
+  if (isObject(dispatchMapper)) {
+    return mapValues(dispatchMapper, action => (...args) => dispatch(action(...args)));
   }
   throw new Error('invalid dispatch mapper');
 }
@@ -69,14 +68,14 @@ export function page(name, extraStateMapper, dispatchMapper) {
       reducerName,
       tripletName,
       fetchState(...args) {
-        if (_.isFunction(component.fetchState)) {
+        if (isFunction(component.fetchState)) {
           return component.fetchState(...args);
         }
         return {};
       },
       fetchData(...args) {
         let promise = component.fetchData(...args);
-        if (_.isPlainObject(promise)) {
+        if (isPlainObject(promise)) {
           promise = mergePromise(promise);
         }
         return {

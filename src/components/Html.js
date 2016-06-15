@@ -1,9 +1,7 @@
 import React, {PropTypes} from 'react';
 import serialize from 'serialize-javascript';
-import _ from 'lodash';
+import {find} from 'lodash';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-
-import config from '../config';
 
 injectTapEventPlugin();
 function isJs(item) {
@@ -32,13 +30,10 @@ export default class Html extends React.Component {
   render() {
     const {markup, chunks, state} = this.props;
     const hydrate = `window.reduxState = ${serialize(state)};`;
-    const clientCssBundle = _.find(chunks.client, isCss);
-    const commonCssBundle = _.find(chunks.common, isCss);
-    const clientBundle = _.find(chunks.client, isJs);
-    const commonBundle = _.find(chunks.common, isJs);
-  //   <meta name='description' content={state && state.meta.description}/>
-  //   <meta property='og:image' content={state && state.meta.ogImage}/>
-  // <meta property='twitter:image' content={state && state.meta.twitterImage}/>
+    const clientCssBundle = find(chunks.client, isCss);
+    const commonCssBundle = find(chunks.common, isCss);
+    const clientBundle = find(chunks.client, isJs);
+    const commonBundle = find(chunks.common, isJs);
     return (
       <html lang='en'>
       <head>

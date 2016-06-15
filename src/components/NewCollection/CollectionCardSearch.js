@@ -122,7 +122,7 @@ export default class CollectionCardSearch extends Component {
               Show Cards
             </Button>
           </form>
-        <CardsList cardTypes={cardTypes} cards={cards} filter={filterType.toLowerCase()}/>
+        <CardsList cardTypes={cardTypes} cards={cards} shareBtn={false} filter={filterType.toLowerCase()}/>
       </div>
     );
   }

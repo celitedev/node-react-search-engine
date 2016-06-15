@@ -34,7 +34,7 @@ export default class Card extends PureComponent {
 
   findCardById(id) {
     return _.find(this.props.savedCollectionInfo.cards, (card) => {
-      return card.raw.id === id;
+      return card.id === id;
     });
   }
 
@@ -106,6 +106,7 @@ export default class Card extends PureComponent {
             addCardToCollection,
             deleteCardFromCollection,
             switchCreateCollectionDialog,
+            shareBtn
           } = this.props;
     let settings = this.props.settings;
     if (!settings) {
@@ -221,7 +222,9 @@ export default class Card extends PureComponent {
             )}
             </div>
           )}
-          <FlatButton label='Share card' onClick={() => ::this.toggleShareModal(raw.id)}/>
+          {shareBtn && (
+            <FlatButton label='Share card' onClick={() => ::this.toggleShareModal(raw.id)}/>
+          )}
         </div>
       </div>
     );

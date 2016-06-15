@@ -1,21 +1,15 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, {Component} from 'react';
+import {pure} from 'recompose';
 import Card from '../Cards/Card';
 import Map from '../Widgets/Map';
 import classnames from 'classnames';
-import CardsCarousel from '../Cards/CardsCarousel';
-import {Link} from 'react-router';
-
 import {GridList, GridTile} from 'material-ui/GridList';
-import {List, ListItem} from 'material-ui/List';
-import IconButton from 'material-ui/IconButton';
-import Subheader from 'material-ui/Subheader';
-import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 
-export default class Details extends PureComponent {
+@pure
+export default class Details extends Component {
 
   render() {
-    const {answer, params} = this.props;
+    const {answer} = this.props;
     const {raw} = answer.result;
     const {geo} = raw;
     let setMapView = [];
@@ -26,34 +20,6 @@ export default class Details extends PureComponent {
         longitude
       ];
     }
-    const carouselSettings = {
-      responsive: [{
-        breakpoint: 4000,
-        settings: {
-          slidesToShow: 2,
-          slidesToScroll: 2
-        }
-      }, {
-          breakpoint: 1600,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2
-          },
-          className: 'class'
-        }, {
-          breakpoint: 1200,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2
-          }
-        }, {
-          breakpoint: 800,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }]
-    };
 
     const mapOptions = {
       scrollWheelZoom: false,
@@ -65,7 +31,7 @@ export default class Details extends PureComponent {
           <div className='l-detailPage'>
             <div className='l-detailPage--cardContainer'>
               <Card ref='card' className={classnames('card has-map no-link', styles.detailsCard)}
-                    data={answer.result}>
+                    data={answer.result} shareBtn={true}>
                 {geo && (
                   <Map className='card--mediaDetail card--mediaDetail-do-show' options={mapOptions} setView={setMapView}/>
                 )}

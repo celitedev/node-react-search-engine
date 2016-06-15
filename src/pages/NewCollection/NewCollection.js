@@ -1,6 +1,4 @@
 import React from 'react';
-import PureComponent from 'react-pure-render/component';
-import classnames from 'classnames';
 import {page} from '../page';
 import {saveCollectionInfo, resetCollectionInfo, redirect} from '../../actions';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';

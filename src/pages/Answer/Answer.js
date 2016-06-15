@@ -1,5 +1,4 @@
-import React from 'react';
-import PureComponent from 'react-pure-render/component';
+import React, {Component} from 'react';
 import {page} from '../page';
 
 import Header from '../../components/Common/Header.js';
@@ -10,9 +9,8 @@ import exampleQuestions from '../../exampleQuestions';
 const debug = require('debug')('app:answer');
 
 @page('Answer')
-export default class Answer extends PureComponent {
+export default class Answer extends Component {
   static fetchData({dispatch, params}) {
-    //Question: how this API works? (subtypes vs question)
     const question = params.question;
     const example = exampleQuestions.find((el) => {
       return el.question === question;
@@ -41,20 +39,15 @@ export default class Answer extends PureComponent {
       })
     };
   }
-
-
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className='mdl-layout__container'>
-        <div className='mdl-layout mdl-js-layout is-upgraded'>
+        <div className='mdl-layout'>
           <Header params={params}/>
           {loaded && (
             <AnswerCards params={params} answer={data.searchResults}/>
           )}
         </div>
-      </div>
     );
   }
-
 }
