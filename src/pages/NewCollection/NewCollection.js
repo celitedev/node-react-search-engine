@@ -89,7 +89,7 @@ export default class NewCollection extends React.Component {
           <NewCollectionCards />
           <CollectionAddCardDialog />
         </div>
-        ) || (<div>Loading...</div>)}
+        ) || (<div></div>)}
       </div>
     );
   }

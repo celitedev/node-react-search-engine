@@ -26,7 +26,7 @@ export default class Details extends PureComponent {
           {loaded && (
             <DetailsContent params={params} answer={data}/>
           ) || (
-            <h3>Loading...</h3>
+            <h3></h3>
           )}
         </div>
       </div>
