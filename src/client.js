@@ -116,7 +116,7 @@ async function bootstrap() {
     horizon.onReady(() => {
       debug('Connected to Horizon server');
       if (horizon.hasAuthToken()) {
-        horizon.currentUser().fetch().subscribe( (user) => {
+        horizon.currentUser().fetch().subscribe((user) => {
           debug('Current user', user);
           if (user.id) {
             store.dispatch({
@@ -124,7 +124,7 @@ async function bootstrap() {
               user
             });
           }
-        } );
+        });
       }
     });
 

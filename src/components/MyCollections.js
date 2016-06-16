@@ -67,8 +67,9 @@ export default class MyCollections extends PureComponent {
 
   deleteCollection(collectionId) {
     const {horizon} = this.state;
+    const {user} = this.props;
     const collections = horizon('collections');
-    collections.remove(collectionId).subscribe(collection => {
+    collections.remove({userId: user.id, id: collectionId}).subscribe(collection => {
         debug('Fetched collections', collections);
         this.getCollections(collections);
       },

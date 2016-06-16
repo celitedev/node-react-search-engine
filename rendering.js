@@ -11,6 +11,7 @@ const cookieParser = require('cookie-parser');
 const AnsiConverter = require('ansi-to-html');
 const debug = require('debug')('app:rendering');
 const horizon = require('@horizon/server');
+const hz = require('horizon/src/serve');
 const proxy = require('proxy-middleware');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -20,8 +21,49 @@ const compiler = webpack(webpackConfig);
 
 const serverBundle = require('./build/server');
 
-const privateKey = fs.readFileSync('./certs/my-private-root-ca.privkey.pem', 'utf8');
-const certificate = fs.readFileSync('./certs/my-private-root-ca.cert.pem', 'utf8');
+const privateKey = fs.readFileSync('horizon-key.pem', 'utf8');
+const certificate = fs.readFileSync('horizon-cert.pem', 'utf8');
+
+function getHorizonConfig() {
+  return hz.read_config_from_file(path.resolve('.'));
+}
+
+function startHorizonServer(servers, opts) {
+  console.log('Starting Horizon...');
+  const hzServer = new horizon.Server(servers, {
+    auto_create_collection: opts.auto_create_collection,
+    auto_create_index: opts.auto_create_index,
+    permissions: opts.permissions,
+    rdb_host: opts.rdb_host,
+    rdb_port: opts.rdb_port,
+    project_name: opts.project_name,
+    auth: {
+      token_secret: opts.token_secret,
+      allow_unauthenticated: opts.allow_unauthenticated,
+      allow_anonymous: opts.allow_anonymous,
+      success_redirect: opts.auth_redirect,
+      failure_redirect: opts.auth_redirect
+    }
+  });
+  hzServer.ready().then(() => {
+    console.log('Horizon ready for connections');
+  }).catch((err) => {
+    console.log(err);
+  });
+  return hzServer;
+}
+
+function addAuthProviders(horizonServer, horizonConfig) {
+  if (horizonConfig.auth) {
+    for (const name in horizonConfig.auth) {
+      const provider = horizon.auth[name];
+      if (!provider) {
+        throw new Error(`Unrecognized auth provider "${name}"`);
+      }
+      horizonServer.add_auth_provider(provider, Object.assign({}, {path: name}, horizonConfig.auth[name]));
+    }
+  }
+}
 
 if (cluster.isMaster) {
   const numCpus = 1;//os.cpus().length;
@@ -71,7 +113,6 @@ if (cluster.isMaster) {
 
   const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
 
-  // app.use('/build', proxy(url.parse('http://localhost:8087/')));
   app.use('/api', proxy(url.parse('http://testing123.kwhen.com:3000')));
   app.use(express.static('build'));
   app.use(express.static('/'));
@@ -120,50 +161,54 @@ if (cluster.isMaster) {
     console.log(`Express listening at http://localhost:${port}/build`); // eslint-disable-line
   });
 
-  const horizonServer = horizon(server, {
-    project_name: 'kwhen',
+  const horizonConfig = getHorizonConfig();
+  const horizonServer = startHorizonServer(server, horizonConfig);
+  addAuthProviders(horizonServer, horizonConfig);
 
-    rdb_host: '127.0.0.1',
-    rdb_port: 28015,
-
-    auto_create_collection: true,
-    auto_create_index: true,
-    permissions: false,
-    auth: {
-      // success_redirect: Joi.string().default('/'),
-      // failure_redirect: Joi.string().default('/'),
-      create_new_users: true,
-      new_user_group: 'authenticated',
-      token_secret: '3SZCY2JUEB1aDAAAmPcX+vpFCuUoOEEVNkbhs5I5/6ItyiK2QWmV93fd9SyqG/EVYBoz7L+tTsX4VWi+5R8dKw==',
-      allow_anonymous: true,
-      allow_unauthenticated: true
-    }
-  });
-
-  const facebook = horizon.auth['facebook'];
-  horizonServer.add_auth_provider(facebook, {
-    path: 'facebook',
-    id: '1268427246519647',
-    secret: '251b233dad17bb87af61ae26ee28363a'
-  });
-  const twitter = horizon.auth['twitter'];
-  horizonServer.add_auth_provider(twitter, {
-    path: 'twitter',
-    id: 'Wvvn8WC3mRWrfX1mNJ1mFmw1W',
-    secret: 'BsvWimiWS9DCa1mtg5qOwIH523Ar2eMjVu5pvyuoFOg5huWHRF'
-  });
-
-  const google = horizon.auth['google'];
-  horizonServer.add_auth_provider(google, {
-    path: 'google',
-    id: '132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com',
-    secret: 'ydL1nx0vaihoYrllJG9blnSJ'
-  });
-
-  const github = horizon.auth['github'];
-  horizonServer.add_auth_provider(github, {
-    path: 'github',
-    id: '36ef2b05270e2a68112e',
-    secret: '8cae8179ff5c5d3f2fbc421226b0cfbacbea85df'
-  });
+  // const horizonServer = horizon(server, {
+  //   project_name: 'kwhen',
+  //
+  //   rdb_host: '127.0.0.1',
+  //   rdb_port: 28015,
+  //
+  //   auto_create_collection: true,
+  //   auto_create_index: true,
+  //   permissions: false,
+  //   auth: {
+  //     // success_redirect: Joi.string().default('/'),
+  //     // failure_redirect: Joi.string().default('/'),
+  //     create_new_users: true,
+  //     new_user_group: 'authenticated',
+  //     token_secret: '3SZCY2JUEB1aDAAAmPcX+vpFCuUoOEEVNkbhs5I5/6ItyiK2QWmV93fd9SyqG/EVYBoz7L+tTsX4VWi+5R8dKw==',
+  //     allow_anonymous: true,
+  //     allow_unauthenticated: true
+  //   }
+  // });
+  //
+  // const facebook = horizon.auth['facebook'];
+  // horizonServer.add_auth_provider(facebook, {
+  //   path: 'facebook',
+  //   id: '1268427246519647',
+  //   secret: '251b233dad17bb87af61ae26ee28363a'
+  // });
+  // const twitter = horizon.auth['twitter'];
+  // horizonServer.add_auth_provider(twitter, {
+  //   path: 'twitter',
+  //   id: 'Wvvn8WC3mRWrfX1mNJ1mFmw1W',
+  //   secret: 'BsvWimiWS9DCa1mtg5qOwIH523Ar2eMjVu5pvyuoFOg5huWHRF'
+  // });
+  //
+  // const google = horizon.auth['google'];
+  // horizonServer.add_auth_provider(google, {
+  //   path: 'google',
+  //   id: '132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com',
+  //   secret: 'ydL1nx0vaihoYrllJG9blnSJ'
+  // });
+  //
+  // const github = horizon.auth['github'];
+  // horizonServer.add_auth_provider(github, {
+  //   path: 'github',
+  //   id: '36ef2b05270e2a68112e',
+  //   secret: '8cae8179ff5c5d3f2fbc421226b0cfbacbea85df'
+  // });
 }
