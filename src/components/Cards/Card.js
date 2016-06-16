@@ -207,7 +207,7 @@ export default class Card extends PureComponent {
             <div>
             {authenticated && (
               <IconMenu
-              iconButtonElement={<FlatButton onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+              iconButtonElement={<FlatButton labelStyle={{'color': '3f51b5', 'font-size': '13px'}} onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
               onRequestChange={::this.handleItemChange}
               open={authenticated && null}
               >
