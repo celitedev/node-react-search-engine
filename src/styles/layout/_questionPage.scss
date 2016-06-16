@@ -3,14 +3,17 @@
 .question-page {
   background-color: $c_gr100;
   width: 100%;
-  height: 100vh;
   box-sizing: border-box;
   padding-top: 50px;
   position: relative;
   text-align: center;
+  min-height: 100vh;
 
   ul {
-    @include media-breakpoint-only(xs) {
+    @media (max-height: 568px) {
+      padding-bottom: 3em;
+    }
+    @media (max-height: 480px) {
       padding-bottom: 5em;
     }
   }
@@ -30,7 +33,7 @@
 }
 
 //quick launch links on homepage
-.quicklaunch{
+.quicklaunch {
 
   width: 640px;
 
@@ -38,7 +41,7 @@
     width: 294px;
   }
 
-  margin: 40px auto;
+  margin: 40px auto 0;
   text-align: left;
 
   &--title {
@@ -50,8 +53,12 @@
     margin-top: 12px;
     flex-wrap: wrap;
     justify-content: space-between;
+
+    @include media-breakpoint-down(sm) {
+      margin-bottom: 0;
+    }
   }
-  &--item > a{
+  &--item > a {
     display: inline-block;
     border-radius: 4px;
     width: 294px;

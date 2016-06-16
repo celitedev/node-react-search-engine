@@ -218,14 +218,12 @@ export default class Card extends PureComponent {
               })}
               </IconMenu>
             ) || (
-              <nav className='mdl-navigation'>
                 <LoginPopover cardAction={true}/>
-              </nav>
             )}
             </div>
           )}
           {shareBtn && (
-            <FlatButton label='Share card' onClick={() => ::this.toggleShareModal(raw.id)}/>
+            <FlatButton label='Share card' labelStyle={{'color': '3f51b5', 'font-size': '13px'}} onClick={() => ::this.toggleShareModal(raw.id)}/>
           )}
         </div>
       </div>

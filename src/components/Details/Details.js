@@ -41,7 +41,6 @@ export default class Details extends Component {
             {(raw.image && raw.image.length) && (
               <div>
                 <h4 className={styles.sectionName}>Images</h4>
-                <hr/>
                 <div className={styles.grid}>
                 <GridList
                 cellHeight={200}
@@ -61,9 +60,8 @@ export default class Details extends Component {
                   </div>
               </div>
             )}
-              <div className={styles.sectionStyle}>
+              <div>
               <h4 className={styles.sectionName}>External Sources</h4>
-              <hr/>
                 <ul className={styles.sourcesList}>
                   {raw.sources.map((src, index) => {
                     return <li key={index}><a href={`${src.url}`}>{src.name}</a></li>;

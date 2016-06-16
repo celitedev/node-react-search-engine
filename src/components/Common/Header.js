@@ -49,7 +49,13 @@ export default class Header extends PureComponent {
     if (e.which === 13) {
       e.preventDefault();
       this.searchRequest(e.target.textContent);
-      this.props.redirect(`/answer/${e.target.textContent}`);
+      this.setState({
+        searchText: e.target.textContent
+      }, () => {
+        const {redirect} = this.props;
+        const {searchText} = this.state;
+        redirect(`/answer/${searchText}`);
+      });
     } else {
       this.setState({
         searchText: e.target.textContent

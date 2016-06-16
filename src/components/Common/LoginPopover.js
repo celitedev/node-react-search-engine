@@ -69,7 +69,7 @@ export default class LoginPopover extends PureComponent {
               <AccountCircle color='white'/>
             </IconButton>
           ) || cardAction && (
-            <FlatButton onTouchTap={::this.handleTouchTap} label='Add to collection' />
+            <FlatButton onTouchTap={::this.handleTouchTap} labelStyle={{'color': '3f51b5', 'font-size': '13px'}} label='Add to collection' />
           ) || (
             <FlatButton
               onTouchTap={this.handleTouchTap}

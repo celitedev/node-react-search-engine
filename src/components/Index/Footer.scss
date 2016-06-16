@@ -3,15 +3,21 @@
 .textMuted {
   color: rgba(#fff, .9);
   bottom: 0;
-  position: fixed;
   padding: 1em;
   right: 0;
   font-size: 12px;
   background-color: #00cd75;
   width: 100%;
-  text-align: right;
 
-  @include media-breakpoint-only(xs) {
+  @media (min-height: 600px) {
+    position: fixed;
+  }
+
+  @include media-breakpoint-up(md) {
+    text-align: right;
+  }
+
+  @include media-breakpoint-down(sm) {
     text-align: center;
   }
 }
