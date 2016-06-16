@@ -1,6 +1,6 @@
 import React from 'react';
 import {page} from '../page';
-import {saveCollectionInfo, resetCollectionInfo, redirect} from '../../actions';
+import {saveCollectionInfo, resetCollectionInfo, redirect, switchPlaceholdersVisibility} from '../../actions';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
@@ -9,12 +9,12 @@ import Header from '../../components/Common/Header.js';
 const debug = require('debug')('app:collection');
 
 function collection(state) {
-  const {user} = state.auth;
+  const {authenticated} = state.auth;
   const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo, user};
+  return {showPlaceholders, savedCollectionInfo, authenticated};
 }
 
-@page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect})
+@page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect, switchPlaceholdersVisibility})
 export default class NewCollection extends React.Component {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -32,15 +32,18 @@ export default class NewCollection extends React.Component {
     };
   }
 
-  getUserCollection(user) {
+  getUserCollection() {
     const {horizon} = this.state;
-    const {params, saveCollectionInfo, location} = this.props;
+    const {params, saveCollectionInfo, location, switchPlaceholdersVisibility, authenticated, showPlaceholders} = this.props;
     const collections = horizon('collections');
+    if (!authenticated && showPlaceholders) {
+      switchPlaceholdersVisibility();
+    }
     if (location.pathname === '/collections/new') {
       setTimeout(() => {
         this.setState({
-        loaded: true
-      });
+          loaded: true
+        });
       }, 100);
     } else {
       collections.find({id: params.collectionId}).fetch().subscribe(collection => {
@@ -59,37 +62,31 @@ export default class NewCollection extends React.Component {
   }
 
   componentDidMount() {
-    const {user} = this.props;
     resetCollectionInfo();
-    if (user) {
-      this.getUserCollection(user);
-    }
+    this.getUserCollection();
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.loaded === this.props.loaded) return;
     debug('Next props', nextProps);
-    const {authenticated, user} = nextProps;
-    const {loaded} = this.state;
     resetCollectionInfo();
-    if (authenticated && !loaded) {
-      this.getUserCollection(user);
-    }
+    this.getUserCollection();
   }
 
   render() {
     const {loaded} = this.state;
-    const {params} = this.props;
+    const {params, authenticated} = this.props;
     return (
       <div>
       <Header params={params}/>
         {loaded && (
-        <div className={styles.overflow}>
-          <NewCollectionHeader />
-          <NewCollectionDescription />
-          <NewCollectionCards />
-          <CollectionAddCardDialog />
-        </div>
-        ) || (<div></div>)}
+          <div className={styles.overflow}>
+            {authenticated && <NewCollectionHeader />}
+            <NewCollectionDescription />
+            <NewCollectionCards />
+            <CollectionAddCardDialog />
+          </div>
+        )}
       </div>
     );
   }

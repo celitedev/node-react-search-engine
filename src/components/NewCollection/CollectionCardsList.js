@@ -8,7 +8,12 @@ let Reorder;
 if (!process.env.SERVER_RENDERING) {
   Reorder = require('react-reorder');
 }
-@connect(null, {saveCollectionInfo})
+function user(state) {
+  const {authenticated} = state.auth;
+  return {authenticated};
+}
+
+@connect(user, {saveCollectionInfo})
 export default class CollectionCardsList extends PureComponent {
 
   callback(event, item, index, newIndex, list) {
@@ -16,7 +21,7 @@ export default class CollectionCardsList extends PureComponent {
   }
 
   render() {
-    const {cards} = this.props;
+    const {cards, authenticated} = this.props;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={styles.collectionCardUl}>
@@ -29,6 +34,7 @@ export default class CollectionCardsList extends PureComponent {
               callback={::this.callback}
               listClass='listClassReorder'
               itemClass={classnames('itemClassReorder', styles.clickCursor)}
+              disableReorder={!authenticated}
             />
           )}
         </div>

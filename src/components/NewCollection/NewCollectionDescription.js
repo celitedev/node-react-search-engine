@@ -1,6 +1,6 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
-import _ from 'lodash';
+import {isObject, isEmpty, isString} from 'lodash';
 import classnames from 'classnames';
 import Dropzone from 'react-dropzone';
 import {saveCollectionInfo} from '../../actions';
@@ -13,7 +13,8 @@ const debug = require('debug')('app:collection');
 
 function collection(state) {
   const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo};
+  const {user, authenticated} = state.auth;
+  return {showPlaceholders, savedCollectionInfo, user, authenticated};
 }
 
 @connect(collection, {saveCollectionInfo})
@@ -26,7 +27,7 @@ export default class NewCollectionDescription extends PureComponent {
   }
 
   checkInput(modelName) {
-    return _.isEmpty(this.state.savedCollectionInfo[modelName]) ? styles.formPlaceholder : '';
+    return isEmpty(this.state.savedCollectionInfo[modelName]) ? styles.formPlaceholder : '';
   }
 
   onDrop(file) {
@@ -68,7 +69,7 @@ export default class NewCollectionDescription extends PureComponent {
 
   handleChange(field) {
     return (value, medium) => {
-      const fieldValue = _.isString(value) ? value : value.target.value;
+      const fieldValue = isString(value) ? value : value.target.value;
       this.setState({
         savedCollectionInfo: {
           ...this.state.savedCollectionInfo,
@@ -84,7 +85,7 @@ export default class NewCollectionDescription extends PureComponent {
 
   render() {
     const {title, subTitle, description, img} = this.state.savedCollectionInfo;
-    const {showPlaceholders} = this.props;
+    const {showPlaceholders, authenticated} = this.props;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
@@ -94,7 +95,7 @@ export default class NewCollectionDescription extends PureComponent {
                 className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
                 html={title || ''} // innerHTML of the editable div ;
                 placeholder='Collection title'
-                disabled={false}  // use true to disable edition ;
+                disabled={!authenticated}  // use true to disable edition ;
                 onChange={::this.handleChange('title')}
               />
             </div>
@@ -105,7 +106,7 @@ export default class NewCollectionDescription extends PureComponent {
               className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
               html={subTitle || ''} // innerHTML of the editable div ;
               placeholder='Collection subtitle'
-              disabled={false}  // use true to disable edition ;
+              disabled={!authenticated}  // use true to disable edition ;
               //onKeyPress={::this.handleDataChange('title')}
               onChange={::this.handleChange('subTitle')}
             />
@@ -113,15 +114,17 @@ export default class NewCollectionDescription extends PureComponent {
           )}
           {showPlaceholders && (
             <Dropzone onDrop={::this.onDrop}
-                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(img) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
+                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           )}
           <div
-            className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', _.isEmpty(img) ? styles.hideDragZone : '')}>
-            <Button className={styles.deleteImage} onClick={::this.deleteImageFromCollection}>
-              <span>&times;</span>
-            </Button>
+            className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) ? styles.hideDragZone : '')}>
+            {authenticated && (
+              <Button className={styles.deleteImage} onClick={::this.deleteImageFromCollection}>
+                <span>&times;</span>
+              </Button>
+            )}
             <img className={styles.colImage} src={img}/>
           </div>
           {::this.isEmptyField(description) && (
@@ -131,6 +134,7 @@ export default class NewCollectionDescription extends PureComponent {
               text={description}
               onChange={::this.handleChange('description')}
               options={{
+                disableEditing: !authenticated,
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
                   text: 'Collection description',

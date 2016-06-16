@@ -9,7 +9,8 @@ import Card from '../Cards/Card';
 
 function collection(state) {
   const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo};
+  const {authenticated} = state.auth;
+  return {showPlaceholders, savedCollectionInfo, authenticated};
 }
 
 @connect(collection, {deleteCardFromCollection, saveCollectionInfo})
@@ -47,19 +48,20 @@ export default class CollectionCardsListItem extends PureComponent {
   }
 
   render() {
-    const {item} = this.props;
+    const {item, authenticated} = this.props;
     const {raw} = item;
     const {description} = this.state;
     return (
       <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
-          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={true}/>
+          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={authenticated}/>
           <MediumEditor
             className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
             tag='p'
             text={description}
             onChange={::this.handleDesciptionChange}
             options={{
+                disableEditing: !authenticated,
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
                   text: 'Card description',
