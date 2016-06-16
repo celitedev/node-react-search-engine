@@ -177,7 +177,7 @@ export default class Card extends PureComponent {
                     </ul>
                   )}
                 </div>
-              )}
+              ) || null}
               {(formatted.whyshown || settings.whyshown) && (
                 <div className='card--whyshown'>
                   <div>{formatted.whyshown}</div>

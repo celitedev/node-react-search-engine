@@ -168,6 +168,16 @@ export default class Search extends Component {
         ];
       }
     }
+    const cardSettings = {
+      identifiers1: results.find((r) => r.formatted.identifiers1),
+      identifiers2: results.find((r) => r.formatted.identifiers2),
+      headsup1: results.find((r) => r.formatted.headsup1),
+      headsup2: results.find((r) => r.formatted.headsup2),
+      databits1: results.find((r) => r.formatted.databits1),
+      databits2: results.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
+      whyshown: results.find((r) => r.formatted.whyshown)
+    };
+
     const mapMarkers = _.filter(results, (result) => {
       return result.raw.geo;
     });
@@ -291,7 +301,7 @@ export default class Search extends Component {
               results.map((result, index) => (
                 <Link key={index} to={`/details/${result.raw.id}`}>
                   <Card data={result} cardNumber={index + 1}
-                    className={classnames(`card actionBarHidden card-${index}`, { [styles.active]: selectedMarker === result.id }, styles.cardStyle) } bgImage={true}/>
+                    className={classnames(`card actionBarHidden card-${index}`, { [styles.active]: selectedMarker === result.id }, styles.cardStyle) } settings={cardSettings} bgImage={true}/>
                 </Link>
               ))}
               {results.length > 0 && (
