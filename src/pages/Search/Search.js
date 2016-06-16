@@ -31,7 +31,7 @@ export default class Search extends PureComponent {
         <Header params={params}/>
         {loaded
           && (<SearchResults params={params} answer={data.searchResults}/>)
-          || (<h3>Loading...</h3>)
+          || (<h3></h3>)
         }
       </div>
     );
