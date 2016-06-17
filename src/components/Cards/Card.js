@@ -4,11 +4,18 @@ import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
 import {MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
-import {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog, toggleShareModal} from '../../actions';
+import {
+  addCardToCollection,
+  deleteCardFromCollection,
+  toggleLoginModal,
+  redirect,
+  switchCreateCollectionDialog,
+  toggleShareModal
+} from '../../actions';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 import LoginPopover from '../Common/LoginPopover';
-import { Textfit } from 'react-textfit';
+import Textfit from '../Common/Textfit';
 
 const debug = require('debug')('app:card');
 
@@ -18,11 +25,23 @@ function searchedCards(state) {
   return {savedCollectionInfo, authenticated, user};
 }
 
-@connect(searchedCards, {addCardToCollection, deleteCardFromCollection, toggleLoginModal, redirect, switchCreateCollectionDialog, toggleShareModal})
+@connect(searchedCards, {
+  addCardToCollection,
+  deleteCardFromCollection,
+  toggleLoginModal,
+  redirect,
+  switchCreateCollectionDialog,
+  toggleShareModal
+})
 export default class Card extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
   };
+
+  static defaultProps = {
+    settings: {}
+  };
+
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -59,12 +78,12 @@ export default class Card extends PureComponent {
     collections.upsert({
       ...collection, cards: [...collection.cards, {...data, id: data.raw.id}], userId: user.id
     }).subscribe(collection => {
-      debug('Collection updeted');
-    },
-    (err) => debug('Collection update error', err),
-    () => {
-      debug('Collection update finished');
-    });
+        debug('Collection updeted');
+      },
+      (err) => debug('Collection update error', err),
+      () => {
+        debug('Collection update finished');
+      });
   }
 
   handleOpenMenu(e) {
@@ -95,32 +114,36 @@ export default class Card extends PureComponent {
   }
 
   render() {
-    const {className,
-            authenticated,
-            children,
-            data = [],
-            bgImage,
-            cardNumber,
-            addCards,
-            delteCardBtn,
-            savedCollectionInfo,
-            addCardToCollection,
-            deleteCardFromCollection,
-            switchCreateCollectionDialog,
-            shareBtn
-          } = this.props;
-    let settings = this.props.settings;
-    if (!settings) {
-      settings = {};
-    }
+    const {
+      className,
+      authenticated,
+      children,
+      settings,
+      data,
+      bgImage,
+      cardNumber,
+      addCards,
+      delteCardBtn,
+      savedCollectionInfo,
+      addCardToCollection,
+      deleteCardFromCollection,
+      switchCreateCollectionDialog,
+      shareBtn
+    } = this.props;
     const {collections} = this.state;
     const {formatted, raw} = data;
+
+    if (!data) {
+      return null;
+    }
+
     return (
       <div className={className}>
         <div className='js-cardAnchor'>
           {delteCardBtn && (
             <div className={classnames('mdl-card__menu', styles.deleteCardBtn)}>
-              <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center' onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
+              <IconButton tooltip='Delete card' touch={true} tooltipPosition='top-center'
+                          onClick={() => deleteCardFromCollection(savedCollectionInfo.id, raw.id)}>
                 <DeleteIcon />
               </IconButton>
             </div>
@@ -140,18 +163,16 @@ export default class Card extends PureComponent {
                 {formatted.category}
               </div>
               <div className={classnames('card--identifier', styles.cardIdentifier)}>
-                {(formatted.identifiers1 || settings.identifiers1) && (
-                    <h2 className={classnames('card--identifier--title', (formatted.identifiers1.length > 25) && 'card--identifier--title-multiline')}><span>
-                       <Textfit mode={formatted.identifiers1.length > 25 ? 'multi' : 'single'}
-                                forceSingleModeWidth={false}
-                                max={formatted.identifiers1.length > 25 ? 17 : 24}>
-                        {formatted.identifiers1}
-                       </Textfit>
-                    </span></h2>
-                )}
-                { (formatted.identifiers2 || settings.identifiers2) && (
+                <div className={styles.cardIdentifierWrapper}>
+                  {settings.identifiers1 && formatted.identifiers1 && (
+                    <Textfit max={24} min={14} normalHeight={32} component='h2'>
+                      {formatted.identifiers1}
+                    </Textfit>
+                  )}
+                </div>
+                {settings.identifiers2 && formatted.identifiers2 && (
                   <div className='card--identifier--subtitle'>
-                      {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
+                    {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
                   </div>
                 )}
               </div>
@@ -190,41 +211,42 @@ export default class Card extends PureComponent {
         </div>
         <div className={classnames('card--actions', styles.cardActions)}>
           {addCards && (
-              ::this.findCardById(raw.id) && (
-                <button
-                  className='mdl-button mdl-button--colored mdl-button--accent'
-                  onClick={() => deleteCardFromCollection(::this.findCardById(raw.id).collectionId, raw.id)}
-                >
-                  Remove card
-                </button>
-              ) || (
-                <button className='mdl-button mdl-button--colored button--colored'
-                  onClick={() => addCardToCollection(savedCollectionInfo.id, data)}
-                >
-                  Add card
-                </button>
-              )
+            ::this.findCardById(raw.id) && (
+              <button
+                className='mdl-button mdl-button--colored mdl-button--accent'
+                onClick={() => deleteCardFromCollection(::this.findCardById(raw.id).collectionId, raw.id)}
+              >
+                Remove card
+              </button>
+            ) || (
+              <button className='mdl-button mdl-button--colored button--colored'
+                      onClick={() => addCardToCollection(savedCollectionInfo.id, data)}
+              >
+                Add card
+              </button>
+            )
           ) || (
             <div>
-            {authenticated && (
-              <IconMenu
-              iconButtonElement={<FlatButton labelStyle={{'color': '3f51b5', 'font-size': '13px'}} onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
-              onRequestChange={::this.handleItemChange}
-              open={authenticated && null}
-              >
-              <MenuItem primaryText='Add to new collection' onClick={() => switchCreateCollectionDialog(raw.id)}/>
-              <Divider />
-              {collections.map((col, i) => {
-                return <MenuItem key={i} onClick={() => ::this.findCardInCollection(col)} primaryText={col.title} />;
-              })}
-              </IconMenu>
-            ) || (
+              {authenticated && (
+                <IconMenu
+                  iconButtonElement={<FlatButton labelStyle={{'color': '3f51b5', 'fontSize': '13px'}} onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+                  onRequestChange={::this.handleItemChange}
+                  open={authenticated && null}
+                >
+                  <MenuItem primaryText='Add to new collection' onClick={() => switchCreateCollectionDialog(raw.id)}/>
+                  <Divider />
+                  {collections.map((col, i) => {
+                    return <MenuItem key={i} onClick={() => ::this.findCardInCollection(col)} primaryText={col.title}/>;
+                  })}
+                </IconMenu>
+              ) || (
                 <LoginPopover cardAction={true}/>
-            )}
+              )}
             </div>
           )}
           {shareBtn && (
-            <FlatButton label='Share card' labelStyle={{'color': '3f51b5', 'font-size': '13px'}} onClick={() => ::this.toggleShareModal(raw)}/>
+            <FlatButton label='Share card' labelStyle={{'color': '3f51b5', 'fontSize': '13px'}}
+                        onClick={() => ::this.toggleShareModal(raw)}/>
           )}
         </div>
       </div>
