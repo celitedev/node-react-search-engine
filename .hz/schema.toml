@@ -1,0 +1,32 @@
+# This is a TOML document
+
+[collections.collections]
+indexes = ["owner"]
+
+#Default permissions------------------------------------------------------
+
+[groups.default.rules.read]
+template = "collection('collections').find({id: any()}).fetch()"
+
+[groups.default.rules.read_current_user]
+template = "collection('users').find({id: userId()})"
+
+
+#Authenticated permissions------------------------------------------------
+
+[groups.authenticated.rules.read_own_collections]
+template = "collection('collections').findAll({userId: userId()}).fetch()"
+
+[groups.authenticated.rules.store_collections]
+template = "collection('collections').store({owner: userId()})"
+
+[groups.authenticated.rules.remove_collection]
+template = "collection('collections').remove({userId: userId(), id: any()})"
+
+[groups.authenticated.rules.update_collection]
+template = "collection('collections').upsert(any())"
+validator = """
+  (context, oldValue, newValue) => {
+    return newValue.userId === oldValue.userId;
+  }
+"""
