@@ -3,6 +3,7 @@ import {page} from '../page';
 
 import Header from '../../components/Common/Header.js';
 import AnswerCards from '../../components/Answer/Answer.js';
+import AnswerWarning from '../../components/Answer/AnswerWarning.js';
 import {API_REQUEST} from '../../actionTypes';
 import exampleQuestions from '../../exampleQuestions';
 
@@ -44,8 +45,11 @@ export default class Answer extends Component {
     return (
         <div className='mdl-layout'>
           <Header params={params}/>
-          {loaded && (
+          {(loaded && data.searchResults.results) && (
             <AnswerCards params={params} answer={data.searchResults}/>
+          )}
+          {(loaded && data.searchResults.warningHuman) && (
+            <AnswerWarning answer={data.searchResults.warningHuman}/>
           )}
         </div>
     );
