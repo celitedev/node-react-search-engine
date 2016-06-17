@@ -183,9 +183,9 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
   //Establish some vertical rhythem of components.
   //This allows for more roomy feel on larger devices
   @include layout-cardComponents();
-  @media (min-width: $resp_size_tablet) {
-    @include layout-cardComponents($card-vertical-rhythm-spacy);
-  }
+  // @media (min-width: $resp_size_tablet) {
+  //   @include layout-cardComponents($card-vertical-rhythm-spacy);
+  // }
 
   color: $card-supporting-text-text-color;
   font-size: $card-supporting-text-font-size;
@@ -238,6 +238,9 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
 .card--identifier {
   display: block;
   box-sizing: border-box;
+  padding-bottom: 0 !important; //quick hack
+  height: 40px; //important
+  overflow: hidden;
   &--title {
     margin: 0;
     color: rgba(0, 0, 0, 0.7);
@@ -254,6 +257,9 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
         font-size: 16px !important;
       }
     }
+  }
+  h2{
+    font-weight: 500;
   }
   &--subtitle {
     @include oneLineEllipsisOverflow();
@@ -379,10 +385,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
 //
 .card--inner .card--category {
   padding-bottom: 0;
-  margin-bottom: -0.5 * $card-vertical-rhythm;
-  @media (min-width: $resp_size_tablet) {
-    margin-bottom: -0.5 * $card-vertical-rhythm-spacy;
-  }
+  margin-bottom: -6px;
 }
 
 //all subcomponents except headsup and whyshown
