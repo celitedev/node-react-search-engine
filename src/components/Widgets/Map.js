@@ -58,8 +58,9 @@ export default class Map extends Component {
         viewPoint: nextProps.setView
       });
       if (nextProps.multipleMarkers[0].raw.geo) {
+        const {latitude, longitude} = nextProps.multipleMarkers[0].raw.geo;
         setTimeout(() => {
-          this.map.setView(nextProps.setView, 13);
+          this.map.setView([latitude, longitude], 13);
           this.map.invalidateSize();
           this.showMarkers(nextProps.multipleMarkers);
         }, 200);

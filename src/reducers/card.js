@@ -7,7 +7,8 @@ import {
 export default createStore({
   shareCardModal: false,
   collection: false,
+  itemName: null,
   id: null
 }, {
-  [SHARE_CARD_MODAL]: (state, action) => ({shareCardModal: !state.shareCardModal, collection: action.col, id: action.id})
+  [SHARE_CARD_MODAL]: (state, action) => ({shareCardModal: !state.shareCardModal, collection: action.col, id: action.id, itemName: action.itemName})
 });

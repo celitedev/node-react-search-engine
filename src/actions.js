@@ -112,11 +112,12 @@ export function toggleSnackbar(msg, err) {
 
 // Cards
 
-export function toggleShareModal(col, id) {
+export function toggleShareModal(col, id, itemName) {
   return {
     type: SHARE_CARD_MODAL,
     col: col ? true : false,
-    id
+    id,
+    itemName
   };
 }
 

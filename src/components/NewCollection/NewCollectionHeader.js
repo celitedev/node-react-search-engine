@@ -63,7 +63,7 @@ export default class NewCollectionHeader extends PureComponent {
 
   toggleShareModal() {
     const {toggleShareModal, savedCollectionInfo} = this.props;
-    toggleShareModal(true, savedCollectionInfo.id);
+    toggleShareModal(true, savedCollectionInfo.id, savedCollectionInfo.title);
   }
 
   render() {

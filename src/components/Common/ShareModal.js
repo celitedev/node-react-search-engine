@@ -8,8 +8,8 @@ import {toggleShareModal, share, toggleSnackbar} from '../../actions';
 const debug = require('debug')('app:loginModal');
 
 function getLoginModal(state) {
-  const {shareCardModal, collection, id} = state.card;
-  return {shareCardModal, collection, id};
+  const {shareCardModal, collection, id, itemName} = state.card;
+  return {shareCardModal, collection, id, itemName};
 }
 
 const encance = compose(
@@ -79,8 +79,8 @@ export default class ShareModal extends Component {
   submit() {
     if (!this.validate()) return;
     const {fromName, to, msg} = this.state;
-    const {collection, id} = this.props;
-    this.shareData({fromName, to, msg, type: collection ? 'collection' : 'card', shareType: 'email', id});
+    const {collection, id, itemName} = this.props;
+    this.shareData({fromName, to, itemName, msg, type: collection ? 'collection' : 'card', shareType: 'email', id});
     this.handleCloseDialog();
   }
 
