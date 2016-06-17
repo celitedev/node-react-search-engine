@@ -8,9 +8,8 @@ import MediumEditor from 'react-medium-editor';
 import Card from '../Cards/Card';
 
 function collection(state) {
-  const {showPlaceholders, savedCollectionInfo} = state.collection;
-  const {authenticated} = state.auth;
-  return {showPlaceholders, savedCollectionInfo, authenticated};
+  const {showPlaceholders, savedCollectionInfo, editCollection} = state.collection;
+  return {showPlaceholders, savedCollectionInfo, editCollection};
 }
 
 @connect(collection, {deleteCardFromCollection, saveCollectionInfo})
@@ -48,26 +47,27 @@ export default class CollectionCardsListItem extends PureComponent {
   }
 
   render() {
-    const {item, authenticated} = this.props;
+    const {item, editCollection} = this.props;
     const {raw} = item;
     const {description} = this.state;
     return (
       <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
-          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={authenticated}/>
-          <MediumEditor
+          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={editCollection}/>
+          {(editCollection || description) && (
+            <MediumEditor
             className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
             tag='p'
             text={description}
             onChange={::this.handleDesciptionChange}
             options={{
-                disableEditing: !authenticated,
+                disableEditing: !editCollection,
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
                   text: 'Card description',
                   hideOnClick: true
                 }}}
-          />
+          />)}
         </div>
       </div>
     );

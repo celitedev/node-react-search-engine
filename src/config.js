@@ -1,6 +1,3 @@
-import _ from 'lodash';
+import config from '../config/config-public.yml';
 
-import config from '../config-public.yml';
-import localConfig from '../local-config-public.yml';
-
-export default _.merge(config, localConfig);
+export default config;

@@ -10,8 +10,8 @@ const debug = require('debug')('app:collection');
 
 function collection(state) {
   const {authenticated} = state.auth;
-  const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo, authenticated};
+  const {showPlaceholders, savedCollectionInfo, editCollection} = state.collection;
+  return {showPlaceholders, savedCollectionInfo, authenticated, editCollection};
 }
 
 @page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect, switchPlaceholdersVisibility})
@@ -75,13 +75,13 @@ export default class NewCollection extends React.Component {
 
   render() {
     const {loaded} = this.state;
-    const {params, authenticated} = this.props;
+    const {editCollection, params} = this.props;
     return (
       <div>
       <Header params={params}/>
         {loaded && (
           <div className={styles.overflow}>
-            {authenticated && <NewCollectionHeader />}
+            {editCollection && <NewCollectionHeader />}
             <NewCollectionDescription />
             <NewCollectionCards />
             <CollectionAddCardDialog />

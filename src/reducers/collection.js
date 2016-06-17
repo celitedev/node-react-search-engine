@@ -7,7 +7,8 @@ import {
   SAVE_COLLECTION_INFO,
   ADD_CARD_TO_COLLECTION,
   DELETE_CARD_FROM_COLLECTION,
-  RESET_COLLECTION_INFO
+  RESET_COLLECTION_INFO,
+  EDIT_COLLECTION
 } from '../actionTypes';
 
 export default createStore({
@@ -17,6 +18,7 @@ export default createStore({
   cardId: null,
   updateCollectionModal: false,
   deleteCollectionModal: false,
+  editCollection: false,
   savedCollectionInfo: {
     cards: [],
     img: {}
@@ -58,6 +60,10 @@ export default createStore({
   [DELETE_CARD_FROM_COLLECTION]: (state, action) => {
     const collection = state.savedCollectionInfo;
     return {savedCollectionInfo: Object.assign({}, state.savedCollectionInfo, {cards: _.filter(collection.cards, (item) => item.id !== action.cardId)})};
+  },
+
+  [EDIT_COLLECTION]: (state, action) => {
+    return {editCollection: action.edit};
   }
 
 });

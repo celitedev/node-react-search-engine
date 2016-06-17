@@ -12,7 +12,8 @@ import {
   LOGOUT,
   CREATE_COLLECTION_DIALOG,
   SHARE_CARD_MODAL,
-  SNACKBAR
+  SNACKBAR,
+  EDIT_COLLECTION
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -38,6 +39,14 @@ export function logout() {
 }
 
 // Collections
+
+export function toggleEditCollection(edit) {
+  return {
+    type: EDIT_COLLECTION,
+    edit
+  };
+}
+
 export function switchCreateCollectionDialog(cardId) {
   return {
     type: CREATE_COLLECTION_DIALOG,

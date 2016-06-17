@@ -3,11 +3,11 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Pagination from './Widgets/Pagination';
 import {connect} from 'redux-simple';
-import {toggleLoginModal} from '../actions';
+import {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility} from '../actions';
 import {Link} from 'react-router';
-import {RaisedButton, FlatButton} from 'material-ui';
+import {RaisedButton} from 'material-ui';
 import {List, ListItem} from 'material-ui/List';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 
@@ -29,11 +29,12 @@ function paginate(data = [], o) {
 }
 
 function userInfo(state) {
+  const {showPlaceholders} = state.collection;
   const {user} = state.auth;
-  return {user};
+  return {user, showPlaceholders};
 }
 
-@connect(userInfo, {toggleLoginModal})
+@connect(userInfo, {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility})
 export default class MyCollections extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -65,7 +66,8 @@ export default class MyCollections extends PureComponent {
     });
   }
 
-  deleteCollection(collectionId) {
+  deleteCollection(event, collectionId) {
+    event.stopPropagation();
     const {horizon} = this.state;
     const {user} = this.props;
     const collections = horizon('collections');
@@ -92,6 +94,18 @@ export default class MyCollections extends PureComponent {
     });
   }
 
+  editCollection(event, collection, edit) {
+    event.stopPropagation();
+    const {redirect, toggleEditCollection, switchPlaceholdersVisibility, showPlaceholders} = this.props;
+    if (!showPlaceholders && edit) {
+      switchPlaceholdersVisibility();
+    } else if (showPlaceholders) {
+      switchPlaceholdersVisibility();
+    }
+    toggleEditCollection(edit);
+    redirect(`collections/${collection.id}`);
+  }
+
   render() {
     const {pagination, collections} = this.state;
     return (
@@ -113,7 +127,7 @@ export default class MyCollections extends PureComponent {
               {paginate(collections, pagination).data.map((c, i) => (
                 <List key={i}>
                   <ListItem>
-                    <Card className={styles.cardStyle}>
+                    <Card className={styles.cardStyle} onClick={(event) => this.editCollection(event, c, false)}>
                     {!_.isEmpty(c.img) && (
                       <CardMedia className={styles.imageWrap} style={{backgroundImage: `url(${c.img})`}}/>
                     )}
@@ -125,10 +139,8 @@ export default class MyCollections extends PureComponent {
                         </CardText>
                       )}
                       <CardActions>
-                        <Link to={`collections/${c.id}`}>
-                          <RaisedButton primary={true} labelPosition='before' icon={<EditIcon />} label='Edit' />
-                        </Link>
-                        <RaisedButton label='Delete' labelPosition='before' icon={<DeleteIcon />} secondary={true} onClick={() => ::this.deleteCollection(c.id)}/>
+                        <RaisedButton primary={true} labelPosition='before' icon={<EditIcon />} label='Edit' onClick={(event) => this.editCollection(event, c, true)}/>
+                        <RaisedButton label='Delete' labelPosition='before' icon={<DeleteIcon />} secondary={true} onClick={(event) => ::this.deleteCollection(event, c.id)}/>
                       </CardActions>
                       </div>
                     </Card>

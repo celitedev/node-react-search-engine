@@ -18,11 +18,6 @@ const server = process.env.SERVER_RENDERING;
 const hot = process.env.BABEL_ENV === 'hot';
 //const hot = true;
 
-const _config = yaml.safeLoad(fs.readFileSync('config-public.yml', 'utf-8'));
-const _localConfig = yaml.safeLoad(fs.readFileSync('local-config-public.yml', 'utf-8'));
-
-const yamlConfig = _.merge(_config, _localConfig);
-
 const extractText = production || server;
 
 let outputName;

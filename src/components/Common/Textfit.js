@@ -78,7 +78,6 @@ export default class Textfit extends Component {
   getContainerHeight() {
     const el = findDOMNode(this);
     const originalHeight = el.clientHeight;
-    debug('textfit element', el);
     if (originalHeight <= 0 || isNaN(originalHeight)) {
       return null;
     }
@@ -90,18 +89,14 @@ export default class Textfit extends Component {
     const originalHeight = this.getContainerHeight();
 
     if (!originalHeight) {
-      debug('no original height');
       return;
     }
-    debug('original height:', originalHeight);
 
     const {fontSize} = this.state;
     const {min, normalHeight} = this.props;
-    debug('current fontSize:', fontSize);
 
     if (originalHeight > normalHeight && fontSize > min) {
       this.setState({fontSize: fontSize - 1});
-      debug('decreasing font size:', this.state.fontSize);
       this.checkHeight();
     }
   }

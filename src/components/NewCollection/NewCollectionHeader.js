@@ -5,7 +5,8 @@ import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redire
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import ArrowRightIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
-import Toggle from 'material-ui/Toggle';
+import {RaisedButton, Toggle} from 'material-ui';
+import {isEqual} from 'lodash';
 
 const debug = require('debug')('app:collections:new');
 
@@ -60,6 +61,11 @@ export default class NewCollectionHeader extends PureComponent {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    if (!isEqual(nextProps.savedCollectionInfo, this.props.savedCollectionInfo)) {
+      this.setState({collectionInfoChanged: true});
+    }
+  }
 
   toggleShareModal() {
     const {toggleShareModal, savedCollectionInfo} = this.props;
@@ -68,6 +74,7 @@ export default class NewCollectionHeader extends PureComponent {
 
   render() {
     const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo} = this.props;
+    const {collectionInfoChanged} = this.state;
     const {title} = savedCollectionInfo;
     const label = this.validateCollection() ? 'Collection needs title, and at least 1 card' : 'Collection is valid';
     return (
@@ -87,14 +94,18 @@ export default class NewCollectionHeader extends PureComponent {
           <div className={styles.floatLeft}>
             <h6>Settings</h6>
             <div>
-              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
-                      onClick={() => ::this.toggleShareModal()}>
-                Share
-              </button>
-              <button className='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect'
-                      disabled={this.validateCollection()} onClick={::this.saveCollection}>
-                Publish
-              </button>
+              <RaisedButton
+                label='Share'
+                onClick={() => ::this.toggleShareModal()}
+              />
+              <RaisedButton
+                className={styles.saveCollection}
+                label='Save'
+                labelColor={collectionInfoChanged ? '#fff' : '#000'}
+                backgroundColor={collectionInfoChanged ? '#00cd75' : '#fff' }
+                disabled={this.validateCollection()}
+                onClick={::this.saveCollection}
+              />
             </div>
           </div>
           <div className={styles.floatRight}>

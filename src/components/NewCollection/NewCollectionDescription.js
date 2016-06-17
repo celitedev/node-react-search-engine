@@ -12,9 +12,9 @@ import {Button} from 'react-mdl';
 const debug = require('debug')('app:collection');
 
 function collection(state) {
-  const {showPlaceholders, savedCollectionInfo} = state.collection;
-  const {user, authenticated} = state.auth;
-  return {showPlaceholders, savedCollectionInfo, user, authenticated};
+  const {showPlaceholders, savedCollectionInfo, editCollection} = state.collection;
+  const {user} = state.auth;
+  return {showPlaceholders, savedCollectionInfo, user, editCollection};
 }
 
 @connect(collection, {saveCollectionInfo})
@@ -85,7 +85,7 @@ export default class NewCollectionDescription extends PureComponent {
 
   render() {
     const {title, subTitle, description, img} = this.state.savedCollectionInfo;
-    const {showPlaceholders, authenticated} = this.props;
+    const {showPlaceholders, editCollection} = this.props;
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
@@ -95,7 +95,7 @@ export default class NewCollectionDescription extends PureComponent {
                 className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
                 html={title || ''} // innerHTML of the editable div ;
                 placeholder='Collection title'
-                disabled={!authenticated}  // use true to disable edition ;
+                disabled={!editCollection}  // use true to disable edition ;
                 onChange={::this.handleChange('title')}
               />
             </div>
@@ -106,7 +106,7 @@ export default class NewCollectionDescription extends PureComponent {
               className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
               html={subTitle || ''} // innerHTML of the editable div ;
               placeholder='Collection subtitle'
-              disabled={!authenticated}  // use true to disable edition ;
+              disabled={!editCollection}  // use true to disable edition ;
               //onKeyPress={::this.handleDataChange('title')}
               onChange={::this.handleChange('subTitle')}
             />
@@ -120,7 +120,7 @@ export default class NewCollectionDescription extends PureComponent {
           )}
           <div
             className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) ? styles.hideDragZone : '')}>
-            {authenticated && (
+            {editCollection && (
               <Button className={styles.deleteImage} onClick={::this.deleteImageFromCollection}>
                 <span>&times;</span>
               </Button>
@@ -134,7 +134,7 @@ export default class NewCollectionDescription extends PureComponent {
               text={description}
               onChange={::this.handleChange('description')}
               options={{
-                disableEditing: !authenticated,
+                disableEditing: !editCollection,
                 toolbar: {buttons: ['bold', 'italic', 'underline']},
                 placeholder: {
                   text: 'Collection description',

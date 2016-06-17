@@ -18,11 +18,21 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.babel');
 const compiler = webpack(webpackConfig);
+const yaml = require('js-yaml')
+
+const env = process.env.NODE_ENV ? './config/config-' + process.env.NODE_ENV + '.yml' :'./config/config-dev.yml';
+let _config;
+try {
+  _config = yaml.safeLoad(fs.readFileSync(env, 'utf-8'));
+} catch (err) {
+  console.log('ENV MODE NOT FOUND. DEV MODE USED');
+  _config = yaml.safeLoad(fs.readFileSync('./config/config-dev.yml', 'utf-8'));
+}
 
 const serverBundle = require('./build/server');
 
-const privateKey = fs.readFileSync('horizon-key.pem', 'utf8');
-const certificate = fs.readFileSync('horizon-cert.pem', 'utf8');
+const privateKey = fs.readFileSync(_config.keyPath, 'utf-8');
+const certificate = fs.readFileSync(_config.certPath, 'utf-8');
 
 function getHorizonConfig() {
   return hz.read_config_from_file(path.resolve('.'));
@@ -109,15 +119,15 @@ if (cluster.isMaster) {
     });
   };
 
-  const renderApp = process.env.NODE_ENV === 'production' ? serverBundle.renderFull : serverBundle.renderHtml;
+  const renderApp = process.env.NODE_ENV === 'prod' ? serverBundle.renderFull : serverBundle.renderHtml;
 
-  const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
+  const readStats = process.env.NODE_ENV === 'prod' ? readStatsProd : readStatsDev;
 
-  app.use('/api', proxy(url.parse('http://testing123.kwhen.com:3000')));
+  app.use('/api', proxy(url.parse(_config.backendUrl)));
   app.use(express.static('build'));
   app.use(express.static('/'));
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV !== 'prod') {
     app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
     app.use(webpackHotMiddleware(compiler));
   }
@@ -151,7 +161,7 @@ if (cluster.isMaster) {
 
   const credentials = {key: privateKey, cert: certificate};
   const httpsServer = https.createServer(credentials, app);
-  const port = parseInt(process.env.PORT || 7000, 10);
+  const port = _config.appPort;
   const server = httpsServer.listen(port, (err) => {
     if (err) {
       console.log(err); // eslint-disable-line
@@ -164,51 +174,4 @@ if (cluster.isMaster) {
   const horizonConfig = getHorizonConfig();
   const horizonServer = startHorizonServer(server, horizonConfig);
   addAuthProviders(horizonServer, horizonConfig);
-
-  // const horizonServer = horizon(server, {
-  //   project_name: 'kwhen',
-  //
-  //   rdb_host: '127.0.0.1',
-  //   rdb_port: 28015,
-  //
-  //   auto_create_collection: true,
-  //   auto_create_index: true,
-  //   permissions: false,
-  //   auth: {
-  //     // success_redirect: Joi.string().default('/'),
-  //     // failure_redirect: Joi.string().default('/'),
-  //     create_new_users: true,
-  //     new_user_group: 'authenticated',
-  //     token_secret: '3SZCY2JUEB1aDAAAmPcX+vpFCuUoOEEVNkbhs5I5/6ItyiK2QWmV93fd9SyqG/EVYBoz7L+tTsX4VWi+5R8dKw==',
-  //     allow_anonymous: true,
-  //     allow_unauthenticated: true
-  //   }
-  // });
-  //
-  // const facebook = horizon.auth['facebook'];
-  // horizonServer.add_auth_provider(facebook, {
-  //   path: 'facebook',
-  //   id: '1268427246519647',
-  //   secret: '251b233dad17bb87af61ae26ee28363a'
-  // });
-  // const twitter = horizon.auth['twitter'];
-  // horizonServer.add_auth_provider(twitter, {
-  //   path: 'twitter',
-  //   id: 'Wvvn8WC3mRWrfX1mNJ1mFmw1W',
-  //   secret: 'BsvWimiWS9DCa1mtg5qOwIH523Ar2eMjVu5pvyuoFOg5huWHRF'
-  // });
-  //
-  // const google = horizon.auth['google'];
-  // horizonServer.add_auth_provider(google, {
-  //   path: 'google',
-  //   id: '132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com',
-  //   secret: 'ydL1nx0vaihoYrllJG9blnSJ'
-  // });
-  //
-  // const github = horizon.auth['github'];
-  // horizonServer.add_auth_provider(github, {
-  //   path: 'github',
-  //   id: '36ef2b05270e2a68112e',
-  //   secret: '8cae8179ff5c5d3f2fbc421226b0cfbacbea85df'
-  // });
 }
