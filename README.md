@@ -8,10 +8,10 @@
  - `npm install`
  - `bower install`
  -  install RethinkDB // https://www.rethinkdb.com
+ - `npm run db`
  - `hz create-cert`
  - `npm run set-schema`
  - `npm start`
- - `npm run db`
  - `open https://localhost:7000`
 
  ## Production
