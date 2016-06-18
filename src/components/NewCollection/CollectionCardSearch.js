@@ -67,6 +67,10 @@ export default class CollectionCardSearch extends Component {
     this.setState({cards: cardsValues});
   }
 
+  componentDidMount() {
+    this.loadCards();
+  }
+
   handleSearch(e) {
     this.setState({
       value: e.target.value
