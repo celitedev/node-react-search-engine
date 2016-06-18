@@ -292,7 +292,6 @@ export default class Search extends Component {
           <div className='mobile-cover' onClick={() => this.showMap()}></div>
           <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
         </Map>
-        <div classNmae='page-content'>
           <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', styles.carouselOverflowFix, isSlider && 'is-slider')}>
             { isSlider && (
               <CardsCarousel afterChange={(e) => this.cardChanged(e)} miniMap={true} settings={carouselSettings} question={params.question} results={results}
@@ -316,7 +315,6 @@ export default class Search extends Component {
             )
             }
           </div>
-        </div>
       </main>
     );
   }

@@ -85,11 +85,17 @@
 
 body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  overflow-x: hidden;
+  overflow: hidden;
 
-  @include media-breakpoint-up(sm) {
-    overflow-y: hidden;
+  @include media-breakpoint-down(md) {
+    overflow-x: hidden;
+    overflow-y: scroll;
   }
+}
+
+.scrollFix {
+  height: 100vh;
+  overflow-y: scroll
 }
 
 .itemClassReorder.dragged {

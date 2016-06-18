@@ -1,0 +1,6 @@
+---
+- name: Configure all frontend loadbalancers
+  hosts: loadbalancers
+  roles:
+    - role: jdauphant.nginx
+      become: yes

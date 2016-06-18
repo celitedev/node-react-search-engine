@@ -20,7 +20,7 @@ export default class Details extends PureComponent {
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className='mdl-layout__container'>
+      <div className='mdl-layout__container scrollFix'>
         <div className='mdl-layout mdl-js-layout'>
           <Header params={params}/>
           {loaded && (

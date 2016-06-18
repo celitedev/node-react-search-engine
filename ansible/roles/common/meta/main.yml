@@ -1,0 +1,13 @@
+---
+dependencies:
+  - role: Stouts.deploy
+    become: yes
+
+  - role: Stouts.apt
+    become: yes
+
+  - role: ANXS.hostname
+    become: yes
+
+  - role: ANXS.ntp
+    become: yes

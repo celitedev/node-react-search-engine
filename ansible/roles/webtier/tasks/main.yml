@@ -1,0 +1,75 @@
+---
+- name: Git | Pull sources from the repository
+  git:
+   dest: "{{ site_src_dir }}"
+   repo: "{{ site_repo }}"
+   version: "{{ site_repo_branch }}"
+   force: yes
+   update: yes
+   accept_hostkey: yes
+  when: not skip_checkout
+  register: site_git_clone
+
+
+- name: Check nginx syntax of configuration files
+  become: yes
+  shell: nginx -t
+  register: result
+  changed_when: "result.rc != 0"
+  always_run: yes
+
+
+- name: NPM | Install dependencies
+  become: yes
+  npm:
+    path: '{{ deploy_src_dir }}'
+    state: present
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: NPM | Install project dependencies
+  command: npm install
+  args:
+    chdir: '{{ deploy_src_dir }}'
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: Bower | Install
+  command: bower install
+  args:
+    chdir: '{{ deploy_src_dir }}'
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: Horizon | Create-cert
+  command: hz create-cert
+  args:
+    chdir: '{{ deploy_src_dir }}'
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: NPM | Run set shema
+  command: npm run set-schema
+  args:
+    chdir: '{{ deploy_src_dir }}'
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: NPM | Build
+  command: npm run build
+  args:
+    chdir: '{{ deploy_src_dir }}'
+  when: site_git_clone.changed or force_upgrade
+
+
+- name: NPM frontend server | Generate upstart scripts
+  become: yes
+  template:
+    src: 'frontend-client.conf.j2'
+    dest: '/etc/init/{{ deploy_app_name }}-frontend-client.conf'
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - restart frontend-client
+    - restart nginx

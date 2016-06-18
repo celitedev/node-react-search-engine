@@ -1,0 +1,9 @@
+---
+- include: dbservers.yml
+  tags: [dbservers]
+
+- include: loadbalancers.yml
+  tags: [loadbalancers]
+
+- include: appservers.yml
+  tags: [appservers]

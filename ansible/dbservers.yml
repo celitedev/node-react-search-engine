@@ -1,0 +1,8 @@
+---
+- name: Configure all database servers
+  hosts: dbservers
+  roles:
+    - role: common
+
+    - role: zenoamaro.rethinkdb
+      become: yes

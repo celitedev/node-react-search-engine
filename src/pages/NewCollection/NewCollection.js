@@ -88,7 +88,7 @@ export default class NewCollection extends React.Component {
       <div>
       <Header params={params}/>
         {loaded && (
-          <div className={styles.overflow}>
+          <div className='scrollFix'>
             {(authenticated && editCollection) && <NewCollectionHeader />}
             <NewCollectionDescription />
             <NewCollectionCards />

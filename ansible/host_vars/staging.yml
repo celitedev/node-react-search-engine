@@ -1,0 +1,11 @@
+---
+### Deploy ###
+ansible_user_fix: 'ubuntu'
+deploy_env: staging
+
+### Options ###
+skip_checkout: no
+force_upgrade: no
+
+# Domains
+site_domain: 'ec2-107-21-81-118.compute-1.amazonaws.com'

@@ -1,0 +1,20 @@
+#!upstart
+#{{ ansible_managed }}
+
+description "Upstart script to run react app"
+
+start on startup
+stop on shutdown
+
+console log
+kill timeout 20
+limit nofile 65536 65536
+respawn
+
+setuid {{ deploy_user }}
+setgid {{ deploy_group }}
+
+chdir {{ deploy_src_dir }}
+
+respawn
+exec npm run production

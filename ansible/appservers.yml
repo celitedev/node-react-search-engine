@@ -1,0 +1,14 @@
+---
+- name: Configure all application servers
+  hosts: appservers
+  roles:
+    - role: ANXS.git
+      become: yes
+
+    - role: geerlingguy.nodejs
+      become: yes
+
+    - role: npm
+      become: yes
+
+    - role: webtier
