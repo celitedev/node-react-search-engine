@@ -1,3 +1,3 @@
-import config from '../config/config-public.yml';
+import config from '../config/config-general.yml';
 
 export default config;

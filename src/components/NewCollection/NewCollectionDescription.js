@@ -112,7 +112,7 @@ export default class NewCollectionDescription extends PureComponent {
             />
             </div>
           )}
-          {showPlaceholders && (
+          {(showPlaceholders && editCollection) && (
             <Dropzone onDrop={::this.onDrop}
                       className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>

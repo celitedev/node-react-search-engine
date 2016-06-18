@@ -18,15 +18,14 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.babel');
 const compiler = webpack(webpackConfig);
-const yaml = require('js-yaml')
+const yaml = require('js-yaml');
 
-const env = process.env.NODE_ENV ? './config/config-' + process.env.NODE_ENV + '.yml' :'./config/config-dev.yml';
+const env = './config/config-' + process.env.NODE_ENV + '.yml';
 let _config;
 try {
   _config = yaml.safeLoad(fs.readFileSync(env, 'utf-8'));
 } catch (err) {
-  console.log('ENV MODE NOT FOUND. DEV MODE USED');
-  _config = yaml.safeLoad(fs.readFileSync('./config/config-dev.yml', 'utf-8'));
+  throw 'ENV MODE NOT FOUND';
 }
 
 const serverBundle = require('./build/server');
@@ -119,15 +118,15 @@ if (cluster.isMaster) {
     });
   };
 
-  const renderApp = process.env.NODE_ENV === 'prod' ? serverBundle.renderFull : serverBundle.renderHtml;
+  const renderApp = process.env.NODE_ENV === 'default' ? serverBundle.renderFull : serverBundle.renderHtml;
 
-  const readStats = process.env.NODE_ENV === 'prod' ? readStatsProd : readStatsDev;
+  const readStats = process.env.NODE_ENV === 'default' ? readStatsProd : readStatsDev;
 
   app.use('/api', proxy(url.parse(_config.backendUrl)));
   app.use(express.static('build'));
   app.use(express.static('/'));
 
-  if (process.env.NODE_ENV !== 'prod') {
+  if (process.env.NODE_ENV !== 'default') {
     app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
     app.use(webpackHotMiddleware(compiler));
   }

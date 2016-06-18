@@ -94,14 +94,15 @@ export default class MyCollections extends PureComponent {
     });
   }
 
+  createCollection() {
+    const {redirect, toggleEditCollection} = this.props;
+    toggleEditCollection(true);
+    redirect(`/collections/new`);
+  }
+
   editCollection(event, collection, edit) {
     event.stopPropagation();
-    const {redirect, toggleEditCollection, switchPlaceholdersVisibility, showPlaceholders} = this.props;
-    if (!showPlaceholders && edit) {
-      switchPlaceholdersVisibility();
-    } else if (showPlaceholders) {
-      switchPlaceholdersVisibility();
-    }
+    const {redirect, toggleEditCollection} = this.props;
     toggleEditCollection(edit);
     redirect(`collections/${collection.id}`);
   }
@@ -111,9 +112,7 @@ export default class MyCollections extends PureComponent {
     return (
       <div className='mdl-layout mdl-js-layout'>
         <ul className={classnames(styles.root, 'mdl-list')}>
-          <Link to={`/collections/new`}>
-            <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd}/>
-          </Link>
+          <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={() => this.createCollection()}/>
           <div className='mdl-card__title'>
             <h2 className='mdl-card__title-text'>My collections</h2>
           </div>

@@ -42,19 +42,18 @@ export default class Html extends React.Component {
         <meta httpEquiv='x-ua-compatible' content='ie=edge'/>
 
         <title>kwhen</title>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' />
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
         <meta name='msapplication-TileColor' content='#ffffff'/>
         <meta name='theme-color' content='#ffffff'/>
+        <script dangerouslySetInnerHTML={{__html: hydrate}}/>
+        <script crossOrigin='anonymous' src={commonBundle.publicPath}/>
+        <script crossOrigin='anonymous' src={clientBundle.publicPath}/>
       </head>
       <body>
-      {commonCssBundle && <link rel='stylesheet' href={commonCssBundle.publicPath}/>}
-      {clientCssBundle && <link rel='stylesheet' href={clientCssBundle.publicPath}/>}
+        {commonCssBundle && <link rel='stylesheet' href={commonCssBundle.publicPath}/>}
+        {clientCssBundle && <link rel='stylesheet' href={clientCssBundle.publicPath}/>}
 
-      <div id='react-app' dangerouslySetInnerHTML={{__html: markup}}/>
-
-      <script dangerouslySetInnerHTML={{__html: hydrate}}/>
-      <script crossOrigin='anonymous' src={commonBundle.publicPath}/>
-      <script crossOrigin='anonymous' src={clientBundle.publicPath}/>
+        <div id='react-app' dangerouslySetInnerHTML={{__html: markup}}/>
       </body>
       </html>
     );

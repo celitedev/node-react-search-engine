@@ -12,10 +12,6 @@ import _ from 'lodash';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-// const muiTheme = getMuiTheme({
-//   userAgent: req.headers['user-agent']
-// });
-
 import Html from './components/Html';
 import {
   SET_SESSION,
@@ -36,6 +32,8 @@ import api from './middleware/api';
 const debug = require('debug')('kwhen:server');
 
 const middlewares = [thunk, api, triplet, fetcher, logger];
+
+global.navigator = { navigator: 'all' };
 
 async function tryAuthenticate(store, cookies) {
   if (!cookies || !cookies.sessionid) {
@@ -145,7 +143,7 @@ export async function renderFull(location, cookies, callback) {
     try {
       const markup = renderToString(
         <Provider store={store}>
-          <MuiThemeProvider muiTheme={getMuiTheme()}>
+          <MuiThemeProvider muiTheme={getMuiTheme(null, { userAgent: 'all' })}>
             <ReduxRouter />
           </MuiThemeProvider>
         </Provider>

@@ -9,8 +9,8 @@ import {saveCollectionInfo, loadCards} from '../../actions';
 const debug = require('debug')('app:NewCollectionCards');
 
 function collection(state) {
-  const {savedCollectionInfo} = state.collection;
-  return {savedCollectionInfo};
+  const {savedCollectionInfo, editCollection} = state.collection;
+  return {savedCollectionInfo, editCollection};
 }
 
 @connect(collection, {saveCollectionInfo, loadCards})
@@ -59,18 +59,21 @@ export default class NewCollectionCards extends PureComponent {
 
   render() {
     const {loaded, cards} = this.state;
+    const {editCollection} = this.props;
     return (
       <div className={styles.root}>
       {loaded && (
         <div>
-        <div className='mdl-grid'>
-          <CollectionCardsAddButton cards={cards}/>
-        </div>
+          {editCollection && (
+            <div className='mdl-grid'>
+              <CollectionCardsAddButton cards={cards}/>
+            </div>
+          )}
         <div className='mdl-grid'>
           <CollectionCardsList cards={cards}/>
         </div>
         <div className={classnames('mdl-grid', styles.bottomAddCardBtn)}>
-          {(cards && cards.length) && (
+          {editCollection && (cards && cards.length) && (
             <CollectionCardsAddButton cards={cards}/>
           ) || null}
         </div>

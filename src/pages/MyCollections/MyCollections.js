@@ -75,8 +75,6 @@ export default class Index extends PureComponent {
         <Header params={params}/>
         {loaded && (
           <MyCollections params={params} collections={loaded && collections || []}/>
-        ) || (
-          <div></div>
         )}
       </div>
     );

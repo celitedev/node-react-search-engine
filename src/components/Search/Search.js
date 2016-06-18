@@ -178,9 +178,11 @@ export default class Search extends Component {
       whyshown: results.find((r) => r.formatted.whyshown)
     };
 
-    const mapMarkers = _.filter(results, (result) => {
-      return result.raw.geo;
-    });
+    const mapMarkers = results.map((result, index) => {
+      if (result.raw.geo) {
+        return {geo: result.raw.geo, index};
+      }
+    }).filter((el) => typeof el !== 'undefined');
     const {subtypes, name} = answer.filterContext.filter;
     let oneResult = [];
     if (isSlider) {

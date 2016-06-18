@@ -57,8 +57,8 @@ export default class Map extends Component {
       this.setState({
         viewPoint: nextProps.setView
       });
-      if (nextProps.multipleMarkers[0].raw.geo) {
-        const {latitude, longitude} = nextProps.multipleMarkers[0].raw.geo;
+      if (nextProps.multipleMarkers[0].geo) {
+        const {latitude, longitude} = nextProps.multipleMarkers[0].geo;
         setTimeout(() => {
           this.map.setView([latitude, longitude], 13);
           this.map.invalidateSize();
@@ -121,9 +121,9 @@ export default class Map extends Component {
       };
     }
     if (multipleMarkers && multipleMarkers.length > 1) {
-      _.map(multipleMarkers, (marker, index) => {
+      _.map(multipleMarkers, (marker) => {
         debug('markers render', marker);
-        const geo = marker.raw.geo;
+        const {geo, index} = marker;
         if (!geo) {
           return;
         }

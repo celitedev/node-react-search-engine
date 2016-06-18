@@ -34,11 +34,8 @@ export default class NewCollection extends React.Component {
 
   getUserCollection() {
     const {horizon} = this.state;
-    const {params, saveCollectionInfo, location, switchPlaceholdersVisibility, authenticated, showPlaceholders} = this.props;
+    const {params, saveCollectionInfo, location} = this.props;
     const collections = horizon('collections');
-    if (!authenticated && showPlaceholders) {
-      switchPlaceholdersVisibility();
-    }
     if (location.pathname === '/collections/new') {
       setTimeout(() => {
         this.setState({
@@ -62,26 +59,37 @@ export default class NewCollection extends React.Component {
   }
 
   componentDidMount() {
+    const {location, authenticated, redirect} = this.props;
     resetCollectionInfo();
+    if (!authenticated) {
+      if (location.pathname === '/collections/new') {
+        setTimeout(() => {
+          redirect('/');
+        }, 500);
+      }
+    }
     this.getUserCollection();
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.loaded === this.props.loaded) return;
-    debug('Next props', nextProps);
-    resetCollectionInfo();
-    this.getUserCollection();
+    const {loaded, authenticated} = this.props;
+    if (nextProps.loaded === loaded) return;
+    if (nextProps.user && (nextProps.user.authenticated !== authenticated)) {
+      debug('Next props', nextProps);
+      resetCollectionInfo();
+      this.getUserCollection();
+    } else return;
   }
 
   render() {
     const {loaded} = this.state;
-    const {editCollection, params} = this.props;
+    const {editCollection, authenticated, params} = this.props;
     return (
       <div>
       <Header params={params}/>
         {loaded && (
           <div className={styles.overflow}>
-            {editCollection && <NewCollectionHeader />}
+            {(authenticated && editCollection) && <NewCollectionHeader />}
             <NewCollectionDescription />
             <NewCollectionCards />
             <CollectionAddCardDialog />

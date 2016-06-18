@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "prebuild": "eslint src",
-    "build": "rm -rf build && SERVER_RENDERING=1 NODE_ENV=prod webpack --bail && NODE_ENV=prod webpack --bail",
-    "production": "NODE_ENV=prod node rendering",
-    "start": "open https://localhost:7000/ && SERVER_RENDERING=1 webpack --bail && DEBUG=app:* node rendering",
+    "build": "rm -rf build && SERVER_RENDERING=1 NODE_ENV=default webpack --bail && NODE_ENV=default webpack --bail",
+    "production": "NODE_ENV=default node rendering",
+    "start": "open https://localhost:7000/ && SERVER_RENDERING=1 webpack --bail && DEBUG=app:* NODE_ENV=dev node rendering",
     "get-schema": "hz get-schema -o ./.hz/schema.toml",
     "set-schema": "hz set-schema ./.hz/schema.toml",
     "db": "rethinkdb -d ./rethinkdb_data --bind 127.0.0.1 --driver-port 28015 --http-port 8083 --cluster-port 0 --cache-size auto"
