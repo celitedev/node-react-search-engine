@@ -118,15 +118,15 @@ if (cluster.isMaster) {
     });
   };
 
-  const renderApp = process.env.NODE_ENV === 'default' ? serverBundle.renderFull : serverBundle.renderHtml;
+  const renderApp = process.env.NODE_ENV === 'production' ? serverBundle.renderFull : serverBundle.renderHtml;
 
-  const readStats = process.env.NODE_ENV === 'default' ? readStatsProd : readStatsDev;
+  const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
 
   app.use('/api', proxy(url.parse(_config.backendUrl)));
   app.use(express.static('build'));
   app.use(express.static('/'));
 
-  if (process.env.NODE_ENV !== 'default') {
+  if (process.env.NODE_ENV !== 'production') {
     app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
     app.use(webpackHotMiddleware(compiler));
   }

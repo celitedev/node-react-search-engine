@@ -1,5 +1,4 @@
 #Dev config used to handle options for development build
-
 appPort: 7000
 backendUrl: 'http://testing123.kwhen.com:3000'
 

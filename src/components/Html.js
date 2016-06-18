@@ -45,9 +45,9 @@ export default class Html extends React.Component {
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
         <meta name='msapplication-TileColor' content='#ffffff'/>
         <meta name='theme-color' content='#ffffff'/>
-        <script dangerouslySetInnerHTML={{__html: hydrate}}/>
-        <script crossOrigin='anonymous' src={commonBundle.publicPath}/>
-        <script crossOrigin='anonymous' src={clientBundle.publicPath}/>
+        <script dangerouslySetInnerHTML={{__html: hydrate}} defer/>
+        <script crossOrigin='anonymous' src={commonBundle.publicPath} defer/>
+        <script crossOrigin='anonymous' src={clientBundle.publicPath} defer/>
       </head>
       <body>
         {commonCssBundle && <link rel='stylesheet' href={commonCssBundle.publicPath}/>}

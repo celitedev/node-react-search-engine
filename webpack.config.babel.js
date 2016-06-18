@@ -33,11 +33,11 @@ if (server) {
 
 let cssSelectorName;
 if (extractText) {
-  cssSelectorName = '[hash:base64:5]';
+  cssSelectorName = '[name]_[hash:hex:5]';
 } else if (process.env.KARMA) {
   cssSelectorName = '[local]';
 } else {
-  cssSelectorName = '[name]_[local]_[hash:hex:5]';
+  cssSelectorName = '[name]_[hash:hex:5]';
 }
 
 function entry(path, server) {
@@ -155,7 +155,7 @@ const config = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.SERVER_RENDERING': JSON.stringify(process.env.SERVER_RENDERING || null),
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'dev')
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.NoErrorsPlugin(),
