@@ -83,7 +83,7 @@ export default class CardsList extends PureComponent {
                       <label htmlFor='' className={styles.collectionFilterName}>{section.filterContext.type}</label>
                       {paginate(section.results, this.state[section.filterContext.type.toLowerCase()]).data.map((card, index) => (
                         <div key={index} className={styles.listItem}>
-                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card} addCards={true}/>
+                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card} noLink={true} addCards={true}/>
                         </div>
                       ))}
                     </div>

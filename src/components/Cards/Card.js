@@ -103,8 +103,10 @@ export default class Card extends PureComponent {
   }
 
   redirectToCard() {
-    const {data, redirect} = this.props;
-    redirect(`/details/${data.raw.id}`);
+    const {data, redirect, noLink} = this.props;
+    if (!noLink) {
+      redirect(`/details/${data.raw.id}`);
+    }
   }
 
   toggleShareModal(card) {
