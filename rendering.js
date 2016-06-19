@@ -1,5 +1,6 @@
 'use strict';
 
+require("colors");
 const os = require('os');
 const fs = require('fs');
 const path = require('path');
@@ -20,24 +21,42 @@ const webpackConfig = require('./webpack.config.babel');
 const compiler = webpack(webpackConfig);
 const yaml = require('js-yaml');
 
-const env = './config/config-' + process.env.NODE_ENV + '.yml';
+const serverBundle = require('./build/server');
+
+
+const env = process.env.NODE_ENV.toLowerCase();
+const envConfig = './config/config-' + process.env.NODE_ENV + '.yml';
+const configHorizonPath = path.resolve(".hz/config-"+env+".toml");
+
 let _config;
+let horizonConfig;
+
 try {
-  _config = yaml.safeLoad(fs.readFileSync(env, 'utf-8'));
+  _config = yaml.safeLoad(fs.readFileSync(envConfig, 'utf-8'));
 } catch (err) {
-  throw 'ENV MODE NOT FOUND';
+  throw 'CONFIG NOT FOUND FOR FOR ENV=' + env;
 }
 
-const serverBundle = require('./build/server');
+try {
+  fs.readFileSync(configHorizonPath, 'utf-8'); //throws if not found
+  horizonConfig = hz.read_config_from_file(null, configHorizonPath);
+} catch (err) {
+  throw 'HORIZON CONFIG NOT FOUND FOR FOR ENV=' + env;
+}
 
 const privateKey = fs.readFileSync(_config.keyPath, 'utf-8');
 const certificate = fs.readFileSync(_config.certPath, 'utf-8');
 
-function getHorizonConfig() {
-  return hz.read_config_from_file(path.resolve('.'));
+if(!privateKey){
+  throw "PRIVATE KEY NOT FOUND: " + privateKey;
 }
 
-function startHorizonServer(servers, opts) {
+if(!certificate){
+  throw "CERTIFICATE NOT FOUND: " + certificate;
+}
+
+function startHorizonServer(servers) {
+  let opts = horizonConfig;
   console.log('Starting Horizon...');
   const hzServer = new horizon.Server(servers, {
     auto_create_collection: opts.auto_create_collection,
@@ -56,13 +75,14 @@ function startHorizonServer(servers, opts) {
   });
   hzServer.ready().then(() => {
     console.log('Horizon ready for connections');
+    console.log(("started in mode: " + env).yellow);
   }).catch((err) => {
     console.log(err);
   });
   return hzServer;
 }
 
-function addAuthProviders(horizonServer, horizonConfig) {
+function addAuthProviders(horizonServer) {
   if (horizonConfig.auth) {
     for (const name in horizonConfig.auth) {
       const provider = horizon.auth[name];
@@ -170,7 +190,6 @@ if (cluster.isMaster) {
     console.log(`Express listening at http://localhost:${port}/build`); // eslint-disable-line
   });
 
-  const horizonConfig = getHorizonConfig();
-  const horizonServer = startHorizonServer(server, horizonConfig);
-  addAuthProviders(horizonServer, horizonConfig);
+  const horizonServer = startHorizonServer(server);
+  addAuthProviders(horizonServer);
 }

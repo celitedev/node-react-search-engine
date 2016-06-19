@@ -2,5 +2,5 @@
 appPort: 7000
 backendUrl: 'http://testing123.kwhen.com:3000'
 
-certPath: 'horizon-cert.pem'
-keyPath: 'horizon-key.pem'
+certPath: './config/horizon-dev-cert.pem'
+keyPath: './config/horizon-dev-key.pem'
