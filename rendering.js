@@ -41,6 +41,7 @@ try {
   fs.readFileSync(configHorizonPath, 'utf-8'); //throws if not found
   horizonConfig = hz.read_config_from_file(null, configHorizonPath);
 } catch (err) {
+  console.log(err);
   throw 'HORIZON CONFIG NOT FOUND FOR FOR ENV=' + env;
 }
 

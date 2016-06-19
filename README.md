@@ -10,11 +10,12 @@
  -  install RethinkDB // https://www.rethinkdb.com
  - `npm run db`
  - `hz create-cert`
- - `npm run set-schema`
+ - `npm run set-schema-dev`
  - `npm start`
  - `open https://localhost:7000`
 
  ## Production
+ - `npm run set-schema-production`
  - `npm run build`
  - `npm run production`
 

@@ -48,7 +48,7 @@ auto_create_index = true
 # 'connect' will connect to an existing RethinkDB instance
 # 'start_rethinkdb' will run an internal RethinkDB instance
 #------------------------------------------------------------------------------
-connect = "localhost:28015"
+connect = "ec2-54-86-37-204.compute-1.amazonaws.com:28015"
 start_rethinkdb = false
 
 
