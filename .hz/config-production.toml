@@ -15,8 +15,8 @@ bind = [ "localhost" ]
 # 'key_file' and 'cert_file' are required for serving HTTPS
 #------------------------------------------------------------------------------
 secure = true
-key_file = "./config/horizon-dev-key.pem"
-cert_file = "./config/horizon-dev-cert.pem"
+key_file = "/etc/letsencrypt/live/www.kwhen.com/privkey.pem"
+cert_file = "/etc/letsencrypt/live/www.kwhen.com/cert.pem"
 
 
 ###############################################################################
