@@ -15,8 +15,8 @@ bind = [ "localhost" ]
 # 'key_file' and 'cert_file' are required for serving HTTPS
 #------------------------------------------------------------------------------
 secure = true
-key_file = "./certs/my-private-root-ca.privkey.pem"
-cert_file = "./certs/my-private-root-ca.cert.pem"
+key_file = "./horizon-key.pem"
+cert_file = "./horizon-cert.pem"
 
 
 ###############################################################################
