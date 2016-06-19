@@ -23,8 +23,7 @@ const yaml = require('js-yaml');
 
 const serverBundle = require('./build/server');
 
-
-const env = process.env.NODE_ENV.toLowerCase();
+const env = (process.env.NODE_ENV || "dev").toLowerCase();
 const envConfig = './config/config-' + process.env.NODE_ENV + '.yml';
 const configHorizonPath = path.resolve(".hz/config-"+env+".toml");
 

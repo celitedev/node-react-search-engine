@@ -1,5 +1,5 @@
 #Default config used to handle options for production build
-appPort: 7000
+appPort: 443
 backendUrl: 'http://ec2-52-23-246-44.compute-1.amazonaws.com:3000'
 
 certPath: '/etc/letsencrypt/live/www.kwhen.com/cert.pem'
