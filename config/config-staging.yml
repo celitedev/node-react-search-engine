@@ -1,6 +1,6 @@
 #Default config used to handle options for production build
 appPort: 7000
-backendUrl: 'http://ec2-52-23-246-44.compute-1.amazonaws.com:3000'
+backendUrl: 'https://www.kwhen.com/api/'
 
 certPath: './config/horizon-dev-cert.pem'
 keyPath: './config/horizon-dev-key.pem'

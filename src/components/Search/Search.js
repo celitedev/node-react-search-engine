@@ -186,7 +186,7 @@ export default class Search extends Component {
     const {subtypes, name} = answer.filterContext.filter;
     let oneResult = [];
     if (isSlider) {
-      oneResult = [results[slideIndex]];
+      oneResult = {geo: results[slideIndex].raw.geo};
     }
 
     const mapOptions = {
@@ -207,7 +207,7 @@ export default class Search extends Component {
       }]
     };
     return (
-      <main className={classnames('search-page', !isSlider && styles.containerMargin)}>
+      <main className={classnames('search-page', (!isSlider && styles.containerMargin) || styles.mainMap)}>
         <div className={classnames('filters', !isSlider && styles.stickyHeader)}>
           <RaisedButton
             label={filter}

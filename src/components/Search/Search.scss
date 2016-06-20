@@ -3,7 +3,12 @@
 }
 
 .carouselOverflowFix {
-  overflow: hidden;
+  position: initial !important;
+}
+
+.mainMap {
+  display: flex;
+  flex-direction: column;
 }
 
 .dropDownFilter {
@@ -57,7 +62,7 @@
 }
 
 .is_opened {
-  height: 70% !important;
+  flex-grow: 1;
   position: relative !important;
 }
 

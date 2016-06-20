@@ -48,7 +48,7 @@ export default class Map extends Component {
       this.map.remove();
       this.initMap();
     }
-    if (nextProps.multipleMarkers.length === 1) {
+    if (!_.isArray(nextProps.multipleMarkers)) {
       _.each(this.map._layers, (layer) => {
         if (!_.isUndefined(layer) && layer.options.icon) {
           this.map.removeLayer(layer);
@@ -57,8 +57,8 @@ export default class Map extends Component {
       this.setState({
         viewPoint: nextProps.setView
       });
-      if (nextProps.multipleMarkers[0].geo) {
-        const {latitude, longitude} = nextProps.multipleMarkers[0].geo;
+      if (nextProps.multipleMarkers.geo) {
+        const {latitude, longitude} = nextProps.multipleMarkers.geo;
         setTimeout(() => {
           this.map.setView([latitude, longitude], 13);
           this.map.invalidateSize();
@@ -120,7 +120,7 @@ export default class Map extends Component {
         iconSize: [32, 32]
       };
     }
-    if (multipleMarkers && multipleMarkers.length > 1) {
+    if (_.isArray(multipleMarkers) && multipleMarkers.length > 1) {
       _.map(multipleMarkers, (marker) => {
         debug('markers render', marker);
         const {geo, index} = marker;
