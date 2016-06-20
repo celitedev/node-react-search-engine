@@ -25,9 +25,9 @@ typings.json
 # DB
 /rethinkdb_data
 
-# Project
-#/local-config-private.yml
-#/local-config-public.yml
-
 # SSL Certs
 /certs
+
+# horizon
+horizon-cert.pem
+horizon-key.pem

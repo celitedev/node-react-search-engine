@@ -46,11 +46,6 @@ try {
 
 const privateKey = fs.readFileSync(_config.keyPath, 'utf-8');
 const certificate = fs.readFileSync(_config.certPath, 'utf-8');
-let sslChain;
-
-if(_config.sslChainPath){
-  sslChain = fs.readFileSync(_config.sslChainPath, 'utf-8');
-}
 
 if(!privateKey){
   throw "PRIVATE KEY NOT FOUND: " + privateKey;
@@ -183,11 +178,8 @@ if (cluster.isMaster) {
     });
   });
 
-  const httpsServer = https.createServer({
-    key: privateKey,
-    cert: certificate,
-    ca: sslChain
-  }, app);
+  const credentials = {key: privateKey, cert: certificate};
+  const httpsServer = https.createServer(credentials, app);
   const port = _config.appPort;
   const server = httpsServer.listen(port, (err) => {
     if (err) {
