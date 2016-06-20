@@ -25,7 +25,7 @@ const serverBundle = require('./build/server');
 
 const env = (process.env.NODE_ENV || "dev").toLowerCase();
 const envConfig = './config/config-' + process.env.NODE_ENV + '.yml';
-const configHorizonPath = path.resolve(".hz/config-"+env+".toml");
+const configHorizonPath = path.resolve(".hz/config-" + env + ".toml");
 
 let _config;
 let horizonConfig;
@@ -46,12 +46,17 @@ try {
 
 const privateKey = fs.readFileSync(_config.keyPath, 'utf-8');
 const certificate = fs.readFileSync(_config.certPath, 'utf-8');
+let sslChain;
 
-if(!privateKey){
+if (_config.sslChainPath) {
+  sslChain = fs.readFileSync(_config.sslChainPath, 'utf-8');
+}
+
+if (!privateKey) {
   throw "PRIVATE KEY NOT FOUND: " + privateKey;
 }
 
-if(!certificate){
+if (!certificate) {
   throw "CERTIFICATE NOT FOUND: " + certificate;
 }
 
@@ -178,8 +183,11 @@ if (cluster.isMaster) {
     });
   });
 
-  const credentials = {key: privateKey, cert: certificate};
-  const httpsServer = https.createServer(credentials, app);
+  const httpsServer = https.createServer({
+    key: privateKey,
+    cert: certificate,
+    ca: sslChain
+  }, app);
   const port = _config.appPort;
   const server = httpsServer.listen(port, (err) => {
     if (err) {
