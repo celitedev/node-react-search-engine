@@ -46,7 +46,11 @@ try {
 
 const privateKey = fs.readFileSync(_config.keyPath, 'utf-8');
 const certificate = fs.readFileSync(_config.certPath, 'utf-8');
-const sslChain = fs.readFileSync(_config.sslChainPath, 'utf-8');
+let sslChain;
+
+if(_config.sslChainPath){
+  sslChain = fs.readFileSync(_config.sslChainPath, 'utf-8');
+}
 
 if(!privateKey){
   throw "PRIVATE KEY NOT FOUND: " + privateKey;
