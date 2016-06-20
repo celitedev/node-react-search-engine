@@ -48,12 +48,21 @@ export default class CollectionCardsListItem extends PureComponent {
 
   render() {
     const {item, editCollection} = this.props;
-    const {raw} = item;
+    const {raw, formatted} = item;
     const {description} = this.state;
+    const cardSettings = {
+      identifiers1: formatted.identifiers1,
+      identifiers2: formatted.identifiers2,
+      headsup1: formatted.headsup1,
+      headsup2: formatted.headsup2,
+      databits1: formatted.databits1,
+      databits2: (formatted.databits2 && formatted.databits2.length),
+      whyshown: formatted.whyshown
+    };
     return (
       <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
-          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} data={item} addCards={false} delteCardBtn={editCollection}/>
+          <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} settings={cardSettings} data={item} addCards={false} delteCardBtn={editCollection}/>
           {(editCollection || description) && (
             <MediumEditor
             className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}

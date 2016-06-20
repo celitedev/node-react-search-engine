@@ -8,6 +8,7 @@ import {connect} from 'redux-simple';
 import MediumEditor from 'react-medium-editor';
 import ContentEditable from 'react-contenteditable';
 import {Button} from 'react-mdl';
+import autobind from 'autobind-decorator';
 
 const debug = require('debug')('app:collection');
 
@@ -26,10 +27,12 @@ export default class NewCollectionDescription extends PureComponent {
     };
   }
 
+  @autobind
   checkInput(modelName) {
     return isEmpty(this.state.savedCollectionInfo[modelName]) ? styles.formPlaceholder : '';
   }
 
+  @autobind
   onDrop(file) {
     const reader = new FileReader();
     const self = this;
@@ -45,6 +48,7 @@ export default class NewCollectionDescription extends PureComponent {
     }
   }
 
+  @autobind
   deleteImageFromCollection() {
     this.props.saveCollectionInfo({img: {}});
   }
@@ -67,6 +71,7 @@ export default class NewCollectionDescription extends PureComponent {
     debug('Collection saved: ', this.props.savedCollectionInfo);
   }
 
+  @autobind
   handleChange(field) {
     return (value, medium) => {
       const fieldValue = isString(value) ? value : value.target.value;
@@ -79,6 +84,14 @@ export default class NewCollectionDescription extends PureComponent {
     };
   }
 
+  @autobind
+  handleEnter(e) {
+    if (e.which === 13) {
+      e.preventDefault();
+    }
+  }
+
+  @autobind
   isEmptyField(fieldName) {
     return !(!this.props.showPlaceholders && !fieldName);
   }
@@ -89,50 +102,51 @@ export default class NewCollectionDescription extends PureComponent {
     return (
       <div className={classnames('mdl-grid', styles.root)}>
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
-          {::this.isEmptyField(title) && (
+          {this.isEmptyField(title) && (
             <div className={styles.contentEditable}>
               <ContentEditable
                 className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
                 html={title || ''} // innerHTML of the editable div ;
                 placeholder='Collection title'
                 disabled={!editCollection}  // use true to disable edition ;
-                onChange={::this.handleChange('title')}
+                onChange={this.handleChange('title')}
+                onKeyPress={this.handleEnter}
               />
             </div>
           )}
-          {::this.isEmptyField(subTitle) && (
+          {this.isEmptyField(subTitle) && (
             <div className={styles.contentEditable}>
             <ContentEditable
               className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
               html={subTitle || ''} // innerHTML of the editable div ;
               placeholder='Collection subtitle'
               disabled={!editCollection}  // use true to disable edition ;
-              //onKeyPress={::this.handleDataChange('title')}
-              onChange={::this.handleChange('subTitle')}
+              onKeyPress={this.handleEnter}
+              onChange={this.handleChange('subTitle')}
             />
             </div>
           )}
           {(showPlaceholders && editCollection) && (
-            <Dropzone onDrop={::this.onDrop}
-                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) && ::this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
+            <Dropzone onDrop={this.onDrop}
+                      className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) && this.checkInput() ? styles.imgDropZone : styles.hideDragZone )}>
               <div>Try dropping some files here, or click to select files to upload.</div>
             </Dropzone>
           )}
           <div
             className={classnames('mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col', isEmpty(img) ? styles.hideDragZone : '')}>
             {editCollection && (
-              <Button className={styles.deleteImage} onClick={::this.deleteImageFromCollection}>
+              <Button className={styles.deleteImage} onClick={this.deleteImageFromCollection}>
                 <span>&times;</span>
               </Button>
             )}
             <img className={styles.colImage} src={img}/>
           </div>
-          {::this.isEmptyField(description) && (
+          {this.isEmptyField(description) && (
             <MediumEditor
               className={styles.mediumEdit}
               tag='p'
               text={description}
-              onChange={::this.handleChange('description')}
+              onChange={this.handleChange('description')}
               options={{
                 disableEditing: !editCollection,
                 toolbar: {buttons: ['bold', 'italic', 'underline']},

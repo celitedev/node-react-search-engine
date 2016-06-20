@@ -10,6 +10,7 @@ import LoginPopover from '../Common/LoginPopover';
 import NewCollectionModal from '../Common/NewCollectionModal';
 import ShareModal from '../Common/ShareModal';
 import SnackbarMsg from '../Common/SnackbarMsg';
+import autobind from 'autobind-decorator';
 
 const debug = require('debug')('app:searchRequest');
 
@@ -45,6 +46,7 @@ export default class Header extends PureComponent {
     clearAuthToken();
   }
 
+  @autobind
   searchText(e) {
     if (e.which === 13) {
       e.preventDefault();
@@ -56,11 +58,14 @@ export default class Header extends PureComponent {
         const {searchText} = this.state;
         redirect(`/answer/${searchText}`);
       });
-    } else {
-      this.setState({
-        searchText: e.target.textContent
-      });
     }
+  }
+
+  @autobind
+  handleSearchChange(e) {
+    this.setState({
+      searchText: e.target.value
+    });
   }
 
   handleTouchTap = (event) => {
@@ -98,7 +103,8 @@ export default class Header extends PureComponent {
               html={searchText} // innerHTML of the editable div ;
               placeholder='When...'
               disabled={false}  // use true to disable edition ;
-              onKeyPress={::this.searchText}
+              onChange={this.handleSearchChange}
+              onKeyPress={this.searchText}
             />
           </div>
           <nav className='mdl-navigation'>

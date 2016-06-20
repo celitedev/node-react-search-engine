@@ -37,7 +37,7 @@ if (extractText) {
 } else if (process.env.KARMA) {
   cssSelectorName = '[local]';
 } else {
-  cssSelectorName = '[name]_[hash:hex:5]';
+  cssSelectorName = '[name]_[local]_[hash:hex:5]';
 }
 
 function entry(path, server) {

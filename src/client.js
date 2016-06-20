@@ -27,6 +27,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import PatchedHorizonConnector from './patchHorizonConnector';
+import {clearAuthToken} from './horizon';
 
 const debug = require('debug')('app:client');
 
@@ -93,13 +94,6 @@ function render() {
   });
 }
 
-function authenticate(user) {
-  store.dispatch({
-    type: LOGIN,
-    user
-  });
-}
-
 async function bootstrap() {
   store.dispatch({
     type: ENABLE_FETCHER
@@ -107,6 +101,9 @@ async function bootstrap() {
   if (!process.env.SERVER_RENDERING) {
     horizon = require('@horizon/client')();
     horizon.connect();
+    horizon.onSocketError((err) => {
+      clearAuthToken();
+    });
     horizon.onReady(() => {
       debug('Connected to Horizon server');
       if (horizon.hasAuthToken()) {

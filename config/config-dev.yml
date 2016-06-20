@@ -1,6 +1,7 @@
 #Dev config used to handle options for development build
-appPort: 7000
-backendUrl: 'http://testing123.kwhen.com:3000'
+#http://testing123.kwhen.com:3000 7000
+appPort: 443
+backendUrl: 'http://ec2-52-23-246-44.compute-1.amazonaws.com:3000'
 
 certPath: './config/horizon-dev-cert.pem'
 keyPath: './config/horizon-dev-key.pem'

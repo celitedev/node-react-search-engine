@@ -50,8 +50,6 @@ export default class Textfit extends Component {
   componentDidUpdate(prevProps) {
     const {ready} = this.state;
     if (!ready) return;
-
-    debug('component did update & process');
     this.process();
   }
 
@@ -64,12 +62,10 @@ export default class Textfit extends Component {
 
   @autobind
   handleWindowResize() {
-    debug('window resized');
     this.process();
   }
 
   process() {
-    debug('process');
     this.setState({ready: false});
 
     this.checkHeight();

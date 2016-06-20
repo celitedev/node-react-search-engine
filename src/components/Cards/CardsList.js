@@ -65,6 +65,18 @@ export default class CardsList extends PureComponent {
     });
   }
 
+  settingCard(card) {
+    return {
+      identifiers1: card.formatted.identifiers1,
+      identifiers2: card.formatted.identifiers2,
+      headsup1: card.formatted.headsup1,
+      headsup2: card.formatted.headsup2,
+      databits1: card.formatted.databits1,
+      databits2: card.formatted.databits2 && card.formatted.databits2.length,
+      whyshown: card.formatted.whyshown
+    };
+  }
+
   render() {
     const {cards, filter} = this.props;
     return (
@@ -83,7 +95,7 @@ export default class CardsList extends PureComponent {
                       <label htmlFor='' className={styles.collectionFilterName}>{section.filterContext.type}</label>
                       {paginate(section.results, this.state[section.filterContext.type.toLowerCase()]).data.map((card, index) => (
                         <div key={index} className={styles.listItem}>
-                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} data={card} noLink={true} addCards={true}/>
+                          <Card className={classnames('card m-card-imgRight', styles.cardStyle)} settings={this.settingCard(card)} data={card} noLink={true} addCards={true}/>
                         </div>
                       ))}
                     </div>

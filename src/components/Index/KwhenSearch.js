@@ -20,10 +20,11 @@ const enchance = compose(
   withState('search', 'updateSearch', ''),
   withHandlers({
       changeSearch: props => event => {
+        props.updateSearch(event.target.value);
+      },
+      submit: props => event => {
         if (event.which === 13) {
           props.redirect(`/answer/${event.target.textContent}`);
-        } else {
-          props.updateSearch(event.target.textContent);
         }
       }
   }),
@@ -33,7 +34,7 @@ const enchance = compose(
 @enchance
 export default class IndexSearch extends Component {
   render() {
-    const {search, changeSearch} = this.props;
+    const {search, changeSearch, submit} = this.props;
     return (
       <div className={classnames('js-index', styles.root)}>
         <main>
@@ -49,7 +50,8 @@ export default class IndexSearch extends Component {
                   html={search} // innerHTML of the editable div ;
                   placeholder='When...'
                   disabled={false}
-                  onKeyPress={changeSearch}
+                  onChange={changeSearch}
+                  onKeyPress={submit}
                 />
               </div>
             </div>
