@@ -47,11 +47,7 @@ auto_create_index = true
 # 'connect' will connect to an existing RethinkDB instance
 # 'start_rethinkdb' will run an internal RethinkDB instance
 #------------------------------------------------------------------------------
-<<<<<<< Updated upstream
 connect = "ec2-54-86-37-204.compute-1.amazonaws.com:28015"
-=======
-connect = "localhost:28015"
->>>>>>> Stashed changes
 start_rethinkdb = false
 
 
