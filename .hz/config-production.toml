@@ -15,9 +15,8 @@ bind = [ "localhost" ]
 # 'key_file' and 'cert_file' are required for serving HTTPS
 #------------------------------------------------------------------------------
 secure = true
-key_file = "/etc/letsencrypt/live/www.kwhen.com/privkey.pem"
-cert_file = "/etc/letsencrypt/live/www.kwhen.com/cert.pem"
-
+key_file = "./config/horizon-dev-key.pem"
+cert_file = "./config/horizon-dev-cert.pem"
 
 ###############################################################################
 # App Options
@@ -74,8 +73,8 @@ allow_unauthenticated = true
 auth_redirect = "/"
 
 [auth.facebook]
-id = "1050432964993917"
-secret = "11c215a132ffff1f33d7f1b245e9d964"
+id = "1050435831660297"
+secret = "8cd5b148afa14ba80fbb2c37317a2a96"
 
 [auth.google]
 id = "132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com"
