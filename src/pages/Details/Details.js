@@ -4,6 +4,7 @@ import {page} from '../page';
 import Header from '../../components/Common/Header.js';
 import DetailsContent from '../../components/Details/Details';
 import {API_REQUEST} from '../../actionTypes';
+import classnames from 'classnames';
 
 @page('Details')
 export default class Details extends PureComponent {
@@ -20,7 +21,7 @@ export default class Details extends PureComponent {
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className='mdl-layout__container scrollFix'>
+      <div className={classnames(styles.pageWrapper, 'mdl-layout__container scrollFix')}>
         <div className='mdl-layout mdl-js-layout'>
           <Header params={params}/>
           {loaded && (

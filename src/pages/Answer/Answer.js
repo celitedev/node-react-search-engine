@@ -6,6 +6,8 @@ import AnswerCards from '../../components/Answer/Answer.js';
 import AnswerWarning from '../../components/Answer/AnswerWarning.js';
 import {API_REQUEST} from '../../actionTypes';
 import exampleQuestions from '../../exampleQuestions';
+import classnames from 'classnames';
+
 
 const debug = require('debug')('app:answer');
 
@@ -43,7 +45,7 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     return (
-        <div className='mdl-layout scrollFix'>
+        <div className={classnames(styles.pageWrapper, 'scrollFix')}>
           <Header params={params}/>
           {(loaded && data.searchResults.results) && (
             <AnswerCards params={params} answer={data.searchResults}/>

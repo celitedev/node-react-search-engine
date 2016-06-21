@@ -89,13 +89,16 @@ body {
 
   @include media-breakpoint-down(sm) {
     overflow-x: hidden;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 
 .scrollFix {
   height: 100vh;
-  overflow-y: scroll
+  @include media-breakpoint-up(md) {
+    overflow-y: auto;
+  }
+
 }
 
 .itemClassReorder.dragged {

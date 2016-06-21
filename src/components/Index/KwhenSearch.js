@@ -7,6 +7,7 @@ import classnames from 'classnames';
 import {redirect} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
 import LoginPopover from '../Common/LoginPopover';
+import TextField from 'material-ui/TextField';
 
 const debug = require('debug')('app:collections:new');
 
@@ -46,9 +47,8 @@ export default class IndexSearch extends Component {
             <div className='l-searchbox'>
               <div className='search-field'>
                 <span className='searchIcon'>&nbsp;</span>
-                <ContentEditable
-                  html={search} // innerHTML of the editable div ;
-                  placeholder='When...'
+                <TextField
+                  hintText='When...'
                   disabled={false}
                   onChange={changeSearch}
                   onKeyPress={submit}

@@ -14,6 +14,7 @@ html.js-search body {
 .search-page {
   height: 100%;
   overflow-y: scroll; //for making sure sticky filter-header margin-right can be set consistently.
+  overflow-x: hidden;
 }
 
 .l-searchPage {
@@ -221,7 +222,6 @@ $resp_cardResultsThreshold: 920px;
   }
 
   .l-cardResults.is-slider {
-    padding-bottom: 16px;
     background-color: white;
 
     > .card {

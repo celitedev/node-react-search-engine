@@ -6,7 +6,10 @@ import NewCollectionDescription from '../../components/NewCollection/NewCollecti
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
 import CollectionAddCardDialog from '../../components/NewCollection/CollectionAddCardDialog';
 import Header from '../../components/Common/Header.js';
+import classnames from 'classnames';
+
 const debug = require('debug')('app:collection');
+
 
 function collection(state) {
   const {authenticated} = state.auth;
@@ -88,7 +91,7 @@ export default class NewCollection extends React.Component {
       <div>
       <Header params={params}/>
         {loaded && (
-          <div className='scrollFix'>
+          <div className={classnames(styles.pageWrapper, 'scrollFix')}>
             {(authenticated && editCollection) && <NewCollectionHeader />}
             <NewCollectionDescription />
             <NewCollectionCards />

@@ -9,6 +9,8 @@ import MediumEditor from 'react-medium-editor';
 import ContentEditable from 'react-contenteditable';
 import {Button} from 'react-mdl';
 import autobind from 'autobind-decorator';
+import {TextField} from 'material-ui';
+
 
 const debug = require('debug')('app:collection');
 
@@ -104,26 +106,24 @@ export default class NewCollectionDescription extends PureComponent {
         <div className={classnames('mdl-cell mdl-cell--7-col', styles.formLayout)}>
           {this.isEmptyField(title) && (
             <div className={styles.contentEditable}>
-              <ContentEditable
-                className={classnames(styles.contentEditableTitle, styles.mediumEdit)}
-                html={title || ''} // innerHTML of the editable div ;
-                placeholder='Collection title'
-                disabled={!editCollection}  // use true to disable edition ;
+              <TextField
+                className={styles.titleField}
+                hintText='Collection title'
                 onChange={this.handleChange('title')}
                 onKeyPress={this.handleEnter}
+                disabled={!editCollection}
               />
             </div>
           )}
           {this.isEmptyField(subTitle) && (
             <div className={styles.contentEditable}>
-            <ContentEditable
-              className={classnames(styles.contentEditableSubTitle, styles.mediumEdit)}
-              html={subTitle || ''} // innerHTML of the editable div ;
-              placeholder='Collection subtitle'
-              disabled={!editCollection}  // use true to disable edition ;
-              onKeyPress={this.handleEnter}
-              onChange={this.handleChange('subTitle')}
-            />
+              <TextField
+                className={styles.semiTitleField}
+                hintText='Collection subtitle'
+                onKeyPress={this.handleEnter}
+                onChange={this.handleChange('subTitle')}
+                disabled={!editCollection}
+              />
             </div>
           )}
           {(showPlaceholders && editCollection) && (

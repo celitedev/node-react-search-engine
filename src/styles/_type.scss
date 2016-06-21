@@ -12,3 +12,9 @@ a {
     @include tab-focus();
   }
 }
+
+h6 {
+  @include media-breakpoint-down(xs) {
+    font-size: 15px;
+  }
+}

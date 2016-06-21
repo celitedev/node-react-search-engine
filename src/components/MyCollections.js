@@ -10,6 +10,8 @@ import {List, ListItem} from 'material-ui/List';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 const debug = require('debug')('app:myCollectionsCmp');
 
@@ -113,6 +115,9 @@ export default class MyCollections extends PureComponent {
       <div className={classnames('scrollFix', styles.topPosition)}>
         <ul className={classnames(styles.root, 'mdl-list')}>
           <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={() => this.createCollection()}/>
+          <FloatingActionButton mini={true} secondary={true} className={styles.newCollectionAddSmall} onClick={() => this.createCollection()}>
+            <ContentAdd />
+          </FloatingActionButton>
           <div className='mdl-card__title'>
             <h2 className='mdl-card__title-text'>My collections</h2>
           </div>

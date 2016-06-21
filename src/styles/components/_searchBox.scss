@@ -1,24 +1,38 @@
 $marginHor: 12px;
 .search-field {
-  font-size: 28px;
-  line-height: 1.2em;
-  color: $c_gr100;
-
   background: white;
 
   box-shadow: inset 1px 1px 1px 0px rgba(0, 0, 0, 0.15); //oeew subtle
   border-radius: 4px;
   position: relative;
 
+  input, div {
+    font-size: 28px !important;
+    color: $c_gr100 !important;
+  }
+
+  >div {
+    position: relative;
+  }
+
+  div>div {
+    top: 14px;
+  }
+
+  hr {
+    display: none !important;
+  }
+
   > span.searchIcon {
     //margin-top: 6px;
     //margin-left: 6px;
     width: 32px;
+    height: 32px;
 
     display: block;
     position: absolute;
     left: 5px;
-    top: 5px;
+    top: 8px;
 
     background-size: cover !important;
     background-image: url('../images/searchIcon.png') !important;
