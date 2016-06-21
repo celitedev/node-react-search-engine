@@ -22,8 +22,9 @@
 
 .showAllBtn {
   float: right;
-  .showAll {
-    color: gray;
-    margin-right: 10px;
+  margin-right: 10px;
+
+  button {
+    background-color: #00cd75 !important;
   }
 }

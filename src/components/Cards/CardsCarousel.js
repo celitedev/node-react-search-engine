@@ -7,6 +7,8 @@ import Slider from 'react-slick';
 import Card from './Card';
 import {map} from 'lodash';
 import {redirect} from '../../actions';
+import RaisedButton from 'material-ui/RaisedButton';
+
 
 const debug = require('debug')('app:CardsCarousel');
 
@@ -104,11 +106,9 @@ export default class CardsCarousel extends PureComponent {
                 ))}
               </Slider>
               {showAll && (
-                <span className={classnames(styles.showAllBtn)}>
-                  <Link to={`/search/${question}`} query={{ filter: f }}>
-                    <span className={styles.showAll}>SHOW ALL</span>
+                <Link to={`/search/${question}`} query={{ filter: f }}>
+                <RaisedButton className={classnames(styles.showAllBtn)} label='SHOW ALL' primary={true}/>
                   </Link>
-                </span>
               ) }
             </div>
           </div>

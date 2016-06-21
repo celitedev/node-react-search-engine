@@ -166,7 +166,7 @@ export default class Card extends PureComponent {
               </div>
               <div className={classnames('card--identifier', styles.cardIdentifier)}>
                 <div className={styles.cardIdentifierWrapper}>
-                  {settings.identifiers1 && formatted.identifiers1 && (
+                  {(settings.identifiers1 && formatted.identifiers1) && (
                     <Textfit max={24} min={14} normalHeight={32} component='h2'>
                       {formatted.identifiers1}
                     </Textfit>

@@ -11,6 +11,8 @@ import NewCollectionModal from '../Common/NewCollectionModal';
 import ShareModal from '../Common/ShareModal';
 import SnackbarMsg from '../Common/SnackbarMsg';
 import autobind from 'autobind-decorator';
+import TextField from 'material-ui/TextField';
+
 
 const debug = require('debug')('app:searchRequest');
 
@@ -96,12 +98,13 @@ export default class Header extends PureComponent {
         <div className={classnames('mdl-layout__header-row', styles.root)}>
           <Link to='/' className='header--logo' title='back to home'/>
           <Link to='/' className='header--logotext' title='back to home'/>
-          <div className='search-field'>
+          <div className={classnames('search-field', styles.search_field)}>
             <span className='searchIcon'>&nbsp;</span>
-            <ContentEditable
+            <TextField
               className='placeholder'
-              html={searchText} // innerHTML of the editable div ;
-              placeholder='When...'
+              hintText='When...'
+              value={searchText}
+              disabled={false}
               disabled={false}  // use true to disable edition ;
               onChange={this.handleSearchChange}
               onKeyPress={this.searchText}

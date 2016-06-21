@@ -25,7 +25,7 @@ const enchance = compose(
       },
       submit: props => event => {
         if (event.which === 13) {
-          props.redirect(`/answer/${event.target.textContent}`);
+          props.redirect(`/answer/${event.target.value}`);
         }
       }
   }),

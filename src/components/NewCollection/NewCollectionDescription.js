@@ -95,7 +95,8 @@ export default class NewCollectionDescription extends PureComponent {
 
   @autobind
   isEmptyField(fieldName) {
-    return !(!this.props.showPlaceholders && !fieldName);
+    const {editCollection, showPlaceholders} = this.props;
+    return fieldName || (showPlaceholders && editCollection);
   }
 
   render() {
@@ -112,6 +113,7 @@ export default class NewCollectionDescription extends PureComponent {
                 onChange={this.handleChange('title')}
                 onKeyPress={this.handleEnter}
                 disabled={!editCollection}
+                value={title || ''}
               />
             </div>
           )}
@@ -123,6 +125,7 @@ export default class NewCollectionDescription extends PureComponent {
                 onKeyPress={this.handleEnter}
                 onChange={this.handleChange('subTitle')}
                 disabled={!editCollection}
+                value={subTitle || ''}
               />
             </div>
           )}

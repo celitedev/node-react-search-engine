@@ -31,6 +31,7 @@ $marginHor: 12px;
 
   .mediumEdit {
     border-bottom: 1px solid lightgray;
+    outline: none;
   }
   .imgDropZone {
     border: 1px dashed;
@@ -92,6 +93,9 @@ $marginHor: 12px;
 
   .titleField, .semiTitleField {
     width: 100% !important;
+    input[disabled] {
+      color: black !important;
+    }
   }
 
   .titleField {

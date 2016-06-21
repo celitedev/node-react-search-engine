@@ -65,7 +65,7 @@ export default class CollectionCardsListItem extends PureComponent {
           <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} settings={cardSettings} data={item} addCards={false} delteCardBtn={editCollection}/>
           {(editCollection || description) && (
             <MediumEditor
-            className={classnames(styles.mediumEdit, styles.cardDescription, styles.cardDescriptionPlaceholder, ::this.checkInput())}
+            className={classnames(styles.cardDescription, ::this.checkInput())}
             tag='p'
             text={description}
             onChange={::this.handleDesciptionChange}

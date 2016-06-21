@@ -7,6 +7,23 @@
   @include media-breakpoint-only(xs) {
     padding: 0 0 0 10px;
   }
+
+  >div {
+    >div {
+      width: 100% !important;
+      padding-right: 40px;
+    }
+
+    >div {
+      bottom: 3px;
+
+      >input {
+        position: relative;
+        top: 4px;
+      }
+    }
+  }
+
 }
 .signInBtn {
     position: absolute;

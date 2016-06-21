@@ -1,6 +1,7 @@
 // CardCarousel. This is used by the answer page to contain a cardGrid.
 .l-cardCarousel-js { //positioned by javascropt
-
+  max-width: 100%;
+  overflow-x: hidden;
   // transition: transform 0.2s ease-in-out;
   > div {
     transition: transform 0.2s ease-in-out;
