@@ -73,13 +73,8 @@ allow_unauthenticated = true
 auth_redirect = "/"
 
 [auth.facebook]
-<<<<<<< Updated upstream
 id = "1050435831660297"
 secret = "8cd5b148afa14ba80fbb2c37317a2a96"
-=======
-id = "1268427246519647"
-secret = "251b233dad17bb87af61ae26ee28363a"
->>>>>>> Stashed changes
 
 [auth.google]
 id = "132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com"
@@ -88,14 +83,3 @@ secret = "ydL1nx0vaihoYrllJG9blnSJ"
 [auth.twitter]
 id = "Wvvn8WC3mRWrfX1mNJ1mFmw1W"
 secret = "BsvWimiWS9DCa1mtg5qOwIH523Ar2eMjVu5pvyuoFOg5huWHRF"
-<<<<<<< Updated upstream
-=======
-
-[auth.github]
-id = "36ef2b05270e2a68112e"
-secret = "8cae8179ff5c5d3f2fbc421226b0cfbacbea85df"
-
-# [auth.twitch]
-# id = "0000000000000000000000000000000"
-# secret = "0000000000000000000000000000000"
->>>>>>> Stashed changes
