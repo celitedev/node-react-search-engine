@@ -71,7 +71,7 @@ export default class Index extends PureComponent {
     const {params} = this.props;
     const {collections, loaded} = this.state;
     return (
-      <div className='mdl-layout__container scrollFix'>
+      <div>
         <Header params={params}/>
         {loaded && (
           <MyCollections params={params} collections={loaded && collections || []}/>

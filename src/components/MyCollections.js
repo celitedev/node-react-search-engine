@@ -110,7 +110,7 @@ export default class MyCollections extends PureComponent {
   render() {
     const {pagination, collections} = this.state;
     return (
-      <div className='mdl-layout mdl-js-layout scrollFix'>
+      <div className={classnames('scrollFix', styles.topPosition)}>
         <ul className={classnames(styles.root, 'mdl-list')}>
           <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={() => this.createCollection()}/>
           <div className='mdl-card__title'>

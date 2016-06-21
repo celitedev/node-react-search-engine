@@ -1,8 +1,12 @@
 @import "../styles/shared";
 
+.topPosition {
+  margin-top: 55px;
+}
 .root {
   width: 95%;
   margin: 0 auto;
+  position: relative;
 }
 .cardStyle {
   @media(min-width: 700px) {
@@ -33,7 +37,7 @@
 .newCollectionAdd {
   position: absolute;
   top: 20px;
-  right: 40px;
+  right: 18px;
 }
 
 .deleteCollection {

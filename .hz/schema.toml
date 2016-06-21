@@ -18,7 +18,7 @@ template = "collection('users').find({id: userId()})"
 template = "collection('collections').findAll({userId: userId()}).fetch()"
 
 [groups.authenticated.rules.store_collections]
-template = "collection('collections').store({owner: userId()})"
+template = "collection('collections').store({userId: userId(), title: any(), cards: any()})"
 
 [groups.authenticated.rules.remove_collection]
 template = "collection('collections').remove({userId: userId(), id: any()})"
