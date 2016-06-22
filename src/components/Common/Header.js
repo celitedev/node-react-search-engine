@@ -52,9 +52,9 @@ export default class Header extends PureComponent {
   searchText(e) {
     if (e.which === 13) {
       e.preventDefault();
-      this.searchRequest(e.target.textContent);
+      this.searchRequest(e.target.value);
       this.setState({
-        searchText: e.target.textContent
+        searchText: e.target.value
       }, () => {
         const {redirect} = this.props;
         const {searchText} = this.state;
@@ -69,15 +69,6 @@ export default class Header extends PureComponent {
       searchText: e.target.value
     });
   }
-
-  handleTouchTap = (event) => {
-    // This prevents ghost click.
-    event.preventDefault();
-    this.setState({
-      open: true,
-      anchorEl: event.currentTarget,
-    });
-  };
 
   handleRequestClose = () => {
     this.setState({
@@ -104,8 +95,6 @@ export default class Header extends PureComponent {
               className='placeholder'
               hintText='When...'
               value={searchText}
-              disabled={false}
-              disabled={false}  // use true to disable edition ;
               onChange={this.handleSearchChange}
               onKeyPress={this.searchText}
             />

@@ -3,8 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import Pagination from './Widgets/Pagination';
 import {connect} from 'redux-simple';
-import {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility} from '../actions';
-import {Link} from 'react-router';
+import {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility, resetCollectionInfo} from '../actions';
 import {RaisedButton} from 'material-ui';
 import {List, ListItem} from 'material-ui/List';
 import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
@@ -12,6 +11,7 @@ import DeleteIcon from 'material-ui/svg-icons/action/delete';
 import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import autobind from 'autobind-decorator';
 
 const debug = require('debug')('app:myCollectionsCmp');
 
@@ -36,7 +36,7 @@ function userInfo(state) {
   return {user, showPlaceholders};
 }
 
-@connect(userInfo, {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility})
+@connect(userInfo, {toggleLoginModal, toggleEditCollection, redirect, switchPlaceholdersVisibility, resetCollectionInfo})
 export default class MyCollections extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -68,6 +68,11 @@ export default class MyCollections extends PureComponent {
     });
   }
 
+  componentDidMount() {
+    const {resetCollectionInfo} = this.props;
+    resetCollectionInfo();
+  }
+
   deleteCollection(event, collectionId) {
     event.stopPropagation();
     const {horizon} = this.state;
@@ -96,10 +101,11 @@ export default class MyCollections extends PureComponent {
     });
   }
 
+  @autobind
   createCollection() {
-    const {redirect, toggleEditCollection} = this.props;
-    toggleEditCollection(true);
-    redirect(`/collections/new`);
+      const {redirect, toggleEditCollection} = this.props;
+      toggleEditCollection(true);
+      redirect(`/collections/new`);
   }
 
   editCollection(event, collection, edit) {
@@ -114,8 +120,8 @@ export default class MyCollections extends PureComponent {
     return (
       <div className={classnames('scrollFix', styles.topPosition)}>
         <ul className={classnames(styles.root, 'mdl-list')}>
-          <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={() => this.createCollection()}/>
-          <FloatingActionButton mini={true} secondary={true} className={styles.newCollectionAddSmall} onClick={() => this.createCollection()}>
+          <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={this.createCollection}/>
+          <FloatingActionButton mini={true} secondary={true} className={styles.newCollectionAddSmall} onClick={this.createCollection}>
             <ContentAdd />
           </FloatingActionButton>
           <div className='mdl-card__title'>

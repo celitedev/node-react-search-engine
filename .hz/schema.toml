@@ -5,28 +5,35 @@ indexes = ["owner"]
 
 #Default permissions------------------------------------------------------
 
+
+#Rule to get collection by ID when not logged in
 [groups.default.rules.read]
 template = "collection('collections').find({id: any()}).fetch()"
 
+#Rule to get user after login
 [groups.default.rules.read_current_user]
 template = "collection('users').find({id: userId()})"
 
 
 #Authenticated permissions------------------------------------------------
 
+#Rule to get all current user collections
 [groups.authenticated.rules.read_own_collections]
 template = "collection('collections').findAll({userId: userId()}).fetch()"
 
+#Rule to store collection
 [groups.authenticated.rules.store_collections]
 template = "collection('collections').store({userId: userId(), title: any(), cards: any()})"
 
+#Rule to remove collection
 [groups.authenticated.rules.remove_collection]
 template = "collection('collections').remove({userId: userId(), id: any()})"
 
+#Rule to update collection (validator for creating specific rules)
 [groups.authenticated.rules.update_collection]
 template = "collection('collections').upsert(any())"
-#validator = """
-#  (context, oldValue, newValue) => {
-#    return newValue.hasOwnProperty('userId') && typeof oldValue !== null && ((newValue.userId === oldValue.userId)  || true);
-#  }
-#"""
+validator = """
+  (context, oldValue, newValue) => {
+    return (oldValue && oldValue.hasOwnProperty('userId') && (newValue.userId === oldValue.userId)) || !oldValue;
+  }
+"""

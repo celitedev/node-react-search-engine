@@ -62,7 +62,7 @@ export default class NewCollection extends React.Component {
   }
 
   componentDidMount() {
-    const {location, authenticated, redirect} = this.props;
+    const {location, authenticated, redirect, resetCollectionInfo} = this.props;
     resetCollectionInfo();
     if (!authenticated) {
       if (location.pathname === '/collections/new') {
