@@ -1,8 +1,8 @@
 @import '../../styles/mixins';
-.headerFixed {
-  position: fixed;
-  top: 0;
-}
+// .headerFixed {
+//   position: fixed;
+//   top: 0;
+// }
 .root{
   @include media-breakpoint-only(xs) {
     padding: 0 0 0 10px;

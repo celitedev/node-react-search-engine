@@ -181,32 +181,38 @@ $resp_cardResultsThreshold: 920px;
   $mapHeightCollapsed: 70px;
   $filtersContainerHeight: 48px;
   #map {
-    position: relative;
-    top: $filtersContainerHeight; //filters (and only filters bc position: relative)
-    height: $mapHeightCollapsed;
-    left: 0;
-    z-index: 2;
 
-    .mobile-cover {
-      display: block;
-    }
-    .leaflet-control-zoom {
-      display: none;
-    }
-    &.is-opened {
-      position: absolute;
-      bottom: auto;
-      .mobile-cover {
-        display: none !important;
-      }
+    display: none;
 
-      .leaflet-control-zoom {
-        display: inherit;
-      }
-    }
-    &.map-notused {
-      display: none;
-    }
+    //#116 - Map hidden on small device
+
+    // position: relative;
+    // top: $filtersContainerHeight; //filters (and only filters bc position: relative)
+    // height: $mapHeightCollapsed;
+    // left: 0;
+    // z-index: 2;
+
+    // .mobile-cover {
+    //   display: block;
+    // }
+    // .leaflet-control-zoom {
+    //   display: none;
+    // }
+    // &.is-opened {
+    //   position: absolute;
+    //   bottom: auto;
+    //   .mobile-cover {
+    //     display: none !important;
+    //   }
+
+    //   .leaflet-control-zoom {
+    //     display: inherit;
+    //   }
+    // }
+    // &.map-notused {
+    //   display: none;
+    // }
+
   }
 
   .mobile-cover {
@@ -214,7 +220,8 @@ $resp_cardResultsThreshold: 920px;
   }
 
   .l-searchPage {
-    margin-top: $filtersContainerHeight;
+    // #116 MAP HIDDEN ON SMALL
+    // margin-top: $filtersContainerHeight;
   }
 
   &.search-page, .l-searchPage, .filters {

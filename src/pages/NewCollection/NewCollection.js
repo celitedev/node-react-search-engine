@@ -6,6 +6,8 @@ import NewCollectionDescription from '../../components/NewCollection/NewCollecti
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
 import CollectionAddCardDialog from '../../components/NewCollection/CollectionAddCardDialog';
 import Header from '../../components/Common/Header.js';
+import Footer from '../../components/Footer/Footer.js';
+
 import classnames from 'classnames';
 
 const debug = require('debug')('app:collection');
@@ -88,15 +90,18 @@ export default class NewCollection extends React.Component {
     const {loaded} = this.state;
     const {editCollection, authenticated, params} = this.props;
     return (
-      <div>
+      <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
       <Header params={params}/>
         {loaded && (
-          <div className={classnames(styles.pageWrapper, 'scrollFix')}>
-            {(authenticated && editCollection) && <NewCollectionHeader />}
-            <NewCollectionDescription />
-            <NewCollectionCards />
-            <CollectionAddCardDialog />
-          </div>
+          <main className='mdl-layout__content'>
+            <div className='page-content'>
+              {(authenticated && editCollection) && <NewCollectionHeader />}
+              <NewCollectionDescription />
+              <NewCollectionCards />
+              <CollectionAddCardDialog />
+            </div>
+            <Footer />
+          </main>
         )}
       </div>
     );

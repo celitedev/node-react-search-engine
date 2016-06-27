@@ -6,6 +6,7 @@ import DetailsContent from '../../components/Details/Details';
 import {API_REQUEST} from '../../actionTypes';
 import classnames from 'classnames';
 
+
 @page('Details')
 export default class Details extends PureComponent {
   static fetchData({dispatch, params}) {
@@ -21,15 +22,13 @@ export default class Details extends PureComponent {
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className={classnames(styles.pageWrapper, 'mdl-layout__container scrollFix')}>
-        <div className='mdl-layout mdl-js-layout'>
-          <Header params={params}/>
-          {loaded && (
-            <DetailsContent params={params} answer={data}/>
-          ) || (
-            <h3></h3>
-          )}
-        </div>
+      <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
+        <Header params={params}/>
+        {loaded && (
+          <DetailsContent params={params} answer={data}/>
+        ) || (
+          <h3></h3>
+        )}
       </div>
     );
   }

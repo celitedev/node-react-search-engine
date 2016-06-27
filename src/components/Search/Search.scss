@@ -18,28 +18,29 @@
 }
 
 @media (min-width: 800px) {
-  .containerMargin {
-    margin-top: 120px;
-    height: 87vh;
-  }
 
-  .stickyHeader {
-    position: fixed;
-    top: 60px;
-    .filters {
-      margin-left: 5px;
-      div div span{
-        font-size: 13px !important;
-        color: white !important;
-      }
-      button:hover {
-          background-color: transparent !important;
-      }
-    }
-    .bageFilter {
-      padding: 0 10px 0 0 !important;
-    }
-  }
+  // .containerMargin {
+  //   margin-top: 120px;
+  //   height: 87vh;
+  // }
+
+  // .stickyHeader {
+  //   position: fixed;
+  //   top: 60px;
+  //   .filters {
+  //     margin-left: 5px;
+  //     div div span{
+  //       font-size: 13px !important;
+  //       color: white !important;
+  //     }
+  //     button:hover {
+  //         background-color: transparent !important;
+  //     }
+  //   }
+  //   .bageFilter {
+  //     padding: 0 10px 0 0 !important;
+  //   }
+  // }
 }
 
 .cardStyle {
