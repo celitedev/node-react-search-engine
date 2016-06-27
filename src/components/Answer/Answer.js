@@ -4,8 +4,9 @@ import CardsCarousel from '../Cards/CardsCarousel.js';
 import classnames from 'classnames';
 import {pure, compose, mapProps} from 'recompose';
 import {answerCarousel} from '../componentsConfig/cardsCarousel';
+import {Link} from 'react-router';
 
-const encance = compose(
+const enhance = compose(
   mapProps(
     props => {
       const {answer, params} = props;
@@ -15,7 +16,8 @@ const encance = compose(
   pure
 );
 
-const Answer = encance(({answer, params}) => (
+const Answer = enhance(({answer, params}) => (
+
   <main>
     <div className='page-content'>
       <div className='l-answerPage'>
@@ -23,9 +25,7 @@ const Answer = encance(({answer, params}) => (
           return answer.results.length > 0 && (
               <div key={index}>
                 <div className={classnames('related-answer-text', styles.topicHeader)}>
-                  <ul>
-                    <li dangerouslySetInnerHTML={{__html: answer.answerNLP}}/>
-                  </ul>
+                  <Link dangerouslySetInnerHTML={{__html: answer.answerNLP}} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}/>
                 </div>
                 <CardsCarousel settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
                                cardsStyle={styles.sliderCard} answer={answer}/>

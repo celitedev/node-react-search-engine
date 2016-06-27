@@ -26,28 +26,11 @@
     max-width: 1200px;
     margin: 10px auto;
     padding: 10px 40px 0 12px;
-    color: $dark_text_color;
-    ul {
-      li {
-        display: inline;
-        font-size: 22px;
-        padding-left: 24px;
-        font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-        &:last-child{
-           padding-left: 0;
-        }
-        &:last-of-type {
-          a {
-            color: $c_bl;
-            text-transform: uppercase;
-            font-weight: 500;
-            text-decoration: none;
-          }
-
-          // &::before {
-          //   content: "\a0\b7\a0";
-          // }
-        }
+    font-size: 22px;
+    > a {
+      color: $dark_text_color;
+      &:hover {
+        text-decoration: underline;
       }
     }
   }
