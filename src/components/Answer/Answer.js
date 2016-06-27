@@ -18,7 +18,7 @@ const enhance = compose(
 
 const Answer = enhance(({answer, params}) => (
 
-  <main>
+  <main className='mdl-layout__content'>
     <div className='page-content'>
       <div className='l-answerPage'>
         {map(answer.results, (answer, index) => {

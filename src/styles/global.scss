@@ -84,23 +84,26 @@
 
 body {
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  overflow: hidden;
 
-  @include media-breakpoint-down(sm) {
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
-}
-
-.scrollFix {
-  height: 100vh;
-  max-width: 100%;
   overflow-x: hidden;
-  @include media-breakpoint-up(md) {
-    overflow-y: auto;
-  }
 
+  // overflow: hidden;
+
+  // @include media-breakpoint-down(sm) {
+  //   overflow-x: hidden;
+  //   overflow-y: hidden;
+  // }
 }
+
+// .scrollFix {
+//   height: 100vh;
+//   max-width: 100%;
+//   overflow-x: hidden;
+//   @include media-breakpoint-up(md) {
+//     overflow-y: auto;
+//   }
+
+// }
 
 .itemClassReorder.dragged {
   z-index: 1;
