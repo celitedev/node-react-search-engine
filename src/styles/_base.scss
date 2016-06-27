@@ -84,6 +84,11 @@ form{
   float: right;
 }
 
+.page-content {
+  min-height: 100%; //so that footer is at bottom
+  min-height: calc(100% - 64px);
+  padding-bottom:20px;
+}
 
 ///////
 ///footer
@@ -97,12 +102,18 @@ form{
   width: 100%;
   text-align: center;
 
+  clear: both;
+  z-index: 10;
+  height: 40px;
+  margin-top: -40px;
+
   @media (min-width: 640px) {
     text-align: right;
   }
 
   .l-indexPage & { //on index page use white color with green background
     color: rgba(#fff, .9);
+    margin-top: -58px; //indexPage uses own hackish stretching so need to compensate
   }
 
 

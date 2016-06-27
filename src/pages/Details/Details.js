@@ -6,6 +6,7 @@ import DetailsContent from '../../components/Details/Details';
 import {API_REQUEST} from '../../actionTypes';
 import classnames from 'classnames';
 
+
 @page('Details')
 export default class Details extends PureComponent {
   static fetchData({dispatch, params}) {

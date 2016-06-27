@@ -6,6 +6,8 @@ import NewCollectionDescription from '../../components/NewCollection/NewCollecti
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
 import CollectionAddCardDialog from '../../components/NewCollection/CollectionAddCardDialog';
 import Header from '../../components/Common/Header.js';
+import Footer from '../../components/Footer/Footer.js';
+
 import classnames from 'classnames';
 
 const debug = require('debug')('app:collection');
@@ -98,6 +100,7 @@ export default class NewCollection extends React.Component {
               <NewCollectionCards />
               <CollectionAddCardDialog />
             </div>
+            <Footer />
           </main>
         )}
       </div>

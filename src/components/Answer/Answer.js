@@ -4,6 +4,8 @@ import CardsCarousel from '../Cards/CardsCarousel.js';
 import classnames from 'classnames';
 import {pure, compose, mapProps} from 'recompose';
 import {answerCarousel} from '../componentsConfig/cardsCarousel';
+import Footer from '../Footer/Footer.js';
+
 import {Link} from 'react-router';
 
 const enhance = compose(
@@ -34,6 +36,7 @@ const Answer = enhance(({answer, params}) => (
         }) }
       </div>
     </div>
+    <Footer />
   </main>
 ));
 

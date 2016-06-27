@@ -12,6 +12,7 @@ import EditIcon from 'material-ui/svg-icons/editor/mode-edit';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import autobind from 'autobind-decorator';
+import Footer from '../components/Footer/Footer.js';
 
 const debug = require('debug')('app:myCollectionsCmp');
 
@@ -162,6 +163,7 @@ export default class MyCollections extends PureComponent {
             ) || null}
           </ul>
         </div>
+        <Footer />
       </main>
     );
   }
