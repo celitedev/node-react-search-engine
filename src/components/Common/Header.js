@@ -89,16 +89,20 @@ export default class Header extends PureComponent {
         <div className={classnames('mdl-layout__header-row', styles.root)}>
           <Link to='/' className='header--logo' title='back to home'/>
           <Link to='/' className='header--logotext' title='back to home'/>
-          <div className={classnames('search-field', styles.search_field)}>
-            <span className='searchIcon'>&nbsp;</span>
-            <TextField
-              className='placeholder'
-              hintText='When...'
-              value={searchText}
-              onChange={this.handleSearchChange}
-              onKeyPress={this.searchText}
-            />
-          </div>
+          <form className={classnames('search-fieldForm')} name='search_form' action='.'>
+            <div className={classnames('search-field', styles.search_field)}>
+              <span className='searchIcon'>&nbsp;</span>
+              <TextField
+                name='sitewide_search'
+                type='search'
+                className='placeholder'
+                hintText='When...'
+                value={searchText}
+                onChange={this.handleSearchChange}
+                onKeyPress={this.searchText}
+              />
+            </div>
+          </form>
           <nav className='mdl-navigation'>
             <LoginPopover />
           </nav>

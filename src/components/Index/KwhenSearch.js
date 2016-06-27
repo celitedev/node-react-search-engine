@@ -25,6 +25,7 @@ const enchance = compose(
       },
       submit: props => event => {
         if (event.which === 13) {
+          event.preventDefault();
           props.redirect(`/answer/${event.target.value}`);
         }
       }
@@ -45,15 +46,20 @@ export default class IndexSearch extends Component {
           </nav>
             <div className='logo'></div>
             <div className='l-searchbox'>
-              <div className='search-field'>
-                <span className='searchIcon'>&nbsp;</span>
-                <TextField
-                  hintText='When...'
-                  disabled={false}
-                  onChange={changeSearch}
-                  onKeyPress={submit}
-                />
-              </div>
+              <form name='search_form' action='.'>
+                <div className='search-field'>
+                  <span className='searchIcon'>&nbsp;</span>
+
+                    <TextField
+                      name='sitewide_search'
+                      type='search'
+                      hintText='When...'
+                      disabled={false}
+                      onChange={changeSearch}
+                      onKeyPress={submit}
+                    />
+                </div>
+              </form>
             </div>
 
             <div className='quicklaunch'>

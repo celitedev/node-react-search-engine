@@ -48,11 +48,12 @@ header.mdl-layout__header {
 .mdl-layout__header {
   display: flex !important; //don't hide on small. Auto by mdl
 
-  .search-field { //layout like setting margin when searchbox in navbar
-    margin-left: 12px;
+  .search-fieldForm{
     flex-grow: 1;
     flex-basis: 0;
-
+  }
+  .search-field { //layout like setting margin when searchbox in navbar
+    margin-left: 12px;
     > div {
       min-width: 0;
       max-height: 43px;
