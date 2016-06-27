@@ -4,7 +4,7 @@ import KwhenSearch from '../../components/Index/KwhenSearch.js';
 import Footer from '../../components/Index/Footer.js';
 
 const Index = pure(() => (
-  <div>
+  <div className='l-indexPage' style={{background: '#00cd75'}}>
     <KwhenSearch />
     <Footer />
   </div>

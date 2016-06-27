@@ -83,3 +83,28 @@ form{
 .h-floatRight {
   float: right;
 }
+
+
+///////
+///footer
+.footer {
+  position: relative;
+
+  color: #00cd75;
+
+  padding: 1em;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+
+  @media (min-width: 640px) {
+    text-align: right;
+  }
+
+  .l-indexPage & { //on index page use white color with green background
+    color: rgba(#fff, .9);
+  }
+
+
+}
+
