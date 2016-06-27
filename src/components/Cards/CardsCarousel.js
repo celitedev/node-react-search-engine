@@ -72,9 +72,10 @@ export default class CardsCarousel extends PureComponent {
   }
 
   render() {
-    const {settings, sliderStyle, cardsStyle, results, question, showAll, filterContext, miniMap, afterChange} = this.props;
+    const {settings, sliderStyle, cardsStyle, results, question, showAll, filterContext, miniMap, afterChange, answer} = this.props;
     const {showArrowBtns} = this.state;
     const f = JSON.stringify(filterContext);
+    const showAllLabel = 'show all ' + answer.totalResults + ' ' + answer.typeHuman;
     const cardSettings = {
       identifiers1: results.find((r) => r.formatted.identifiers1),
       identifiers2: results.find((r) => r.formatted.identifiers2),
@@ -107,7 +108,7 @@ export default class CardsCarousel extends PureComponent {
               </Slider>
               {showAll && (
                 <Link to={`/search/${question}`} query={{ filter: f }}>
-                <RaisedButton className={classnames(styles.showAllBtn)} label='SHOW ALL' primary={true}/>
+                <RaisedButton className={classnames(styles.showAllBtn)} label={showAllLabel} primary={true}/>
                   </Link>
               ) }
             </div>

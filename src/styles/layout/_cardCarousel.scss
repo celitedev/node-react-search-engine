@@ -58,7 +58,7 @@
 
   padding-bottom: 25px;
   .slick-dots{
-    bottom: 0;
+    margin-bottom: 6px; //give room for show all button on small screens
   }
   @media (min-width: $resp_size_tablet) {
 

@@ -28,7 +28,7 @@ const Answer = encance(({answer, params}) => (
                   </ul>
                 </div>
                 <CardsCarousel settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
-                               cardsStyle={styles.sliderCard}/>
+                               cardsStyle={styles.sliderCard} answer={answer}/>
               </div>
             );
         }) }
