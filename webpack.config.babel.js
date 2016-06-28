@@ -204,7 +204,7 @@ if (server) {
     config.plugins.push(
       new webpack.optimize.DedupePlugin(), //shaves ~ 2kb off
       new webpack.optimize.OccurenceOrderPlugin(),
-      // new webpack.optimize.UglifyJsPlugin({comments: /a^/, compress: {warnings: false}}),
+      new webpack.optimize.UglifyJsPlugin({comments: /a^/, compress: {warnings: false}}),
       new ExtractTextPlugin('[name]-[contenthash].css', {
         allChunks: true
       })
