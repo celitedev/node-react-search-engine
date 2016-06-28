@@ -20,7 +20,15 @@
 body {
   background: $c_background !important;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  overflow-x: hidden;
 }
+
+//react material design lib relies on box-sizing: inherit (default)
+//instead of box-sizing: border-box
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+
 
 .b_lightgray {
   background: #f6f6f6;
@@ -61,6 +69,11 @@ form{
   margin: 0;
   padding: 0;
 }
+
+a{
+  text-decoration: none;
+}
+
 //fallback image to be placed on .card--media
 .imgFallback {
   background-size: cover !important;
@@ -76,22 +89,15 @@ form{
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 2px 1px -2px rgba(0, 0, 0, 0.1);
 }
 
-/////////////////
-///Helpers
-/////////////////
 
-.h-floatRight {
-  float: right;
-}
+///////
+///footer
 
 .page-content {
   min-height: 100%; //so that footer is at bottom
   min-height: calc(100% - 64px);
   padding-bottom:20px;
 }
-
-///////
-///footer
 .footer {
   position: relative;
 
@@ -109,13 +115,65 @@ form{
 
   @media (min-width: 640px) {
     text-align: right;
+    right: 20px;
   }
 
   .l-indexPage & { //on index page use white color with green background
     color: rgba(#fff, .9);
     margin-top: -58px; //indexPage uses own hackish stretching so need to compensate
   }
-
-
 }
+
+/////////////////////
+//slick carousel
+.slick {
+  &-list {
+    margin-bottom: 5px;
+  }
+  &-slider {
+    position: initial !important;
+  }
+  &-track {
+    padding-bottom: 10px;
+  }
+  &-slide {
+    height: auto !important;
+  }
+  &-dots {
+    text-align: left;
+    width: auto !important;
+    position: initial;
+    float: left;
+  }
+}
+
+
+.h-floatRight {
+  float: right;
+}
+
+.highlightedCard {
+  z-index: 10;
+  > div {
+    outline: 2px solid $brightBlue; //just some nice clear blue
+  }
+}
+
+
+.itemClassReorder.dragged {
+  z-index: 1;
+  opacity: 0.7;
+  border: 1px solid teal;
+}
+
+.itemClassReorder.placeholder {
+  visibility: hidden;
+}
+
+.infinite-grid .item {
+  width: 100%;
+}
+
+
+
 
