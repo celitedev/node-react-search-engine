@@ -80,12 +80,6 @@
 @import "modifiers/mapbox";
 
 
-///////////////////////////////////////////////
-//GJ: imports added by Eugene later on.
-//TODO: Clean up: resets, etc. feel like 99% the same as already done above
-
-@import "~bootstrap/scss/reboot";
-
 //medium editor
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/default.css";
@@ -99,81 +93,3 @@
 
 //fonts
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500);
-
-body {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-
-  overflow-x: hidden;
-
-  // overflow: hidden;
-
-  // @include media-breakpoint-down(sm) {
-  //   overflow-x: hidden;
-  //   overflow-y: hidden;
-  // }
-}
-
-// .scrollFix {
-//   height: 100vh;
-//   max-width: 100%;
-//   overflow-x: hidden;
-//   @include media-breakpoint-up(md) {
-//     overflow-y: auto;
-//   }
-
-// }
-
-.itemClassReorder.dragged {
-  z-index: 1;
-  opacity: 0.7;
-  border: 1px solid teal;
-}
-
-.itemClassReorder.placeholder {
-  visibility: hidden;
-}
-
-.slick-list {
-  margin-bottom: 5px;
-}
-
-.slick-slider {
-  position: initial !important;
-}
-
-.slick-track {
-  padding-bottom: 10px;
-}
-
-.slick-slide {
-  height: auto !important;
-}
-
-.slick-dots {
-  text-align: left;
-  width: auto !important;
-  position: initial;
-  float: left;
-}
-
-.infinite-grid .item {
-  width: 100%;
-}
-
-.fixDots .slick-list {
-  heigth: 155px;
-}
-
-.highlightedCard {
-  z-index: 10;
-  > div {
-    outline: 2px solid $brightBlue; //just some nice clear blue
-  }
-}
-
-//.max {
-//  max-width: 100%;
-//  .page-content {
-//    max-width: 100%;
-//  }
-//}
