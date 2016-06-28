@@ -121,7 +121,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: extractText ? ExtractTextPlugin.extract('style', 'css') : 'style!css'
+        loader: extractText ? ExtractTextPlugin.extract('style', '!postcss?pack=general!css') : 'style!postcss?pack=general!css'
       },
       {
         test: /\.(gif|png|jpe?g|svg|webp|woff|woff2|ttf|eot|mp3|mp4|webm)(\?.+)?$/,
