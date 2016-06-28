@@ -176,4 +176,10 @@ a{
 
 
 
+//#121: fixes fixed header not working on production (due to <doctype> being defined on production)
+//http://stackoverflow.com/questions/38083218/spot-the-css-difference-dev-vs-prod
+body, #react-app, #react-app > div, #react-app > div > div {
+  height: 100%;
+}
+
 
