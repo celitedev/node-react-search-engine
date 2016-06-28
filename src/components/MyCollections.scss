@@ -37,18 +37,18 @@
   top: 20px;
   right: 18px;
 
-  display: none;
+  display: none !important; //!important bc. react inline style bs..
   @media (min-width: $resp_size_tablet) {
-    display: block;
+    display: block !important;  //!important bc. react inline style bs..
   }
 }
 
 .newCollectionAddSmall {
   @extend .newCollectionAdd;
 
-  display: block;
+  display: block !important;  //!important bc. react inline style bs..
   @media (min-width: $resp_size_tablet) {
-    display: none;
+    display: none !important;  //!important bc. react inline style bs..
   }
 }
 

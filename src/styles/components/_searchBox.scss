@@ -11,14 +11,6 @@ $marginHor: 12px;
     color: $c_gr100 !important;
   }
 
-  >div {
-    position: relative;
-  }
-
-  div>div {
-    top: 14px;
-  }
-
   hr {
     display: none !important;
   }
@@ -38,6 +30,11 @@ $marginHor: 12px;
   }
 
   > div {
+    //overridden by react inline styles.. grrr
+    //inline set to inline-block which causes unwanted space below on prod (<!doctype html>)
+    display: block !important; //
+
+    position: relative;
     outline: 0 solid transparent; //contenteditable outline
     box-sizing: border-box;
 
