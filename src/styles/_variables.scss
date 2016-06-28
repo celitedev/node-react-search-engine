@@ -88,21 +88,6 @@ $link-decoration: none;
 $link-hover-color: $link-color;
 $link-hover-decoration: none;
 
-// Buttons
-$button-colors: (
-  "primary": $color-primary,
-  "success": $color-success,
-  "danger": $color-danger,
-  "white": $color-white,
-  "none": #adc1c8,
-);
-$button-hover-colors: (
-  "primary": darken($color-primary, 7%),
-  "success": darken($color-success, 7%),
-  "danger": darken($color-danger, 7%),
-  "white": $color-white,
-  "none": darken(#adc1c8, 7%),
-);
 
 // Spacing
 $spacer: 1rem;

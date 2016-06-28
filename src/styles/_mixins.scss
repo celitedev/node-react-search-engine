@@ -1,6 +1,9 @@
 @import "~bootstrap/scss/mixins/breakpoints";
 @import "mixins/grid";
 @import "mixins/spacing";
-@import "mixins/forms";
+
+//used by bootstrap/scss/reboot
 @import "mixins/hover";
+
+//used by bootstrap/scss/reboot
 @import "mixins/tab-focus";
