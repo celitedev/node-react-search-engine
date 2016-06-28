@@ -53,6 +53,14 @@ $marginHor: 12px;
   }
 }
 
+//style searhbox cross / cancel button
+input[type=text]::-ms-clear {  display: none; width : 0; height: 0; } //hide on IE
+input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; } //hide on IE
+input[type="search"]::-webkit-search-cancel-button, {
+    font-size: 20px;
+}
+
+
 //home page overwrites
 .js-index {
   .l-searchbox {
