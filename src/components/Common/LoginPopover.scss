@@ -1,7 +1,7 @@
-@import '../../styles/mixins';
+@import '../../styles/site-settings';
 
 .loginBtn {
-  @include media-breakpoint-only(xs) {
+  @media (max-width: $resp_size_tablet) {
     min-width: 50px !important;
   }
 
@@ -12,13 +12,13 @@
   svg {
     fill: white !important;
 
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       margin-left: 0 !important;
     }
   }
 
   span {
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       display: none;
     }
   }
