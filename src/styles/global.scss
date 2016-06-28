@@ -1,13 +1,18 @@
 // bower:scss
 // endbower
+
 /////////////////////////////////////////////////////////////////
 //WE FOLLOW CSS CONVENTIONS IS CONCISELY OUTLINED IN
 //https://gist.github.com/wrumsby/8908260
 ////////////////////////////////////////////////////////////////////
 //////////////////////////////
+
+
 //IMPORT MATIARL DESIGN LITE
 /* Site settings */
+
 @import "site-settings";
+
 //Our own defaults. Material Design Lite doesn't overwrite these. Neat.
 // Variables and mixins
 @import "../../node_modules/material-design-lite/src/variables";
@@ -15,6 +20,7 @@
 // Resets and dependencies
 @import "../../node_modules/material-design-lite/src/resets/resets";
 @import "../../node_modules/material-design-lite/src/typography/typography";
+
 // Components
 @import "../../node_modules/material-design-lite/src/palette/palette";
 // @import "../../node_modules/material-design-lite/src/ripple/ripple";
@@ -39,8 +45,11 @@
 @import "../../node_modules/material-design-lite/src/tooltip/tooltip";
 @import "../../node_modules/material-design-lite/src/shadow/shadow";
 @import "../../node_modules/material-design-lite/src/grid/grid";
+
+
 /* Base */
 @import "base";
+
 /* components */
 @import "components/card";
 @import "components/common";
@@ -50,36 +59,46 @@
 @import "components/searchBox";
 @import "components/filters";
 @import "components/map";
+
+
 /* Layouts / container components*/
 @import "layout/cardgrid";
 @import "layout/cardCarousel";
+
+
 /* Page layouts */
 @import "layout/header";
 @import "layout/answerPage";
 @import "layout/searchPage";
 @import "layout/detailPage";
 @import "layout/questionPage";
+
+
 /* modifiers  (after layouts, because layouts may have modifiers too) */
 @import "modifiers/cardModifiers";
 @import "modifiers/cardResults";
 @import "modifiers/mapbox";
-@import "variables";
-@import "functions";
-@import "mixins";
-@import "fonts";
-@import "type";
+
+
+///////////////////////////////////////////////
+//GJ: imports added by Eugene later on.
+//TODO: Clean up: resets, etc. feel like 99% the same as already done above
+
 @import "~bootstrap/scss/normalize";
 @import "~bootstrap/scss/reboot";
-@import "~react-mdl/extra/material.css";
-@import "pagination";
-@import "~react-pagify/style.css";
-@import "~getmdl-select/getmdl-select.min.css";
+
+//medium editor
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/default.css";
+
+//slick carousel
 @import "../../bower_components/slick-carousel/slick/slick.css";
 @import "../../bower_components/slick-carousel/slick/slick-theme.css";
+
+//mapbox
 @import url(https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css);
-/* Fonts */
+
+//fonts
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500);
 
 body {
