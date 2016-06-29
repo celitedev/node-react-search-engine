@@ -25,13 +25,14 @@
 }
 
 .logedInBtn {
-  width: 86px !important;
-  height: 86px !important;
-  padding: 22px !important;
-  >div svg {
-    width: 42px !important;
-    height: 42px !important;
-  }
+  //deprecated: same size as not logged in.
+  // width: 86px !important;
+  // height: 86px !important;
+  // padding: 22px !important;
+  // >div svg {
+  //   width: 42px !important;
+  //   height: 42px !important;
+  // }
 }
 
 .socialBtn {
