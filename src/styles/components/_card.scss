@@ -372,6 +372,10 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
   //The below fixes this.
   position: absolute !important;
   bottom: 0;
+
+  button {
+    color: $c_bl !important; //important due to react inline styles.. sigh....
+  }
 }
 
 .card--rate-star {
