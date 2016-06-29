@@ -20,8 +20,12 @@
 body {
   background: $c_background !important;
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+}
+
+html, body, #react-app {
   overflow-x: hidden;
 }
+
 
 //react material design lib relies on box-sizing: inherit (default)
 //instead of box-sizing: border-box
@@ -181,5 +185,7 @@ a{
 body, #react-app, #react-app > div, #react-app > div > div {
   height: 100%;
 }
+
+
 
 
