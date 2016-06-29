@@ -41,7 +41,7 @@ export default class Html extends React.Component {
         <meta name='viewport' content='width=device-width, initial-scale=1'/>
         <meta httpEquiv='x-ua-compatible' content='ie=edge'/>
 
-        <title>kwhen</title>
+        <title>Kwhen. Knows When</title>
         <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
         <meta name='msapplication-TileColor' content='#ffffff'/>
         <meta name='theme-color' content='#ffffff'/>
