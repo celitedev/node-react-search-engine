@@ -96,7 +96,7 @@ export default class Header extends PureComponent {
                 name='sitewide_search'
                 type='search'
                 className='placeholder'
-                hintText='When...'
+                hintText='Search for happenings in NYC...'
                 value={searchText}
                 onChange={this.handleSearchChange}
                 onKeyPress={this.searchText}
