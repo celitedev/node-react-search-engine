@@ -3,15 +3,11 @@
  - NPM 3.8.6
  - Babel 5
 
+
 ## Local development
- - `npm install horizon -g`
  - `npm install`
  - `bower install`
- -  install RethinkDB // https://www.rethinkdb.com
- - `npm run db`
- - `hz create-cert`
- - `npm run set-schema-dev`
- - `npm start`
+ - `npm run start`
  - `open https://localhost:7000`
 
  ## Production
@@ -37,5 +33,16 @@ To stop/start/restart react js application
     sudo service kwhen-frontend-client restart
 
 
+## Local development
 
+(DEPRECATED - only used when working with rethinkdb/horizon.io locally which isn't needed atm)
 
+ - `npm install horizon -g`
+ - `npm install`
+ - `bower install`
+ -  install RethinkDB // https://www.rethinkdb.com
+ - `npm run db`
+ - `hz create-cert`
+ - `npm run set-schema-dev`
+ - `npm run start`
+ - `open https://localhost:7000`
