@@ -65,6 +65,7 @@
     "react-dom": "^15.0",
     "react-dropzone": "^3.4.0",
     "react-formal": "^0.15.1",
+    "react-mdl": "^1.6.1",
     "react-medium-editor": "^1.6.3",
     "react-pagify": "^2.0.4",
     "react-pure-render": "^1.0.2",
