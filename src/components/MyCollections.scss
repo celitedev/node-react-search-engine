@@ -1,8 +1,6 @@
-@import "../styles/shared";
 
-.topPosition {
-  margin-top: 55px;
-}
+@import "../styles/site-settings";
+
 .root {
   width: 95%;
   margin: 0 auto;
@@ -39,22 +37,18 @@
   top: 20px;
   right: 18px;
 
-  @include media-breakpoint-up(sm) {
-    display: block !important;
-  }
-  @include media-breakpoint-down(xs) {
-    display: none !important;
+  display: none !important; //!important bc. react inline style bs..
+  @media (min-width: $resp_size_tablet) {
+    display: block !important;  //!important bc. react inline style bs..
   }
 }
 
 .newCollectionAddSmall {
   @extend .newCollectionAdd;
 
-  @include media-breakpoint-up(sm) {
-    display: none !important;
-  }
-  @include media-breakpoint-down(xs) {
-    display: block !important;
+  display: block !important;  //!important bc. react inline style bs..
+  @media (min-width: $resp_size_tablet) {
+    display: none !important;  //!important bc. react inline style bs..
   }
 }
 

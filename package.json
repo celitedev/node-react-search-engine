@@ -7,7 +7,7 @@
     "prebuild": "eslint src",
     "build": "rm -rf build && SERVER_RENDERING=1 NODE_ENV=production webpack --bail && NODE_ENV=production webpack --bail",
     "production": "NODE_ENV=production node rendering",
-    "start": "SERVER_RENDERING=1 webpack --bail && DEBUG=app:* NODE_ENV=dev node rendering",
+    "start": "SERVER_RENDERING=1 webpack --bail && DEBUG=app:* NODE_ENV=staging node rendering",
     "get-schema": "hz get-schema -o ./.hz/schema.toml",
     "set-schema-dev": "hz set-schema --config ./.hz/config-dev.toml ./.hz/schema.toml",
     "set-schema-production": "hz set-schema --config ./.hz/config-production.toml ./.hz/schema.toml",

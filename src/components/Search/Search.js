@@ -207,87 +207,7 @@ export default class Search extends Component {
       }]
     };
     return (
-      <main className={classnames('search-page', (!isSlider && styles.containerMargin) || styles.mainMap)}>
-        <div className={classnames('filters', !isSlider && styles.stickyHeader)}>
-          <RaisedButton
-            label={filter}
-            labelPosition='before'
-            labelColor='white'
-            backgroundColor='#3F51B5'
-            icon={<ArrowDownIcon color='white'/>}
-            onTouchTap={this.handleFilterTouchTap}
-            className={styles.dropDownFilter}
-          />
-          <Popover
-            open={openFilters}
-            anchorEl={anchorFilters}
-            anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-            targetOrigin={{horizontal: 'left', vertical: 'top'}}
-            onRequestClose={this.handleRequestClose}
-            animation={PopoverAnimationVertical}
-          >
-            <Menu>
-              <MenuItem primaryText='Happening' onClick={() => this.filterHandler('happening')}/>
-              <MenuItem primaryText='Places' onClick={() => this.filterHandler('places')}/>
-              <MenuItem primaryText='Creative work' onClick={() => this.filterHandler('creative Work')}/>
-              <MenuItem primaryText='Person / Group' onClick={() => this.filterHandler('Person / Group')}/>
-            </Menu>
-          </Popover>
-          {!_.isEmpty(answer.filterContext.filter) && (
-            <div className='filters--active'>
-              {name && (
-                <RaisedButton
-                  label={`Search: ${name}`}
-                  labelPosition='before'
-                  onTouchTap={this.removeFilter}
-                  backgroundColor='#00cd75'
-                  className={styles.filters}
-                />
-              )}
-              {subtypes && (
-                <RaisedButton
-                  label={subtypes}
-                  labelPosition='before'
-                  onTouchTap={this.removeFilter}
-                  backgroundColor='#00cd75'
-                  className={styles.filters}
-                />
-              )}
-            </div>
-          )}
-          {!_.isEmpty(answer.filterContext.filter) && (
-          <div className='filters--activeDialog'>
-            <Badge
-              badgeContent={_.keys(answer.filterContext.filter).length}
-              primary={true}
-              style={{'padding': 0, 'position': 'initial'}}
-            >
-              <RaisedButton
-                primary={true}
-                icon={<FilterListIcon color='white' />}
-                onTouchTap={this.handleBageTouchTap}
-              />
-            </Badge>
-            <Popover
-              open={openBageBtn}
-              anchorEl={anchorBage}
-              anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-              targetOrigin={{horizontal: 'left', vertical: 'top'}}
-              onRequestClose={this.handleRequestClose}
-              animation={PopoverAnimationVertical}
-            >
-              <Menu>
-                {name && (
-                  <MenuItem primaryText={name} onClick={() => this.filterHandler()}/>
-                )}
-                {subtypes && (
-                  <MenuItem primaryText={subtypes} onClick={() => this.filterHandler()}/>
-                )}
-              </Menu>
-            </Popover>
-          </div>
-          )}
-        </div>
+      <main className={classnames('search-page', !isSlider || styles.mainMap)}>
         <Map id='map' className={classnames('leaflet-container leaflet-retina leaflet-fade-anim', (filter === 'creative Work' || filter === 'Person / Group') && 'map-notused', isSlider && ('is-opened ' + styles.is_opened))} refreshMap={removeFilter} filter={filter} options={mapOptions} multipleMarkers={isSlider ? oneResult : mapMarkers} setView={isSlider ? this.setMapView(slideIndex) : setMapView} zoomControls={zoomControls} >
           <div className='mobile-cover' onClick={() => this.showMap()}></div>
           <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
@@ -319,3 +239,87 @@ export default class Search extends Component {
     );
   }
 }
+
+//DEPRECATED FILTERS
+//WAS POSITIONED AS FIRST CHILD OF <MAIN>
+// <div className={classnames('filters')}>
+//   <RaisedButton
+//     label={filter}
+//     labelPosition='before'
+//     labelColor='white'
+//     backgroundColor='#3F51B5'
+//     icon={<ArrowDownIcon color='white'/>}
+//     onTouchTap={this.handleFilterTouchTap}
+//     className={styles.dropDownFilter}
+//   />
+//   <Popover
+//     open={openFilters}
+//     anchorEl={anchorFilters}
+//     anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+//     targetOrigin={{horizontal: 'left', vertical: 'top'}}
+//     onRequestClose={this.handleRequestClose}
+//     animation={PopoverAnimationVertical}
+//   >
+//     <Menu>
+//       <MenuItem primaryText='Happening' onClick={() => this.filterHandler('happening')}/>
+//       <MenuItem primaryText='Places' onClick={() => this.filterHandler('places')}/>
+//       <MenuItem primaryText='Creative work' onClick={() => this.filterHandler('creative Work')}/>
+//       <MenuItem primaryText='Person / Group' onClick={() => this.filterHandler('Person / Group')}/>
+//     </Menu>
+//   </Popover>
+//   {!_.isEmpty(answer.filterContext.filter) && (
+//     <div className='filters--active'>
+//       {name && (
+//         <RaisedButton
+//           label={`Search: ${name}`}
+//           labelPosition='before'
+//           onTouchTap={this.removeFilter}
+//           backgroundColor='#00cd75'
+//           className={styles.filters}
+//         />
+//       )}
+//       {subtypes && (
+//         <RaisedButton
+//           label={subtypes}
+//           labelPosition='before'
+//           onTouchTap={this.removeFilter}
+//           backgroundColor='#00cd75'
+//           className={styles.filters}
+//         />
+//       )}
+//     </div>
+//   )}
+//   {!_.isEmpty(answer.filterContext.filter) && (
+//   <div className='filters--activeDialog'>
+//     <Badge
+//       badgeContent={_.keys(answer.filterContext.filter).length}
+//       primary={true}
+//       style={{'padding': 0, 'position': 'initial'}}
+//     >
+//       <RaisedButton
+//         primary={true}
+//         icon={<FilterListIcon color='white' />}
+//         onTouchTap={this.handleBageTouchTap}
+//       />
+//     </Badge>
+//     <Popover
+//       open={openBageBtn}
+//       anchorEl={anchorBage}
+//       anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+//       targetOrigin={{horizontal: 'left', vertical: 'top'}}
+//       onRequestClose={this.handleRequestClose}
+//       animation={PopoverAnimationVertical}
+//     >
+//       <Menu>
+//         {name && (
+//           <MenuItem primaryText={name} onClick={() => this.filterHandler()}/>
+//         )}
+//         {subtypes && (
+//           <MenuItem primaryText={subtypes} onClick={() => this.filterHandler()}/>
+//         )}
+//       </Menu>
+//     </Popover>
+//   </div>
+//   )}
+// </div>
+//

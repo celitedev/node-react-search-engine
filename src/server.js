@@ -150,8 +150,7 @@ export async function renderFull(location, cookies, callback) {
       );
       const cleanState = _.omit(state, 'router', 'session');
       callback(null, null, notFound, chunks => {
-        const html = renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup}/>);
-        return '<!DOCTYPE html>' + html;
+        return renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup}/>);
       });
     } catch (err) {
       console.log('markup', err);

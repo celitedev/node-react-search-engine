@@ -1,7 +1,7 @@
-@import '../../styles/mixins';
+@import '../../styles/site-settings';
 
 .loginBtn {
-  @include media-breakpoint-only(xs) {
+  @media (max-width: $resp_size_tablet) {
     min-width: 50px !important;
   }
 
@@ -12,26 +12,27 @@
   svg {
     fill: white !important;
 
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       margin-left: 0 !important;
     }
   }
 
   span {
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       display: none;
     }
   }
 }
 
 .logedInBtn {
-  width: 86px !important;
-  height: 86px !important;
-  padding: 22px !important;
-  >div svg {
-    width: 42px !important;
-    height: 42px !important;
-  }
+  //deprecated: same size as not logged in.
+  // width: 86px !important;
+  // height: 86px !important;
+  // padding: 22px !important;
+  // >div svg {
+  //   width: 42px !important;
+  //   height: 42px !important;
+  // }
 }
 
 .socialBtn {

@@ -4,6 +4,8 @@ import {page} from '../page';
 import Header from '../../components/Common/Header.js';
 import SearchResults from '../../components/Search/Search.js';
 import {API_REQUEST} from '../../actionTypes';
+import classnames from 'classnames';
+
 
 @page('Search')
 export default class Search extends PureComponent {
@@ -27,7 +29,7 @@ export default class Search extends PureComponent {
   render() {
     const {data, loaded, params} = this.props;
     return (
-      <div className='mdl-layout'>
+      <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
         <Header params={params}/>
         {loaded
           && (<SearchResults params={params} answer={data.searchResults}/>)

@@ -53,7 +53,7 @@ export default class IndexSearch extends Component {
                     <TextField
                       name='sitewide_search'
                       type='search'
-                      hintText='When...'
+                      hintText='Search for happenings in NYC...'
                       disabled={false}
                       onChange={changeSearch}
                       onKeyPress={submit}

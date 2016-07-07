@@ -176,7 +176,8 @@ if (cluster.isMaster) {
           } else if (notFound) {
             res.status(404).send(render(chunks));
           } else {
-            res.status(200).send(render(chunks));
+            var result = '<!DOCTYPE html>' + render(chunks);
+            res.status(200).send(result);
           }
         });
       }

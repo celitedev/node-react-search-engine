@@ -45,7 +45,7 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     return (
-        <div className={classnames(styles.pageWrapper, 'scrollFix')}>
+        <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
           <Header params={params}/>
           {(loaded && data.searchResults.results) && (
             <AnswerCards params={params} answer={data.searchResults}/>

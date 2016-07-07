@@ -1,10 +1,7 @@
-@import '../../styles/mixins';
-.headerFixed {
-  position: fixed;
-  top: 0;
-}
+@import '../../styles/site-settings';
+
 .root{
-  @include media-breakpoint-only(xs) {
+  @media (max-width: $resp_size_tablet) {
     padding: 0 0 0 10px;
   }
 

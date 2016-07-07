@@ -1,6 +1,0 @@
-@mixin form-control-focus() {
-  &:focus {
-    border-color: $input-border-focus;
-    outline: none;
-  }
-}

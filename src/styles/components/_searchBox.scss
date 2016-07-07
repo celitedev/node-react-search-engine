@@ -11,21 +11,12 @@ $marginHor: 12px;
     color: $c_gr100 !important;
   }
 
-  >div {
-    position: relative;
-  }
-
-  div>div {
-    top: 14px;
-  }
-
   hr {
     display: none !important;
   }
 
   > span.searchIcon {
-    //margin-top: 6px;
-    //margin-left: 6px;
+
     width: 32px;
     height: 32px;
 
@@ -39,44 +30,50 @@ $marginHor: 12px;
   }
 
   > div {
+    //overridden by react inline styles.. grrr
+    //inline set to inline-block which causes unwanted space below on prod (<!doctype html>)
+    display: block !important; //
+
+    position: relative;
     outline: 0 solid transparent; //contenteditable outline
     box-sizing: border-box;
 
-    margin-left: 37px;
-
-    //TODO: ON NAVBAR This should go to 100% width of AVAIL SPACE. I.e.: ex buttons left and right
-    //This should use mediq-object css. MDL probably has some helper classes to get this done easily on the navbar
-
-    min-width: 320px - (2 * $marginHor) - 32px - 8px; //minus search icon etc
-    max-width: 1200px;
-    //on smaller screen, go full screen
-    @media screen and (max-width: 540px) {
-      max-width: 100%;
-    }
-
-    max-height: 2.4em; //2 lines
+    width: 100% !important; //overridden by react inline styles.. grrr
     overflow: hidden;
 
     text-align: left;
-    padding: 6px 12px 4px 8px;
+    padding: 6px 12px 4px 40px;
 
-  }
-  [contenteditable=true]:empty:before {
-    content: attr(placeholder);
-    display: block; /* For Firefox */
+    > div { //actual placeholder as set by react textfield (opaquely..)
+      top: 12px;
+    }
   }
 }
+
+//style searhbox cross / cancel button
+input[type=text]::-ms-clear {  display: none; width : 0; height: 0; } //hide on IE
+input[type=text]::-ms-reveal {  display: none; width : 0; height: 0; } //hide on IE
+input[type="search"]::-webkit-search-cancel-button, {
+    font-size: 20px;
+}
+
 
 //home page overwrites
 .js-index {
   .l-searchbox {
     display: inline-block;
     padding: 12px;
+    width: 100%;
+    max-width: 664px; //align nicely with example questions below
   }
   .search-field > div {
     max-height: 3.6em; //3 lines
 
     //extend max width on home page
     //max-width: 640px;
+
+    > div {
+      top: 14px; //
+    }
   }
 }

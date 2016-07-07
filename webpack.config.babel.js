@@ -12,11 +12,8 @@ const yaml = require('js-yaml');
 const IgnoreNodeModulesPlugin = require('./IgnoreNodeModulesPlugin');
 
 const production = process.env.NODE_ENV === 'production';
-//const production = false;
 const server = process.env.SERVER_RENDERING;
-//const server = false;
 const hot = process.env.BABEL_ENV === 'hot';
-//const hot = true;
 
 const extractText = production || server;
 
@@ -48,13 +45,11 @@ function entry(path, server) {
   return entry;
 }
 
-function hotEntry(port, items) {
+function hotEntry(items) {
   if (!hot) {
     return items;
   }
   return [
-    // `webpack-dev-server/client?https://localhost:${port}`,
-    // 'webpack/hot/only-dev-server'
     'webpack-hot-middleware/client'
   ].concat(items);
 }
@@ -66,7 +61,7 @@ const config = {
   entry: server ? {
     server: entry('./src/server', true)
   } : {
-    client: hotEntry(7000, entry('./src/client'))
+    client: hotEntry(entry('./src/client'))
   },
 
   output: {
@@ -126,7 +121,7 @@ const config = {
       },
       {
         test: /\.css$/,
-        loader: extractText ? ExtractTextPlugin.extract('style', 'css') : 'style!css'
+        loader: extractText ? ExtractTextPlugin.extract('style', '!postcss?pack=general!css') : 'style!postcss?pack=general!css'
       },
       {
         test: /\.(gif|png|jpe?g|svg|webp|woff|woff2|ttf|eot|mp3|mp4|webm)(\?.+)?$/,
@@ -168,6 +163,7 @@ if (hot) {
 }
 
 if (server) {
+
   config.target = 'node';
   config.plugins.push(
     new ExtractTextPlugin('[name]-[contenthash].css', {
@@ -175,7 +171,9 @@ if (server) {
     }),
     new IgnoreNodeModulesPlugin()
   );
-} else {
+
+} else { //client
+
   if (!process.env.KARMA) {
     config.plugins.push(
       new webpack.optimize.CommonsChunkPlugin({
@@ -184,12 +182,11 @@ if (server) {
       })
     );
   }
+
   config.plugins.push(
     new BundleTracker({filename: './webpack-stats.json'})
   );
-}
 
-if (!server) {
   if (!production) {
     config.devtool = 'eval-sourcemap';
     config.devServer = {
@@ -198,21 +195,24 @@ if (!server) {
       }
     };
   } else {
-    config.devtool = 'sourcemap';
+
+    // config.devtool = 'source-map'; //no need for sourcemaps in production
     config.output.devtoolModuleFilenameTemplate = 'file://[resource-path]';
     config.output.devtoolFallbackModuleFilenameTemplate = 'file://[resource-path]?[hash]';
 
     //noinspection JSUnresolvedFunction,JSUnresolvedVariable
     config.plugins.push(
-      new webpack.optimize.DedupePlugin(),
+      new webpack.optimize.DedupePlugin(), //shaves ~ 2kb off
       new webpack.optimize.OccurenceOrderPlugin(),
       new webpack.optimize.UglifyJsPlugin({comments: /a^/, compress: {warnings: false}}),
       new ExtractTextPlugin('[name]-[contenthash].css', {
         allChunks: true
       })
     );
-    config.recordsPath = path.resolve('webpack-records.json');
+    config.recordsPath = path.resolve('webpack-production-clientRecords.json');
   }
+
 }
+
 
 module.exports = config;
