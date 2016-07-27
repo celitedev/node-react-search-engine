@@ -15,6 +15,8 @@ import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
 import FilterListIcon from 'material-ui/svg-icons/content/filter-list';
 import CardsCarousel from '../Cards/CardsCarousel';
 import {types} from '../../exampleQuestions';
+import Footer from '../Footer/Footer.js';
+
 const debug = require('debug')('app:search');
 
 @connect(null, {loadMoreResults, filterResults})
@@ -235,6 +237,7 @@ export default class Search extends Component {
             )
             }
           </div>
+        <Footer/>
       </main>
     );
   }
