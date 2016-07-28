@@ -47,15 +47,15 @@ auto_create_index = true
 # 'connect' will connect to an existing RethinkDB instance
 # 'start_rethinkdb' will run an internal RethinkDB instance
 #------------------------------------------------------------------------------
-connect = "ec2-54-86-37-204.compute-1.amazonaws.com:28015"
-start_rethinkdb = false
+connect = "localhost:28016"
+#start_rethinkdb = true
 
 
 ###############################################################################
 # Debug Options
 # 'debug' enables debug log statements
 #------------------------------------------------------------------------------
-# debug = true
+ debug = true
 
 
 ###############################################################################
@@ -73,8 +73,8 @@ allow_unauthenticated = true
 auth_redirect = "/"
 
 [auth.facebook]
-id = "1050435831660297"
-secret = "8cd5b148afa14ba80fbb2c37317a2a96"
+id = "1050432964993917"
+secret = "11c215a132ffff1f33d7f1b245e9d964"
 
 [auth.google]
 id = "132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com"

@@ -8,10 +8,12 @@
     "build": "rm -rf build && SERVER_RENDERING=1 NODE_ENV=production webpack --bail && NODE_ENV=production webpack --bail",
     "production": "NODE_ENV=production node rendering",
     "start": "SERVER_RENDERING=1 webpack --bail && DEBUG=app:* NODE_ENV=staging node rendering",
+    "start-local": "npm run db && npm run set-schema-dev && SERVER_RENDERING=1 webpack --bail && DEBUG=app:* NODE_ENV=dev node rendering",
     "get-schema": "hz get-schema -o ./.hz/schema.toml",
     "set-schema-dev": "hz set-schema --config ./.hz/config-dev.toml ./.hz/schema.toml",
     "set-schema-production": "hz set-schema --config ./.hz/config-production.toml ./.hz/schema.toml",
-    "db": "rethinkdb -d ./rethinkdb_data --bind 127.0.0.1 --driver-port 28015 --http-port 8083 --cluster-port 0 --cache-size auto"
+    "db": "rethinkdb -d ./rethinkdb_data --bind 127.0.0.1 --driver-port 28016 --http-port 8083 --cluster-port 0 --cache-size auto --daemon",
+    "stop": "pkill -9 rethinkdb"
   },
   "author": "",
   "license": "ISC",
