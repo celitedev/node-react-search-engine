@@ -18,22 +18,32 @@ if (!process.env.SERVER_RENDERING) {
 
 class NextArrow extends PureComponent {
   render() {
-    const {onClick, miniMap, show} = this.props;
+    const aProps = Object.assign({}, this.props);
+    const {onClick, miniMap, show} = aProps;
+
+    delete aProps.miniMap;
+    delete aProps.show;
+
     return (
       (_.isFunction(onClick) && (show || Modernizr.touchevents)) && (
-      <a href='#' {...this.props}
-         className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&gt;</a>
-       ) || null
+        <a href='#' {...aProps}
+           className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&gt;</a>
+      ) || null
     );
   }
 }
 
 class PrevArrow extends PureComponent {
   render() {
-    const {onClick, miniMap, show} = this.props;
+    const aProps = Object.assign({}, this.props);
+    const {onClick, miniMap, show} = aProps;
+
+    delete aProps.miniMap;
+    delete aProps.show;
+
     return (
       (_.isFunction(onClick) && (show || Modernizr.touchevents)) && (
-        <a href='#' {...this.props}
+        <a href='#' {...aProps}
          className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&lt;</a>
        ) || null
     );

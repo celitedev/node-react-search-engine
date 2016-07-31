@@ -33,7 +33,6 @@
   float: left;
 }
 
-
 .cardIdentifierWrapper {
   display: table;
   height: 32px;
@@ -41,4 +40,13 @@
     display: table-cell;
     vertical-align: middle;
   }
+}
+
+.saveCardBtn {
+  color: #3f51b5 !important;
+  font-weight: 500 !important;
+  width: 95px !important;
+  margin: -6px !important;
+  font-size: 13px !important;
+  display: inline-block !important;
 }

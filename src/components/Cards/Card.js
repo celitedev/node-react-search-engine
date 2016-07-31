@@ -231,7 +231,12 @@ export default class Card extends PureComponent {
             <div>
               {authenticated && (
                 <IconMenu
-                  iconButtonElement={<FlatButton labelStyle={{'color': '3f51b5', 'fontSize': '13px'}} onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+                  iconButtonElement={
+                      <IconButton onTouchTap={::this.handleOpenMenu} name='addCardBtn'
+                                  className={styles.saveCardBtn}>
+                        SAVE CARD
+                      </IconButton>
+                  }
                   onRequestChange={::this.handleItemChange}
                   open={authenticated && null}
                 >
