@@ -10,7 +10,7 @@ export default [{
 }, {
   question: 'concerts',
 }, {
-  question: 'restaurants',
+  question: 'classes',
 }, {
   question: 'comedies',
 }];
