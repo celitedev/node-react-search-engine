@@ -15,6 +15,7 @@ import TextField from 'material-ui/TextField';
 
 
 const debug = require('debug')('app:searchRequest');
+window.myDebug = require('debug');
 
 function auth(state) {
   const {authenticated, loginModal} = state.auth;

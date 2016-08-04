@@ -4,6 +4,7 @@ import {find} from 'lodash';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
+
 function isJs(item) {
   return /\.js$/.test(item.publicPath);
 }

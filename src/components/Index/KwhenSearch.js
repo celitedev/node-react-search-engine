@@ -7,6 +7,7 @@ import exampleQuestions from './../../exampleQuestions';
 import LoginPopover from '../Common/LoginPopover';
 import TextField from 'material-ui/TextField';
 import Tiles from '../Tiles/Tiles.js';
+import cookie from 'react-cookie';
 
 const debug = require('debug')('app:collections:new');
 
@@ -34,6 +35,19 @@ const enchance = compose(
 
 @enchance
 export default class IndexSearch extends Component {
+  componentWillMount() {
+    const redirectUrl = cookie.load('redirectUrl');
+
+    if (redirectUrl) {
+      this.props.redirect(redirectUrl);
+      cookie.remove('redirectUrl', {path: '/'});
+    }
+    const cardId = cookie.load('saveCardId');
+    if (cardId) {
+      this.props.redirect(`/details/${cardId}`);
+    }
+  }
+
   render() {
     const {search, changeSearch, submit} = this.props;
     return (
