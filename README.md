@@ -14,6 +14,8 @@
  - `npm run set-schema-production`
  - `npm run build`
  - `npm run production`
+_it may be necessary to use sudo to ensure permission to remove old build files and start the server_
+_if production server is already running, you can stop it with_ `kill -15 $( lsof -i:443 -t )`
 
 ## Deploying
 - Install Ansible (http://docs.ansible.com/ansible/intro_installation.html)
@@ -25,7 +27,7 @@ or
 - `ansible-playbook -i ./ansible/{inventory}.ini ./ansible/site.yml` - Flexible deployment through ansible-playbook.
 
 ### Run react application
-
+_this may be out of date?  need to check it out_
 To stop/start/restart react js application
 
     sudo service kwhen-frontend-client start
