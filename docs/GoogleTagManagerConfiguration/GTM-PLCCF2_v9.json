@@ -1,0 +1,267 @@
+{
+    "exportFormatVersion": 1.3,
+    "exportTime": "2016-08-21 21:14:09",
+    "containerVersion": {
+        "accountId": "432705889",
+        "containerId": "2516008",
+        "containerVersionId": "0",
+        "deleted": false,
+        "container": {
+            "accountId": "432705889",
+            "containerId": "2516008",
+            "name": "Kwhen.com",
+            "publicId": "GTM-PLCCF2",
+            "timeZoneCountryId": "US",
+            "timeZoneId": "America/Los_Angeles",
+            "notes": "",
+            "usageContext": [
+                "WEB"
+            ],
+            "fingerprint": "1471813882284",
+            "enabledBuiltInVariable": [
+                "PAGE_URL",
+                "PAGE_HOSTNAME",
+                "PAGE_PATH",
+                "REFERRER",
+                "EVENT"
+            ]
+        },
+        "tag": [
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "tagId": "2",
+                "name": "Dev Google Analytics",
+                "type": "ua",
+                "liveOnly": false,
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-66117011-2"
+                    }
+                ],
+                "fingerprint": "1471813873036",
+                "firingTriggerId": [
+                    "16",
+                    "17"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            },
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "tagId": "1",
+                "name": "Production Google Analytics",
+                "type": "ua",
+                "liveOnly": false,
+                "parameter": [
+                    {
+                        "type": "BOOLEAN",
+                        "key": "doubleClick",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "setTrackerName",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useDebugVersion",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "useHashAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackType",
+                        "value": "TRACK_PAGEVIEW"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "decorateFormsAutoLink",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableLinkId",
+                        "value": "false"
+                    },
+                    {
+                        "type": "BOOLEAN",
+                        "key": "enableEcommerce",
+                        "value": "false"
+                    },
+                    {
+                        "type": "TEMPLATE",
+                        "key": "trackingId",
+                        "value": "UA-66117011-1"
+                    }
+                ],
+                "fingerprint": "1471813461239",
+                "firingTriggerId": [
+                    "5",
+                    "13"
+                ],
+                "tagFiringOption": "ONCE_PER_EVENT"
+            }
+        ],
+        "fingerprint": "0",
+        "trigger": [
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "triggerId": "13",
+                "name": "All Production Pages",
+                "type": "PAGEVIEW",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "kwhen.com"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1471813502471"
+            },
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "triggerId": "17",
+                "name": "Dev History Change",
+                "type": "HISTORY_CHANGE",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "kwhen.com"
+                            },
+                            {
+                                "type": "BOOLEAN",
+                                "key": "negate",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1471813861032"
+            },
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "triggerId": "16",
+                "name": "Dev Page Views",
+                "type": "PAGEVIEW",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "kwhen.com"
+                            },
+                            {
+                                "type": "BOOLEAN",
+                                "key": "negate",
+                                "value": "true"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1471813828956"
+            },
+            {
+                "accountId": "432705889",
+                "containerId": "2516008",
+                "triggerId": "5",
+                "name": "Production History Change",
+                "type": "HISTORY_CHANGE",
+                "filter": [
+                    {
+                        "type": "CONTAINS",
+                        "parameter": [
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg0",
+                                "value": "{{Page URL}}"
+                            },
+                            {
+                                "type": "TEMPLATE",
+                                "key": "arg1",
+                                "value": "kwhen.com"
+                            }
+                        ]
+                    }
+                ],
+                "fingerprint": "1471813328409"
+            }
+        ]
+    }
+}

@@ -2,6 +2,7 @@ import React, {PropTypes} from 'react';
 import serialize from 'serialize-javascript';
 import {find} from 'lodash';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import config from '../config.js';
 
 injectTapEventPlugin();
 
@@ -35,6 +36,7 @@ export default class Html extends React.Component {
     const commonCssBundle = find(chunks.common, isCss);
     const clientBundle = find(chunks.client, isJs);
     const commonBundle = find(chunks.common, isJs);
+    const {containerId} = config.googleTagManager;
     return (
       <html lang='en'>
       <head>
@@ -47,15 +49,18 @@ export default class Html extends React.Component {
         <meta name='msapplication-TileColor' content='#ffffff'/>
         <meta name='theme-color' content='#ffffff'/>
         <link rel='shortcut icon' type='image/x-icon' href={require('../images/favicon.png')} />
-
-        <script crossOrigin='anonymous' dangerouslySetInnerHTML={{__html: `
-          !function(){var analytics=window.analytics=window.analytics||[];if(!analytics.initialize)if(analytics.invoked)window.console&&console.error&&console.error("Segment snippet included twice.");else{analytics.invoked=!0;analytics.methods=["trackSubmit","trackClick","trackLink","trackForm","pageview","identify","group","track","ready","alias","page","once","off","on"];analytics.factory=function(t){return function(){var e=Array.prototype.slice.call(arguments);e.unshift(t);analytics.push(e);return analytics}};for(var t=0;t<analytics.methods.length;t++){var e=analytics.methods[t];analytics[e]=analytics.factory(e)}analytics.load=function(t){var e=document.createElement("script");e.type="text/javascript";e.async=!0;e.src=("https:"===document.location.protocol?"https://":"http://")+"cdn.segment.com/analytics.js/v1/"+t+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(e,n)};analytics.SNIPPET_VERSION="3.0.1"; //eslint-disable-line no-use-before-define
-          analytics.load("sQZAVxCPmZBY6wTWFqM6vlArgT6O5Drm");
-          analytics.page();
-          }}();
-        `}} />
       </head>
       <body>
+
+      <script dangerouslySetInnerHTML={{__html: `
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','${containerId}');`
+      }} />
+
+
       {commonCssBundle && <link rel='stylesheet' href={commonCssBundle.publicPath}/>}
       {clientCssBundle && <link rel='stylesheet' href={clientCssBundle.publicPath}/>}
 
