@@ -40,9 +40,24 @@ export default class ShareModal extends Component {
         toggleSnackbar('Kwhen told your friends!');
       }
     } catch (err) {
-      const errors = await err.response.json();
-      toggleSnackbar(`Error: field '${errors[0].param.toUpperCase()}' ${errors[0].msg}`, true);
-      debug('Share error: ', errors);
+      const response = await err.response.json();
+      let field = '';
+      let message = '';
+
+      if (response[0] && response[0].param) {
+        field = response[0].param.toUpperCase();
+      } else if (response.err && response.err.name) {
+        field = response.err.name;
+      }
+
+      if (response[0] && response[0].msg) {
+        message = response[0].msg;
+      } else if (response.err && response.err.errors[0] && response.err.errors[0].message) {
+        message = response.err.errors[0].message;
+      }
+
+      toggleSnackbar(`Error: field '${field}' ${message}`, true);
+      debug('Share error: ', response);
     }
   }
 
@@ -111,13 +126,13 @@ export default class ShareModal extends Component {
 
     return (
       <Dialog
-          titleClassName={styles.dialogTitle}
-          title={collection ? 'Share collection' : 'Share card'}
-          modal={false}
-          actions={actions}
-          open={shareCardModal}
-          onRequestClose={this.handleCloseDialog}
-        >
+        titleClassName={styles.dialogTitle}
+        title={collection ? 'Share collection' : 'Share card'}
+        modal={false}
+        actions={actions}
+        open={shareCardModal}
+        onRequestClose={this.handleCloseDialog}
+      >
         <TextField
           floatingLabelText='Your name'
           errorText={!fromNameValid && 'This value is required'}

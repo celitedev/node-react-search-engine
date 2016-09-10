@@ -3,7 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import _ from 'lodash';
 import classnames from 'classnames';
 import {connect} from 'redux-simple';
-import {deleteCardFromCollection, saveCollectionInfo} from '../../actions';
+import {deleteCardFromCollection, saveCollectionInfo, toggleEditCardDescription} from '../../actions';
 import MediumEditor from 'react-medium-editor';
 import Card from '../Cards/Card';
 
@@ -12,7 +12,7 @@ function collection(state) {
   return {showPlaceholders, savedCollectionInfo, editCollection};
 }
 
-@connect(collection, {deleteCardFromCollection, saveCollectionInfo})
+@connect(collection, {deleteCardFromCollection, saveCollectionInfo, toggleEditCardDescription})
 export default class CollectionCardsListItem extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -38,12 +38,20 @@ export default class CollectionCardsListItem extends PureComponent {
     this.props.saveCollectionInfo({...savedCollectionInfo, cards: updatedCards});
   }
 
-  handleDesciptionChange(description, medium) {
+  handleDescriptionChange(description, medium) {
     this.setState({
       description
     }, () => {
       this.saveCollection();
     });
+  }
+
+  handleOnFocus() {
+    this.props.toggleEditCardDescription(true);
+  }
+
+  handleOnBlur() {
+    this.props.toggleEditCardDescription(false);
   }
 
   render() {
@@ -63,20 +71,25 @@ export default class CollectionCardsListItem extends PureComponent {
       <div key={raw.id} className={styles.root}>
         <div className={styles.collectionCardWide}>
           <Card className={classnames('card actionBarHidden m-card-imgRight', styles.cardStyle)} settings={cardSettings} data={item} addCards={false} delteCardBtn={editCollection}/>
-          {(editCollection || description) && (
-            <MediumEditor
-            className={classnames(styles.cardDescription, ::this.checkInput())}
-            tag='p'
-            text={description}
-            onChange={::this.handleDesciptionChange}
-            options={{
-                disableEditing: !editCollection,
-                toolbar: {buttons: ['bold', 'italic', 'underline']},
-                placeholder: {
-                  text: 'Card description',
-                  hideOnClick: true
-                }}}
-          />)}
+          {(description || editCollection) && (
+            editCollection ?
+              <MediumEditor
+              className={classnames(styles.cardDescription, ::this.checkInput())}
+              tag='p'
+              text={description}
+              onChange={::this.handleDescriptionChange}
+              onFocus={::this.handleOnFocus}
+              onBlur={::this.handleOnBlur}
+              options={{
+                  disableEditing: !editCollection,
+                  toolbar: {buttons: ['bold', 'italic', 'underline']},
+                  placeholder: {
+                    text: 'Optional: Why does this item belong to this collection? Why is it special to you?',
+                    hideOnClick: true
+                  }}}
+            />
+            : <p className={styles.cardDescription}>{description}</p>
+          )}
         </div>
       </div>
     );

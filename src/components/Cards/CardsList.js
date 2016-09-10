@@ -4,8 +4,16 @@ import {connect} from 'redux-simple';
 import classnames from 'classnames';
 import Card from './Card';
 import Pagination from '../Widgets/Pagination';
+import Collapse from 'react-collapse';
 
 const debug = require('debug')('app: cardsSearch');
+
+const filterLabels = {
+  event: 'HAPPENING',
+  placewithopeninghours: 'PLACES',
+  creativework: 'CREATIVE WORK',
+  organizationandperson: 'PERSON / GROUP'
+};
 
 function paginate(data = [], options) {
   // adapt to zero indexed logic
@@ -22,7 +30,6 @@ function paginate(data = [], options) {
   };
 }
 
-
 function searchedCards(state) {
   const {savedCollectionInfo} = state.collection;
   return {savedCollectionInfo};
@@ -35,19 +42,23 @@ export default class CardsList extends PureComponent {
     this.state = {
       event: {
         page: 1,
-        perPage: 5
+        perPage: 5,
+        isOpened: true
       },
       placewithopeninghours: {
         page: 1,
-        perPage: 5
+        perPage: 5,
+        isOpened: true
       },
       creativework: {
         page: 1,
-        perPage: 5
+        perPage: 5,
+        isOpened: true
       },
       organizationandperson: {
         page: 1,
-        perPage: 5
+        perPage: 5,
+        isOpened: true
       }
     };
   }
@@ -56,11 +67,13 @@ export default class CardsList extends PureComponent {
     const perPage = this.state[type].perPage || {};
     const pages = Math.ceil(cardsLength / perPage);
     const newPage = Math.min(Math.max(page, 1), pages);
+    const isOpened = this.state[type].isOpened;
 
     this.setState({
       [type]: {
         page: newPage,
-        perPage: perPage
+        perPage: perPage,
+        isOpened: isOpened
       }
     });
   }
@@ -77,31 +90,51 @@ export default class CardsList extends PureComponent {
     };
   }
 
+  onToggle(key, isOpened) {
+    const page = this.state[key].page;
+    const perPage = this.state[key].perPage;
+
+    this.setState({
+      [key]: {
+        page: page,
+        perPage: perPage,
+        isOpened: !isOpened
+      }
+    });
+  }
+
   render() {
     const {cards, filter} = this.props;
     return (
       <div className={classnames(styles.root)}>
         {cards.map((section, i) => (
-          section.results.length && (
-            <div key={i}>
-              {(filter === 'all' || filter === section.filterContext.type.toLowerCase()) && (
-                <Pagination className={styles.pagginationPosition}
-                            data={section.results}
-                            page={this.state[section.filterContext.type.toLowerCase()].page}
-                            perPage={this.state[section.filterContext.type.toLowerCase()].perPage}
-                            selectPage={(page) => ::this.selectPage(page, section.results.length, section.filterContext.type.toLowerCase())}>
-                  <li className={classnames('mdl-list__item', styles.collectionList)}>
+          section.results.length && (filter === 'all' || filter === section.filterContext.type.toLowerCase()) && (
+              <div key={i}>
+                <span className={styles.filterTitleSection}>
+                 <label htmlFor='' className={styles.collectionFilterName}>
+                    {filterLabels[section.filterContext.type.toLowerCase()]}
+                  </label>
+                  <img
+                    className={this.state[section.filterContext.type.toLowerCase()].isOpened ? styles.arrowDown : styles.arrowRight}
+                    src={this.state[section.filterContext.type.toLowerCase()].isOpened ? require('../../images/arrow-down.png') : require('../../images/arrow-right.png')}
+                    onClick={()=>::this.onToggle(section.filterContext.type.toLowerCase(), this.state[section.filterContext.type.toLowerCase()].isOpened)}/>
+                </span>
+                <Collapse isOpened={this.state[section.filterContext.type.toLowerCase()].isOpened}>
+                  <Pagination className={styles.pagginationPosition}
+                              data={section.results}
+                              page={this.state[section.filterContext.type.toLowerCase()].page}
+                              perPage={this.state[section.filterContext.type.toLowerCase()].perPage}
+                              selectPage={(page) => ::this.selectPage(page, section.results.length, section.filterContext.type.toLowerCase())}>
                     <div className={classnames('mdl-card', styles.card)}>
-                      <label htmlFor='' className={styles.collectionFilterName}>{section.filterContext.type}</label>
                       {paginate(section.results, this.state[section.filterContext.type.toLowerCase()]).data.map((card, index) => (
                         <div key={index} className={styles.listItem}>
                           <Card className={classnames('card m-card-imgRight', styles.cardStyle)} settings={this.settingCard(card)} data={card} noLink={true} addCards={true}/>
                         </div>
                       ))}
                     </div>
-                  </li>
-                </Pagination>
-              )}
+                  </Pagination>
+                  <hr className={styles.pagginationBottom}/>
+                </Collapse>
             </div>
           ) || null
         ))}

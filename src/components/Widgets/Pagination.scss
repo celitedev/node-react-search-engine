@@ -1,3 +1,30 @@
 .root {
   padding-bottom: 50px;
+
+  color: #aaaab3;
+  display: flex;
+  font-weight: 600;
+  cursor: pointer;
+  padding-left: 22px;
+
+  >div {
+    padding-right: 1px;
+    padding-left: 1px;
+  }
+
+  .previous {
+    padding-right: 4px;
+  }
+
+  .next {
+    padding-left: 4px;
+  }
+
+  .selected {
+    color: #08bb82;
+  }
+
+  .disabled {
+    display: none;
+  }
 }

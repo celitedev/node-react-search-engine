@@ -1,3 +1,4 @@
+@import "../../styles/site-settings";
 
 $marginHor: 12px;
 .root {
@@ -29,16 +30,69 @@ $marginHor: 12px;
   }
 
   .mediumEdit {
-    border-bottom: 1px solid lightgray;
+    min-height: 30px;
+    height: 100%;
     outline: none;
+    margin-top: 65px;
+    margin-bottom: 20px;
+    padding-top: 0;
+    padding-left: 45px;
   }
+
+  .editZone {
+    border: 2px dashed #ffd16d;
+    border-radius: 10px;
+    outline: none;
+    min-height: 100px;
+    height: 100%;
+    @media (max-width: $resp_size_desktop) {
+      min-height: 150px;
+    }
+    @media (max-width: $resp_size_tablet) {
+      min-height: 220px;
+    }
+    margin-top: 65px;
+    margin-bottom: 20px;
+    padding-left: 20px;
+    &:after {
+      margin-top: 0 !important;
+      margin-right: 10px !important;
+      margin-left: 45px !important;
+      padding: 0 !important;
+      white-space: normal;
+    }
+  }
+
   .imgDropZone {
-    border: 1px dashed;
-    padding: 60px;
+    height: 327px;
+    border: 2px dashed #ffd16d;
+    border-radius: 10px;
+    padding: 90px;
+    background: #faf5eb url("../../images/image-thumbnail.png") no-repeat 50% 30%;
     div {
       text-align: center;
     }
+    &:hover {
+      cursor: pointer;
+    }
   }
+
+  .dragZoneTitle {
+    color: #ffd16d;
+    text-align: center;
+    font-size: x-large;
+    font-weight: 400;
+    margin-top: 150px;
+  }
+
+  .dragZoneText {
+    color: #cccfd7;
+    text-align: center;
+    font-size: large;
+    font-weight: 400;
+    margin-top: 7px;
+  }
+
   .formPlaceholder {
     border: 1px dashed;
     input {
@@ -68,10 +122,10 @@ $marginHor: 12px;
     display: none;
   }
   .deleteImage {
-    position: absolute;
-    right: 7px;
-    top: 14px;
-    font-size: 21px;
+    position: relative;
+    left: calc(100% - 30px);
+    top: 30px;
+    font-size: 45px;
     font-weight: 700;
     line-height: 1;
     color: #000;
@@ -87,20 +141,123 @@ $marginHor: 12px;
       opacity: 1;
       text-shadow: none;
       background: none;
+      cursor: pointer;
     }
   }
 
   .titleField, .semiTitleField {
     width: 100% !important;
-    input[disabled] {
-      color: black !important;
-    }
   }
 
   .titleField {
-    font-size: 28px !important;
+    text-align: center;
+    margin-bottom: 25px;
+    height: 100%;
+    textarea {
+      font-size: 32px !important;
+    }
+    @media (max-width: $resp_size_desktop) {
+      margin-top: 15px;
+      input {
+        font-size: 24px !important;
+      }
+      textarea {
+        font-size: 24px !important;
+      }
+    }
+    @media (max-width: $resp_size_tablet) {
+      margin-top: 25px;
+      input {
+        font-size: 20px !important;
+      }
+      textarea {
+        font-size: 20px !important;
+      }
+    }
   }
+
   .semiTitleField {
     font-size: 20px !important;
+    margin-bottom: 25px;
+
+    textarea {
+      font-size: 20px !important;
+    }
+
+    @media (max-width: $resp_size_desktop) {
+      input {
+        font-size: 18px !important;
+      }
+      textarea {
+        font-size: 18px !important;
+      }
+    }
+    @media (max-width: $resp_size_tablet) {
+      input {
+        font-size: 16px !important;
+      }
+      textarea {
+        font-size: 16px !important;
+      }
+    }
   }
+
+  .titlePlaceholder {
+    width: 100% !important;
+    background-color: #faf5eb !important;
+    font-weight: 500;
+    font-size: 30px !important;
+    border: 2px dashed #ffd16d;
+    border-radius: 10px;
+    text-align: center !important;
+    margin-bottom: 25px;
+    padding-left: 18px;
+    padding-right: 18px;
+    display: inline-block;
+    height: 57px !important;
+
+    > div {
+      color: #757066 !important;
+      width: 100%;
+    }
+    @media (max-width: $resp_size_desktop) {
+      height: 70px;
+    }
+
+    hr {
+      display: none;
+    }
+  }
+
+  .subTitlePlaceholder {
+    width: 100% !important;
+    background-color: #faf5eb !important;
+    font-size: 20px !important;
+    font-style: italic;
+    font-weight: 500;
+    border: 2px dashed #ffd16d;
+    border-radius: 10px;
+    height: 80px !important;
+    @media (max-width: $wrapper_max_width) {
+      height: 100px !important;
+    }
+    @media (max-width: $resp_size_desktop) {
+      font-size: 18px !important;
+      height: 90px !important;
+    }
+    @media (max-width: $resp_size_tablet) {
+      font-size: 16px !important;
+      height: 110px !important;
+    }
+
+    text-align: left !important;
+    margin-bottom: 25px;
+    padding-left: 18px;
+    padding-right: 18px;
+
+    hr {
+      display: none;
+    }
+  }
+
 }

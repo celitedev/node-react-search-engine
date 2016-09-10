@@ -9,8 +9,9 @@ import {
   suggestCards,
   deleteCardFromCollection
 } from '../../actions';
-import {Button, Textfield} from 'react-mdl';
-import ArrowDownIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-down';
+import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import CardsList from '../Cards/CardsList';
 import {types} from '../../exampleQuestions';
 
@@ -46,12 +47,11 @@ export default class CollectionCardSearch extends Component {
     };
   }
 
-  changeFilter(filter) {
+  handleChange(event, index, value) {
     this.setState({
-      filter
-    });
+      filter: value
+    }, () => this.loadCards());
   }
-
 
   async loadCards() {
     const {filter, value} = this.state;
@@ -89,42 +89,33 @@ export default class CollectionCardSearch extends Component {
     const filterType = types[filter] || filter;
     return (
       <div className={classnames(className, styles.root)}>
-          <form onsubmit={::this.searchResults}>
-            <div
-              className={classnames('mdl-textfield mdl-js-textfield mdl-textfield--floating-label getmdl-select', styles.selectBox)}>
-              <input className={classnames('mdl-textfield__input', styles.filterInput)}
-                     type='text'
-                     id='filter'
-                     value={filter}
-                     readOnly
-                     tabIndex='-1'
-              />
-              <label htmlFor='filter' className={styles.selectBoxLabel}>
-                <ArrowDownIcon className='mdl-icon-toggle__label material-icons'/>
-              </label>
-              <ul htmlFor='filter' className='mdl-menu mdl-menu--bottom-left mdl-js-menu'>
-                <li className='mdl-menu__item' value='all' onClick={() => this.changeFilter('all')}>All types</li>
-                <li className='mdl-menu__item' value='happening' onClick={() => this.changeFilter('happening')}>
-                  Happening
-                </li>
-                <li className='mdl-menu__item' value='place' onClick={() => this.changeFilter('places')}>Places</li>
-                <li className='mdl-menu__item' value='creative' onClick={() => this.changeFilter('creative Work')}>Creative
-                  work
-                </li>
-                <li className='mdl-menu__item' value='person' onClick={() => this.changeFilter('Person / Group')}>Person/Group
-                </li>
-              </ul>
+          <form onSubmit={::this.searchResults}>
+            <div className={styles.filterSection}>
+              <div className={styles.filterField}>
+                <SelectField
+                  value={filter}
+                  labelStyle={{'color': '#fff', 'fontWeight': '600', 'marginLeft': '10px', 'top': '-12px'}}
+                  iconStyle={{'top': '2px', 'color': '#fff'}}
+                  underlineStyle={{'display': 'none'}}
+                  style={{'backgroundColor': '#3793ff', 'borderRadius': '5px', 'width': '190px', 'height': '29px', 'lineHeight': '40px'}}
+                  onChange={::this.handleChange}>
+                  <MenuItem value={'all'} primaryText='NO FILTER' />
+                  <MenuItem value={'happening'} primaryText='HAPPENING' />
+                  <MenuItem value={'places'} primaryText='PLACES' />
+                  <MenuItem value={'creative Work'} primaryText='CREATIVE WORK' />
+                  <MenuItem value={'Person / Group'} primaryText='PERSON / GROUP' />
+                </SelectField>
+                <TextField
+                  name='cards_search'
+                  type='search'
+                  onChange={::this.handleSearch}
+                  hintText='Search for specific items...'
+                  underlineStyle={{'display': 'none'}}
+                  hintStyle={{'bottom': '7px', 'fontWeight': '500', 'fontStyle': 'italic', 'fontSize': '20px', 'color': '#b7b7b7'}}
+                  style={{'height': '30px', 'bottom': '14px'}}
+                  className={styles.search}/>
+                </div>
             </div>
-            <Textfield
-                onChange={::this.handleSearch}
-                label='Cards search...'
-                className={styles.search}
-            />
-            <Button
-              className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect', styles.extraFiltersBtn)}
-              onClick={::this.searchResults}>
-              Show Cards
-            </Button>
           </form>
         <CardsList cardTypes={cardTypes} cards={cards} shareBtn={false} filter={filterType.toLowerCase()}/>
       </div>

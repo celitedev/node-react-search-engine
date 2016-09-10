@@ -1,6 +1,11 @@
 import React from 'react';
 import {page} from '../page';
-import {saveCollectionInfo, resetCollectionInfo, redirect, switchPlaceholdersVisibility} from '../../actions';
+import PureComponent from 'react-pure-render/component';
+import {saveCollectionInfo,
+  resetCollectionInfo,
+  redirect,
+  toggleEditCollection,
+  switchPlaceholdersVisibility} from '../../actions';
 import NewCollectionHeader from '../../components/NewCollection/NewCollectionHeader';
 import NewCollectionDescription from '../../components/NewCollection/NewCollectionDescription';
 import NewCollectionCards from '../../components/NewCollection/NewCollectionCards';
@@ -19,13 +24,13 @@ function collection(state) {
   return {showPlaceholders, savedCollectionInfo, authenticated, editCollection};
 }
 
-@page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect, switchPlaceholdersVisibility})
-export default class NewCollection extends React.Component {
+@page('NewCollection', collection, {saveCollectionInfo, resetCollectionInfo, redirect, toggleEditCollection, switchPlaceholdersVisibility})
+export default class NewCollection extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
   };
 
-  static fetchData({dispatch, params}) {
+  static fetchData({}) {
     return {};
   }
 
@@ -33,6 +38,7 @@ export default class NewCollection extends React.Component {
     super(props, context);
     this.state = {
       horizon: context.horizon,
+      params: null,
       loaded: false
     };
   }
@@ -55,7 +61,7 @@ export default class NewCollection extends React.Component {
         },
         (err) => debug('Error fetch data from db', err),
         () => {
-          debug('Compleated fetch data');
+          debug('Completed fetch data');
           this.setState({
             loaded: true
           });
@@ -77,25 +83,23 @@ export default class NewCollection extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {loaded, authenticated} = this.props;
-    if (nextProps.loaded === loaded) return;
-    if (nextProps.user && (nextProps.user.authenticated !== authenticated)) {
-      debug('Next props', nextProps);
-      resetCollectionInfo();
+    const {savedCollectionInfo} = nextProps;
+
+    if (!savedCollectionInfo.id) {
       this.getUserCollection();
-    } else return;
+    }
   }
 
   render() {
     const {loaded} = this.state;
-    const {editCollection, authenticated, params} = this.props;
+    const {authenticated, params} = this.props;
     return (
       <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
       <Header params={params}/>
         {loaded && (
           <main className='mdl-layout__content'>
             <div className='page-content'>
-              {(authenticated && editCollection) && <NewCollectionHeader />}
+              {authenticated && <NewCollectionHeader />}
               <NewCollectionDescription />
               <NewCollectionCards />
               <CollectionAddCardDialog />
@@ -106,5 +110,4 @@ export default class NewCollection extends React.Component {
       </div>
     );
   }
-
 }

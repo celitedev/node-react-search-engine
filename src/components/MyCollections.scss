@@ -6,6 +6,7 @@
   margin: 0 auto;
   position: relative;
 }
+
 .cardStyle {
   @media(min-width: 700px) {
     >div {
@@ -18,6 +19,18 @@
   }
 }
 
+.editBtn {
+  button {
+    background-color: #00cd75 !important;
+  }
+}
+
+.title {
+  color: #aaaab3;
+  font-weight: 500;
+  font-size: 16px;
+  margin-left: 7px;
+}
 
 .imageWrap {
   background-size: cover;
@@ -40,6 +53,10 @@
   display: none !important; //!important bc. react inline style bs..
   @media (min-width: $resp_size_tablet) {
     display: block !important;  //!important bc. react inline style bs..
+  }
+
+  button {
+    background-color: #00cd75 !important;
   }
 }
 

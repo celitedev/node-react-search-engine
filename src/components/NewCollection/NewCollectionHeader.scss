@@ -1,27 +1,34 @@
+@import "../../styles/site-settings";
 
 .root {
+
   .materialIconSmall {
     font-size: 1.3rem;
     line-height: inherit;
   }
+
   .rightSide {
     margin-left: auto;
+    color: #01b165;
   }
-  .floatLeft {
-    float: left;
+
+  .invalidCollection {
+    color: red;
   }
-  .floatRight {
-    float: right;
-  }
+
   .mediumEdit {
     min-width: 100px;
   }
   .breadcrumbs, a {
     line-height: inherit;
-    height: 22px;
+    min-height: 22px;
+    height: 100%;
     background-color: transparent;
     box-shadow: none;
-    color: #21343a;
+    color: #1c7ae5;
+    @media (max-width: $resp_size_desktop) {
+      margin-bottom: 10px;
+    }
   }
   .myColNameEdit {
     border: 1px dashed;
@@ -51,10 +58,48 @@
   }
   .myColName {
     cursor: pointer;
-    padding: 0 10px;
+    padding: 0;
+    color: #21343a;
   }
 }
 
 .saveCollection {
+  border: 2px solid #158655;
+  border-radius: 5px !important;
+  > span {
+    font-size: 12px !important;
+  }
+}
+
+.shareCollection {
   margin-left: 1em;
+  border: 2px solid #158655;
+  border-radius: 5px !important;
+}
+
+.header {
+  background-color: #01b165;
+  height: 55px;
+  @media (max-width: $resp_size_tablet) {
+    height: 100px;
+  }
+}
+
+.buttonsGroup {
+  float: left;
+  margin: 10px 0 0 3%;
+}
+
+.navArrow {
+  height: 22px !important;
+  width: 17px !important;
+}
+
+.toggleGroup {
+  float: right;
+  margin: 12px 5% 0 0;
+  @media (max-width: $resp_size_tablet) {
+    float: left;
+    margin-left: 3%;
+  }
 }

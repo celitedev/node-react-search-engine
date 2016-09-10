@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import classnames from 'classnames';
-import {logout} from '../../actions';
+import {logout, redirect} from '../../actions';
 import {login, clearAuthToken} from '../../horizon';
 import {Link} from 'react-router';
 import cookie from 'react-cookie';
@@ -20,7 +20,7 @@ function getLoginPopover(state) {
   return {loginModal, authenticated};
 }
 
-@connect(getLoginPopover, {logout})
+@connect(getLoginPopover, {logout, redirect})
 export default class LoginPopover extends PureComponent {
   constructor(props, context) {
     super(props, context);
@@ -64,6 +64,11 @@ export default class LoginPopover extends PureComponent {
     login(provider);
   }
 
+  openMyCollections() {
+    const {redirect} = this.props;
+    redirect('/mycollections');
+  }
+
   render() {
     const {authenticated, cardAction, detailMessage} = this.props;
     const {open, anchorEl} = this.state;
@@ -95,7 +100,7 @@ export default class LoginPopover extends PureComponent {
             >
             {authenticated && (
               <Menu>
-                <Link to='/mycollections'><MenuItem>My collections</MenuItem></Link>
+                <MenuItem onTouchTap={() => ::this.openMyCollections()}>My collections</MenuItem>
                 <MenuItem onClick={() => ::this.logout()} primaryText='Logout' />
               </Menu>
             ) || (

@@ -29,23 +29,33 @@ export default class Pagination extends Component {
                              endPages: 1,
                              sidePages: 2
                            })} onSelect={selectPage} ellipsis={'…'}>
+          <Paginator.Button
+            className={page > 1 ? styles.previous : styles.disabled}
+            page={page - 1}>
+            Previous
+          </Paginator.Button>
           <Paginator.Segment field='beginPages'/>
-
-          <Paginator.Ellipsis className='ellipsis'
-                              previousField='beginPages' nextField='previousPages'>
+          <Paginator.Ellipsis
+            className='ellipsis'
+            previousField='beginPages'
+            nextField='previousPages'>
             ***
           </Paginator.Ellipsis>
-
           <Paginator.Segment field='previousPages'/>
-          <Paginator.Segment field='centerPage' className='selected'/>
+          <Paginator.Segment field='centerPage' className={styles.selected}/>
           <Paginator.Segment field='nextPages'/>
-
-          <Paginator.Ellipsis className='ellipsis'
-                              previousField='nextPages' nextField='endPages'>
+          <Paginator.Ellipsis
+            className='ellipsis'
+            previousField='nextPages'
+            nextField='endPages'>
             ***
           </Paginator.Ellipsis>
-
           <Paginator.Segment field='endPages'/>
+          <Paginator.Button
+            className={page < pages ? styles.next : styles.disabled}
+            page={page + 1}>
+            Next
+          </Paginator.Button>
         </Paginator.Context>
       </div>
     );

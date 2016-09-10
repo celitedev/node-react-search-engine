@@ -1,10 +1,17 @@
 import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
-import {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo, toggleShareModal} from '../../actions';
+import {switchPlaceholdersVisibility,
+  saveCollectionInfo,
+  saveCollection,
+  redirect,
+  resetCollectionInfo,
+  toggleEditCollection,
+  toggleShareModal,
+  toggleSnackbar} from '../../actions';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
-import ArrowRightIcon from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
+import ArrowRightIcon from 'material-ui/svg-icons/navigation/chevron-right';
 import {RaisedButton, Toggle} from 'material-ui';
 import {isEqual} from 'lodash';
 
@@ -12,11 +19,11 @@ const debug = require('debug')('app:collections:new');
 
 function collection(state) {
   const {user} = state.auth;
-  const {showPlaceholders, savedCollectionInfo} = state.collection;
-  return {showPlaceholders, savedCollectionInfo, user};
+  const {showPlaceholders, savedCollectionInfo, editCollection} = state.collection;
+  return {showPlaceholders, savedCollectionInfo, editCollection, user};
 }
 
-@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo, toggleShareModal})
+@connect(collection, {switchPlaceholdersVisibility, saveCollectionInfo, saveCollection, redirect, resetCollectionInfo, toggleShareModal, toggleEditCollection, toggleSnackbar})
 export default class NewCollectionHeader extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -37,11 +44,15 @@ export default class NewCollectionHeader extends PureComponent {
     return !(col.title && col.cards.length);
   }
 
+  checkValidation() {
+    return this.validateCollection() ? styles.invalidCollection : '';
+  }
+
   saveCollection() {
     debug('saveCollection start', this.props.savedCollectionInfo);
     if (!this.validateCollection()) {
       const {horizon} = this.state;
-      const {savedCollectionInfo, user} = this.props;
+      const {savedCollectionInfo, user, toggleSnackbar} = this.props;
       debug('Collection valid');
       const collections = horizon('collections');
       const cards = savedCollectionInfo.cards.map((card) => {
@@ -51,10 +62,17 @@ export default class NewCollectionHeader extends PureComponent {
       collections.upsert({
         ...savedCollectionInfo, cards, userId: user.id
       }).subscribe(collection => {
-        debug('Collection updeted');
-        this.props.redirect('/mycollections');
+        if (!this.props.savedCollectionInfo.id) {
+          this.props.savedCollectionInfo.id = collection.id;
+        }
+        this.setState({collectionInfoChanged: false});
+        debug('Collection updated');
+        toggleSnackbar('Collection successfully updated');
       },
-      (err) => debug('Collection update error', err),
+      (err) => {
+        debug('Collection update error', err);
+        toggleSnackbar('Collection update error', err);
+      },
       () => {
         debug('Collection update finished', collection);
       });
@@ -72,50 +90,65 @@ export default class NewCollectionHeader extends PureComponent {
     toggleShareModal(true, savedCollectionInfo.id, savedCollectionInfo.title);
   }
 
+  togglePlaceholdersVisibility() {
+    const {showPlaceholders, switchPlaceholdersVisibility, toggleEditCollection, editCollection} = this.props;
+
+    toggleEditCollection(!editCollection);
+    switchPlaceholdersVisibility();
+  }
+
   render() {
-    const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo} = this.props;
+    const {savedCollectionInfo, showPlaceholders, switchPlaceholdersVisibility, resetCollectionInfo, editCollection} = this.props;
     const {collectionInfoChanged} = this.state;
     const {title} = savedCollectionInfo;
     const label = this.validateCollection() ? 'Collection needs title, and at least 1 card' : 'Collection is valid';
     return (
-      <div className='mdl-grid'>
-        <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
-          <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
-            <Link to='/mycollections' onClick={resetCollectionInfo}>
-              My Collections
-            </Link>
-            <ArrowRightIcon />
-            <span className={styles.myColName}>{title}</span>
-            <span
-              className={classnames('mdl-cell--hide-phone', styles.rightSide, this.validateCollection())}>
-              {label}
-            </span>
-          </nav>
-          <div className={styles.floatLeft}>
-            <h6>Settings</h6>
-            <div>
-              <RaisedButton
-                label='Share'
-                onClick={() => ::this.toggleShareModal()}
-              />
-              <RaisedButton
-                className={styles.saveCollection}
-                label='Save'
-                labelColor={collectionInfoChanged ? '#fff' : '#000'}
-                backgroundColor={collectionInfoChanged ? '#00cd75' : '#fff' }
-                disabled={this.validateCollection()}
-                onClick={::this.saveCollection}
-              />
-            </div>
+      <div>
+        <div className={styles.header} >
+          <div className={styles.buttonsGroup}>
+            <RaisedButton
+              className={styles.saveCollection}
+              labelStyle={{'fontSize': '12px', 'fontWeight': 'bold'}}
+              label='Save Collection'
+              labelColor={collectionInfoChanged ? '#fff' : '#1c7ae5'}
+              backgroundColor={collectionInfoChanged ? '#00cd75' : '#fff' }
+              disabled={this.validateCollection()}
+              onClick={::this.saveCollection}
+            />
+            <RaisedButton
+              className={styles.shareCollection}
+              label='Share Collection'
+              labelColor='#1c7ae5'
+              labelStyle={{'fontSize': '12px', 'fontWeight': 'bold'}}
+              onClick={() => ::this.toggleShareModal()}
+            />
           </div>
-          <div className={styles.floatRight}>
-            <h6>Placeholders</h6>
-            <div className={styles.floatRight}>
-              <Toggle
-                defaultToggled={showPlaceholders}
-                onToggle={switchPlaceholdersVisibility}
-              />
-            </div>
+          <div className={styles.toggleGroup}>
+            <Toggle
+              label='View Mode'
+              labelStyle={{'color': '#ffffff', 'fontSize': '22px', 'fontWeight': '600', 'marginTop': '7px'}}
+              style={{'color': '#ffffff'}}
+              defaultToggled={editCollection ? false : true}
+              trackStyle={{'height': '30px', 'width': '70px'}}
+              thumbStyle={{'height': '36px', 'width': '36px'}}
+              inputStyle={{'width': '190px'}}
+              onToggle={() => ::this.togglePlaceholdersVisibility()}
+            />
+          </div>
+        </div>
+        <div className='mdl-grid'>
+          <div className={classnames('mdl-cell mdl-cell--12-col', styles.root)}>
+            <nav className={classnames('mdl-navigation', styles.breadcrumbs)}>
+              <Link onlyActiveOnIndex={false} to='/mycollections' onClick={resetCollectionInfo}>
+                My Collections
+              </Link>
+              <ArrowRightIcon className={styles.navArrow} />
+              <span className={styles.myColName}>{title}</span>
+              <span
+                className={classnames('mdl-cell--hide-phone', styles.rightSide, this.checkValidation())}>
+                {label}
+              </span>
+            </nav>
           </div>
         </div>
       </div>

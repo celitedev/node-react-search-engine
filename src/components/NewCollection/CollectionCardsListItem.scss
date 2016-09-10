@@ -1,21 +1,32 @@
+@import "../../styles/site-settings";
 
 .root {
   margin: auto;
   .collectionCardWide {
     margin-bottom: 50px;
   }
+
   .cardStyle {
     width: 100%;
   }
+
   .cardDescription {
-    max-width: 450px;
+    background: white url('../../images/quotes.png') no-repeat top left;
     width: 100%;
-    background-color: white;
-    margin: 5px 0;
+    margin-top: 45px;
     outline: none;
-    padding-bottom: 0px;
-    padding-top: 0px;
+    padding-top: 0;
+    padding-left: 55px;
+    padding-bottom: 40px;
+    min-height: 30px;
+    height: 100%;
+    border-bottom: 1px solid lightgray;
+    input {
+      border-bottom: none;
+      margin: 0;
+    }
   }
+
   .formLayout {
     margin: auto;
     .formInput {
@@ -26,14 +37,40 @@
       }
     }
   }
+
   .formPlaceholder {
-    border: 1px dashed;
-    input {
-      border-bottom: none;
+    background: #faf5eb url('../../images/placeholder-quotes.png') no-repeat 19px 21px;
+    border: 2px dashed #ffd16d;
+    border-radius: 10px;
+    height: 70px;
+    margin-top: 20px;
+    width: 100%;
+    padding-left: 75px;
+    padding-top: 20px;
+    font-weight: 500;
+    font-size: 16px;
+    white-space: normal;
+
+    @media (max-width: $resp_size_desktop) {
+      height: 98px;
+    }
+
+    &:after {
+      margin-top: 20px !important;
+      margin-left: 75px !important;
+      margin-right: 8px !important;
+      padding: 0 !important;
+
+      color: #8d8888 !important;
+
+      @media (max-width: $resp_size_desktop) {
+        white-space: normal;
+      }
     }
   }
+
   .descriptionLabel {
-    padding: 5px 0px 0px 5px;
+    padding: 5px 0 0 5px;
     margin-top: 0;
     text-align: left;
   }

@@ -122,12 +122,16 @@ export default class MyCollections extends PureComponent {
       <main className='mdl-layout__content'>
         <div className='page-content'>
           <ul className={classnames(styles.root, 'mdl-list')}>
-            <RaisedButton label='New collection' secondary={true} className={styles.newCollectionAdd} onClick={this.createCollection}/>
+            <RaisedButton
+              label='New collection'
+              primary={true}
+              className={styles.newCollectionAdd}
+              onClick={this.createCollection}/>
             <FloatingActionButton mini={true} secondary={true} className={styles.newCollectionAddSmall} onClick={this.createCollection}>
               <ContentAdd />
             </FloatingActionButton>
             <div className='mdl-card__title'>
-              <h2 className='mdl-card__title-text'>My collections</h2>
+              <h2 className={classnames('mdl-card__title-text', styles.title)}>MY COLLECTIONS</h2>
             </div>
 
             {collections.length && (
@@ -144,15 +148,29 @@ export default class MyCollections extends PureComponent {
                         <CardMedia className={styles.imageWrap} style={{backgroundImage: `url(${c.img})`}}/>
                       )}
                       <div className={styles.cardFlexGrow}>
-                        <CardTitle title={c.title} subtitle={c.subTitle} />
+                        <CardTitle
+                          title={c.title}
+                          titleStyle={{'color': '#666666', 'fontSize': '28px', 'fontWeight': '500', 'textAlign': 'center'}}
+                          subtitle={c.subTitle}
+                          subtitleStyle={{'color': '#158655', 'fontSize': '18px', 'fontStyle': 'italic', 'fontWeight': '500', 'textAlign': 'center'}}/>
                         {c.description && (
-                          <CardText>
+                          <CardText style={{'textAlign': 'center'}}>
                             {c.description.replace(/<.*?>/g, '')}
                           </CardText>
                         )}
                         <CardActions>
-                          <RaisedButton primary={true} labelPosition='before' icon={<EditIcon />} label='Edit' onClick={(event) => this.editCollection(event, c, true)}/>
-                          <RaisedButton label='Delete' labelPosition='before' icon={<DeleteIcon />} secondary={true} onClick={(event) => ::this.deleteCollection(event, c.id)}/>
+                          <RaisedButton
+                            primary={true}
+                            labelPosition='before'
+                            icon={<EditIcon />}
+                            className={styles.editBtn}
+                            label='Edit' onClick={(event) => this.editCollection(event, c, true)}/>
+                          <RaisedButton
+                            label='Delete'
+                            labelPosition='before'
+                            icon={<DeleteIcon />}
+                            secondary={true}
+                            onClick={(event) => ::this.deleteCollection(event, c.id)}/>
                         </CardActions>
                         </div>
                       </Card>

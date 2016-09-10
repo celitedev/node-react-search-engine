@@ -1,3 +1,5 @@
+@import "../../styles/site-settings";
+
 .dialog {
   padding-top: 0;
   .dialogClose {
@@ -24,15 +26,36 @@
   }
 
   .dialogTitle {
-    text-align: center;
-    background: deepskyblue;
+    text-align: left;
+    background: #08bb6e;
     color: white !important;
-    font-size: xx-large;
-    margin-bottom: 25px !important;
+    line-height: 5px !important;
+    padding-bottom: 15px !important;
+
+    >h3 {
+      font-weight: 600;
+      margin: 0;
+      font-size: 28px;
+
+      @media screen and (max-width: $resp_size_desktop) {
+        font-size: 22px;
+      }
+    }
+
+    >span {
+      font-weight: 600;
+      font-size: 15px;
+      line-height: 15px;
+
+      @media screen and (max-width: $resp_size_desktop) {
+        font-size: 10px;
+      }
+    }
   }
 
   .dialogBody {
     height: 500px;
+    padding: 0 !important;
   }
 
   .dialogContent {
@@ -45,6 +68,12 @@
 
   .dialogActionsBar {
     margin-top: 0 !important;
+    background-color: #08bb6e;
+  }
+
+  .doneBtn {
+    border: 2px solid #158655;
+    border-radius: 3px !important;
   }
 
 }
