@@ -17,6 +17,7 @@ const encance = compose(
   pure
 );
 
+
 @encance
 export default class ShareModal extends Component {
   constructor(props, context) {
@@ -113,21 +114,25 @@ export default class ShareModal extends Component {
     const actions = [
       <FlatButton
         label='Share'
-        secondary={true}
+        labelStyle={{'color': '#3f51b5', 'fontSize': '13px'}}
         onTouchTap={this.submit}
         type='submit'
       />,
       <FlatButton
         label='Cancel'
-        primary={true}
+        labelStyle={{'color': '#3f51b5', 'fontSize': '13px'}}
         onTouchTap={this.handleCloseDialog}
       />
     ];
 
     return (
       <Dialog
+        className={styles.dialog}
         titleClassName={styles.dialogTitle}
         title={collection ? 'Share collection' : 'Share card'}
+        bodyClassName={styles.dialogContent}
+        autoDetectWindowHeight={true}
+        contentStyle={{'maxWidth': '672px'}}
         modal={false}
         actions={actions}
         open={shareCardModal}
@@ -135,6 +140,7 @@ export default class ShareModal extends Component {
       >
         <TextField
           floatingLabelText='Your name'
+          floatingLabelStyle={{color: '#08bb6e'}}
           errorText={!fromNameValid && 'This value is required'}
           fullWidth={true}
           onChange={(e) => this.handleChange(e, 'fromName')}

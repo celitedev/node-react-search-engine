@@ -1,29 +1,29 @@
 .dialog {
-  margin: 0 auto;
-}
+  padding-top: 0;
 
-.dialogTitle {
-  text-align: center;
-  background: deepskyblue;
-  color: white !important;
-  font-size: xx-large;
-  margin-bottom: 25px !important;
-}
 
-.dialogContent {
-  padding: 0;
-  padding-top: 80px;
-}
+  .dialogTitle {
+    text-align: center;
+    background: #08bb6e;
+    color: white !important;
+    font-size: xx-large;
+    margin-bottom: 25px !important;
+  }
+  .dialogContent {
+    padding: 0;
+    padding-top: 80px;
+  }
 
-.socialBtn {
-  width: 100%;
-  height: 50px;
-  margin-bottom: 10px !important;
-}
+  .socialBtn {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 10px !important;
+  }
 
-.twitterBtn {
-  background: deepskyblue;
-  &:hover{
+  .twitterBtn {
     background: deepskyblue;
+    &:hover {
+      background: deepskyblue;
+    }
   }
 }
