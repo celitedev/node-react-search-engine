@@ -3,7 +3,7 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
-import {MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
+import {MenuItem, FlatButton, IconMenu, Divider, FontIcon} from 'material-ui';
 import {
   addCardToCollection,
   deleteCardFromCollection,
@@ -193,6 +193,10 @@ export default class Card extends PureComponent {
     const {collections} = this.state;
     const {formatted, raw} = data;
 
+    const thumbnailUrl = require('../../images/cardthumbnail.png');
+    const shareIconUrl = require('../../images/share.png');
+
+
     if (!data) {
       return null;
     }
@@ -212,6 +216,12 @@ export default class Card extends PureComponent {
             <div
               className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
               style={{backgroundImage: `url(${raw.image[0]})`}}>
+            </div>
+          )}
+          {!raw.image && (
+            <div
+              className={classnames('card--media', styles.placeholder)}
+              style={{'backgroundImage': `url(${thumbnailUrl})`}}>
             </div>
           )}
           <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
@@ -270,6 +280,12 @@ export default class Card extends PureComponent {
           </div>
         </div>
         <div className={classnames('card--actions', styles.cardActions)}>
+          {shareBtn && (
+            <IconButton onTouchTap={() => ::this.toggleShareModal(raw)} name='shareCardBtn'
+                        className={styles.saveCardBtn}>
+              <img src={shareIconUrl} className={styles.imgBtn} />
+            </IconButton>
+          )}
           {addCards && (
             ::this.findCardById(raw.id) && (
               <button
@@ -308,10 +324,6 @@ export default class Card extends PureComponent {
                 <LoginPopover cardAction={true} cardId={raw.id} detailMessage='Sign in to save this card.'/>
               )}
             </div>
-          )}
-          {shareBtn && (
-            <FlatButton label='Share card' labelStyle={{'color': '3f51b5', 'fontSize': '13px'}}
-                        onClick={() => ::this.toggleShareModal(raw)}/>
           )}
         </div>
       </div>

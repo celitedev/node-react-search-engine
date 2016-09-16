@@ -72,6 +72,7 @@ export default class LoginPopover extends PureComponent {
   render() {
     const {authenticated, cardAction, detailMessage} = this.props;
     const {open, anchorEl} = this.state;
+    const tagIconUrl = require('../../images/tag.png');
 
     return (
       <div>
@@ -81,7 +82,9 @@ export default class LoginPopover extends PureComponent {
               <AccountCircle color='white'/>
             </IconButton>
           ) || cardAction && (
-            <FlatButton onTouchTap={::this.handleTouchTap} labelStyle={{'color': '3f51b5', 'fontSize': '13px'}} label={SAVE_CARD_MSG} />
+            <IconButton onTouchTap={::this.handleTouchTap} className={styles.saveCardBtn}>
+              <img src={tagIconUrl} className={styles.imgBtn} />
+            </IconButton>
           ) || (
             <FlatButton
               onTouchTap={this.handleTouchTap}

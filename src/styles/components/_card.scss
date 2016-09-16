@@ -131,6 +131,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
 .card--media {
   position: relative;
   background-size: cover;
+  min-height: 152px;
   background-position: center; /* Internet Explorer 7/8 */
 }
 
@@ -286,7 +287,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
     font-size: 14px;
     &.accent {
       font-size: 16px;
-      font-weight: 700;
+      font-weight: 100;
       color: $c_gr100;
     }
   }
