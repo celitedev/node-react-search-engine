@@ -175,6 +175,7 @@ export default class Card extends PureComponent {
   render() {
     debug('at render:', this.props);
     const {
+      type,
       className,
       authenticated,
       children,
@@ -192,10 +193,9 @@ export default class Card extends PureComponent {
     } = this.props;
     const {collections} = this.state;
     const {formatted, raw} = data;
-
+    const geo = settings.geo;
     const thumbnailUrl = require('../../images/cardthumbnail.png');
     const shareIconUrl = require('../../images/share.png');
-
 
     if (!data) {
       return null;
@@ -212,21 +212,21 @@ export default class Card extends PureComponent {
               </IconButton>
             </div>
           )}
-          {raw.image && (
+          {raw.image && !geo && (
             <div
-              className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
+              className={classnames('card--media showImageDetailClass showFallbackImageClass 1', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
               style={{backgroundImage: `url(${raw.image[0]})`}}>
             </div>
           )}
-          {!raw.image && (
+          {!raw.image && !geo && (
             <div
-              className={classnames('card--media', styles.placeholder)}
+              className={classnames('card--media 2', styles.placeholder)}
               style={{'backgroundImage': `url(${thumbnailUrl})`}}>
             </div>
           )}
           <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
             <div className={classnames('card--contents', styles.cardContent)}>
-              <div className={classnames('card--category', styles.formatedNumber)}>
+              <div className={classnames('card--category', styles.formatedNumber, (settings.type === 'detail-card') && styles.kwhenGreen)}>
                 {(cardNumber && raw.geo) && (
                   <span className={classnames('card--number')}>{cardNumber}</span>
                 )}
@@ -240,22 +240,26 @@ export default class Card extends PureComponent {
                     </Textfit>
                   )}
                 </div>
-                {settings.identifiers2 && formatted.identifiers2 && (
-                  <div className='card--identifier--subtitle'>
+              </div>
+              <div style={{'display': 'flex'}}>
+                {((formatted.headsup1 || formatted.headsup2) || (settings.headsup1 || settings.headsup2)) && (
+                  <div className='card--headsup headsupAccentBackgroundClass' style={{flex: 1}}>
+                    {(formatted.headsup1 || settings.headsup1) && (
+                      <div className='accent'>{formatted.headsup1}</div>
+                    )}
+                    {(formatted.headsup2 || settings.headsup2) && (
+                      <div>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
+                    )}
+                  </div>
+                )}
+
+                {settings.type === 'detail-card' && settings.identifiers2 && formatted.identifiers2 && (
+                  <div className='card--identifier--subtitle' style={{flex: 1}}>
                     {_.isArray(formatted.identifiers2) ? formatted.identifiers2.join(', ') : formatted.identifiers2}
                   </div>
                 )}
               </div>
-              {((formatted.headsup1 || formatted.headsup2) || (settings.headsup1 || settings.headsup2)) && (
-                <div className='card--headsup headsupAccentBackgroundClass'>
-                  {(formatted.headsup1 || settings.headsup1) && (
-                    <div className='accent'>{formatted.headsup1}</div>
-                  )}
-                  {(formatted.headsup2 || settings.headsup2) && (
-                    <div>{_.isArray(formatted.headsup2) ? formatted.headsup2.join(', ') : formatted.headsup2}</div>
-                  )}
-                </div>
-              )}
+
               {(settings.databits1 || settings.databits2) && (
                 <div className='card--databits'>
                   {(formatted.databits1 || settings.databits1) && (

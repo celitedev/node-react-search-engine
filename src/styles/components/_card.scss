@@ -118,6 +118,7 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
     display: inline; //!
     cursor: pointer;
     cursor: hand;
+    flex:1;
   }
 
   &.no-link {
@@ -263,7 +264,9 @@ $card-actionbar-height: 53px; //exactly 53. Otherwise JS problems (updateCardAct
     font-weight: 500;
   }
   &--subtitle {
-    @include oneLineEllipsisOverflow();
+    @include oneLineEllipsisOverflow('auto', 'auto');
+    white-space: pre-wrap;
+
     // font-size: 12px;
   }
 }

@@ -23,6 +23,8 @@ export default class Details extends Component {
     }
 
     const cardSettings = {
+      type: 'detail-card',
+      geo: geo,
       identifiers1: answer.result.formatted.identifiers1,
       identifiers2: answer.result.formatted.identifiers2,
       headsup1: answer.result.formatted.headsup1,
@@ -31,7 +33,7 @@ export default class Details extends Component {
       databits2: answer.result.formatted.databits2 && answer.result.formatted.databits2.length,
       whyshown: answer.result.formatted.whyshown
     };
-
+    console.log('detail data', answer.result, 'cardSettings', cardSettings);
     const mapOptions = {
       scrollWheelZoom: false,
       zoomControl: false
@@ -41,7 +43,7 @@ export default class Details extends Component {
         <div className='page-content'>
           <div className='l-detailPage'>
             <div className='l-detailPage--cardContainer'>
-              <Card ref='card' className={classnames('card has-map no-link', styles.detailsCard)}
+              <Card ref='card' className={classnames('card m-card-imgRight has-map no-link', styles.detailsCard)}
                     data={answer.result} shareBtn={true} settings={cardSettings}>
                 {geo && (
                   <Map className='card--mediaDetail card--mediaDetail-do-show' options={mapOptions} setView={setMapView}/>
