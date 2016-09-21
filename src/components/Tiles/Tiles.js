@@ -20,7 +20,6 @@ const Tiles = enhance(({items}) => (
         <li key={index} className='quicklaunch--item'>
           <Link onlyActiveOnIndex={false} to={`answer/${el.question}`}>
             <div className={find(tiles, ['name', el.question]).tileClass}>
-              <p>{find(tiles, ['name', el.question]).title}</p>
             </div>
           </Link>
         </li>

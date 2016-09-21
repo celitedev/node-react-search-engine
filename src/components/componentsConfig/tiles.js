@@ -10,9 +10,9 @@ export const tiles = [
     tileClass: 'concerts',
   },
   {
-    name: 'comedies',
-    title: 'Comedies',
-    tileClass: 'comedies',
+    name: 'festivals',
+    title: 'Festivals',
+    tileClass: 'festivals',
   },
   {
     name: 'classes',
@@ -20,14 +20,14 @@ export const tiles = [
     tileClass: 'classes',
   },
   {
-    name: 'festivals',
-    title: 'Festivals',
-    tileClass: 'festivals',
-  },
-  {
     name: 'music',
     title: 'Music',
     tileClass: 'music',
+  },
+  {
+    name: 'theatre',
+    title: 'theatre',
+    tileClass: 'theatre',
   },
   {
     name: 'sports',
@@ -35,8 +35,8 @@ export const tiles = [
     tileClass: 'sports',
   },
   {
-    name: 'theatre',
-    title: 'theatre',
-    tileClass: 'theatre',
+    name: 'comedies',
+    title: 'Comedies',
+    tileClass: 'comedies',
   }
 ];

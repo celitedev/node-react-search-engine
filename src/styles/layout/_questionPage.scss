@@ -62,20 +62,22 @@
   &--item > a {
     display: inline-block;
     border-radius: 4px;
+    border: 2px solid white;
     width: 145px;
-    height: 145px;
+    height: 143px;
     @media (max-width: $resp_size_tablet) {
-      width: 140px;
-      height: 140px;
+      width: 145px;
+      height: 143px;
     }
 
-    background: white;
+    // background: white;
     margin-bottom: 10px;
-    padding: 3px 3px 3px 3px;
+    // padding: 3px 3px 3px 3px;
     color: #00cd75;
     transition: color 0.15s ease;
     &:hover {
-      background-color: #2196F3;
+      background-color: #039053;
+      border: none;
     }
     &:before {
       content: "";
