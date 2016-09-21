@@ -15,8 +15,8 @@ bind = [ "localhost" ]
 # 'key_file' and 'cert_file' are required for serving HTTPS
 #------------------------------------------------------------------------------
 secure = true
-key_file = "/etc/letsencrypt/live/www.kwhen.com/privkey.pem"
-cert_file = "/etc/letsencrypt/live/www.kwhen.com/cert.pem"
+key_file = "/etc/letsencrypt/live/prod.kwhen.com/privkey.pem"
+cert_file = "/etc/letsencrypt/live/prod.kwhen.com/cert.pem"
 
 ###############################################################################
 # App Options
@@ -47,7 +47,7 @@ auto_create_index = true
 # 'connect' will connect to an existing RethinkDB instance
 # 'start_rethinkdb' will run an internal RethinkDB instance
 #------------------------------------------------------------------------------
-connect = "ec2-54-86-37-204.compute-1.amazonaws.com:28015"
+connect = "ec2-52-2-8-128.compute-1.amazonaws.com:28015"
 start_rethinkdb = false
 
 
