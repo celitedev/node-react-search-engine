@@ -2,9 +2,8 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import {switchAddCardModal, switchPlaceholdersVisibility} from '../../actions';
-import classnames from 'classnames';
 
-import {Dialog, FlatButton, RaisedButton} from 'material-ui';
+import {Dialog, RaisedButton} from 'material-ui';
 
 import CollectionCardSearch from './CollectionCardSearch';
 
@@ -25,16 +24,19 @@ export default class CollectionAddCardDialog extends PureComponent {
   render() {
     const {addCardModal, switchAddCardModal} = this.props;
     const actions = [
-      <FlatButton
+      <RaisedButton
         label='Done'
-        primary={true}
+        labelColor='#1c7ae5'
+        backgroundColor='#fff'
+        labelStyle={{'fontWeight': '600'}}
         onTouchTap={() => this.showModal()}
+        className={styles.doneBtn}
       />
     ];
     return (
       <div className={styles.dialog}>
         <Dialog
-          title='Add cards'
+          title={<div><h3>Add Card</h3><span>Add one or multiple cards by searching below</span></div>}
           actions={actions}
           modal={false}
           open={addCardModal}

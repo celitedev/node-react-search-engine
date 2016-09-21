@@ -8,7 +8,8 @@ import {
   ADD_CARD_TO_COLLECTION,
   DELETE_CARD_FROM_COLLECTION,
   RESET_COLLECTION_INFO,
-  EDIT_COLLECTION
+  EDIT_COLLECTION,
+  EDIT_CARD_DESCRIPTION
 } from '../actionTypes';
 
 export default createStore({
@@ -19,6 +20,7 @@ export default createStore({
   updateCollectionModal: false,
   deleteCollectionModal: false,
   editCollection: false,
+  editCardDescription: false,
   savedCollectionInfo: {
     cards: [],
     img: {}
@@ -64,6 +66,10 @@ export default createStore({
 
   [EDIT_COLLECTION]: (state, action) => {
     return {editCollection: action.edit};
+  },
+
+  [EDIT_CARD_DESCRIPTION]: (state, action) => {
+    return {editCardDescription: action.edit};
   }
 
 });

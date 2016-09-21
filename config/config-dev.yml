@@ -1,7 +1,9 @@
 #Dev config used to handle options for development build
 #http://testing123.kwhen.com:3000 7000
+#appPort: 7000
+#backendUrl: 'https://www.kwhen.com/api/'
 appPort: 7000
-backendUrl: 'http://testing123.kwhen.com:3000'
+backendUrl: 'http://localhost:3000/'
 
 certPath: './config/horizon-dev-cert.pem'
 keyPath: './config/horizon-dev-key.pem'

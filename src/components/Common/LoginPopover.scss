@@ -1,7 +1,7 @@
-@import '../../styles/mixins';
+@import '../../styles/site-settings';
 
 .loginBtn {
-  @include media-breakpoint-only(xs) {
+  @media (max-width: $resp_size_tablet) {
     min-width: 50px !important;
   }
 
@@ -12,35 +12,247 @@
   svg {
     fill: white !important;
 
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       margin-left: 0 !important;
     }
   }
 
   span {
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       display: none;
     }
   }
 }
 
 .logedInBtn {
-  width: 86px !important;
-  height: 86px !important;
-  padding: 22px !important;
-  >div svg {
-    width: 42px !important;
-    height: 42px !important;
-  }
+  //deprecated: same size as not logged in.
+  // width: 86px !important;
+  // height: 86px !important;
+  // padding: 22px !important;
+  // >div svg {
+  //   width: 42px !important;
+  //   height: 42px !important;
+  // }
+}
+
+.saveCardBtn {
+  color: #3f51b5 !important;
+  font-weight: 500 !important;
+  width: 80px !important;
+  margin: -6px !important;
+  margin-left: 6px !important;
+  font-size: 13px !important;
+  display: inline-block !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.imgBtn {
+  margin: 0 auto;
 }
 
 .socialBtn {
   width: 100%;
-  margin: 5px 0px !important;
-  padding: 0px 0px !important;
+  margin: 5px 0 !important;
+  padding: 0 0 !important;
   height: 60px !important;
 }
 
 .popoverMenu {
   margin: 10px;
+}
+
+#wrapper {
+  margin: 50px auto;
+  width: 540px;
+  height:460px;
+  background: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  -ms-border-radius: 5px;
+  border-radius: 5px;
+  padding: 40px;
+}
+
+.clr {
+  clear: both;
+  hr {
+    border: 1px solid #e9e9e9;
+    margin:25px 0;
+  }
+}
+
+.options {
+  color: #9c9c9c;
+  margin-top: 15px;
+  margin-bottom: 25px;
+}
+
+.option {
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.login {
+  color: #556670;
+  font-size: 25px;
+  font-weight:700;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.close {
+  float: right;
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  filter: alpha(opacity=20);
+  opacity: .2;
+  position: absolute;
+  top: 2px;
+  right: 6px;
+}
+
+button.close {
+  -webkit-appearance: none;
+  padding: 0;
+  cursor: pointer;
+  background: 0 0;
+  border: 0;
+}
+
+.twitter {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 220px;
+  height:50px;
+  padding-top: 10px;
+  border: 0 solid #178bb6;
+  border-radius: 8px;
+  background: #992828;
+  background: -webkit-gradient(linear, left top, left bottom, from(#1daee3), to(#1daee3));
+  background: -moz-linear-gradient(top, #1daee3, #1daee3);
+  background: linear-gradient(to bottom, #1daee3, #1daee3);
+  font-weight:700;
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 10px;
+  &:hover {
+    background: #1ca4d6;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &:active {
+    background: #1ca4d6;
+  }
+  &:before {
+    content: close-quote;
+    display: inline-block;
+    height: 50px;
+    width: 45px;
+    line-height: 24px;
+    margin: 0 4px -30px -4px;
+    position: relative;
+    padding-left: 10px;
+    top: -10px;
+    left: -21px;
+    background: url("../../images/twitter.png") no-repeat center center #1ca4d6;
+    background-size: 29px 24px;
+    -webkit-border-radius: 8px 0 0 8px;
+    -moz-border-radius: 8px 0 0 8px;
+    -o-border-radius: 8px 0 0 8px;
+    -ms-border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.facebook {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 220px;
+  height:50px;
+  padding-top: 10px;
+  border: 0 solid #178bb6;
+  border-radius: 8px;
+  background: #3b5998;
+  font-weight:700;
+  color: #ffffff;
+  text-decoration: none;
+  margin-right: 10px;
+  &:hover {
+    background: #37528c;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &:active {
+    background: #1ca4d6;
+  }
+  &:before{
+    content: close-quote;
+    display: inline-block;
+    height: 50px;
+    width: 45px;
+    line-height: 24px;
+    margin: 0 4px -30px -4px;
+    position: relative;
+    padding-left: 10px;
+    top: -10px;
+    left: -10px;
+    background: url("../../images/facebook.png") no-repeat center center #37528c;
+    background-size: 13px 24px;
+    -webkit-border-radius: 8px 0 0 8px;
+    -moz-border-radius: 8px 0 0 8px;
+    -o-border-radius: 8px 0 0 8px;
+    -ms-border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 0 8px;
+  }
+}
+
+.google {
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  width: 220px;
+  height:50px;
+  padding-top: 10px;
+  border: 0 solid #178bb6;
+  border-radius: 8px;
+  background: #d34836;
+  font-weight:700;
+  color: #ffffff;
+  text-decoration: none;
+  &:hover {
+    background: #c74534;
+    color: #ffffff;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  &:active {
+    background: #1ca4d6;
+  }
+  &:before{
+    content: close-quote;
+    display: inline-block;
+    height: 50px;
+    width: 45px;
+    line-height: 24px;
+    margin: 0 4px -30px -4px;
+    position: relative;
+    padding-left: 10px;
+    top: -10px;
+    left: -15px;
+    background: url("../../images/google.png") no-repeat center center #c74534;
+    background-size: 24px 24px;
+    -webkit-border-radius: 8px 0 0 8px;
+    -moz-border-radius: 8px 0 0 8px;
+    -o-border-radius: 8px 0 0 8px;
+    -ms-border-radius: 8px 0 0 8px;
+    border-radius: 8px 0 0 8px;
+  }
 }

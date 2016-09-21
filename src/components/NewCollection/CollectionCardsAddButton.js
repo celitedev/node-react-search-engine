@@ -18,14 +18,16 @@ export default class CollectionCardsAddButton extends PureComponent {
     switchAddCardModal();
   }
   render() {
-    const {cards, switchAddCardModal, showPlaceholders} = this.props;
-    const label = (cards && cards.length) ? 'Add Cards' : 'Add your first Card';
-    if (!showPlaceholders) return null;
+    const {cards} = this.props;
+    const label = (cards && cards.length) ? 'Add Card' : 'Add First Card';
     return (
       <div className={classnames('mdl-grid mdl-js-ripple-effect', styles.root)}>
         <button
-          className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect', styles.addCardBtn)}
-          onClick={() => this.showModal()}>{ label }</button>
+          className={classnames('mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-cell--7-col', cards && cards.length ? styles.addCardBtn : styles.addFirstCard)}
+          onClick={() => this.showModal()}>
+          { label }
+          { cards && !cards.length && <div className={styles.addFirstCard}>It feels pretty useless without one</div>}
+        </button>
       </div>
     );
   }

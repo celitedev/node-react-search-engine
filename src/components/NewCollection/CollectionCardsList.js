@@ -9,8 +9,8 @@ if (!process.env.SERVER_RENDERING) {
   Reorder = require('react-reorder');
 }
 function user(state) {
-  const {editCollection} = state.collection;
-  return {editCollection};
+  const {editCollection, editCardDescription} = state.collection;
+  return {editCollection, editCardDescription};
 }
 
 @connect(user, {saveCollectionInfo})
@@ -21,9 +21,9 @@ export default class CollectionCardsList extends PureComponent {
   }
 
   render() {
-    const {cards, editCollection} = this.props;
+    const {cards, editCollection, editCardDescription} = this.props;
     return (
-      <div className={classnames('mdl-grid', styles.root)}>
+      <div className={classnames('mdl-cell', 'mdl-cell--7-col', styles.root)}>
         <div className={styles.collectionCardUl}>
           {Reorder && (
             <Reorder
@@ -34,7 +34,7 @@ export default class CollectionCardsList extends PureComponent {
               callback={::this.callback}
               listClass='listClassReorder'
               itemClass={classnames('itemClassReorder', styles.clickCursor)}
-              disableReorder={!editCollection}
+              disableReorder={!editCollection || editCardDescription}
             />
           )}
         </div>

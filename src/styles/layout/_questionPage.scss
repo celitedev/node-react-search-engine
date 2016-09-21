@@ -1,4 +1,3 @@
-@import '../../styles/mixins';
 
 .question-page {
   background-color: $c_gr100;
@@ -19,13 +18,13 @@
   }
 
   .logo {
-    margin-top: 100px;
+    margin-top: 40px;
     margin-bottom: 40px;
     background: url('../images/logo.png') no-repeat center center;
     background-size: 250px;
     height: 64px;
 
-    @include media-breakpoint-only(xs) {
+    @media (max-width: $resp_size_tablet) {
       margin-top: 60px;
       margin-bottom: 40px;
     }
@@ -35,18 +34,20 @@
 //quick launch links on homepage
 .quicklaunch {
 
-  width: 640px;
+  max-width: 640px;
 
-  @media only screen and (max-width: 640px) {
+  @media (max-width: $resp_size_tablet) {
     width: 294px;
   }
 
-  margin: 40px auto 0;
+  margin: 20px auto 0;
   text-align: left;
 
   &--title {
     font-size: 18px;
     color: white;
+    text-align: center;
+    margin-bottom: 25px;
   }
   > ul {
     display: flex;
@@ -54,21 +55,29 @@
     flex-wrap: wrap;
     justify-content: space-between;
 
-    @include media-breakpoint-down(sm) {
+    @media (max-width: $resp_size_tablet) {
       margin-bottom: 0;
     }
   }
   &--item > a {
     display: inline-block;
     border-radius: 4px;
-    width: 294px;
-    background: white;
+    border: 2px solid white;
+    width: 145px;
+    height: 143px;
+    @media (max-width: $resp_size_tablet) {
+      width: 145px;
+      height: 143px;
+    }
+
+    // background: white;
     margin-bottom: 10px;
-    padding: 6px 6px 0px 36px;
+    // padding: 3px 3px 3px 3px;
     color: #00cd75;
     transition: color 0.15s ease;
     &:hover {
-      color: #2196F3;
+      background-color: #039053;
+      border: none;
     }
     &:before {
       content: "";
@@ -79,7 +88,14 @@
       display: inline-block;
       float: left;
       background-size: cover;
-      background-image: url('../images/searchIcon.png');
     }
+  }
+  &--item > a > div {
+    height: 100%;
+  }
+  &--item > a > div > p {
+    color: white;
+    padding: 10px;
+    font-size: 18px;
   }
 }

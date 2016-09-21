@@ -1,6 +1,35 @@
 .root {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   .addCardBtn {
-    border: 1px dashed;
-    width: 230px;
+    background-color: #e6effa;
+    border: 2px dashed #3793ff;
+    border-radius: 10px;
+    color: #3793ff;
+    padding: 0;
+    height: 70px;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .addFirstCard {
+    background-color: #e6effa;
+    border: 2px dashed #3793ff;
+    border-radius: 10px;
+    color: #3793ff;
+    padding: 0;
+    height: 105px;
+    font-size: 24px;
+    font-weight: 500;
+
+    >div {
+      color: #908892;
+      font-size: 12px;
+      border: none;
+      height: 13px;
+    }
   }
 }

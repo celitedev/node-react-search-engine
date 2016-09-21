@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {pure, compose, withState, withHandlers} from 'recompose';
 import {connect} from 'redux-simple';
-import {Link} from 'react-router';
-import ContentEditable from 'react-contenteditable';
 import classnames from 'classnames';
 import {redirect} from '../../actions';
 import exampleQuestions from './../../exampleQuestions';
 import LoginPopover from '../Common/LoginPopover';
 import TextField from 'material-ui/TextField';
+import Tiles from '../Tiles/Tiles.js';
+import cookie from 'react-cookie';
 
 const debug = require('debug')('app:collections:new');
 
@@ -35,6 +35,19 @@ const enchance = compose(
 
 @enchance
 export default class IndexSearch extends Component {
+  componentWillMount() {
+    const redirectUrl = cookie.load('redirectUrl');
+
+    if (redirectUrl) {
+      this.props.redirect(redirectUrl);
+      cookie.remove('redirectUrl', {path: '/'});
+    }
+    const cardId = cookie.load('saveCardId');
+    if (cardId) {
+      this.props.redirect(`/details/${cardId}`);
+    }
+  }
+
   render() {
     const {search, changeSearch, submit} = this.props;
     return (
@@ -53,7 +66,7 @@ export default class IndexSearch extends Component {
                     <TextField
                       name='sitewide_search'
                       type='search'
-                      hintText='When...'
+                      hintText='Search for happenings in NYC...'
                       disabled={false}
                       onChange={changeSearch}
                       onKeyPress={submit}
@@ -64,13 +77,7 @@ export default class IndexSearch extends Component {
 
             <div className='quicklaunch'>
               <div className='quicklaunch--title'>Try searching for things like:</div>
-              <ul>
-                {exampleQuestions.map((el, index) => (
-                  <li key={index} className='quicklaunch--item'>
-                    <Link to={`answer/${el.question}`}>{el.question}</Link>
-                  </li>
-                ))}
-              </ul>
+              <Tiles items={exampleQuestions}/>
             </div>
           </div>
         </main>

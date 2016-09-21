@@ -5,6 +5,8 @@ import MyCollections from '../../components/MyCollections';
 import Header from '../../components/Common/Header.js';
 import {redirect, resetCollectionInfo} from '../../actions';
 
+import classnames from 'classnames';
+
 const debug = require('debug')('app:mycollections');
 
 function userInfo(state) {
@@ -71,7 +73,7 @@ export default class Index extends PureComponent {
     const {params} = this.props;
     const {collections, loaded} = this.state;
     return (
-      <div>
+      <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
         <Header params={params}/>
         {loaded && (
           <MyCollections params={params} collections={loaded && collections || []}/>

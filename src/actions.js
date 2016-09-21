@@ -13,7 +13,8 @@ import {
   CREATE_COLLECTION_DIALOG,
   SHARE_CARD_MODAL,
   SNACKBAR,
-  EDIT_COLLECTION
+  EDIT_COLLECTION,
+  EDIT_CARD_DESCRIPTION
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -120,6 +121,13 @@ export function toggleSnackbar(msg, err) {
 }
 
 // Cards
+
+export function toggleEditCardDescription(edit) {
+  return {
+    type: EDIT_CARD_DESCRIPTION,
+    edit
+  };
+}
 
 export function toggleShareModal(col, id, itemName) {
   return {

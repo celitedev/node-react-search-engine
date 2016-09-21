@@ -98,7 +98,13 @@ export default class Textfit extends Component {
   }
 
   render() {
-    const {children, component, ...restProps} = this.props;
+    const properties = Object.assign({}, this.props);
+
+    delete properties.normalHeight;
+    delete properties.throttle;
+    delete properties.autoResize;
+
+    const {children, component, ...restProps} = properties;
     const {fontSize} = this.state;
     const newProps = {
       style: {

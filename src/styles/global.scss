@@ -1,13 +1,18 @@
 // bower:scss
 // endbower
+
 /////////////////////////////////////////////////////////////////
 //WE FOLLOW CSS CONVENTIONS IS CONCISELY OUTLINED IN
 //https://gist.github.com/wrumsby/8908260
 ////////////////////////////////////////////////////////////////////
 //////////////////////////////
+
+
 //IMPORT MATIARL DESIGN LITE
 /* Site settings */
+
 @import "site-settings";
+
 //Our own defaults. Material Design Lite doesn't overwrite these. Neat.
 // Variables and mixins
 @import "../../node_modules/material-design-lite/src/variables";
@@ -15,6 +20,7 @@
 // Resets and dependencies
 @import "../../node_modules/material-design-lite/src/resets/resets";
 @import "../../node_modules/material-design-lite/src/typography/typography";
+
 // Components
 @import "../../node_modules/material-design-lite/src/palette/palette";
 // @import "../../node_modules/material-design-lite/src/ripple/ripple";
@@ -39,8 +45,11 @@
 @import "../../node_modules/material-design-lite/src/tooltip/tooltip";
 @import "../../node_modules/material-design-lite/src/shadow/shadow";
 @import "../../node_modules/material-design-lite/src/grid/grid";
+
+
 /* Base */
 @import "base";
+
 /* components */
 @import "components/card";
 @import "components/common";
@@ -50,109 +59,38 @@
 @import "components/searchBox";
 @import "components/filters";
 @import "components/map";
+
+
 /* Layouts / container components*/
 @import "layout/cardgrid";
 @import "layout/cardCarousel";
+
+
 /* Page layouts */
 @import "layout/header";
 @import "layout/answerPage";
 @import "layout/searchPage";
 @import "layout/detailPage";
 @import "layout/questionPage";
+@import "layout/tiles";
+
+
 /* modifiers  (after layouts, because layouts may have modifiers too) */
 @import "modifiers/cardModifiers";
 @import "modifiers/cardResults";
 @import "modifiers/mapbox";
-@import "variables";
-@import "functions";
-@import "mixins";
-@import "fonts";
-@import "type";
-@import "~bootstrap/scss/normalize";
-@import "~bootstrap/scss/reboot";
-@import "~react-mdl/extra/material.css";
-@import "pagination";
-@import "~react-pagify/style.css";
-@import "~getmdl-select/getmdl-select.min.css";
+
+
+//medium editor
 @import "~medium-editor/dist/css/medium-editor.css";
 @import "~medium-editor/dist/css/themes/default.css";
+
+//slick carousel
 @import "../../bower_components/slick-carousel/slick/slick.css";
 @import "../../bower_components/slick-carousel/slick/slick-theme.css";
+
+//mapbox
 @import url(https://api.mapbox.com/mapbox.js/v2.4.0/mapbox.css);
-/* Fonts */
+
+//fonts
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500);
-
-body {
-  font-family: Roboto, Helvetica, Arial, sans-serif;
-  overflow: hidden;
-
-  @include media-breakpoint-down(sm) {
-    overflow-x: hidden;
-    overflow-y: hidden;
-  }
-}
-
-.scrollFix {
-  height: 100vh;
-  max-width: 100%;
-  overflow-x: hidden;
-  @include media-breakpoint-up(md) {
-    overflow-y: auto;
-  }
-
-}
-
-.itemClassReorder.dragged {
-  z-index: 1;
-  opacity: 0.7;
-  border: 1px solid teal;
-}
-
-.itemClassReorder.placeholder {
-  visibility: hidden;
-}
-
-.slick-list {
-  margin-bottom: 5px;
-}
-
-.slick-slider {
-  position: initial !important;
-}
-
-.slick-track {
-  padding-bottom: 10px;
-}
-
-.slick-slide {
-  height: auto !important;
-}
-
-.slick-dots {
-  text-align: left;
-  width: auto !important;
-  position: initial;
-  float: left;
-}
-
-.infinite-grid .item {
-  width: 100%;
-}
-
-.fixDots .slick-list {
-  heigth: 155px;
-}
-
-.highlightedCard {
-  z-index: 10;
-  > div {
-    outline: 2px solid $brightBlue; //just some nice clear blue
-  }
-}
-
-//.max {
-//  max-width: 100%;
-//  .page-content {
-//    max-width: 100%;
-//  }
-//}

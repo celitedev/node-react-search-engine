@@ -1,4 +1,7 @@
 .root {
+
+  padding: 0 24px 24px 24px;
+
   .collectionList {
     width: 100%;
     padding: 0;
@@ -42,7 +45,7 @@
     }
   }
   .collectionFilterName {
-    padding-left: 10px;
+    padding-left: 28px;
   }
   .pagination {
     margin: 20px 0;
@@ -53,6 +56,39 @@
   }
   .pagginationPosition {
     padding: 0;
-    margin-bottom: 50px;
+    margin-bottom: 5px;
+    margin-top: 20px;
+    margin-left: 20px;
+
+    span {
+      font-size: small;
+    }
+  }
+
+  .pagginationBottom {
+    padding: 0;
+    margin-bottom: 28px;
+    margin-left: 10px;
+    margin-right: 20px;
+    border: 1px solid #b2b2b2;
+  }
+
+  .filterTitleSection {
+    margin-bottom: 24px;
+  }
+
+  .arrowDown {
+    margin-left: 4px;
+    height: 9px;
+    width: 14px;
+    cursor: pointer;
+  }
+
+  .arrowRight {
+    margin-left: 4px;
+    margin-bottom: 3px;
+    height: 14px;
+    width: 9px;
+    cursor: pointer;
   }
 }

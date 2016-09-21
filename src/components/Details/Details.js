@@ -4,6 +4,7 @@ import Card from '../Cards/Card';
 import Map from '../Widgets/Map';
 import classnames from 'classnames';
 import {GridList, GridTile} from 'material-ui/GridList';
+import Footer from '../Footer/Footer.js';
 
 @pure
 export default class Details extends Component {
@@ -81,6 +82,7 @@ export default class Details extends Component {
             </div>
           </div>
         </div>
+        <Footer />
       </main>
     );
   }

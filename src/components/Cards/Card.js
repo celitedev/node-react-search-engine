@@ -3,21 +3,25 @@ import PureComponent from 'react-pure-render/component';
 import classnames from 'classnames';
 import {connect} from 'redux-simple';
 import _ from 'lodash';
-import {MenuItem, FlatButton, IconMenu, Divider} from 'material-ui';
+import {MenuItem, FlatButton, IconMenu, Divider, FontIcon} from 'material-ui';
 import {
   addCardToCollection,
   deleteCardFromCollection,
   toggleLoginModal,
   redirect,
   switchCreateCollectionDialog,
-  toggleShareModal
+  toggleShareModal,
+  toggleSnackbar
 } from '../../actions';
+import cookie from 'react-cookie';
 import DeleteIcon from 'material-ui/svg-icons/navigation/close';
 import IconButton from 'material-ui/IconButton';
 import LoginPopover from '../Common/LoginPopover';
 import Textfit from '../Common/Textfit';
 
 const debug = require('debug')('app:card');
+
+const SAVE_CARD_MSG = 'SAVE CARD';
 
 function searchedCards(state) {
   const {savedCollectionInfo} = state.collection;
@@ -31,7 +35,8 @@ function searchedCards(state) {
   toggleLoginModal,
   redirect,
   switchCreateCollectionDialog,
-  toggleShareModal
+  toggleShareModal,
+  toggleSnackbar
 })
 export default class Card extends PureComponent {
   static contextTypes = {
@@ -45,10 +50,12 @@ export default class Card extends PureComponent {
   constructor(props, context) {
     super(props, context);
     this.state = {
-      addCardToColMenu: false,
       horizon: context.horizon,
-      collections: []
+      collections: [],
+      showMenu: false
     };
+
+    this.showCollectionsMenu = this.showCollectionsMenu.bind(this);
   }
 
   findCardById(id) {
@@ -58,27 +65,30 @@ export default class Card extends PureComponent {
   }
 
   handleItemChange(open, reason) {
-    debug('Add to collection', open, reason);
+    this.setState({showMenu: open});
+    debug(SAVE_CARD_MSG, open, reason);
   }
 
   findCardInCollection(collection) {
-    const {data} = this.props;
+    const {data, toggleSnackbar} = this.props;
     const isCardInCollection = _.find(collection.cards, {id: data.raw.id});
     if (!isCardInCollection) {
       this.addCardToCollection(collection);
     } else {
+      toggleSnackbar('Card already in collection');
       debug('Card already in collection');
     }
   }
 
   addCardToCollection(collection) {
     const {horizon} = this.state;
-    const {user, data} = this.props;
+    const {user, data, toggleSnackbar} = this.props;
     const collections = horizon('collections');
     collections.upsert({
       ...collection, cards: [...collection.cards, {...data, id: data.raw.id}], userId: user.id
     }).subscribe(collection => {
-        debug('Collection updeted');
+        toggleSnackbar('Card saved to collection!');
+        debug('Collection updated');
       },
       (err) => debug('Collection update error', err),
       () => {
@@ -86,20 +96,37 @@ export default class Card extends PureComponent {
       });
   }
 
-  handleOpenMenu(e) {
+  handleOpenMenu() {
     const {authenticated, toggleLoginModal, user} = this.props;
     if (!authenticated) {
       toggleLoginModal();
     } else {
-      const {addCardToColMenu, horizon} = this.state;
-      const collections = horizon('collections').findAll({userId: user.id}).fetch().subscribe(collections => {
-        debug('User collections: ', collections);
-        this.setState({
-          collections,
-          addCardToColMenu: !addCardToColMenu
-        });
-      });
+      this.toggleCollectionsMenu();
     }
+  }
+
+  toggleCollectionsMenu() {
+    const {user} = this.props;
+    if (this.state.showMenu) {
+      this.setState({showMenu: false});
+    } else {
+      this.loadCollections(user, this.showCollectionsMenu);
+    }
+  }
+
+  loadCollections(user, callback) {
+    const {horizon} = this.state;
+    const collections = horizon('collections').findAll({userId: user.id}).fetch().subscribe(collections => {
+      debug('User collections: ', collections);
+      callback(collections);
+    });
+  }
+
+  showCollectionsMenu(collections) {
+    this.setState({
+      collections,
+      showMenu: true
+    });
   }
 
   redirectToCard() {
@@ -115,7 +142,38 @@ export default class Card extends PureComponent {
     toggleShareModal(false, id, name);
   }
 
+  cookieCardId() {
+    debug('cookie card id:', cookie.load('saveCardId'));
+    return cookie.load('saveCardId');
+  }
+
+  clearCookie() {
+    cookie.remove('saveCardId', { path: '/' });
+    debug('cookie card id:', cookie.load('saveCardId'));
+  }
+
+  handleCookie() {
+    const {authenticated, data, user} = this.props;
+    if (authenticated && this.cookieCardId() === data.raw.id) {
+      this.loadCollections(user, this.showCollectionsMenu);
+      this.clearCookie();
+    }
+  }
+
+  //with internal redirects, authentication state is already known
+  componentDidMount() {
+    debug('at Did Mount:', this.props);
+    this.handleCookie();
+  }
+
+  //if the user lands on this page due to a true redirect, authentication state is unknown until after the component is already mounted, then the component updates based on that information
+  componentDidUpdate() {
+    debug('at Did Update:', this.props);
+    this.handleCookie();
+  }
+
   render() {
+    debug('at render:', this.props);
     const {
       className,
       authenticated,
@@ -134,6 +192,10 @@ export default class Card extends PureComponent {
     } = this.props;
     const {collections} = this.state;
     const {formatted, raw} = data;
+
+    const thumbnailUrl = require('../../images/cardthumbnail.png');
+    const shareIconUrl = require('../../images/share.png');
+
 
     if (!data) {
       return null;
@@ -154,6 +216,12 @@ export default class Card extends PureComponent {
             <div
               className={classnames('card--media showImageDetailClass showFallbackImageClass', {[styles.imgBackground]: !bgImage, [styles.image]: bgImage})}
               style={{backgroundImage: `url(${raw.image[0]})`}}>
+            </div>
+          )}
+          {!raw.image && (
+            <div
+              className={classnames('card--media', styles.placeholder)}
+              style={{'backgroundImage': `url(${thumbnailUrl})`}}>
             </div>
           )}
           <div onClick={::this.redirectToCard} className={classnames('card--inner', styles.background)}>
@@ -212,6 +280,12 @@ export default class Card extends PureComponent {
           </div>
         </div>
         <div className={classnames('card--actions', styles.cardActions)}>
+          {shareBtn && (
+            <IconButton onTouchTap={() => ::this.toggleShareModal(raw)} name='shareCardBtn'
+                        className={styles.saveCardBtn}>
+              <img src={shareIconUrl} className={styles.imgBtn} />
+            </IconButton>
+          )}
           {addCards && (
             ::this.findCardById(raw.id) && (
               <button
@@ -231,9 +305,14 @@ export default class Card extends PureComponent {
             <div>
               {authenticated && (
                 <IconMenu
-                  iconButtonElement={<FlatButton labelStyle={{'color': '3f51b5', 'fontSize': '13px'}} onTouchTap={::this.handleOpenMenu} label='Add to collection' />}
+                  iconButtonElement={
+                    <IconButton onTouchTap={::this.handleOpenMenu} name='addCardBtn'
+                                className={styles.saveCardBtn}>
+                      {SAVE_CARD_MSG}
+                    </IconButton>
+                  }
                   onRequestChange={::this.handleItemChange}
-                  open={authenticated && null}
+                  open={this.state.showMenu}
                 >
                   <MenuItem primaryText='Add to new collection' onClick={() => switchCreateCollectionDialog(raw.id)}/>
                   <Divider />
@@ -242,13 +321,9 @@ export default class Card extends PureComponent {
                   })}
                 </IconMenu>
               ) || (
-                <LoginPopover cardAction={true}/>
+                <LoginPopover cardAction={true} cardId={raw.id} detailMessage='Sign in to save this card.'/>
               )}
             </div>
-          )}
-          {shareBtn && (
-            <FlatButton label='Share card' labelStyle={{'color': '3f51b5', 'fontSize': '13px'}}
-                        onClick={() => ::this.toggleShareModal(raw)}/>
           )}
         </div>
       </div>

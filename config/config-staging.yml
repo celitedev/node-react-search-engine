@@ -1,6 +1,7 @@
 #Default config used to handle options for production build
-appPort: 7000
-backendUrl: 'https://www.kwhen.com/api/'
+appPort: 443
+backendUrl: 'http://localhost:3000/'
 
-certPath: './config/horizon-dev-cert.pem'
-keyPath: './config/horizon-dev-key.pem'
+certPath: '/etc/letsencrypt/live/staging.kwhen.com/cert.pem'
+keyPath: '/etc/letsencrypt/live/staging.kwhen.com/privkey.pem'
+sslChainPath: '/etc/letsencrypt/live/staging.kwhen.com/fullchain.pem'

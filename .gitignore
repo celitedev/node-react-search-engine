@@ -20,7 +20,7 @@ typings.json
 # Webpack
 /build
 /webpack-stats.json
-/webpack-records.json
+/webpack-production-clientRecords.json
 
 # DB
 /rethinkdb_data
@@ -31,3 +31,6 @@ typings.json
 # horizon
 horizon-cert.pem
 horizon-key.pem
+
+# saas
+.sass-cache

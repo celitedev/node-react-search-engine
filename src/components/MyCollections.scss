@@ -1,13 +1,12 @@
-@import "../styles/shared";
 
-.topPosition {
-  margin-top: 55px;
-}
+@import "../styles/site-settings";
+
 .root {
   width: 95%;
   margin: 0 auto;
   position: relative;
 }
+
 .cardStyle {
   @media(min-width: 700px) {
     >div {
@@ -20,6 +19,18 @@
   }
 }
 
+.editBtn {
+  button {
+    background-color: #00cd75 !important;
+  }
+}
+
+.title {
+  color: #aaaab3;
+  font-weight: 500;
+  font-size: 16px;
+  margin-left: 7px;
+}
 
 .imageWrap {
   background-size: cover;
@@ -39,22 +50,22 @@
   top: 20px;
   right: 18px;
 
-  @include media-breakpoint-up(sm) {
-    display: block !important;
+  display: none !important; //!important bc. react inline style bs..
+  @media (min-width: $resp_size_tablet) {
+    display: block !important;  //!important bc. react inline style bs..
   }
-  @include media-breakpoint-down(xs) {
-    display: none !important;
+
+  button {
+    background-color: #00cd75 !important;
   }
 }
 
 .newCollectionAddSmall {
   @extend .newCollectionAdd;
 
-  @include media-breakpoint-up(sm) {
-    display: none !important;
-  }
-  @include media-breakpoint-down(xs) {
-    display: block !important;
+  display: block !important;  //!important bc. react inline style bs..
+  @media (min-width: $resp_size_tablet) {
+    display: none !important;  //!important bc. react inline style bs..
   }
 }
 

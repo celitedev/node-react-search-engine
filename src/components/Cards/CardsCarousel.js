@@ -9,7 +9,6 @@ import {map} from 'lodash';
 import {redirect} from '../../actions';
 import RaisedButton from 'material-ui/RaisedButton';
 
-
 const debug = require('debug')('app:CardsCarousel');
 
 if (!process.env.SERVER_RENDERING) {
@@ -18,22 +17,32 @@ if (!process.env.SERVER_RENDERING) {
 
 class NextArrow extends PureComponent {
   render() {
-    const {onClick, miniMap, show} = this.props;
+    const aProps = Object.assign({}, this.props);
+    const {onClick, miniMap, show} = aProps;
+
+    delete aProps.miniMap;
+    delete aProps.show;
+
     return (
       (_.isFunction(onClick) && (show || Modernizr.touchevents)) && (
-      <a href='#' {...this.props}
-         className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&gt;</a>
-       ) || null
+        <a href='#' {...aProps}
+           className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&gt;</a>
+      ) || null
     );
   }
 }
 
 class PrevArrow extends PureComponent {
   render() {
-    const {onClick, miniMap, show} = this.props;
+    const aProps = Object.assign({}, this.props);
+    const {onClick, miniMap, show} = aProps;
+
+    delete aProps.miniMap;
+    delete aProps.show;
+
     return (
       (_.isFunction(onClick) && (show || Modernizr.touchevents)) && (
-        <a href='#' {...this.props}
+        <a href='#' {...aProps}
          className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows, {[styles.arrowsStyle]: miniMap})}>&lt;</a>
        ) || null
     );
@@ -53,14 +62,14 @@ export default class CardsCarousel extends PureComponent {
   }
 
   showArrows() {
-    const {showArrowBtns} = this.state;
+    //const {showArrowBtns} = this.state;
     this.setState({
       showArrowBtns: true
     });
   }
   hideArrows(e) {
     if (!(e.relatedTarget && e.relatedTarget.nodeName === 'A')) {
-      const {showArrowBtns} = this.state;
+      //const {showArrowBtns} = this.state;
       this.setState({
         showArrowBtns: false
       });
@@ -98,20 +107,29 @@ export default class CardsCarousel extends PureComponent {
       <div className={sliderStyle}>
         <div className='l-cardCarousel-container l-cardCarousel-container-peek hasNext'>
           <div className={classnames('l-cardCarousel-js', styles.root)}>
-            <div className=''>
-              <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={afterChange} className={sliderStyle}>
-                {map(results, (result, index) => (
-                  <div key={index} className={styles.sliderPosition}>
-                      <Card className={classnames('card m-card-imgRight', cardsStyle)} shareBtn={true} settings={cardSettings} data={result}/>
-                  </div>
+            <Slider {...setCarouselParams} beforeChange={::this.beforeChange} afterChange={afterChange} className={sliderStyle}>
+              {map(results, (result, index) => (
+                <div key={index} className={styles.sliderPosition}>
+                    <Card className={classnames('card m-card-imgRight', cardsStyle)} shareBtn={true} settings={cardSettings} data={result}/>
+                </div>
                 ))}
-              </Slider>
-              {showAll && (
-                <Link to={`/search/${question}`} query={{ filter: f }}>
-                <RaisedButton className={classnames(styles.showAllBtn)} label={showAllLabel} primary={true}/>
-                  </Link>
-              ) }
-            </div>
+                <div key={results.length + 1} className={styles.sliderPosition}>
+                  <div className={classnames('card m-card-imgRight', cardsStyle, styles.showAllSlide)}>
+                      <Link onlyActiveOnIndex={false} to={`/search/${question}`} query={{ filter: f }}>
+                        <h3 className={classnames(styles.showAllLbl)}>SHOW ALL</h3>
+                        <h2 className={classnames(styles.totalAmount)}>{answer.totalResults}</h2>
+                        <RaisedButton className={classnames(styles.searchType)} label={answer.typeHuman} primary={true}/>
+                      </Link>
+                  </div>
+                </div>
+            </Slider>
+            {showAll && (
+              <div className={classnames(styles.carouselShowAllDiv)}>
+                <Link onlyActiveOnIndex={false} to={`/search/${question}`} query={{ filter: f }}>
+                  <RaisedButton className={classnames(styles.showAllBtn)} label={showAllLabel} primary={true}/>
+                </Link>
+               </div>
+            ) }
           </div>
         </div>
       </div>

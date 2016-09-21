@@ -2,7 +2,7 @@ import React from 'react';
 import PureComponent from 'react-pure-render/component';
 import {connect} from 'redux-simple';
 import {Dialog, FlatButton, TextField} from 'material-ui';
-import {switchCreateCollectionDialog} from '../../actions';
+import {switchCreateCollectionDialog, toggleSnackbar} from '../../actions';
 
 const debug = require('debug')('app:loginModal');
 
@@ -12,7 +12,7 @@ function createCollectionnModal(state) {
   return {createCollectionModal, cardId, user};
 }
 
-@connect(createCollectionnModal, {switchCreateCollectionDialog})
+@connect(createCollectionnModal, {switchCreateCollectionDialog, toggleSnackbar})
 export default class NewCollectionModal extends PureComponent {
   static contextTypes = {
     horizon: React.PropTypes.func
@@ -53,17 +53,21 @@ export default class NewCollectionModal extends PureComponent {
   createCollection() {
     if (!this.validate()) return;
     const {horizon, title} = this.state;
-    const {cardId, user} = this.props;
+    const {cardId, user, toggleSnackbar} = this.props;
     const collections = horizon('collections');
     collections.store({
       title, cards: [{id: cardId}], userId: user.id
     }).subscribe(collection => {
       debug('Collection created');
     },
-    (err) => debug('Collection create error', err),
+    (err) => {
+      toggleSnackbar('Error has been occurred during collection creation!');
+      debug('Collection create error', err);
+    },
     () => {
       debug('Collection create finished');
       this.handleCloseDialog();
+      toggleSnackbar('Card saved to collection!');
     });
   }
 

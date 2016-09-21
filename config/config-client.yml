@@ -5,3 +5,6 @@ mapbox:
   kwhenMapId: 'kwhen.cig2b17kj1ak8tjluug9gwvzv'
 
 publicPath: '/api/'
+
+googleTagManager:
+  containerId: 'GTM-PLCCF2'

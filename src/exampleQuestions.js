@@ -10,7 +10,15 @@ export default [{
 }, {
   question: 'concerts',
 }, {
-  question: 'restaurants',
+  question: 'classes',
 }, {
   question: 'comedies',
+}, {
+  question: 'theatre',
+}, {
+  question: 'music',
+}, {
+  question: 'sports',
+}, {
+  question: 'festivals',
 }];

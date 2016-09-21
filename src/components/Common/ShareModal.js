@@ -17,6 +17,7 @@ const encance = compose(
   pure
 );
 
+
 @encance
 export default class ShareModal extends Component {
   constructor(props, context) {
@@ -40,9 +41,24 @@ export default class ShareModal extends Component {
         toggleSnackbar('Kwhen told your friends!');
       }
     } catch (err) {
-      const errors = await err.response.json();
-      toggleSnackbar(`Error: field '${errors[0].param.toUpperCase()}' ${errors[0].msg}`, true);
-      debug('Share error: ', errors);
+      const response = await err.response.json();
+      let field = '';
+      let message = '';
+
+      if (response[0] && response[0].param) {
+        field = response[0].param.toUpperCase();
+      } else if (response.err && response.err.name) {
+        field = response.err.name;
+      }
+
+      if (response[0] && response[0].msg) {
+        message = response[0].msg;
+      } else if (response.err && response.err.errors[0] && response.err.errors[0].message) {
+        message = response.err.errors[0].message;
+      }
+
+      toggleSnackbar(`Error: field '${field}' ${message}`, true);
+      debug('Share error: ', response);
     }
   }
 
@@ -98,28 +114,33 @@ export default class ShareModal extends Component {
     const actions = [
       <FlatButton
         label='Share'
-        secondary={true}
+        labelStyle={{'color': '#3f51b5', 'fontSize': '13px'}}
         onTouchTap={this.submit}
         type='submit'
       />,
       <FlatButton
         label='Cancel'
-        primary={true}
+        labelStyle={{'color': '#3f51b5', 'fontSize': '13px'}}
         onTouchTap={this.handleCloseDialog}
       />
     ];
 
     return (
       <Dialog
-          titleClassName={styles.dialogTitle}
-          title={collection ? 'Share collection' : 'Share card'}
-          modal={false}
-          actions={actions}
-          open={shareCardModal}
-          onRequestClose={this.handleCloseDialog}
-        >
+        className={styles.dialog}
+        titleClassName={styles.dialogTitle}
+        title={collection ? 'Share collection' : 'Share card'}
+        bodyClassName={styles.dialogContent}
+        autoDetectWindowHeight={true}
+        contentStyle={{'maxWidth': '672px'}}
+        modal={false}
+        actions={actions}
+        open={shareCardModal}
+        onRequestClose={this.handleCloseDialog}
+      >
         <TextField
           floatingLabelText='Your name'
+          floatingLabelStyle={{color: '#08bb6e'}}
           errorText={!fromNameValid && 'This value is required'}
           fullWidth={true}
           onChange={(e) => this.handleChange(e, 'fromName')}
