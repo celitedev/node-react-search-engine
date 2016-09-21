@@ -1,10 +1,42 @@
 import React, {Component} from 'react';
 import {pure} from 'recompose';
+import PureComponent from 'react-pure-render/component';
 import Card from '../Cards/Card';
+import Slider from 'react-slick';
 import Map from '../Widgets/Map';
 import classnames from 'classnames';
 import {GridList, GridTile} from 'material-ui/GridList';
+import {Card as DefaultCard, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Footer from '../Footer/Footer.js';
+
+class NextArrow extends PureComponent {
+  render() {
+    const aProps = Object.assign({}, this.props);
+    const {onClick, show} = aProps;
+
+    return (
+      true && (
+        <a href='#' {...aProps}
+           className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, styles.rightArrowsStyle)}>&gt;</a>
+      ) || null
+    );
+  }
+}
+
+class PrevArrow extends PureComponent {
+  render() {
+    const aProps = Object.assign({}, this.props);
+    const {onClick, show} = aProps;
+
+    return (
+      true && (
+        <a href='#' {...aProps}
+         className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows, styles.leftArrowsStyle)}>&lt;</a>
+       ) || null
+    );
+  }
+}
+
 
 @pure
 export default class Details extends Component {
@@ -33,11 +65,48 @@ export default class Details extends Component {
       databits2: answer.result.formatted.databits2 && answer.result.formatted.databits2.length,
       whyshown: answer.result.formatted.whyshown
     };
-    console.log('detail data', answer.result, 'cardSettings', cardSettings);
+
     const mapOptions = {
       scrollWheelZoom: false,
       zoomControl: false
     };
+
+    const sliderSettings = {
+      dots: false,
+      infinite: false,
+      speed: 500,
+      variableWidth: true,
+      nextArrow: <NextArrow />,
+      prevArrow: <PrevArrow />,
+      // responsive: [{
+      //   breakpoint: 1024,
+      //   settings: {
+      //     dots: false,
+      //     infinite: true,
+      //     slidesToShow: 3,
+      //     slidesToScroll: 1
+      //   }
+      // },
+      // {
+      //   breakpoint: 600,
+      //   settings: {
+      //     dots: false,
+      //     infinite: true,
+      //     slidesToShow: 3,
+      //     slidesToScroll: 1
+      //   }
+      // },
+      // {
+      //   breakpoint: 480,
+      //   settings: {
+      //     dots: false,
+      //     infinite: true,
+      //     slidesToShow: 3,
+      //     slidesToScroll: 1
+      //   }
+      // }]
+    };
+
     return (
       <main className='mdl-layout__content'>
         <div className='page-content'>
@@ -51,36 +120,41 @@ export default class Details extends Component {
               </Card>
             </div>
             <div className={styles.sectionStyle}>
-            {(raw.image && raw.image.length) && (
-              <div>
-                <h4 className={styles.sectionName}>Images</h4>
-                <div className={styles.grid}>
-                <GridList
-                cellHeight={200}
-                cols={3}
-                className={styles.gridList}
-                >
-                {raw.image.map((img, index) => {
-                  return (
-                    <GridTile
-                      key={index}
-                      className={styles.gridTile}
-                      >
-                      <img src={img} />
-                    </GridTile>);
-                  })}
-                  </GridList>
-                  </div>
+              <div className={styles.innerSection}>
+                <DefaultCard>
+                  <CardHeader
+                    title='External Sources'
+                    titleColor='white'
+                    titleStyle={{'fontSize': '20px'}}
+                    actAsExpander={false}
+                    showExpandableButton={false}
+                    style={{'padding-left': '27px', background: '#08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}
+                  />
+                  <CardText style={{'padding-top': '24px'}}>
+                    <ul className={styles.sourcesList}>
+                      {raw.sources.map((src, index) => {
+                        return <li key={index}><a href={`${src.url}`}><img src={this.getExternalImage(src.name)} /></a></li>;
+                      })}
+                    </ul>
+                  </CardText>
+                </DefaultCard>
               </div>
-            )}
-              <div>
-              <h4 className={styles.sectionName}>External Sources</h4>
-                <ul className={styles.sourcesList}>
-                  {raw.sources.map((src, index) => {
-                    return <li key={index}><a href={`${src.url}`}>{src.name}</a></li>;
-                  })}
-                </ul>
-              </div>
+              {(raw.image && raw.image.length) && (
+                <div className={styles.innerSection}>
+                  <DefaultCard style={{'border-top': '5px solid #08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}>
+                    <Slider {...sliderSettings} className={classnames(styles.sliderStyle)}>
+                      {raw.image.map((img, index) => {
+                        return (
+                            <img src={img} className={styles.imgStyle} />
+                          );
+                        })}
+                    </Slider>
+                    <CardText style={{'border-top': '1px solid #F1F1F1', color: '#919191'}}>
+                      1 of {raw.image.length} images
+                    </CardText>
+                  </DefaultCard>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -88,4 +162,30 @@ export default class Details extends Component {
       </main>
     );
   }
+
+  getExternalImage(source) {
+    switch (source) {
+      case 'Eventful':
+        return require('../../images/eventful.png');
+      case 'Wikipedia':
+        return require('../../images/eventful.png');
+      case 'Seatgeek':
+        return require('../../images/eventful.png');
+      case 'Fandango':
+        return require('../../images/eventful.png');
+      default:
+        return require('../../images/eventful.png');
+    }
+  }
 }
+
+/* <div className={styles.externalSection}>
+  <div className={styles.sectionHeader}>External Sources</div>
+  <div className={styles.sectionContent}>
+    <ul className={styles.sourcesList}>
+      {raw.sources.map((src, index) => {
+        return <li key={index}><a href={`${src.url}`}>{src.name}</a></li>;
+      })}
+    </ul>
+  </div>
+</div> */
