@@ -25,9 +25,18 @@
   color: #000;
   top: 50%;
   transform: translateY(-50%);
-
-
 }
+
+.detailContent {
+  flex: 1;
+  margin-left: 20px;
+  display: flex;
+  align-items: flex-start;
+  svg {
+    color: rgba(255, 255, 255, 1) !important;
+  }
+}
+
 .rightArrowsStyle {
     background: white; /* For browsers that do not support gradients */
     background: -webkit-linear-gradient(90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)); /* For Safari 5.1 to 6.0 */

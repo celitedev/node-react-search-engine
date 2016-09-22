@@ -155,6 +155,25 @@ export default class Details extends Component {
                   </DefaultCard>
                 </div>
               )}
+              <div style={{'display': 'flex'}}>
+                <img src={require('../../images/logo-icon.png')} style={{'height': '57px'}}/>
+                <div className={classnames(styles.detailContent)}>
+                  <img src={require('../../images/arrow-left.png')} style={{'height': '10px', 'margin-top': '18px'}}/>
+                  <DefaultCard style={{'flex': '1'}} initiallyExpanded={true}>
+                    <CardHeader
+                      title='1980'
+                      titleColor='white'
+                      titleStyle={{'fontSize': '20px'}}
+                      actAsExpander={true}
+                      showExpandableButton={true}
+                      style={{'padding-left': '27px', background: '#08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}
+                    />
+                    <CardText style={{'padding-top': '24px', 'font-size': '16px'}} color='#525252' expandable={true}>
+                      in 2002,[2] a Golden Globe, an Emmy, and three Academy Award nominations for Best Original Song.
+                    </CardText>
+                  </DefaultCard>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -178,14 +197,3 @@ export default class Details extends Component {
     }
   }
 }
-
-/* <div className={styles.externalSection}>
-  <div className={styles.sectionHeader}>External Sources</div>
-  <div className={styles.sectionContent}>
-    <ul className={styles.sourcesList}>
-      {raw.sources.map((src, index) => {
-        return <li key={index}><a href={`${src.url}`}>{src.name}</a></li>;
-      })}
-    </ul>
-  </div>
-</div> */
