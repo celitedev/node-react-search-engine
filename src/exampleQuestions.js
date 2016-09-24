@@ -8,17 +8,17 @@ export const types = {
 export default [{
   question: 'movies',
 }, {
-  question: 'concerts',
+  question: 'concert',
 }, {
-  question: 'classes',
+  question: 'course',
 }, {
-  question: 'comedies',
+  question: 'comedy',
 }, {
-  question: 'theatre',
+  question: 'theater events',
 }, {
-  question: 'music',
+  question: 'music events',
 }, {
   question: 'sports',
 }, {
-  question: 'festivals',
+  question: 'festival events',
 }];
