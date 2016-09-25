@@ -73,13 +73,13 @@ allow_unauthenticated = true
 auth_redirect = "/"
 
 [auth.facebook]
-id = "1050432964993917"
-secret = "11c215a132ffff1f33d7f1b245e9d964"
+id = "613396672163786"
+secret = "f474099b674f3ad6360fed5b42ccf69e"
 
 [auth.google]
-id = "132749478548-qnes7nh2in6ico5l1kgoh3rq66r225bd.apps.googleusercontent.com"
-secret = "ydL1nx0vaihoYrllJG9blnSJ"
+id = "93433253191-adub41omh8efs5t6cb7pv4d4od7ve8hm.apps.googleusercontent.com"
+secret = "PGFSDc0xg_SL7S1kUE8C9056"
 
 [auth.twitter]
-id = "Wvvn8WC3mRWrfX1mNJ1mFmw1W"
-secret = "BsvWimiWS9DCa1mtg5qOwIH523Ar2eMjVu5pvyuoFOg5huWHRF"
+id = "wlzg6stPree9MzikJMoEJQIKI"
+secret = "2TSOstbgcVCWj1tgg9cw9ycEUGBgyfmj86crIhYFOZJTsbGiHZ"
