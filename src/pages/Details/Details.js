@@ -15,6 +15,16 @@ export default class Details extends PureComponent {
         type: API_REQUEST,
         method: 'get',
         path: `entities/${params.id}`
+      }),
+      suggestions: dispatch({
+        type: API_REQUEST,
+        method: 'post',
+        path: 'suggestions',
+        data: {
+          data: {
+            id: params.id
+          }
+        }
       })
     };
   }
