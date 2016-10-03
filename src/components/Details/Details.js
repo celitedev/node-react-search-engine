@@ -17,7 +17,7 @@ class NextArrow extends PureComponent {
     return (
       true && (
         <a href='#' {...aProps}
-           className={classnames('js-rowcontrol js-rowcontrol-next', styles.arrows, styles.rightArrowsStyle)}>&gt;</a>
+           className={classnames('js-rowcontrol js-rowcontrol-next fa fa-angle-right', styles.arrows, styles.rightArrowsStyle)}>&gt;</a>
       ) || null
     );
   }
@@ -31,12 +31,39 @@ class PrevArrow extends PureComponent {
     return (
       true && (
         <a href='#' {...aProps}
-         className={classnames('js-rowcontrol js-rowcontrol-prev', styles.arrows, styles.leftArrowsStyle)}>&lt;</a>
+         className={classnames('js-rowcontrol js-rowcontrol-prev fa fa-angle-left', styles.arrows, styles.leftArrowsStyle)}>&lt;</a>
        ) || null
     );
   }
 }
 
+class SNextArrow extends PureComponent {
+  render() {
+    const aProps = Object.assign({}, this.props);
+    const {onClick, show} = aProps;
+
+    return (
+      true && (
+        <a href='#' {...aProps}
+           className={classnames('js-rowcontrol js-rowcontrol-next fa fa-angle-right', styles.arrows, styles.sRightArrowsStyle)}>&gt;</a>
+      ) || null
+    );
+  }
+}
+
+class SPrevArrow extends PureComponent {
+  render() {
+    const aProps = Object.assign({}, this.props);
+    const {onClick, show} = aProps;
+
+    return (
+      true && (
+        <a href='#' {...aProps}
+         className={classnames('js-rowcontrol js-rowcontrol-prev fa fa-angle-left', styles.arrows, styles.sLeftArrowsStyle)}>&lt;</a>
+       ) || null
+    );
+  }
+}
 
 @pure
 export default class Details extends Component {
@@ -44,6 +71,7 @@ export default class Details extends Component {
   render() {
     const {answer} = this.props;
     const {raw} = answer.result;
+    const suggestions = answer.suggestions;
     const {geo} = raw;
     let setMapView = [];
     if (geo) {
@@ -174,6 +202,42 @@ export default class Details extends Component {
                   </DefaultCard>
                 </div>
               </div>
+            </div>
+
+            <div>
+              {suggestions.map((suggestion, index) => {
+                const suggestionCardSettings = {
+                  identifiers1: suggestion.find((r) => r.formatted.identifiers1),
+                  identifiers2: suggestion.find((r) => r.formatted.identifiers2),
+                  headsup1: suggestion.find((r) => r.formatted.headsup1),
+                  headsup2: suggestion.find((r) => r.formatted.headsup2),
+                  databits1: suggestion.find((r) => r.formatted.databits1),
+                  databits2: suggestion.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
+                  whyshown: suggestion.find((r) => r.formatted.whyshown)
+                };
+
+                const suggestionSliderSettings = {
+                  dots: false,
+                  infinite: false,
+                  speed: 500,
+                  variableWidth: true,
+                  nextArrow: <SNextArrow />,
+                  prevArrow: <SPrevArrow />
+                };
+                return (
+                  <div className={styles.innerSection}>
+                    <Slider {...suggestionSliderSettings} className={classnames(styles.sliderStyle)}>
+                      {suggestion.map((result, index) => {
+                        return (
+                          <div key={index} className={classnames(styles.sliderPosition)}>
+                              <Card className={classnames('card m-card-imgRight')} shareBtn={true} settings={suggestionCardSettings} data={result}/>
+                          </div>
+                        );
+                      })}
+                    </Slider>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

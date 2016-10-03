@@ -5,6 +5,23 @@
   border-top: 5px solid #08bb6e;
 }
 
+.sliderPosition {
+  padding: 0 10px;
+  padding-top: 3px;
+}
+
+.root {
+  padding: 0 !important;
+  position: initial !important;
+  .dots {
+    width: inherit;
+  }
+
+  .cardPosition {
+    width: 375px;
+  }
+}
+
 .sectionStyle {
   padding: 20px 10px;
 }
@@ -25,6 +42,7 @@
   color: #000;
   top: 50%;
   transform: translateY(-50%);
+  font-size: 17px !important;
 }
 
 .detailContent {
@@ -51,6 +69,24 @@
     background: -o-linear-gradient(-90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)); /* For Opera 11.1 to 12.0 */
     background: -moz-linear-gradient(-90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)); /* For Firefox 3.6 to 15 */
     background: linear-gradient(-90deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0.5)); /* Standard syntax */
+}
+
+.sRightArrowsStyle {
+  background-color: #eeeeee;
+  width: 35px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 35px 0 0 35px;
+  text-align: center;
+}
+
+.sLeftArrowsStyle {
+  background-color: #eeeeee;
+  width: 35px;
+  height: 70px;
+  line-height: 70px;
+  margin-left: 10px;
+  border-radius: 0 35px 35px 0;
 }
 
 
