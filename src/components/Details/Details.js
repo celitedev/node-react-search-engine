@@ -151,7 +151,7 @@ export default class Details extends Component {
               <div className={styles.innerSection}>
                 <DefaultCard>
                   <CardHeader
-                    title='External Sources'
+                    title='Learn More'
                     titleColor='white'
                     titleStyle={{'fontSize': '20px'}}
                     actAsExpander={false}
