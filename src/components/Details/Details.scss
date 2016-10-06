@@ -1,3 +1,4 @@
+@import '../../styles/site-settings';
 
 .detailsCard {
   width: inherit;
@@ -45,13 +46,31 @@
   font-size: 17px !important;
 }
 
+.logoStyle {
+  height: 57px;
+  @media (max-width: $resp_size_mobile) {
+    display: none;
+  }
+}
+
 .detailContent {
   flex: 1;
   margin-left: 20px;
   display: flex;
   align-items: flex-start;
+
+  @media (max-width: $resp_size_mobile) {
+    margin-left: 0px;
+  }
   svg {
     color: rgba(255, 255, 255, 1) !important;
+  }
+  img {
+    height: 10px;
+    margin-top: 18px;
+    @media (max-width: $resp_size_mobile) {
+      display: none;
+    }
   }
 }
 
@@ -72,7 +91,7 @@
 }
 
 .sRightArrowsStyle {
-  background-color: #eeeeee;
+  background-color: rgba(230,230,230,0.7);
   width: 35px;
   height: 70px;
   line-height: 70px;
@@ -81,7 +100,7 @@
 }
 
 .sLeftArrowsStyle {
-  background-color: #eeeeee;
+  background-color: rgba(230,230,230,0.7);
   width: 35px;
   height: 70px;
   line-height: 70px;
