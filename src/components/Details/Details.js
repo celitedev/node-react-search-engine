@@ -167,7 +167,7 @@ export default class Details extends Component {
                   </CardText>
                 </DefaultCard>
               </div>
-              {(raw.image && raw.image.length) && (
+              {(raw.image && raw.image.length > 1) && (
                 <div className={styles.innerSection}>
                   <DefaultCard style={{'border-top': '5px solid #08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}>
                     <Slider {...sliderSettings} className={classnames(styles.sliderStyle)}>
