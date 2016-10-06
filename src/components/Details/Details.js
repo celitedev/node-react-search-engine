@@ -183,7 +183,7 @@ export default class Details extends Component {
                   </DefaultCard>
                 </div>
               )}
-              {(formatted.details.map((detail, index) => {
+              {(formatted.details) && (formatted.details.map((detail, index) => {
                 return (
                   <div style={{'display': 'flex'}}>
                     <img src={require('../../images/logo-icon.png')} className={classnames(styles.logoStyle)} />
