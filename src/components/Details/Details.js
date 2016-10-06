@@ -70,7 +70,7 @@ export default class Details extends Component {
 
   render() {
     const {answer} = this.props;
-    const {raw} = answer.result;
+    const {raw, formatted} = answer.result;
     const suggestions = answer.suggestions;
     const {geo} = raw;
     let setMapView = [];
@@ -151,7 +151,7 @@ export default class Details extends Component {
               <div className={styles.innerSection}>
                 <DefaultCard>
                   <CardHeader
-                    title='External Sources'
+                    title='Learn More'
                     titleColor='white'
                     titleStyle={{'fontSize': '20px'}}
                     actAsExpander={false}
@@ -183,37 +183,42 @@ export default class Details extends Component {
                   </DefaultCard>
                 </div>
               )}
-              <div style={{'display': 'flex'}}>
-                <img src={require('../../images/logo-icon.png')} style={{'height': '57px'}}/>
-                <div className={classnames(styles.detailContent)}>
-                  <img src={require('../../images/arrow-left.png')} style={{'height': '10px', 'margin-top': '18px'}}/>
-                  <DefaultCard style={{'flex': '1'}} initiallyExpanded={true}>
-                    <CardHeader
-                      title='1980'
-                      titleColor='white'
-                      titleStyle={{'fontSize': '20px'}}
-                      actAsExpander={true}
-                      showExpandableButton={true}
-                      style={{'padding-left': '27px', background: '#08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}
-                    />
-                    <CardText style={{'padding-top': '24px', 'font-size': '16px'}} color='#525252' expandable={true}>
-                      in 2002,[2] a Golden Globe, an Emmy, and three Academy Award nominations for Best Original Song.
-                    </CardText>
-                  </DefaultCard>
-                </div>
-              </div>
+              {(formatted.details.map((detail, index) => {
+                return (
+                  <div style={{'display': 'flex'}}>
+                    <img src={require('../../images/logo-icon.png')} className={classnames(styles.logoStyle)} />
+                    <div className={classnames(styles.detailContent)}>
+                      <img src={require('../../images/arrow-left.png')}/>
+                      <DefaultCard style={{'flex': '1'}} initiallyExpanded={true}>
+                        <CardHeader
+                          title={detail.title}
+                          titleColor='white'
+                          titleStyle={{'fontSize': '20px'}}
+                          actAsExpander={true}
+                          showExpandableButton={true}
+                          style={{'padding-left': '27px', background: '#08bb6e', 'border-top-left-radius': '4px', 'border-top-right-radius': '4px'}}
+                        />
+                        <CardText style={{'padding-top': '24px', 'font-size': '16px'}} color='#525252' expandable={true}>
+                          {detail.detail}
+                        </CardText>
+                      </DefaultCard>
+                    </div>
+                  </div>
+                );
+              }))}
             </div>
 
             <div>
-              {suggestions.map((suggestion, index) => {
+              {suggestions.map((data, index) => {
+                const {title, result} = data;
                 const suggestionCardSettings = {
-                  identifiers1: suggestion.find((r) => r.formatted.identifiers1),
-                  identifiers2: suggestion.find((r) => r.formatted.identifiers2),
-                  headsup1: suggestion.find((r) => r.formatted.headsup1),
-                  headsup2: suggestion.find((r) => r.formatted.headsup2),
-                  databits1: suggestion.find((r) => r.formatted.databits1),
-                  databits2: suggestion.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
-                  whyshown: suggestion.find((r) => r.formatted.whyshown)
+                  identifiers1: result.find((r) => r.formatted.identifiers1),
+                  identifiers2: result.find((r) => r.formatted.identifiers2),
+                  headsup1: result.find((r) => r.formatted.headsup1),
+                  headsup2: result.find((r) => r.formatted.headsup2),
+                  databits1: result.find((r) => r.formatted.databits1),
+                  databits2: result.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
+                  whyshown: result.find((r) => r.formatted.whyshown)
                 };
 
                 const suggestionSliderSettings = {
@@ -226,8 +231,9 @@ export default class Details extends Component {
                 };
                 return (
                   <div className={styles.innerSection}>
+                    <h4 style={{'color': '#00cd75', 'margin-left': '10px'}}>{title}</h4>
                     <Slider {...suggestionSliderSettings} className={classnames(styles.sliderStyle)}>
-                      {suggestion.map((result, index) => {
+                      {result.map((result, index) => {
                         return (
                           <div key={index} className={classnames(styles.sliderPosition)}>
                               <Card className={classnames('card m-card-imgRight')} shareBtn={true} settings={suggestionCardSettings} data={result}/>
