@@ -209,15 +209,16 @@ export default class Details extends Component {
             </div>
 
             <div>
-              {suggestions.map((suggestion, index) => {
+              {suggestions.map((data, index) => {
+                const {title, result} = data;
                 const suggestionCardSettings = {
-                  identifiers1: suggestion.find((r) => r.formatted.identifiers1),
-                  identifiers2: suggestion.find((r) => r.formatted.identifiers2),
-                  headsup1: suggestion.find((r) => r.formatted.headsup1),
-                  headsup2: suggestion.find((r) => r.formatted.headsup2),
-                  databits1: suggestion.find((r) => r.formatted.databits1),
-                  databits2: suggestion.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
-                  whyshown: suggestion.find((r) => r.formatted.whyshown)
+                  identifiers1: result.find((r) => r.formatted.identifiers1),
+                  identifiers2: result.find((r) => r.formatted.identifiers2),
+                  headsup1: result.find((r) => r.formatted.headsup1),
+                  headsup2: result.find((r) => r.formatted.headsup2),
+                  databits1: result.find((r) => r.formatted.databits1),
+                  databits2: result.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
+                  whyshown: result.find((r) => r.formatted.whyshown)
                 };
 
                 const suggestionSliderSettings = {
@@ -230,8 +231,9 @@ export default class Details extends Component {
                 };
                 return (
                   <div className={styles.innerSection}>
+                    <h4 style={{'color': '#00cd75', 'margin-left': '10px'}}>{title}</h4>
                     <Slider {...suggestionSliderSettings} className={classnames(styles.sliderStyle)}>
-                      {suggestion.map((result, index) => {
+                      {result.map((result, index) => {
                         return (
                           <div key={index} className={classnames(styles.sliderPosition)}>
                               <Card className={classnames('card m-card-imgRight')} shareBtn={true} settings={suggestionCardSettings} data={result}/>
