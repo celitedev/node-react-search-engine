@@ -259,16 +259,16 @@ export default class Details extends Component {
       case 'Eventful':
         return require('../../images/eventful.png');
       case 'Wikipedia':
-        return require('../../images/eventful.png');
+        return require('../../images/wikipedia.png');
       case 'Seatgeek':
-        return require('../../images/eventful.png');
+        return require('../../images/seatgeek.png');
       case 'Fandango':
-        return require('../../images/eventful.png');
+        return require('../../images/fandango.png');
       case 'Coursehorse':
         return require('../../images/coursehorse.png');
       case 'NYC':
-        return require('../../images/nyc.jpeg');
-      case '1iota':
+        return require('../../images/nyc.png');
+      case '1Ioata':
         return require('../../images/1iota.jpg');
       default:
         return require('../../images/eventful.png');
