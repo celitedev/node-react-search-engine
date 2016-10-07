@@ -254,6 +254,8 @@ export default class Details extends Component {
 
   getExternalImage(source) {
     switch (source) {
+      case 'Evenbrite':
+        return require('../../images/evenbrite.png');
       case 'Eventful':
         return require('../../images/eventful.png');
       case 'Wikipedia':
@@ -262,6 +264,12 @@ export default class Details extends Component {
         return require('../../images/eventful.png');
       case 'Fandango':
         return require('../../images/eventful.png');
+      case 'Coursehorse':
+        return require('../../images/coursehorse.png');
+      case 'NYC':
+        return require('../../images/nyc.jpeg');
+      case '1iota':
+        return require('../../images/1iota.jpg');
       default:
         return require('../../images/eventful.png');
     }
