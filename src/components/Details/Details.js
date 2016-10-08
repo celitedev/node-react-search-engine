@@ -253,22 +253,22 @@ export default class Details extends Component {
   }
 
   getExternalImage(source) {
-    switch (source) {
-      case 'Evenbrite':
+    switch (source.toLowerCase()) {
+      case 'evenbrite':
         return require('../../images/evenbrite.png');
-      case 'Eventful':
+      case 'eventful':
         return require('../../images/eventful.png');
-      case 'Wikipedia':
+      case 'wikipedia':
         return require('../../images/wikipedia.png');
-      case 'Seatgeek':
+      case 'seatgeek':
         return require('../../images/seatgeek.png');
-      case 'Fandango':
+      case 'fandango':
         return require('../../images/fandango.png');
-      case 'Coursehorse':
+      case 'coursehorse':
         return require('../../images/coursehorse.png');
-      case 'NYC':
+      case 'nyc':
         return require('../../images/nyc.png');
-      case '1Ioata':
+      case '1ioata':
         return require('../../images/1iota.jpg');
       default:
         return require('../../images/eventful.png');
