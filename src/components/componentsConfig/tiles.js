@@ -5,28 +5,28 @@ export const tiles = [
     tileClass: 'movies',
   },
   {
-    name: 'concerts',
+    name: 'concert',
     title: 'Concerts',
     tileClass: 'concerts',
   },
   {
-    name: 'festivals',
+    name: 'festival events',
     title: 'Festivals',
     tileClass: 'festivals',
   },
   {
-    name: 'classes',
+    name: 'course',
     title: 'Classes',
     tileClass: 'classes',
   },
   {
-    name: 'music',
+    name: 'music events',
     title: 'Music',
     tileClass: 'music',
   },
   {
-    name: 'theatre',
-    title: 'theatre',
+    name: 'theater events',
+    title: 'Theatre',
     tileClass: 'theatre',
   },
   {
@@ -35,7 +35,7 @@ export const tiles = [
     tileClass: 'sports',
   },
   {
-    name: 'comedies',
+    name: 'comedy',
     title: 'Comedies',
     tileClass: 'comedies',
   }

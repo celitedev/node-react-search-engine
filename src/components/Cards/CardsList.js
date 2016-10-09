@@ -80,6 +80,7 @@ export default class CardsList extends PureComponent {
 
   settingCard(card) {
     return {
+      type: 'answer-card',
       identifiers1: card.formatted.identifiers1,
       identifiers2: card.formatted.identifiers2,
       headsup1: card.formatted.headsup1,
