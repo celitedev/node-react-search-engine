@@ -56,7 +56,7 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
         }()}
       </div>
     </div>
-    <Footer />
+
   </main>
 ));
 

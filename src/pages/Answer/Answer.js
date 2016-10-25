@@ -10,6 +10,7 @@ import classnames from 'classnames';
 import {MainTabs, SubTabs} from '../../tabbar.js';
 import ReactPaginate from 'react-paginate';
 import {loadMoreResults, filterResults} from '../../actions';
+import Footer from '../../components/Footer/Footer.js';
 const debug = require('debug')('app:answer');
 
 @page('Answer', null, {loadMoreResults})
@@ -26,12 +27,12 @@ export default class Answer extends Component {
     };
     if (example) {
       meta = {...meta, refs};
-      searchParams = {question, ...example.context, meta};
+      pageSize = 12;
+      searchParams = {question, ...example.context, meta, pageSize};
       debug('Example search', searchParams);
     } else {
       searchParams = {
         question: params.question,
-        pageSize: 12,
         meta
       };
     }
@@ -112,11 +113,10 @@ export default class Answer extends Component {
     const answer = this.getData(data, this.state.mainTab);
     debug('Load new results start:', 'page: ', page, 'answer: ', answer);
     try {
-      console.log('**pageSize**', answer.filterContext);
       const filter = Object.assign({}, answer.filterContext, {pageSize: 12});
       const results = await loadMoreResults(page, filter);
       const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
-      this.setState({results: newResults});
+      this.setState({results: newResults, resultsPage: page});
     } catch (err) {
       debug('Load new results error:', err);
     }
@@ -129,6 +129,8 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     const {mainTab, subTab, results} = this.state;
+
+    console.log('**selected', this.state.resultsPage);
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
           <Header params={params}/>
@@ -152,29 +154,29 @@ export default class Answer extends Component {
             )}
           </div>
           {(loaded && results) && (
-            <div>
-              <AnswerCards params={params} answer={results}/>
-              {(this.state.pageNum > 0) && (
-                <div className={styles.paginationSection}>
-                  <ReactPaginate
-                     previousLabel={'<'}
-                     nextLabel={'>'}
-                     breakLabel={''}
-                     pageNum={this.state.pageNum}
-                     initialSelected={this.state.resultsPage}
-                     forceSelected={this.state.resultsPage}
-                     marginPagesDisplayed={0}
-                     pageRangeDisplayed={10}
-                     clickCallback={this.handlePageClick}
-                     containerClassName={classnames('pagination')}
-                     subContainerClassName={classnames('pages', 'pagination')}
-                     activeClassName={classnames('active')} />
-              </div>)}
+            <AnswerCards params={params} answer={results}/>
+          )}
+          {(loaded && results) && (this.state.pageNum > 0) && (
+            <div className={styles.paginationSection}>
+              <ReactPaginate
+                 previousLabel={'<'}
+                 nextLabel={'>'}
+                 breakLabel={''}
+                 pageNum={this.state.pageNum}
+                 initialSelected={this.state.resultsPage}
+                 forceSelected={this.state.resultsPage}
+                 marginPagesDisplayed={0}
+                 pageRangeDisplayed={10}
+                 clickCallback={this.handlePageClick}
+                 containerClassName={classnames('pagination')}
+                 subContainerClassName={classnames('pages', 'pagination')}
+                 activeClassName={classnames('active')} />
             </div>
           )}
           {(loaded && data.searchResults.warningHuman) && (
             <AnswerWarning answer={data.searchResults.warningHuman}/>
           )}
+          <Footer />
         </div>
     );
   }
