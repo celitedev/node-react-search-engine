@@ -18,11 +18,6 @@ if (!process.env.SERVER_RENDERING) {
 export default class CardPagination extends PureComponent {
   constructor(props, context) {
     super(props, context);
-
-    this.state = {
-      searchText: '',
-      showArrowBtns: false
-    };
   }
 
   beforeChange(e) {
