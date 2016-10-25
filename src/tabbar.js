@@ -16,15 +16,15 @@ export const SubTabs = [{
 }];
 
 export const MainTabs = [{
-  name: 'Places',
-  question: 'PlaceWithOpeninghours'
-}, {
   name: 'Events',
   question: 'Event'
+}, {
+  name: 'Places',
+  question: 'PlaceWithOpeninghours'
 }, {
   name: 'Creative Works',
   question: 'CreativeWork'
 }, {
-  name: 'People',
+  name: 'Performers',
   question: 'OrganizationAndPerson'
 }];
