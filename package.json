@@ -74,6 +74,7 @@
     "react-medium-editor": "^1.6.3",
     "react-motion": "^0.4.4",
     "react-pagify": "^2.0.4",
+    "react-paginate": "^2.2.3",
     "react-pure-render": "^1.0.2",
     "react-reorder": "^2.0.0",
     "react-router": "^1.0.0",

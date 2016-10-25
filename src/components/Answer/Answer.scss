@@ -16,3 +16,18 @@
 .topicHeader {
   margin-top: 25px !important;
 }
+
+.root {
+
+  padding: 0 !important;
+  position: initial !important;
+  max-height: 740px;
+  max-width: 1300px;
+  margin: 0 auto;
+
+  .cardPosition {
+    padding: 15px 15px;
+    width: 375px;
+    float: left;
+  }
+}
