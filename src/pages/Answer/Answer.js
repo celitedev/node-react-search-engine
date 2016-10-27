@@ -111,6 +111,7 @@ export default class Answer extends Component {
   async filterByDate(question, tab, answerTheQuestion, loadNewResults) {
     const date = tab.toLowerCase();
     try {
+      const searchResults = await answerTheQuestion(question + ' ' + date);
       const newResults = searchResults.results[1];
       // const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
       this.setState({
