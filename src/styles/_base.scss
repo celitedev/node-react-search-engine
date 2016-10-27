@@ -103,7 +103,6 @@ a{
     width: 100%;
     padding-left: 200px;
     padding-right: 200px;
-
     display: flex;
 
     a {
@@ -111,11 +110,34 @@ a{
       color: #a8a8a8;
       padding-left: 30px;
       padding-right: 30px;
+      text-align: center;
     }
 
     a.selected, a:hover{
       border-bottom: 3px solid #08E081;
       color: #08E081;
+    }
+
+    @media (max-width: 940px) {
+      padding: 10px;
+      height: 50px;
+      line-height: 50px;
+      a{
+        flex: 1;
+        font-size: 1em;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      a{
+        flex: 1;
+        font-size: 0.6em;
+        padding: 3px;
+      }
     }
 
   }
@@ -142,6 +164,27 @@ a{
       color: #08E081;
     }
 
+    @media (max-width: 940px) {
+      padding: 10px;
+      height: 50px;
+      line-height: 50px;
+      a{
+        flex: 1;
+        font-size: 0.95em;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 375px) {
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      a {
+        font-size: 0.55em;
+        padding: 2px;
+        flex: 1;
+      }
+    }
   }
 }
 
