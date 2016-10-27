@@ -36,9 +36,25 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
           };
           return answer.results.length > 0 && (
               <div className={styles.paginationSection}>
-                <div className={classnames('related-answer-text', styles.topicHeader)}>
-                  <Link dangerouslySetInnerHTML={{__html: answer.answerNLP}} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}/>
+                <div className={classnames(styles.paginationHeader)}>
+                  <div className={classnames('related-answer-text', styles.topicHeader)}>
+                    <Link dangerouslySetInnerHTML={{__html: answer.answerNLP}} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}/>
+                  </div>
+                  <div className={classnames(styles.resultType)}>
+                    {/* <div className={classnames(styles.resultTypeIcons)}> */}
+                      {/* <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}> */}
+                        <div className={classnames(styles.collectionType)}></div>
+                      {/* </Link> */}
+
+                      <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
+                        <div className={classnames(styles.mapType)}></div>
+                      </Link>
+                    {/* </div> */}
+
+
+                  </div>
                 </div>
+
                 {/* <CardsCarousel settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
                                cardsStyle={styles.sliderCard} answer={answer}/> */}
                {/* <CardsPagination settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}

@@ -9,20 +9,58 @@
   min-width: 375px;
 }
 
-.paginationSection {
-  margin-top:20px;
+.paginationHeader {
+  // background: #ffff00;
+  display: flex;
+  max-width: 1215px;
+  margin: 0 auto;
+
+  .topicHeader {
+    margin-top: 25px !important;
+    flex: 4
+  }
+
+  .resultType {
+    // background: #ff0000;
+    flex: 1;
+      display: flex;
+      justify-content: flex-end;
+
+      
+      .collectionType {
+        background: white url('../../images/collection.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 21px;
+        height: 21px;
+        padding: 10px;
+        border: 2px solid #DCDCDC;
+        border-right: none;
+        border-radius: 3px 0 0 3px;
+        margin-top: 20px;
+
+      }
+
+      .mapType {
+        background: #F5F5F5 url('../../images/pin.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        width: 21px;
+        height: 21px;
+        padding: 10px;
+        border: 2px solid #DCDCDC;
+        border-radius: 0 3px 3px 0;
+        margin-top: 20px;
+      }
+
+  }
 }
 
-.topicHeader {
-  margin-top: 25px !important;
-}
+
 
 .root {
 
-  padding: 0 !important;
-  position: initial !important;
-  max-height: 740px;
-  max-width: 1300px;
+  max-width: 1220px;
   margin: 0 auto;
 
   .cardPosition {
