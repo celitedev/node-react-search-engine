@@ -70,8 +70,8 @@ export default class Answer extends Component {
     }
   }
 
-  onMainTabSelect(tab) {
-    if (this.state.mainTab === tab) {
+  onMainTabSelect(tab, forceSelect = false) {
+    if (!forceSelect && this.state.mainTab === tab) {
       return;
     }
     const {results} = this.props.data.searchResults;
@@ -113,8 +113,12 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    this.setState({subTab: tab});
-    this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults);
+    if (tab === this.state.subTab) {
+      this.onMainTabSelect(this.state.mainTab, true);
+    } else {
+      this.setState({subTab: tab});
+      this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults);
+    }
   }
 
   async filterByDate(question, tab, answerTheQuestion, loadNewResults) {
@@ -131,7 +135,6 @@ export default class Answer extends Component {
       });
     } catch (err) {
       debug('Load new results error:', err);
-      console.log('error', err);
     }
   }
 
