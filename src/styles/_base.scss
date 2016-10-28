@@ -129,7 +129,7 @@ a{
       }
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 425px) {
       padding: 0;
       height: 40px;
       line-height: 40px;
@@ -157,10 +157,10 @@ a{
       color: #a8a8a8;
       padding-left: 30px;
       padding-right: 30px;
+      text-align: center;
     }
 
     a.selected, a:hover{
-      // border-bottom: 2px solid #08E081;
       color: #08E081;
     }
 
@@ -175,7 +175,7 @@ a{
       }
     }
 
-    @media (max-width: 375px) {
+    @media (max-width: 425px) {
       padding: 0;
       height: 40px;
       line-height: 40px;
@@ -183,6 +183,11 @@ a{
         font-size: 0.55em;
         padding: 2px;
         flex: 1;
+        text-align: center;
+
+        &:nth-child(4), &:nth-child(5) {
+          display: none;
+        }
       }
     }
   }

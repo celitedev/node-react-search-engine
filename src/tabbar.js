@@ -16,7 +16,7 @@ export const SubTabs = [{
 }];
 
 export const MainTabs = [{
-  name: 'Most Relavant',
+  name: 'Most Relevant',
   question: 'relavant'
 }, {
   name: 'Events',
