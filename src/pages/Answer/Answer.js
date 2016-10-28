@@ -81,20 +81,29 @@ export default class Answer extends Component {
     if (index > -1) {
       this.setState({
         mainTab: tab,
-        // subTab: SubTabs[0].name,
         subTab: null,
         pageNum: Math.ceil(results[index].totalResults / 12),
         resultsPage: 0,
         results: results[index]
       });
     } else {
-      this.setState({
-        mainTab: tab,
-        subTab: null,
-        pageNum: Math.ceil(results[0].totalResults / 12),
-        resultsPage: 0,
-        results: results[0]
-      });
+      if (tab === 'Most Relevant') {
+        this.setState({
+          mainTab: tab,
+          subTab: null,
+          pageNum: Math.ceil(results[0].totalResults / 12),
+          resultsPage: 0,
+          results: results[0]
+        });
+      } else {
+        this.setState({
+          mainTab: tab,
+          subTab: null,
+          pageNum: 0,
+          resultsPage: 0,
+          results: null
+        });
+      }
     }
 
     // if (tab === 'Events') {
@@ -112,16 +121,17 @@ export default class Answer extends Component {
     const date = tab.toLowerCase();
     try {
       const searchResults = await answerTheQuestion(question + ' ' + date);
-      const newResults = searchResults.results[1];
+      const newResults = searchResults.results ? searchResults.results[1] : null;
       // const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
       this.setState({
         subTab: tab,
         results: newResults,
         resultsPage: 0,
-        pageNum: Math.ceil(newResults.totalResults / 12)
+        pageNum: newResults ? Math.ceil(newResults.totalResults / 12) : 0
       });
     } catch (err) {
       debug('Load new results error:', err);
+      console.log('error', err);
     }
   }
 
@@ -177,17 +187,21 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     const {mainTab, subTab, results} = this.state;
+    const hasNLPAnswer = loaded && data.searchResults.results.length > 4;
 
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
           <Header params={params}/>
+          {(loaded) && (
           <div className='tabbar'>
             <div className='entitybar'>
               {map(MainTabs, (tab, index) => {
                 const sel = MainTabs[index].name;
-                return (
-                  <a href={`#${tab.question}`} onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
-                );
+                if (index !== 0 || hasNLPAnswer) {
+                  return (
+                    <a href={`#${tab.question}`} onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
+                  );
+                }
               })}
             </div>
             {(mainTab === 'Events') && (
@@ -200,8 +214,12 @@ export default class Answer extends Component {
               </div>
             )}
           </div>
+          )}
           {(loaded && results) && (
             <AnswerCards params={params} answer={results}/>
+          )}
+          {(loaded && !results) && (
+            <h3 className={classnames(styles.noResult)}>No Results</h3>
           )}
           {(loaded && results) && (this.state.pageNum > 0) && (
             <div className={styles.paginationSection}>
