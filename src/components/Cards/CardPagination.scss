@@ -1,0 +1,77 @@
+@import '../../styles/site-settings';
+
+.root {
+
+  padding: 0 !important;
+  position: initial !important;
+  max-height: 740px;
+  max-width: 1300px;
+  margin: 0 auto;
+
+  .cardPosition {
+    padding: 15px 15px;
+    width: 375px;
+    float: left;
+  }
+}
+
+.arrows {
+  display: block;
+}
+.arrowsStyle {
+  margin-top: -35px;
+}
+
+.showAllBtn {
+  float: right;
+  @media (max-width: $resp_size_desktop) {
+    margin-right: 10px;
+  }
+  margin-bottom: 4px;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  button {
+    background-color: #00cd75 !important;
+  }
+}
+
+.showAllSlide {
+  float: left;
+  min-height: 205px;
+  width: 100%;
+  background: #00cd75;
+  text-align: center;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 8px 0 rgba(0, 0, 0, 0.12);
+  transition: box-shadow 0.15s;
+  margin-bottom: 15px;
+  padding-bottom: 0;
+  margin-left: 10px;
+}
+
+.searchType {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  button {
+    background-color: white !important;
+  }
+  span {
+    color: #00cd75 !important;
+  }
+}
+
+.totalAmount {
+  font-weight: bold;
+  color: white;
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.showAllLbl {
+  color: white;
+  font-size: 20px;
+  margin-top: 10px;
+  margin-bottom: 0;
+  padding: 0;
+}

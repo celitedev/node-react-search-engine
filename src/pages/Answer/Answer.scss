@@ -1,0 +1,21 @@
+@import '../../styles/site-settings';
+
+.paginationSection {
+  border-top: 1px solid #f1f1f1;
+  padding: 30px 0;
+  margin: 20px 0;
+  width: 1300px;
+  margin: 0 auto;
+  @media (max-width: $resp_size_tablet) {
+    width: 900px
+  }
+
+  @media (max-width: $resp_size_mobile) {
+    width: 345px
+  }
+}
+
+.noResult {
+  padding: 40px;
+  color: #a8a8a8;
+}

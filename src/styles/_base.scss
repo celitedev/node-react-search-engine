@@ -93,6 +93,143 @@ a{
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12), 0 2px 1px -2px rgba(0, 0, 0, 0.1);
 }
 
+.tabbar {
+  height: 125px;
+
+  .entitybar {
+    background-color: white;
+    height: 70px;
+    line-height: 70px;
+    width: 100%;
+    padding-left: 200px;
+    padding-right: 200px;
+    display: flex;
+
+    a {
+      font-size: 19px;
+      color: #a8a8a8;
+      padding-left: 30px;
+      padding-right: 30px;
+      text-align: center;
+    }
+
+    a.selected, a:hover{
+      border-bottom: 3px solid #08E081;
+      color: #08E081;
+    }
+
+    @media (max-width: 940px) {
+      padding: 10px;
+      height: 50px;
+      line-height: 50px;
+      a{
+        flex: 1;
+        font-size: 1em;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 425px) {
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      a{
+        flex: 1;
+        font-size: 0.6em;
+        padding: 3px;
+      }
+    }
+
+  }
+
+  .datebar {
+    background-color: rgba(242,242,242,0.6);
+    border-top: 2px solid #f0f0f0;
+    border-bottom: 2px solid #f0f0f0;
+    padding-left: 200px;
+    padding-right: 200px;
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+
+    a {
+      font-size: 16px;
+      color: #a8a8a8;
+      padding-left: 30px;
+      padding-right: 30px;
+      text-align: center;
+    }
+
+    a.selected, a:hover{
+      color: #08E081;
+    }
+
+    @media (max-width: 940px) {
+      padding: 10px;
+      height: 50px;
+      line-height: 50px;
+      a{
+        flex: 1;
+        font-size: 0.95em;
+        padding: 10px;
+      }
+    }
+
+    @media (max-width: 425px) {
+      padding: 0;
+      height: 40px;
+      line-height: 40px;
+      a {
+        font-size: 0.55em;
+        padding: 2px;
+        flex: 1;
+        text-align: center;
+
+        &:nth-child(4), &:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
+.pagination {
+  display: inline-block;
+  padding-left: 15px;
+  padding-right: 15px;
+
+  li {
+    display: inline-block !important;
+    margin: 5px;
+    width: 45px;
+    height: 45px;
+    border-radius: 27.5px;
+    border: 1px solid #f1f1f1;
+    background-color: white;
+
+    a {
+      cursor: pointer;
+      color: #f1f1f1;
+      margin: 0 auto;
+      line-height: 45px;
+      text-align: center;
+      display: block;
+    }
+  }
+
+  li.active {
+    border: 1px solid #00CE74;
+    background-color: #00CE74;
+    a {
+      color: white;
+    }
+  }
+
+  li.disabled {
+    // display: none;
+  }
+}
+
 
 ///////
 ///footer
@@ -183,7 +320,3 @@ a{
 body, #react-app, #react-app > div, #react-app > div > div {
   height: 100%;
 }
-
-
-
-
