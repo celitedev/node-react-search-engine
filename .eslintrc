@@ -29,7 +29,9 @@
       "ignoreRefs": false,
       "allowArrowFunctions": true,
       "allowBind": false
-    }]
+    }],
+    "no-debugger": 0,
+    "no-console": 0
   },
   "globals": {
     "styles": true

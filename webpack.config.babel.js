@@ -135,9 +135,9 @@ const config = {
     ]
   },
 
-  eslint: {
-    configFile: path.resolve('.eslintrc')
-  },
+  // eslint: {
+  //   configFile: path.resolve('.eslintrc')
+  // },
 
   postcss: {
     general: [
