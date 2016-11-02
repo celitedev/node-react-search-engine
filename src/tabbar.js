@@ -1,4 +1,7 @@
 export const SubTabs = [{
+  name: 'ALL',
+  question: ' today'
+}, {
   name: 'TODAY',
   question: ' today'
 }, {

@@ -215,7 +215,15 @@ export default class Search extends Component {
             <div className={classnames('back-to-list', isSlider && styles.showBackArrow)} onClick={() => this.closeMap()}></div>
           </Map>
           <div className={classnames(styles.searchResultsLabel)}>
-            Showing <span className={classnames('accentColor')}>{answer.meta.elasticsearch.hits.total}</span> {params.question}
+            <div className={classnames(styles.resultLabel)}>
+              Showing <span className={classnames('accentColor')}>{answer.meta.elasticsearch.hits.total}</span> {params.question}
+            </div>
+            <div className={classnames(styles.resultType)}>
+              <Link onlyActiveOnIndex={false} to={`/answer/${params.question}`}>
+                <div className={classnames(styles.collectionType)}></div>
+              </Link>
+              <div className={classnames(styles.mapType)}></div>
+            </div>
           </div>
           <div id='js-searchResultPartial-container' className={classnames('l-searchPage l-cardResults m-card-results m-card-imgRight', styles.carouselOverflowFix, isSlider && 'is-slider')}>
             { isSlider && (

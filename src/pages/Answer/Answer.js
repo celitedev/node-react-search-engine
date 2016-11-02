@@ -81,7 +81,7 @@ export default class Answer extends Component {
     if (index > -1) {
       this.setState({
         mainTab: tab,
-        subTab: null,
+        subTab: tab === 'Events' ? 'ALL' : null,
         pageNum: Math.ceil(results[index].totalResults / 12),
         resultsPage: 0,
         results: results[index]
@@ -90,7 +90,7 @@ export default class Answer extends Component {
       if (tab === 'Most Relevant') {
         this.setState({
           mainTab: tab,
-          subTab: null,
+          subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: Math.ceil(results[0].totalResults / 12),
           resultsPage: 0,
           results: results[0]
@@ -98,7 +98,7 @@ export default class Answer extends Component {
       } else {
         this.setState({
           mainTab: tab,
-          subTab: null,
+          subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: 0,
           resultsPage: 0,
           results: null
@@ -113,7 +113,7 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    if (tab === this.state.subTab) {
+    if (tab === 'ALL') {
       this.onMainTabSelect(this.state.mainTab, true);
     } else {
       this.setState({subTab: tab});
@@ -208,12 +208,14 @@ export default class Answer extends Component {
               })}
             </div>
             {(mainTab === 'Events') && (
-              <div className='datebar'>
-              {map(SubTabs, (tab, index) => {
-                return (
-                  <a href={`#${tab.question}`} onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
-                );
-              })}
+              <div className='datebar-bg'>
+                <div className='datebar'>
+                {map(SubTabs, (tab, index) => {
+                  return (
+                    <a href={`#${tab.question}`} onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
+                  );
+                })}
+                </div>
               </div>
             )}
           </div>
@@ -238,7 +240,9 @@ export default class Answer extends Component {
                  clickCallback={this.handlePageClick}
                  containerClassName={classnames('pagination')}
                  subContainerClassName={classnames('pages', 'pagination')}
-                 activeClassName={classnames('active')} />
+                 activeClassName={classnames('active')}
+                 previousClassName={classnames('hide')}
+                 nextClassName={classnames('hide')} />
             </div>
           )}
           {(loaded && data.searchResults.warningHuman) && (

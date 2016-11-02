@@ -106,4 +106,39 @@
   font-size: 18px;
   margin: 10px;
   text-align: left;
+  display: flex;
+
+  .resultLabel {
+    flex: 1;
+  }
+
+  .resultType {
+    // background: #ff0000;
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+
+    .collectionType {
+      background: #F5F5F5 url('../../images/collection-grey.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 21px;
+      height: 21px;
+      padding: 10px;
+      border: 2px solid #DCDCDC;
+      border-right: none;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .mapType {
+      background: white url('../../images/pin-green.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      width: 21px;
+      height: 21px;
+      padding: 10px;
+      border: 2px solid #DCDCDC;
+      border-radius: 0 3px 3px 0;
+    }
+  }
 }
