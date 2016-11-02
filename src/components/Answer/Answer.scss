@@ -17,7 +17,14 @@
 
   .topicHeader {
     margin-top: 25px !important;
-    flex: 4
+    flex: 4;
+    @media (max-width: 940px) {
+      font-size: 1.3em;
+    }
+
+    @media (max-width: 425px) {
+      font-size: 1em;
+    }
   }
 
   .resultType {

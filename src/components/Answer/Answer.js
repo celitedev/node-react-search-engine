@@ -21,7 +21,7 @@ const enhance = compose(
 );
 
 const Answer = enhance(({answer, params, mainTab, subTab}) => (
-  <main className='mdl-layout__content'>
+  <main className='' >
     <div className='page-content'>
       <div className='l-answerPage'>
         {() => {
@@ -41,25 +41,12 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
                     <Link dangerouslySetInnerHTML={{__html: answer.answerNLP}} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}/>
                   </div>
                   <div className={classnames(styles.resultType)}>
-                    {/* <div className={classnames(styles.resultTypeIcons)}> */}
-                      {/* <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}> */}
-                        <div className={classnames(styles.collectionType)}></div>
-                      {/* </Link> */}
-
-                      <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
-                        <div className={classnames(styles.mapType)}></div>
-                      </Link>
-                    {/* </div> */}
-
-
+                    <div className={classnames(styles.collectionType)}></div>
+                    <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
+                      <div className={classnames(styles.mapType)}></div>
+                    </Link>
                   </div>
                 </div>
-
-                {/* <CardsCarousel settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
-                               cardsStyle={styles.sliderCard} answer={answer}/> */}
-               {/* <CardsPagination settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
-                              cardsStyle={styles.paginationCard} answer={answer}/> */}
-
                 <div className={classnames(styles.root)}>
                   {map(answer.results, (result, index) => (
                     <div key={index} className={styles.cardPosition}>
