@@ -1,6 +1,6 @@
 import React, {Component, Pagination} from 'react';
 import {page} from '../page';
-import {map, find, findIndex} from 'lodash';
+import {map, find, findIndex, filter} from 'lodash';
 import Header from '../../components/Common/Header.js';
 import AnswerCards from '../../components/Answer/Answer.js';
 import AnswerWarning from '../../components/Answer/AnswerWarning.js';
@@ -61,8 +61,11 @@ export default class Answer extends Component {
   componentWillReceiveProps(nextProps) {
     const {loaded, data} = nextProps;
     if (loaded && data.searchResults && data.searchResults.results.length > 0) {
+      const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
+      const subTab = mainTab === 'Events' ? 'ALL' : null;
       this.setState({
-        mainTab: this.getTab(data.searchResults.results[0].typeHuman),
+        mainTab: mainTab,
+        subTab: subTab,
         results: data.searchResults.results[0],
         resultsPage: 0,
         pageNum: Math.ceil(data.searchResults.results[0].totalResults / 12)
@@ -125,8 +128,10 @@ export default class Answer extends Component {
     const date = tab.toLowerCase();
     try {
       const searchResults = await answerTheQuestion(question + ' ' + date);
-      const newResults = searchResults.results ? searchResults.results[1] : null;
-      // const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
+      const filterResults = filter(searchResults.results, (result) => {
+        return result.typeHuman === 'events';
+      });
+      const newResults = filterResults.length > 0 ? filterResults[0] : null;
       this.setState({
         subTab: tab,
         results: newResults,
