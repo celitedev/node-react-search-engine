@@ -16,10 +16,11 @@
    - body background.
 
    =========================== */
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
 
 body {
   background: $c_background !important;
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
 }
 
 html, body, #react-app {
@@ -249,6 +250,26 @@ a{
 .page-content {
   min-height: calc(100% - 64px);
   padding-bottom:20px;
+}
+.sitemap {
+  display: block;
+  height: 500px;
+  background: #08E081;
+  color: white;
+  padding: 0 6%;
+
+  a {
+    color: white;
+    font-size: 15px;
+  }
+
+  .sitemap-content {
+    display: flex;
+    flex-direction: row;
+  }
+  .category {
+    flex: 1;
+  }
 }
 .footer {
   // position: fixed;
