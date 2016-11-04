@@ -11,6 +11,7 @@ import {MainTabs, SubTabs} from '../../tabbar.js';
 import ReactPaginate from 'react-paginate';
 import {loadMoreResults, filterResults, answerTheQuestion} from '../../actions';
 import Footer from '../../components/Footer/Footer.js';
+import SiteMap from '../../components/SiteMap/SiteMap.js';
 const debug = require('debug')('app:answer');
 
 @page('Answer', null, {loadMoreResults, answerTheQuestion})
@@ -253,6 +254,7 @@ export default class Answer extends Component {
           {(loaded && data.searchResults.warningHuman) && (
             <AnswerWarning answer={data.searchResults.warningHuman}/>
           )}
+          <SiteMap />
           <Footer />
         </div>
     );
