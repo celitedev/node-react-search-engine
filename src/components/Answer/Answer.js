@@ -21,7 +21,7 @@ const enhance = compose(
 );
 
 const Answer = enhance(({answer, params, mainTab, subTab}) => (
-  <main className='' >
+  <main className='main-layout-content'>
     <div className='page-content'>
       <div className='l-answerPage'>
         {() => {
@@ -34,6 +34,8 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
             databits2: answer.results.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
             whyshown: answer.results.find((r) => r.formatted.whyshown)
           };
+          const showMap = !(answer.typeHuman === 'creative works' || answer.typeHuman === 'performers');
+
           return answer.results.length > 0 && (
               <div className={styles.paginationSection}>
                 <div className={classnames(styles.paginationHeader)}>
@@ -42,9 +44,14 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
                   </div>
                   <div className={classnames(styles.resultType)}>
                     <div className={classnames(styles.collectionType)}></div>
-                    <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
+                    {(showMap) && (
+                      <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
+                        <div className={classnames(styles.mapType)}></div>
+                      </Link>
+                    )}
+                    {(!showMap) && (
                       <div className={classnames(styles.mapType)}></div>
-                    </Link>
+                    )}
                   </div>
                 </div>
                 <div className={classnames(styles.root)}>
