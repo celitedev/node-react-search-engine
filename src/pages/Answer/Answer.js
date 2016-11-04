@@ -184,6 +184,8 @@ export default class Answer extends Component {
       const results = await loadMoreResults(page, filterContext);
       const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
       this.setState({results: newResults, resultsPage: page});
+      debug('Load new results start:');
+      this.refs.mainLayout.scrollTop = 0;
     } catch (err) {
       debug('Load new results error:', err);
     }
@@ -208,54 +210,56 @@ export default class Answer extends Component {
                 const sel = MainTabs[index].name;
                 if (index !== 0 || hasNLPAnswer) {
                   return (
-                    <a href={`#${tab.question}`} onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
+                    <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
                   );
                 }
               })}
             </div>
+            <div className='datebar-bg'>
             {(mainTab === 'Events') && (
-              <div className='datebar-bg'>
                 <div className='datebar'>
                 {map(SubTabs, (tab, index) => {
                   return (
-                    <a href={`#${tab.question}`} onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
+                    <a onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
                   );
                 })}
                 </div>
-              </div>
             )}
+            </div>
           </div>
           )}
-          {(loaded && results) && (
-            <AnswerCards params={params} answer={results}/>
-          )}
-          {(loaded && !results) && (
-            <h3 className={classnames(styles.noResult)}>No Results</h3>
-          )}
-          {(loaded && results) && (this.state.pageNum > 0) && (
-            <div className={styles.paginationSection}>
-              <ReactPaginate
-                 previousLabel={'<'}
-                 nextLabel={'>'}
-                 breakLabel={''}
-                 pageNum={this.state.pageNum}
-                 initialSelected={this.state.resultsPage}
-                 forceSelected={this.state.resultsPage}
-                 marginPagesDisplayed={0}
-                 pageRangeDisplayed={10}
-                 clickCallback={this.handlePageClick}
-                 containerClassName={classnames('pagination')}
-                 subContainerClassName={classnames('pages', 'pagination')}
-                 activeClassName={classnames('active')}
-                 previousClassName={classnames('hide')}
-                 nextClassName={classnames('hide')} />
-            </div>
-          )}
-          {(loaded && data.searchResults.warningHuman) && (
-            <AnswerWarning answer={data.searchResults.warningHuman}/>
-          )}
-          <SiteMap />
-          <Footer />
+          <div ref='mainLayout' className='main-layout'>
+            {(loaded && results) && (
+              <AnswerCards params={params} answer={results}/>
+            )}
+            {(loaded && !results) && (
+                <h3 className={classnames(styles.noResult)}>No Results</h3>
+            )}
+            {(loaded && results) && (this.state.pageNum > 0) && (
+              <div className={styles.paginationSection}>
+                <ReactPaginate
+                   previousLabel={'<'}
+                   nextLabel={'>'}
+                   breakLabel={''}
+                   pageNum={this.state.pageNum}
+                   initialSelected={this.state.resultsPage}
+                   forceSelected={this.state.resultsPage}
+                   marginPagesDisplayed={0}
+                   pageRangeDisplayed={10}
+                   clickCallback={this.handlePageClick}
+                   containerClassName={classnames('pagination')}
+                   subContainerClassName={classnames('pages', 'pagination')}
+                   activeClassName={classnames('active')}
+                   previousClassName={classnames('hide')}
+                   nextClassName={classnames('hide')} />
+              </div>
+            )}
+            {(loaded && data.searchResults.warningHuman) && (
+              <AnswerWarning answer={data.searchResults.warningHuman}/>
+            )}
+            <SiteMap />
+            <Footer />
+          </div>
         </div>
     );
   }

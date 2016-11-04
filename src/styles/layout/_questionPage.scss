@@ -6,7 +6,7 @@
   padding-top: 50px;
   position: relative;
   text-align: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 32px);
 
   ul {
     @media (max-height: 568px) {

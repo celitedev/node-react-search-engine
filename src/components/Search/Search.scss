@@ -128,6 +128,9 @@
       border: 2px solid #DCDCDC;
       border-right: none;
       border-radius: 3px 0 0 3px;
+      @media (max-width: 425px) {
+        padding: 5px;
+      }
     }
 
     .mapType {
@@ -139,6 +142,9 @@
       padding: 10px;
       border: 2px solid #DCDCDC;
       border-radius: 0 3px 3px 0;
+      @media (max-width: 425px) {
+        padding: 5px;
+      }
     }
   }
 }
