@@ -94,16 +94,19 @@ a{
 }
 
 .tabbar {
-  height: 125px;
+  height: auto;
+  background-color: white;
+  font-family: "Helvetica", "Roboto", "Arial", sans-serif;
 
   .entitybar {
     background-color: white;
     height: 70px;
     line-height: 70px;
     width: 100%;
-    padding-left: 200px;
-    padding-right: 200px;
+    max-width: 1220px;
+    margin: 0 auto;
     display: flex;
+
 
     a {
       font-size: 19px;
@@ -125,7 +128,7 @@ a{
       a{
         flex: 1;
         font-size: 1em;
-        padding: 10px;
+        padding: 0px;
       }
     }
 
@@ -136,57 +139,63 @@ a{
       a{
         flex: 1;
         font-size: 0.6em;
-        padding: 3px;
+        padding: 0px;
       }
     }
 
   }
-
-  .datebar {
+  .datebar-bg {
     background-color: rgba(242,242,242,0.6);
     border-top: 2px solid #f0f0f0;
     border-bottom: 2px solid #f0f0f0;
-    padding-left: 200px;
-    padding-right: 200px;
     display: flex;
     height: 50px;
     line-height: 50px;
 
-    a {
-      font-size: 16px;
-      color: #a8a8a8;
-      padding-left: 30px;
-      padding-right: 30px;
-      text-align: center;
-    }
-
-    a.selected, a:hover{
-      color: #08E081;
-    }
-
-    @media (max-width: 940px) {
-      padding: 10px;
+    .datebar {
+      display: flex;
       height: 50px;
       line-height: 50px;
-      a{
-        flex: 1;
-        font-size: 0.95em;
-        padding: 10px;
-      }
-    }
+      width: 100%;
+      max-width: 1220px;
+      margin: 0 auto;
 
-    @media (max-width: 425px) {
-      padding: 0;
-      height: 40px;
-      line-height: 40px;
       a {
-        font-size: 0.55em;
-        padding: 2px;
-        flex: 1;
+        font-size: 16px;
+        color: #a8a8a8;
+        padding-left: 30px;
+        padding-right: 30px;
         text-align: center;
+      }
 
-        &:nth-child(4), &:nth-child(5) {
-          display: none;
+      a.selected, a:hover{
+        color: #08E081;
+      }
+
+      @media (max-width: 940px) {
+        padding: 10px;
+        height: 50px;
+        line-height: 50px;
+        a{
+          flex: 1;
+          font-size: 0.95em;
+          padding: 10px;
+        }
+      }
+
+      @media (max-width: 425px) {
+        padding: 0;
+        height: 40px;
+        line-height: 40px;
+        a {
+          font-size: 0.55em;
+          padding: 2px;
+          flex: 1;
+          text-align: center;
+
+          &:nth-child(4), &:nth-child(5) {
+            display: none;
+          }
         }
       }
     }
@@ -209,7 +218,7 @@ a{
 
     a {
       cursor: pointer;
-      color: #f1f1f1;
+      color: #d1d1d1;
       margin: 0 auto;
       line-height: 45px;
       text-align: center;
@@ -225,20 +234,61 @@ a{
     }
   }
 
+  li.hide {
+    display: none !important;
+  }
+
   li.disabled {
     // display: none;
   }
 }
 
+.main-layout {
+    -ms-flex: 0 1 auto;
+  position: relative;
+  display: inline-block;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
 
 ///////
 ///footer
 .page-content {
+  overflow-x: hidden;
   min-height: calc(100% - 64px);
   padding-bottom:20px;
 }
+.fixed {
+  .footer {
+    position: fixed !important;
+  }
+}
+.sitemap {
+  display: block;
+  height: 500px;
+  background: #08E081;
+  color: white;
+  padding: 0 6%;
+
+  a {
+    color: white;
+    font-size: 15px;
+  }
+
+  .sitemap-content {
+    display: flex;
+    flex-direction: row;
+  }
+  .category {
+    flex: 1;
+  }
+}
 .footer {
-  position: fixed;
   bottom: 0;
   background-color: white;
   filter: alpha(opacity=70);
@@ -259,7 +309,7 @@ a{
 
   .l-indexPage & { //on index page use white color with green background
     //color: rgba(#fff, .9);
-    margin-top: -58px; //indexPage uses own hackish stretching so need to compensate
+    // margin-top: -58px; //indexPage uses own hackish stretching so need to compensate
   }
 }
 

@@ -17,7 +17,14 @@
 
   .topicHeader {
     margin-top: 25px !important;
-    flex: 4
+    flex: 4;
+    @media (max-width: 940px) {
+      font-size: 1.3em;
+    }
+
+    @media (max-width: 425px) {
+      font-size: 1em;
+    }
   }
 
   .resultType {
@@ -26,7 +33,7 @@
       display: flex;
       justify-content: flex-end;
 
-      
+
       .collectionType {
         background: white url('../../images/collection.png');
         background-repeat: no-repeat;
@@ -38,7 +45,9 @@
         border-right: none;
         border-radius: 3px 0 0 3px;
         margin-top: 20px;
-
+        @media (max-width: 425px) {
+          padding: 5px;
+        }
       }
 
       .mapType {
@@ -51,6 +60,9 @@
         border: 2px solid #DCDCDC;
         border-radius: 0 3px 3px 0;
         margin-top: 20px;
+        @media (max-width: 425px) {
+          padding: 5px;
+        }
       }
 
   }
@@ -67,5 +79,13 @@
     padding: 15px 15px;
     width: 375px;
     float: left;
+
+    @media (max-width: 425px) {
+      max-width: 375px;
+      float:none;
+      width: auto;
+    }
   }
+
+
 }

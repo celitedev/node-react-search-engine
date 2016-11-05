@@ -6,7 +6,7 @@ import Footer from '../../components/Footer/Footer.js';
 const Index = pure(() => (
   <div className='l-indexPage' style={{background: '#00cd75'}}>
     <KwhenSearch />
-    <Footer />
+    <Footer className='fixed' />
   </div>
 ));
 

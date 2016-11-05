@@ -21,7 +21,7 @@ const enhance = compose(
 );
 
 const Answer = enhance(({answer, params, mainTab, subTab}) => (
-  <main className='mdl-layout__content'>
+  <main className='main-layout-content'>
     <div className='page-content'>
       <div className='l-answerPage'>
         {() => {
@@ -34,6 +34,8 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
             databits2: answer.results.find((r) => {return (r.formatted.databits2 && r.formatted.databits2.length);}),
             whyshown: answer.results.find((r) => r.formatted.whyshown)
           };
+          const showMap = !(answer.typeHuman === 'creative works' || answer.typeHuman === 'performers');
+
           return answer.results.length > 0 && (
               <div className={styles.paginationSection}>
                 <div className={classnames(styles.paginationHeader)}>
@@ -41,25 +43,17 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
                     <Link dangerouslySetInnerHTML={{__html: answer.answerNLP}} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}/>
                   </div>
                   <div className={classnames(styles.resultType)}>
-                    {/* <div className={classnames(styles.resultTypeIcons)}> */}
-                      {/* <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}> */}
-                        <div className={classnames(styles.collectionType)}></div>
-                      {/* </Link> */}
-
+                    <div className={classnames(styles.collectionType)}></div>
+                    {(showMap) && (
                       <Link onlyActiveOnIndex={false} to={`/search/${params.question}`} query={{ filter: JSON.stringify(answer.filterContext) }}>
                         <div className={classnames(styles.mapType)}></div>
                       </Link>
-                    {/* </div> */}
-
-
+                    )}
+                    {(!showMap) && (
+                      <div className={classnames(styles.mapType)}></div>
+                    )}
                   </div>
                 </div>
-
-                {/* <CardsCarousel settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
-                               cardsStyle={styles.sliderCard} answer={answer}/> */}
-               {/* <CardsPagination settings={answerCarousel} showAll={true} question={params.question} filterContext={answer.filterContext} results={answer.results}
-                              cardsStyle={styles.paginationCard} answer={answer}/> */}
-
                 <div className={classnames(styles.root)}>
                   {map(answer.results, (result, index) => (
                     <div key={index} className={styles.cardPosition}>

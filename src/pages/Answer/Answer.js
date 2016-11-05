@@ -1,6 +1,6 @@
 import React, {Component, Pagination} from 'react';
 import {page} from '../page';
-import {map, find, findIndex} from 'lodash';
+import {map, find, findIndex, filter} from 'lodash';
 import Header from '../../components/Common/Header.js';
 import AnswerCards from '../../components/Answer/Answer.js';
 import AnswerWarning from '../../components/Answer/AnswerWarning.js';
@@ -11,6 +11,7 @@ import {MainTabs, SubTabs} from '../../tabbar.js';
 import ReactPaginate from 'react-paginate';
 import {loadMoreResults, filterResults, answerTheQuestion} from '../../actions';
 import Footer from '../../components/Footer/Footer.js';
+import SiteMap from '../../components/SiteMap/SiteMap.js';
 const debug = require('debug')('app:answer');
 
 @page('Answer', null, {loadMoreResults, answerTheQuestion})
@@ -61,8 +62,11 @@ export default class Answer extends Component {
   componentWillReceiveProps(nextProps) {
     const {loaded, data} = nextProps;
     if (loaded && data.searchResults && data.searchResults.results.length > 0) {
+      const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
+      const subTab = mainTab === 'Events' ? 'ALL' : null;
       this.setState({
-        mainTab: this.getTab(data.searchResults.results[0].typeHuman),
+        mainTab: mainTab,
+        subTab: subTab,
         results: data.searchResults.results[0],
         resultsPage: 0,
         pageNum: Math.ceil(data.searchResults.results[0].totalResults / 12)
@@ -81,7 +85,7 @@ export default class Answer extends Component {
     if (index > -1) {
       this.setState({
         mainTab: tab,
-        subTab: null,
+        subTab: tab === 'Events' ? 'ALL' : null,
         pageNum: Math.ceil(results[index].totalResults / 12),
         resultsPage: 0,
         results: results[index]
@@ -90,7 +94,7 @@ export default class Answer extends Component {
       if (tab === 'Most Relevant') {
         this.setState({
           mainTab: tab,
-          subTab: null,
+          subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: Math.ceil(results[0].totalResults / 12),
           resultsPage: 0,
           results: results[0]
@@ -98,7 +102,7 @@ export default class Answer extends Component {
       } else {
         this.setState({
           mainTab: tab,
-          subTab: null,
+          subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: 0,
           resultsPage: 0,
           results: null
@@ -113,7 +117,7 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    if (tab === this.state.subTab) {
+    if (tab === 'ALL') {
       this.onMainTabSelect(this.state.mainTab, true);
     } else {
       this.setState({subTab: tab});
@@ -125,8 +129,10 @@ export default class Answer extends Component {
     const date = tab.toLowerCase();
     try {
       const searchResults = await answerTheQuestion(question + ' ' + date);
-      const newResults = searchResults.results ? searchResults.results[1] : null;
-      // const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
+      const filterResults = filter(searchResults.results, (result) => {
+        return result.typeHuman === 'events';
+      });
+      const newResults = filterResults.length > 0 ? filterResults[0] : null;
       this.setState({
         subTab: tab,
         results: newResults,
@@ -178,6 +184,8 @@ export default class Answer extends Component {
       const results = await loadMoreResults(page, filterContext);
       const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
       this.setState({results: newResults, resultsPage: page});
+      debug('Load new results start:');
+      this.refs.mainLayout.scrollTop = 0;
     } catch (err) {
       debug('Load new results error:', err);
     }
@@ -202,49 +210,56 @@ export default class Answer extends Component {
                 const sel = MainTabs[index].name;
                 if (index !== 0 || hasNLPAnswer) {
                   return (
-                    <a href={`#${tab.question}`} onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
+                    <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
                   );
                 }
               })}
             </div>
+            <div className='datebar-bg'>
             {(mainTab === 'Events') && (
-              <div className='datebar'>
-              {map(SubTabs, (tab, index) => {
-                return (
-                  <a href={`#${tab.question}`} onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
-                );
-              })}
-              </div>
+                <div className='datebar'>
+                {map(SubTabs, (tab, index) => {
+                  return (
+                    <a onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
+                  );
+                })}
+                </div>
             )}
+            </div>
           </div>
           )}
-          {(loaded && results) && (
-            <AnswerCards params={params} answer={results}/>
-          )}
-          {(loaded && !results) && (
-            <h3 className={classnames(styles.noResult)}>No Results</h3>
-          )}
-          {(loaded && results) && (this.state.pageNum > 0) && (
-            <div className={styles.paginationSection}>
-              <ReactPaginate
-                 previousLabel={'<'}
-                 nextLabel={'>'}
-                 breakLabel={''}
-                 pageNum={this.state.pageNum}
-                 initialSelected={this.state.resultsPage}
-                 forceSelected={this.state.resultsPage}
-                 marginPagesDisplayed={0}
-                 pageRangeDisplayed={10}
-                 clickCallback={this.handlePageClick}
-                 containerClassName={classnames('pagination')}
-                 subContainerClassName={classnames('pages', 'pagination')}
-                 activeClassName={classnames('active')} />
-            </div>
-          )}
-          {(loaded && data.searchResults.warningHuman) && (
-            <AnswerWarning answer={data.searchResults.warningHuman}/>
-          )}
-          <Footer />
+          <div ref='mainLayout' className='main-layout'>
+            {(loaded && results) && (
+              <AnswerCards params={params} answer={results}/>
+            )}
+            {(loaded && !results) && (
+                <h3 className={classnames(styles.noResult)}>No Results</h3>
+            )}
+            {(loaded && results) && (this.state.pageNum > 0) && (
+              <div className={styles.paginationSection}>
+                <ReactPaginate
+                   previousLabel={'<'}
+                   nextLabel={'>'}
+                   breakLabel={''}
+                   pageNum={this.state.pageNum}
+                   initialSelected={this.state.resultsPage}
+                   forceSelected={this.state.resultsPage}
+                   marginPagesDisplayed={0}
+                   pageRangeDisplayed={10}
+                   clickCallback={this.handlePageClick}
+                   containerClassName={classnames('pagination')}
+                   subContainerClassName={classnames('pages', 'pagination')}
+                   activeClassName={classnames('active')}
+                   previousClassName={classnames('hide')}
+                   nextClassName={classnames('hide')} />
+              </div>
+            )}
+            {(loaded && data.searchResults.warningHuman) && (
+              <AnswerWarning answer={data.searchResults.warningHuman}/>
+            )}
+            <SiteMap />
+            <Footer />
+          </div>
         </div>
     );
   }

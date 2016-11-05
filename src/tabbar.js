@@ -1,18 +1,21 @@
 export const SubTabs = [{
+  name: 'ALL',
+  question: 'all'
+}, {
   name: 'TODAY',
-  question: ' today'
+  question: 'today'
 }, {
   name: 'TOMORROW',
-  question: ' tomorrow'
+  question: 'tomorrow'
 }, {
   name: 'THIS WEEKEND',
-  question: ' this weekend'
+  question: 'this weekend'
 }, {
   name: 'NEXT WEEK',
-  question: ' next week'
+  question: 'next week'
 }, {
   name: 'NEXT MONTH',
-  question: ' next month'
+  question: 'next month'
 }];
 
 export const MainTabs = [{
