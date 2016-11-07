@@ -270,10 +270,9 @@ a{
 }
 .sitemap {
   display: block;
-  height: 500px;
-  background: #08E081;
+  background: #00CE74;
   color: white;
-  padding: 0 6%;
+  padding: 30px 5%;
 
   a {
     color: white;
@@ -286,6 +285,14 @@ a{
   }
   .category {
     flex: 1;
+
+    @media (max-width: 800px) {
+      &:nth-child(1n+4) {
+        display: none;
+      }
+    }
+
+
   }
 }
 .footer {

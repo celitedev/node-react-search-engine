@@ -61,7 +61,7 @@ export default class Answer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {loaded, data} = nextProps;
-    if (loaded && data.searchResults && data.searchResults.results.length > 0) {
+    if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0) {
       const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
       const subTab = mainTab === 'Events' ? 'ALL' : null;
       this.setState({
@@ -198,7 +198,7 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     const {mainTab, subTab, results} = this.state;
-    const hasNLPAnswer = loaded && data.searchResults.results.length > 4;
+    const hasNLPAnswer = loaded && data.searchResults.results && data.searchResults.results.length > 4;
 
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
