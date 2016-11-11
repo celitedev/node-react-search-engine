@@ -26,13 +26,17 @@ export default class Search extends PureComponent {
     };
   }
 
+  onBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     const {data, loaded, params} = this.props;
     return (
       <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
         <Header params={params}/>
         {loaded
-          && (<SearchResults params={params} answer={data.searchResults}/>)
+          && (<SearchResults params={params} answer={data.searchResults} goBack={()=>{this.onBack();}}/>)
           || (<h3></h3>)
         }
       </div>

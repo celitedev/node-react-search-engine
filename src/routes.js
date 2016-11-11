@@ -8,6 +8,7 @@ export default (
     </Route>
     <Route path='/answer/:question' component={require('./components/layouts/BaseLayout')}>
       <IndexRoute component={require('./pages/Answer/Answer')}/>
+      <Route path='*' component={require('./pages/Answer/Answer')}/>
     </Route>
     <Route path='/details/:id' component={require('./components/layouts/BaseLayout')}>
       <IndexRoute component={require('./pages/Details/Details')}/>
