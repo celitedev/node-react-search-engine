@@ -61,20 +61,30 @@ export default class Answer extends Component {
 
   componentWillReceiveProps(nextProps) {
     const {loaded, data} = nextProps;
-    if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0) {
-      const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
-      const subTab = mainTab === 'Events' ? 'ALL' : null;
-      this.setState({
-        mainTab: mainTab,
-        subTab: subTab,
-        results: data.searchResults.results[0],
-        resultsPage: 0,
-        pageNum: Math.ceil(data.searchResults.results[0].totalResults / 12)
-      });
+    const {history, location, params} = this.props;
+
+    if (location.state) {
+      this.setState(location.state);
+    } else {
+      if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0) {
+        const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
+        const subTab = mainTab === 'Events' ? 'ALL' : null;
+        console.log('props', this.props);
+        history.replaceState({
+          mainTab: mainTab,
+          subTab: subTab,
+          results: data.searchResults.results[0],
+          resultsPage: 0,
+          pageNum: Math.ceil(data.searchResults.results[0].totalResults / 12)
+        }, this._buildPath(params.question, mainTab, subTab));
+      }
     }
   }
 
   onMainTabSelect(tab, forceSelect = false) {
+    let state;
+    const {history, location, params} = this.props;
+
     if (!forceSelect && this.state.mainTab === tab) {
       return;
     }
@@ -83,37 +93,33 @@ export default class Answer extends Component {
       return tab && result.typeHuman === tab.toLowerCase();
     });
     if (index > -1) {
-      this.setState({
+      state = {
         mainTab: tab,
         subTab: tab === 'Events' ? 'ALL' : null,
         pageNum: Math.ceil(results[index].totalResults / 12),
         resultsPage: 0,
         results: results[index]
-      });
+      };
     } else {
       if (tab === 'Most Relevant') {
-        this.setState({
+        state = {
           mainTab: tab,
           subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: Math.ceil(results[0].totalResults / 12),
           resultsPage: 0,
           results: results[0]
-        });
+        };
       } else {
-        this.setState({
+        state = {
           mainTab: tab,
           subTab: tab === 'Events' ? 'ALL' : null,
           pageNum: 0,
           resultsPage: 0,
           results: null
-        });
+        };
       }
     }
-
-    // if (tab === 'Events') {
-    //   this.updateEvents();
-    // }
-    // this.loadNewResults(this.props.data, tab, SubTabs[0].name, this.props.loadMoreResults, 0);
+    history.pushState(state, this._buildPath(params.question, state.mainTab, state.subTab));
   }
 
   onSubTabSelect(tab) {
@@ -121,11 +127,11 @@ export default class Answer extends Component {
       this.onMainTabSelect(this.state.mainTab, true);
     } else {
       this.setState({subTab: tab});
-      this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults);
+      this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
     }
   }
 
-  async filterByDate(question, tab, answerTheQuestion, loadNewResults) {
+  async filterByDate(question, tab, answerTheQuestion, loadNewResults, history, _buildPath) {
     const date = tab.toLowerCase();
     try {
       const searchResults = await answerTheQuestion(question + ' ' + date);
@@ -133,12 +139,13 @@ export default class Answer extends Component {
         return result.typeHuman === 'events';
       });
       const newResults = filterResults.length > 0 ? filterResults[0] : null;
-      this.setState({
+      const state = Object.assign({}, this.state, {
         subTab: tab,
         results: newResults,
         resultsPage: 0,
         pageNum: newResults ? Math.ceil(newResults.totalResults / 12) : 0
       });
+      history.pushState(state, _buildPath(question, state.mainTab, state.subTab));
     } catch (err) {
       debug('Load new results error:', err);
     }
@@ -170,8 +177,14 @@ export default class Answer extends Component {
     return MainTabs[0].name;
   }
 
+  _buildPath(question, mainTab, subTab = null, page = 0) {
+    // return '/answer/' + question + ((mainTab !== 'Most Relevant') ? ('/' + mainTab + ( subTab !== null ? '/' + subTab : '')) : ''));
+    return '/answer/' + question + ('/' + mainTab + ( subTab !== null ? '/' + subTab : '') + (page !== 0 ? '/' + (page + 1) : ''));
+  }
+
    async loadNewResults(data, mainTab, subTab, loadMoreResults, page) {
     const answer = this.getData(data, mainTab);
+    const {history, location, params} = this.props;
     debug('Load new results start:', 'page: ', page, 'answer: ', answer);
     try {
       let filterContext = Object.assign({}, answer.filterContext, {pageSize: 12});
@@ -183,9 +196,9 @@ export default class Answer extends Component {
       }
       const results = await loadMoreResults(page, filterContext);
       const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
-      this.setState({results: newResults, resultsPage: page});
-      debug('Load new results start:');
+      const state = Object.assign({}, this.state, {results: newResults, resultsPage: page});
       this.refs.mainLayout.scrollTop = 0;
+      history.pushState(state, this._buildPath(params.question, state.mainTab, state.subTab, state.resultsPage));
     } catch (err) {
       debug('Load new results error:', err);
     }
@@ -218,7 +231,7 @@ export default class Answer extends Component {
             <div className='datebar-bg'>
             {(mainTab === 'Events') && (
                 <div className='datebar'>
-                {map(SubTabs, (tab, index) => {
+                  {map(SubTabs, (tab, index) => {
                   return (
                     <a onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
                   );
