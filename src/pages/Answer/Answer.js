@@ -16,6 +16,11 @@ const debug = require('debug')('app:answer');
 
 @page('Answer', null, {loadMoreResults, answerTheQuestion})
 export default class Answer extends Component {
+
+  defaultTypes() {
+    return ['events', 'places', 'creative works', 'performers'];
+  }
+
   static fetchData({dispatch, params}) {
     const question = params.question;
     const example = exampleQuestions.find((el) => {
@@ -211,7 +216,9 @@ export default class Answer extends Component {
   render() {
     const {data, loaded, params} = this.props;
     const {mainTab, subTab, results} = this.state;
-    const hasNLPAnswer = loaded && data.searchResults.results && data.searchResults.results.length > 4;
+    const hasResults = loaded && data.searchResults && data.searchResults.results;
+    const resultTypes = hasResults ? _.map(data.searchResults.results, (result) => {return result.typeHuman;}) : [];
+    const hasNLPAnswer = hasResults && _.difference(resultTypes, this.defaultTypes()).length > 0;
 
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
@@ -221,7 +228,7 @@ export default class Answer extends Component {
             <div className='entitybar'>
               {map(MainTabs, (tab, index) => {
                 const sel = MainTabs[index].name;
-                if (index !== 0 || hasNLPAnswer) {
+                if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase())) {
                   return (
                     <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
                   );
