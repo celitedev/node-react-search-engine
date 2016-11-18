@@ -18,9 +18,7 @@ const AnswerWarning = encance(({answer}) => (
     <div className='page-content'>
       <div className='l-answerPage'>
                 <div className={classnames('related-answer-text', styles.topicHeader)}>
-                  <ul>
-                    <li dangerouslySetInnerHTML={{__html: answer}}/>
-                  </ul>
+                    <h4 dangerouslySetInnerHTML={{__html: answer}}/>
                 </div>
         </div>
     </div>
