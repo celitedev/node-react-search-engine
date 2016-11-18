@@ -1,6 +1,6 @@
 import React, {Component, Pagination} from 'react';
 import {page} from '../page';
-import {map, find, findIndex, filter} from 'lodash';
+import {map, find, findIndex, filter, isEqual} from 'lodash';
 import Header from '../../components/Common/Header.js';
 import AnswerCards from '../../components/Answer/Answer.js';
 import AnswerWarning from '../../components/Answer/AnswerWarning.js';
@@ -13,10 +13,10 @@ import {loadMoreResults, filterResults, answerTheQuestion} from '../../actions';
 import Footer from '../../components/Footer/Footer.js';
 import SiteMap from '../../components/SiteMap/SiteMap.js';
 const debug = require('debug')('app:answer');
+let isFirstLoad;
 
 @page('Answer', null, {loadMoreResults, answerTheQuestion})
 export default class Answer extends Component {
-
   defaultTypes() {
     return ['events', 'places', 'creative works', 'performers'];
   }
@@ -62,6 +62,7 @@ export default class Answer extends Component {
       resultsPage: 0,
       results: null
     };
+    isFirstLoad = true;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,19 +70,22 @@ export default class Answer extends Component {
     const {history, location, params} = this.props;
 
     if (location.state) {
-      this.setState(location.state);
+      if (!isEqual(this.state, location.state)) {
+        this.setState(location.state);
+      }
     } else {
-      if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0) {
+      if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0 && isFirstLoad) {
         const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
         const subTab = mainTab === 'Events' ? 'ALL' : null;
-        console.log('props', this.props);
-        history.replaceState({
+        const state = {
           mainTab: mainTab,
           subTab: subTab,
           results: data.searchResults.results[0],
           resultsPage: 0,
           pageNum: Math.ceil(data.searchResults.results[0].totalResults / 12)
-        }, this._buildPath(params.question, mainTab, subTab));
+        };
+        isFirstLoad = false;
+        history.replaceState(state, this._buildPath(params.question, mainTab, subTab));
       }
     }
   }
@@ -132,7 +136,13 @@ export default class Answer extends Component {
       this.onMainTabSelect(this.state.mainTab, true);
     } else {
       this.setState({subTab: tab});
-      this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
+      const results = this.props.data.searchResults.results;
+      if (results && results.length > 0) {
+        const question = results[results.length - 1].filterContext.filter.name.text;
+        this.filterByDate(question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
+      } else {
+        this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
+      }
     }
   }
 
@@ -194,16 +204,18 @@ export default class Answer extends Component {
     try {
       let filterContext = Object.assign({}, answer.filterContext, {pageSize: 12});
       if (mainTab === 'Events') {
-        const question = filterContext.question || filterContext.filter.name;
+        const question = filterContext.question || filterContext.filter.name.text;
         const {filter, meta, page, pageSize, smiliarTo, sort, spatial, temporal, type, wantUnique} = filterContext;
 
         filterContext = Object.assign(filterContext, this.state.results.filterContext, {question: question + ' ' + subTab});
       }
       const results = await loadMoreResults(page, filterContext);
-      const newResults = Object.assign({}, results, {answerNLP: this.state.results.answerNLP});
+      const newResults = Object.assign({}, this.state.results, results, {answerNLP: this.state.results.answerNLP});
       const state = Object.assign({}, this.state, {results: newResults, resultsPage: page});
       this.refs.mainLayout.scrollTop = 0;
-      history.pushState(state, this._buildPath(params.question, state.mainTab, state.subTab, state.resultsPage));
+      if (!isEqual( this.state.results.results, state.results.results)) {
+        history.pushState(state, this._buildPath(params.question, state.mainTab, state.subTab, state.resultsPage));
+      }
     } catch (err) {
       debug('Load new results error:', err);
     }
