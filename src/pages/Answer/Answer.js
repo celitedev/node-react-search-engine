@@ -264,9 +264,6 @@ export default class Answer extends Component {
             {(loaded && results) && (
               <AnswerCards params={params} answer={results}/>
             )}
-            {(loaded && !results) && (
-                <h3 className={classnames(styles.noResult)}>No Results</h3>
-            )}
             {(loaded && results) && (this.state.pageNum > 0) && (
               <div className={styles.paginationSection}>
                 <ReactPaginate
@@ -288,6 +285,9 @@ export default class Answer extends Component {
             )}
             {(loaded && data.searchResults.warningHuman) && (
               <AnswerWarning answer={data.searchResults.warningHuman}/>
+            )}
+            {(loaded && !results && !data.searchResults.warningHuman) && (
+              <h3 className={classnames(styles.noResult)}>No Results</h3>
             )}
             <SiteMap />
             <Footer />
