@@ -264,7 +264,7 @@ export default class Answer extends Component {
             {(loaded && results) && (
               <AnswerCards params={params} answer={results}/>
             )}
-            {(loaded && results) && (this.state.pageNum > 0) && (
+            {(loaded && results) && (this.state.pageNum > 0) && (!data.searchResults.warningHuman) && (
               <div className={styles.paginationSection}>
                 <ReactPaginate
                    previousLabel={'<'}
