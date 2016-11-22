@@ -109,6 +109,7 @@ a{
 
 
     a {
+      flex: 1;
       font-size: 19px;
       color: #a8a8a8;
       padding-left: 30px;
@@ -125,8 +126,11 @@ a{
       padding: 10px;
       height: 50px;
       line-height: 50px;
+
       a{
         flex: 1;
+        flex-basis: auto;
+        flex-grow: 30;
         font-size: 1em;
         padding: 0px;
       }
@@ -138,6 +142,8 @@ a{
       line-height: 40px;
       a{
         flex: 1;
+        flex-basis: auto;
+        flex-grow: 20;
         font-size: 0.6em;
         font-weight: bold;
         padding: 0px;
