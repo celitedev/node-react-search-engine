@@ -42,7 +42,12 @@ export default class Answer extends Component {
         meta
       };
     }
-
+    if (params.splat) {
+      const tabs = params.splat.split('/');
+      if (tabs[0] === 'Events' && tabs[1]) {
+        searchParams.question = searchParams.question + ' ' + tabs[1];
+      }
+    }
     return {
       searchResults: dispatch({
         type: API_REQUEST,
@@ -66,12 +71,35 @@ export default class Answer extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const {loaded, data} = nextProps;
-    const {history, location, params} = this.props;
-
+    const {loaded, data, history, location, params} = nextProps;
     if (location.state) {
-      if (!isEqual(this.state, location.state)) {
+      if (location.action === 'REPLACE' || !isEqual(this.state, location.state)) {
         this.setState(location.state);
+      }
+    } else if (!location.state && params.splat) {
+      if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0 && isFirstLoad) {
+        const tabs = params.splat.split('/');
+        const mainTab = tabs[0];
+        const subTab = mainTab === 'Events' ? tabs[1] : null;
+        //decrease page number once since we add one again in buildPath function
+        const page = location.search.indexOf('?page=') === 0 ? parseInt(location.search.substr(6), 10) - 1 : 0;
+        let index = 0;
+        if (mainTab !== 'Most Relevant') {
+          index = findIndex(data.searchResults.results, (result) => {
+            return result.typeHuman === mainTab.toLowerCase();
+          });
+        }
+        const results = index >= 0 ? data.searchResults.results[index] : null;
+        const totalPageNum = results !== null ? Math.ceil(results.totalResults / 12) : 0;
+        const state = {
+          mainTab: mainTab,
+          subTab: subTab,
+          resultsPage: page,
+          results: results,
+          pageNum: totalPageNum
+        };
+        isFirstLoad = false;
+        history.replaceState(state, this._buildPath(params.question, mainTab, subTab, page));
       }
     } else {
       if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0 && isFirstLoad) {
@@ -194,7 +222,7 @@ export default class Answer extends Component {
 
   _buildPath(question, mainTab, subTab = null, page = 0) {
     // return '/answer/' + question + ((mainTab !== 'Most Relevant') ? ('/' + mainTab + ( subTab !== null ? '/' + subTab : '')) : ''));
-    return '/answer/' + question + ('/' + mainTab + ( subTab !== null ? '/' + subTab : '') + (page !== 0 ? '/' + (page + 1) : ''));
+    return '/answer/' + question + ('/' + mainTab + ( subTab !== null ? '/' + subTab : '') + (page !== 0 ? '?page=' + (1 + page) : ''));
   }
 
    async loadNewResults(data, mainTab, subTab, loadMoreResults, page) {
@@ -205,8 +233,6 @@ export default class Answer extends Component {
       let filterContext = Object.assign({}, answer.filterContext, {pageSize: 12});
       if (mainTab === 'Events') {
         const question = filterContext.question || filterContext.filter.name.text;
-        const {filter, meta, page, pageSize, smiliarTo, sort, spatial, temporal, type, wantUnique} = filterContext;
-
         filterContext = Object.assign(filterContext, this.state.results.filterContext, {question: question + ' ' + subTab});
       }
       const results = await loadMoreResults(page, filterContext);
@@ -261,7 +287,7 @@ export default class Answer extends Component {
           </div>
           )}
           <div ref='mainLayout' className='main-layout'>
-            {(loaded && results) && (
+            {(loaded && results) && (!data.searchResults.warningHuman) && (
               <AnswerCards params={params} answer={results}/>
             )}
             {(loaded && results) && (this.state.pageNum > 0) && (!data.searchResults.warningHuman) && (
