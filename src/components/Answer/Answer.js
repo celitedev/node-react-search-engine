@@ -66,7 +66,15 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
         }()}
       </div>
     </div>
-
+    <div className={classnames(styles.feedbackSection)}>
+      <div className={classnames('related-answer-text', styles.topicHeader)}>
+        {'How satisfied were you with these search results?'}
+      </div>
+      <div className={classnames(styles.thumbType)}>
+        <div className={classnames(styles.thumbUp)}></div>
+        <div className={classnames(styles.thumbDown)}></div>
+      </div>
+    </div>
   </main>
 ));
 
