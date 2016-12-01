@@ -114,6 +114,7 @@ a{
       padding-left: 30px;
       padding-right: 30px;
       text-align: center;
+      max-width: 150px;
     }
 
     a.selected, a:hover{
@@ -129,7 +130,6 @@ a{
         flex: 1;
         font-size: 1em;
         padding: 0px;
-        max-width: 150px;
       }
     }
 
@@ -142,7 +142,6 @@ a{
         font-size: 0.6em;
         font-weight: bold;
         padding: 0px;
-        max-width: 150px;
       }
     }
 
