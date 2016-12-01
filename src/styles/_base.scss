@@ -110,12 +110,13 @@ a{
 
     a {
       flex: 1;
+      flex-basis: auto;
       font-size: 19px;
       color: #a8a8a8;
       padding-left: 30px;
       padding-right: 30px;
       text-align: center;
-      max-width: 150px;
+      max-width: 175px;
     }
 
     a.selected, a:hover{
@@ -130,7 +131,6 @@ a{
 
       a{
         flex: 1;
-        flex-basis: auto;
         flex-grow: 30;
         font-size: 1em;
         padding: 0px;
@@ -143,7 +143,6 @@ a{
       line-height: 40px;
       a{
         flex: 1;
-        flex-basis: auto;
         flex-grow: 20;
         font-size: 0.6em;
         font-weight: bold;
