@@ -211,7 +211,7 @@ export default class Answer extends Component {
 
   getTab(humanType) {
     const i = findIndex(MainTabs, (tab) => {
-      return tab.name.toLowerCase() === humanType.toLowerCase();
+      return tab.name.toLowerCase() === humanType.toLowerCase() || tab.question.toLowerCase() === humanType.toLowerCase();
     });
 
     if (i > 0) {
