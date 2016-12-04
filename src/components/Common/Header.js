@@ -52,9 +52,10 @@ export default class Header extends PureComponent {
   searchText(e) {
     if (e.which === 13) {
       e.preventDefault();
-      this.searchRequest(e.target.value);
+      const encodedSearchText = e.target.value.replace(/'/g, '');
+      this.searchRequest(encodedSearchText);
       this.setState({
-        searchText: e.target.value
+        searchText: encodedSearchText
       }, () => {
         const {answerRedirect} = this.props;
         const {searchText} = this.state;

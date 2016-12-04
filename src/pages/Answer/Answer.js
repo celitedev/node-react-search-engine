@@ -44,7 +44,7 @@ export default class Answer extends Component {
     }
     if (params.splat) {
       const tabs = params.splat.split('/');
-      if (tabs[0] === 'Events' && tabs[1] && tabs[1] !== 'ALL') {
+      if (tabs[0] === 'Events' && tabs[1] && tabs[1].toLowerCase() !== 'all') {
         searchParams.question = searchParams.question + ' ' + tabs[1];
       }
     }
@@ -104,7 +104,7 @@ export default class Answer extends Component {
     } else {
       if (loaded && data.searchResults && data.searchResults.results && data.searchResults.results.length > 0 && isFirstLoad) {
         const mainTab = this.getTab(data.searchResults.results[0].typeHuman);
-        const subTab = mainTab === 'Events' ? 'ALL' : null;
+        const subTab = mainTab === 'Events' ? 'all' : null;
         const state = {
           mainTab: mainTab,
           subTab: subTab,
@@ -132,7 +132,7 @@ export default class Answer extends Component {
     if (index > -1) {
       state = {
         mainTab: tab,
-        subTab: tab === 'Events' ? 'ALL' : null,
+        subTab: tab === 'Events' ? 'all' : null,
         pageNum: Math.ceil(results[index].totalResults / 12),
         resultsPage: 0,
         results: results[index]
@@ -141,7 +141,7 @@ export default class Answer extends Component {
       if (tab === 'Most Relevant') {
         state = {
           mainTab: tab,
-          subTab: tab === 'Events' ? 'ALL' : null,
+          subTab: tab === 'Events' ? 'all' : null,
           pageNum: Math.ceil(results[0].totalResults / 12),
           resultsPage: 0,
           results: results[0]
@@ -149,7 +149,7 @@ export default class Answer extends Component {
       } else {
         state = {
           mainTab: tab,
-          subTab: tab === 'Events' ? 'ALL' : null,
+          subTab: tab === 'Events' ? 'all' : null,
           pageNum: 0,
           resultsPage: 0,
           results: null
@@ -160,7 +160,7 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    if (tab === 'ALL') {
+    if (tab === 'ALL' || tab === 'all') {
       this.onMainTabSelect(this.state.mainTab, true);
     } else {
       this.setState({subTab: tab});
@@ -277,7 +277,7 @@ export default class Answer extends Component {
                 <div className='datebar'>
                   {map(SubTabs, (tab, index) => {
                   return (
-                    <a onClick={()=>this.onSubTabSelect(tab.name)} className={classnames({'selected': subTab === tab.name})}> {tab.name.toUpperCase()} </a>
+                    <a onClick={()=>this.onSubTabSelect(tab.name.toLowerCase())} className={classnames({'selected': subTab === tab.name.toLowerCase()})}> {tab.name.toUpperCase()} </a>
                   );
                 })}
                 </div>
