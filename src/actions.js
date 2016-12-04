@@ -14,7 +14,8 @@ import {
   SHARE_CARD_MODAL,
   SNACKBAR,
   EDIT_COLLECTION,
-  EDIT_CARD_DESCRIPTION
+  EDIT_CARD_DESCRIPTION,
+  ANSWER_REDIRECT
 } from './actionTypes';
 
 export function redirect(path, query = {}) {
@@ -22,6 +23,13 @@ export function redirect(path, query = {}) {
     type: REDIRECT,
     path,
     query
+  };
+}
+
+export function answerRedirect(path) {
+  return {
+    type: ANSWER_REDIRECT,
+    path
   };
 }
 

@@ -21,6 +21,7 @@ import triplet from './middleware/triplet';
 import api from './middleware/api';
 import redirect from './middleware/redirect';
 import loginRedirect from './middleware/loginRedirect';
+import answerRedirect from './middleware/answerRedirect';
 import createHistory from './history';
 import 'material-design-lite';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -45,6 +46,7 @@ const middlewares = [
   rafScheduler,
   redirect,
   loginRedirect,
+  answerRedirect,
   fetcher
 ];
 

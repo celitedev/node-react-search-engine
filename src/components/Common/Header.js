@@ -4,7 +4,7 @@ import ContentEditable from 'react-contenteditable';
 import {connect} from 'redux-simple';
 import {Link} from 'react-router';
 import classnames from 'classnames';
-import {answerTheQuestion, redirect, toggleLoginModal, logout} from '../../actions';
+import {answerTheQuestion, redirect, toggleLoginModal, logout, answerRedirect} from '../../actions';
 import {clearAuthToken, login} from '../../horizon';
 import LoginPopover from '../Common/LoginPopover';
 import NewCollectionModal from '../Common/NewCollectionModal';
@@ -21,7 +21,7 @@ function auth(state) {
   return {authenticated, loginModal};
 }
 
-@connect(auth, {redirect, answerTheQuestion, toggleLoginModal, logout})
+@connect(auth, {redirect, answerTheQuestion, toggleLoginModal, logout, answerRedirect})
 export default class Header extends PureComponent {
 
   constructor(props, context) {
@@ -56,9 +56,9 @@ export default class Header extends PureComponent {
       this.setState({
         searchText: e.target.value
       }, () => {
-        const {redirect} = this.props;
+        const {answerRedirect} = this.props;
         const {searchText} = this.state;
-        redirect(`/answer/${searchText}`);
+        answerRedirect(`/answer/${searchText}`);
       });
     }
   }

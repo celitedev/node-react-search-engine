@@ -1,12 +1,8 @@
 import React from 'react';
 import {map} from 'lodash';
-import CardsCarousel from '../Cards/CardsCarousel.js';
-import CardsPagination from '../Cards/CardPagination.js';
 import Card from '../Cards/Card.js';
 import classnames from 'classnames';
 import {pure, compose, mapProps} from 'recompose';
-import {answerCarousel} from '../componentsConfig/cardsCarousel';
-import Footer from '../Footer/Footer.js';
 
 import {Link} from 'react-router';
 
