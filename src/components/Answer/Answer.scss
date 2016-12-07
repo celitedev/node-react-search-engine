@@ -100,10 +100,13 @@
         display: none;
       }
 
+      i {
+        font-size: 21px;
+      }
+
       .thumbUp {
-        background: white url('../../images/thumb-up.png');
-        background-repeat: no-repeat;
-        background-position: center;
+        color: #808080;
+        background-color: #F5F5F5;
         width: 21px;
         height: 21px;
         padding: 10px;
@@ -117,9 +120,8 @@
       }
 
       .thumbDown {
-        background: #F5F5F5 url('../../images/thumb-down.png');
-        background-repeat: no-repeat;
-        background-position: center;
+        color: #808080;
+        background-color: #F5F5F5;
         width: 21px;
         height: 21px;
         padding: 10px;
@@ -129,6 +131,11 @@
         @media (max-width: 425px) {
           padding: 5px;
         }
+      }
+
+      .selected {
+        background-color: white;
+        color: #1CD580;
       }
 
   }

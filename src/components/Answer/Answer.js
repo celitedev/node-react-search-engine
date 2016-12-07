@@ -16,6 +16,15 @@ const enhance = compose(
   pure
 );
 
+const thumbClick = (event) => {
+  _.each(event.currentTarget.parentElement.children, (child) => {
+    child.style.backgroundColor = '#F5F5F5';
+    child.style.color = '#808080';
+  });
+  event.currentTarget.style.backgroundColor = 'white';
+  event.currentTarget.style.color = '#1CD580';
+};
+
 const Answer = enhance(({answer, params, mainTab, subTab}) => (
   <main className='main-layout-content'>
     <div className='page-content'>
@@ -67,8 +76,8 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
         {'How satisfied were you with these search results?'}
       </div>
       <div className={classnames(styles.thumbType)}>
-        <div className={classnames(styles.thumbUp)}></div>
-        <div className={classnames(styles.thumbDown)}></div>
+        <div className={classnames(styles.thumbUp)} onClick={thumbClick}><i className='fa fa-thumbs-o-up'></i></div>
+        <div className={classnames(styles.thumbDown)} onClick={thumbClick}><i className='fa fa-thumbs-o-down'></i></div>
       </div>
     </div>
   </main>
