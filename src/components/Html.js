@@ -30,26 +30,17 @@ export default class Html extends React.Component {
   };
 
   render() {
-    const {markup, chunks, state} = this.props;
+    const {markup, chunks, state, head} = this.props;
     const hydrate = `window.reduxState = ${serialize(state)};`;
     const clientCssBundle = find(chunks.client, isCss);
     const commonCssBundle = find(chunks.common, isCss);
     const clientBundle = find(chunks.client, isJs);
     const commonBundle = find(chunks.common, isJs);
     const {containerId} = config.googleTagManager;
+    const renderedHead = head.title.toString() + head.meta.toString() + head.link.toString();
     return (
       <html lang='en'>
-      <head>
-        <meta charSet='utf-8'/>
-        <meta name='viewport' content='width=device-width, initial-scale=1'/>
-        <meta httpEquiv='x-ua-compatible' content='ie=edge'/>
-
-        <title>Kwhen. Knows When</title>
-        <meta name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no'/>
-        <meta name='msapplication-TileColor' content='#ffffff'/>
-        <meta name='theme-color' content='#ffffff'/>
-        <link rel='shortcut icon' type='image/x-icon' href={require('../images/favicon.png')} />
-      </head>
+      <head dangerouslySetInnerHTML={{__html: renderedHead}}/>
       <body>
 
       <script dangerouslySetInnerHTML={{__html: `
@@ -68,6 +59,7 @@ export default class Html extends React.Component {
       <script dangerouslySetInnerHTML={{__html: hydrate}}/>
       <script crossOrigin='anonymous' src={commonBundle.publicPath}/>
       <script crossOrigin='anonymous' src={clientBundle.publicPath}/>
+
       </body>
       </html>
     );

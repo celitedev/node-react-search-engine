@@ -144,7 +144,8 @@ if (cluster.isMaster) {
   };
 
   const renderApp = process.env.NODE_ENV === 'production' ? serverBundle.renderFull : serverBundle.renderHtml;
-
+  //TODO JIM FIX THIS SHIT?
+  //const renderApp = serverBundle.renderFull;
   const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
 
   app.use('/api', proxy(url.parse(_config.backendUrl)));

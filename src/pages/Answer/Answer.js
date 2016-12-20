@@ -12,7 +12,11 @@ import ReactPaginate from 'react-paginate';
 import {loadMoreResults, filterResults, answerTheQuestion} from '../../actions';
 import Footer from '../../components/Footer/Footer.js';
 import SiteMap from '../../components/SiteMap/SiteMap.js';
+import Meta from '../../components/Common/Meta';
+
+
 const debug = require('debug')('app:answer');
+
 let isFirstLoad;
 
 @page('Answer', null, {loadMoreResults, answerTheQuestion})
@@ -257,8 +261,15 @@ export default class Answer extends Component {
     const hasResults = loaded && data.searchResults && data.searchResults.results;
     const resultTypes = hasResults ? _.map(data.searchResults.results, (result) => {return result.typeHuman;}) : [];
     const hasNLPAnswer = hasResults && _.difference(resultTypes, this.defaultTypes()).length > 0;
+    let title;
+    let meta;
+    if ( hasResults ) {
+      title = `See ${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').trim()} on Kwhen.com`;
+      meta = <Meta title={title}/>;
+    }
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
+          {meta}
           <Header params={params}/>
           {(loaded) && (
           <div className='tabbar'>

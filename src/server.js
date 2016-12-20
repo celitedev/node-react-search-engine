@@ -8,6 +8,7 @@ import createHistory from 'history/lib/createMemoryHistory';
 import {reduxReactRouter, match} from 'redux-router/server';
 import {Provider} from 'redux-simple';
 import _ from 'lodash';
+import Helmet from 'react-helmet';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -150,7 +151,9 @@ export async function renderFull(location, cookies, callback) {
       );
       const cleanState = _.omit(state, 'router', 'session');
       callback(null, null, notFound, chunks => {
-        return renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup}/>);
+        console.log('Rendering Full HTML');
+        const head = Helmet.rewind();
+        return renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup} head={head}/>);
       });
     } catch (err) {
       console.log('markup', err);
@@ -160,6 +163,8 @@ export async function renderFull(location, cookies, callback) {
 
 export function renderHtml(location, cookies, callback) {
   callback(null, null, null, chunks => {
-    return renderToStaticMarkup(<Html chunks={chunks} markup=''/>);
+    console.log('Rendering Static HTML');
+    const head = Helmet.rewind();
+    return renderToStaticMarkup(<Html chunks={chunks} markup='' head={head}/>);
   });
 }
