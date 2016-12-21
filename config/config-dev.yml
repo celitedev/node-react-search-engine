@@ -7,3 +7,5 @@ backendUrl: 'http://localhost:3000/'
 
 certPath: './config/horizon-dev-cert.pem'
 keyPath: './config/horizon-dev-key.pem'
+
+fullUrl: 'https://localhost:7000'

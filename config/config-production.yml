@@ -5,3 +5,5 @@ backendUrl: 'http://ec2-52-44-248-184.compute-1.amazonaws.com:3000'
 certPath: '/etc/letsencrypt/live/www.kwhen.com/cert.pem'
 keyPath: '/etc/letsencrypt/live/www.kwhen.com/privkey.pem'
 sslChainPath: '/etc/letsencrypt/live/www.kwhen.com/fullchain.pem'
+
+fullUrl: 'https://www.kwhen.com'

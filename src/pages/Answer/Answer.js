@@ -264,7 +264,7 @@ export default class Answer extends Component {
     const title = hasResults ? `${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
-          <Meta title={title}/>;
+          <Meta title={title}/>
           <Header params={params}/>
           {(loaded) && (
           <div className='tabbar'>
