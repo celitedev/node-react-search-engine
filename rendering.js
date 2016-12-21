@@ -143,9 +143,8 @@ if (cluster.isMaster) {
     });
   };
 
-  const renderApp = process.env.NODE_ENV === 'production' ? serverBundle.renderFull : serverBundle.renderHtml;
-  //TODO JIM FIX THIS SHIT?
-  //const renderApp = serverBundle.renderFull;
+  const renderApp = process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging' ? serverBundle.renderFull : serverBundle.renderHtml;
+  //const renderApp = serverBundle.renderFull;   //DEBUG
   const readStats = process.env.NODE_ENV === 'production' ? readStatsProd : readStatsDev;
 
   app.use('/api', proxy(url.parse(_config.backendUrl)));

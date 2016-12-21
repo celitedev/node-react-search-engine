@@ -153,6 +153,7 @@ export async function renderFull(location, cookies, callback) {
       callback(null, null, notFound, chunks => {
         console.log('Rendering Full HTML');
         const head = Helmet.rewind();
+        if (head) {console.log('TITLE IS CURRENTLY: ', head.title.toString());}
         return renderToStaticMarkup(<Html state={cleanState} chunks={chunks} markup={markup} head={head}/>);
       });
     } catch (err) {

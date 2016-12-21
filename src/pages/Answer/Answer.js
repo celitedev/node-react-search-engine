@@ -261,15 +261,10 @@ export default class Answer extends Component {
     const hasResults = loaded && data.searchResults && data.searchResults.results;
     const resultTypes = hasResults ? _.map(data.searchResults.results, (result) => {return result.typeHuman;}) : [];
     const hasNLPAnswer = hasResults && _.difference(resultTypes, this.defaultTypes()).length > 0;
-    let title;
-    let meta;
-    if ( hasResults ) {
-      title = `See ${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').trim()} on Kwhen.com`;
-      meta = <Meta title={title}/>;
-    }
+    const title = hasResults ? `${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
-          {meta}
+          <Meta title={title}/>;
           <Header params={params}/>
           {(loaded) && (
           <div className='tabbar'>
