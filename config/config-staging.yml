@@ -5,5 +5,3 @@ backendUrl: 'http://localhost:3000/'
 certPath: '/etc/letsencrypt/live/staging.kwhen.com/cert.pem'
 keyPath: '/etc/letsencrypt/live/staging.kwhen.com/privkey.pem'
 sslChainPath: '/etc/letsencrypt/live/staging.kwhen.com/fullchain.pem'
-
-fullUrl: 'https://staging.kwhen.com'

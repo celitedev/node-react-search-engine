@@ -8,3 +8,8 @@ publicPath: '/api/'
 
 googleTagManager:
   containerId: 'GTM-PLCCF2'
+
+fullUrl:
+  dev: 'https://localhost:7000'
+  staging: 'https://staging.kwhen.com'
+  production: 'https://www.kwhen.com'

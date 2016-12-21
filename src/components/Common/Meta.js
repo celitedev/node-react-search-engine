@@ -1,19 +1,14 @@
 import React, {Component} from 'react';
 import Helmet from 'react-helmet';
+import config from '../../config';
 
 const env = (process.env.NODE_ENV || 'dev').toLowerCase();
-const envConfig = './config/config-' + process.env.NODE_ENV + '.yml';
-let _config;
-try {
-  _config = yaml.safeLoad(fs.readFileSync(envConfig, 'utf-8'));
-} catch (err) {
-  console.log('CONFIG NOT FOUND FOR FOR ENV=' + env);
-}
 
 export default class Meta extends Component {
 
   render() {
-    const fullUrl = _config ? _config.fullUrl : 'https://localhost:7000';
+    debugger;
+    const fullUrl = config.fullUrl[env] || 'https://localhost:7000';
     const title = this.props.title || 'Kwhen. Knows When';
     const description = this.props.description || 'Find, share, and do all the best things in New York City. From sights to see, restaurants to try, events, music, books & more. Make plans right now or save ideas for later. All in one place!';
     const image = this.props.image || require('../../images/cardthumbnail.png');
