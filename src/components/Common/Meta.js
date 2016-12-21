@@ -7,8 +7,7 @@ const env = (process.env.NODE_ENV || 'dev').toLowerCase();
 export default class Meta extends Component {
 
   render() {
-    debugger;
-    const fullUrl = config.fullUrl[env] || 'https://localhost:7000';
+    const fullUrl = config.fullUrl[env] || 'https://www.kwhen.com:7000';
     const title = this.props.title || 'Kwhen. Knows When';
     const description = this.props.description || 'Find, share, and do all the best things in New York City. From sights to see, restaurants to try, events, music, books & more. Make plans right now or save ideas for later. All in one place!';
     const image = this.props.image || require('../../images/cardthumbnail.png');
