@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Helmet from 'react-helmet';
 import config from '../../config';
 
-const env = (process.env.NODE_ENV || 'dev').toLowerCase();
+const env = (process.env.NODE_ENV || 'production').toLowerCase();
 
 export default class Meta extends Component {
 
