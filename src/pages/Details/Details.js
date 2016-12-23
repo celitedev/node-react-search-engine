@@ -30,6 +30,7 @@ export default class Details extends PureComponent {
     };
   }
 
+  //TODO JIM: Add detail item title to url for SEO and sharing pre-rendering
   render() {
     const {data, loaded, params} = this.props;
     let meta = '';
