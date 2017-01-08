@@ -150,6 +150,7 @@ if (cluster.isMaster) {
   app.use('/api', proxy(url.parse(_config.backendUrl)));
   app.use(express.static('build'));
   app.use(express.static('/'));
+  app.use('/static', express.static('public'))
 
   if (process.env.NODE_ENV !== 'production') {
     app.use(webpackDevMiddleware(compiler, {noInfo: true, publicPath: '/'}));
