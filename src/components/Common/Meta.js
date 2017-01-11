@@ -11,6 +11,7 @@ export default class Meta extends Component {
     const title = this.props.title || 'Kwhen. Knows When';
     const description = this.props.description || 'Find, share, and do all the best things in New York City. From sights to see, restaurants to try, events, music, books & more. Make plans right now or save ideas for later. All in one place!';
     const image = this.props.image || require('../../images/kwhen_logo.png');
+    const scripts = this.props.script || [];
     return (
       <Helmet title={title}
               meta={[
@@ -28,6 +29,7 @@ export default class Meta extends Component {
               link={[
                 {'rel': 'shortcut icon', 'type': 'image/x-icon', 'href': require('../../images/favicon.png') }
               ]}
+              script={scripts}
       />
     );
   }
