@@ -164,12 +164,8 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    // if (tab === 'ALL' || tab === 'all') {
-    //   this.onMainTabSelect(this.state.mainTab, true);
-    // } else {
-      this.setState({subTab: tab});
-      this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
-    // }
+    this.setState({subTab: tab});
+    this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
   }
 
   async filterByDate(question, tab, answerTheQuestion, loadNewResults, history, _buildPath) {
@@ -258,7 +254,7 @@ export default class Answer extends Component {
     const hasResults = loaded && data.searchResults && data.searchResults.results;
     const resultTypes = hasResults ? _.map(data.searchResults.results, (result) => {return result.typeHuman;}) : [];
     const hasNLPAnswer = hasResults && _.difference(resultTypes, this.defaultTypes()).length > 0;
-    const title = hasResults ? `${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
+    const title = results ? `${results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
           <Meta title={title}/>
@@ -268,7 +264,7 @@ export default class Answer extends Component {
             <div className='entitybar'>
               {map(MainTabs, (tab, index) => {
                 const sel = tab.name;
-                if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase())) {
+                if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase()) || (!results && sel === mainTab)) {
                   return (
                     <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab.toLowerCase() === sel.toLowerCase()})}> {tab.name.toUpperCase()} </a>
                   );
