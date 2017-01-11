@@ -164,24 +164,17 @@ export default class Answer extends Component {
   }
 
   onSubTabSelect(tab) {
-    if (tab === 'ALL' || tab === 'all') {
-      this.onMainTabSelect(this.state.mainTab, true);
-    } else {
-      this.setState({subTab: tab});
-      const results = this.props.data.searchResults.results;
-      if (results && results.length > 0) {
-        const question = results[results.length - 1].filterContext.filter.name.text;
-        this.filterByDate(this.props.params.question, question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
-      } else {
-        this.filterByDate(this.props.params.question, this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
-      }
-    }
+    this.setState({subTab: tab});
+    this.filterByDate(this.props.params.question, tab, this.props.answerTheQuestion, this.props.loadNewResults, this.props.history, this._buildPath);
   }
 
-  async filterByDate(oldQuestion, newQuestion, tab, answerTheQuestion, loadNewResults, history, _buildPath) {
-    const date = tab.toLowerCase();
+  async filterByDate(question, tab, answerTheQuestion, loadNewResults, history, _buildPath) {
+    let date = '';
+    if (tab.toLowerCase() !== 'all') {
+      date = tab.toLowerCase();
+    }
     try {
-      const searchResults = await answerTheQuestion(newQuestion.replace(/\s+$/, '') + ' ' + date);
+      const searchResults = await answerTheQuestion(question.replace(/\s+$/, '') + ' ' + date);
       const filterResults = filter(searchResults.results, (result) => {
         return result.typeHuman === 'events';
       });
@@ -192,9 +185,9 @@ export default class Answer extends Component {
         resultsPage: 0,
         pageNum: newResults ? Math.ceil(newResults.totalResults / 12) : 0
       });
-      history.pushState(state, _buildPath(oldQuestion, state.mainTab, state.subTab));
+      history.pushState(state, _buildPath(question, state.mainTab, state.subTab));
     } catch (err) {
-      debug('Load new results error:', err);
+      console.log('Load new results error:', err);
     }
   }
 
@@ -261,7 +254,7 @@ export default class Answer extends Component {
     const hasResults = loaded && data.searchResults && data.searchResults.results;
     const resultTypes = hasResults ? _.map(data.searchResults.results, (result) => {return result.typeHuman;}) : [];
     const hasNLPAnswer = hasResults && _.difference(resultTypes, this.defaultTypes()).length > 0;
-    const title = hasResults ? `${this.state.results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
+    const title = results ? `${results.answerNLP.replace(/<(?:.|\s)*?>/g, '').replace('&nbsp;', ' ').trim()} | Kwhen.com` : `${params.question} | Kwhen.com`;
     return (
         <div className={classnames('mdl-layout', 'mdl-layout--fixed-header')}>
           <Meta title={title}/>
@@ -271,7 +264,7 @@ export default class Answer extends Component {
             <div className='entitybar'>
               {map(MainTabs, (tab, index) => {
                 const sel = tab.name;
-                if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase())) {
+                if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase()) || (!results && sel === mainTab)) {
                   return (
                     <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab.toLowerCase() === sel.toLowerCase()})}> {tab.name.toUpperCase()} </a>
                   );
