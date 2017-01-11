@@ -10,15 +10,15 @@ const Index = pure(() => (
     <Meta script={[{
       type: 'application/ld+json', innerHTML: `
         {
-          '@context': 'http://schema.org',
-          '@type': 'WebSite',
-          'url': 'https://www.kwhen.com/',
-          'potentialAction': {
-            '@type': 'SearchAction',
-            'target': 'https://www.kwhen.com/answer/{search_term_string}',
-            'query-input': 'required name=search_term_string'
-            }
-        }`}]}/>
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "https://www.kwhen.com/",
+  "potentialAction": {
+  	"@type": "SearchAction",
+    "target": "https://www.kwhen.com/answer/{search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}`}]}/>
     <KwhenSearch />
     <Footer className='fixed' />
   </div>
