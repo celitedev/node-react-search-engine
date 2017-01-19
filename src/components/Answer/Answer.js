@@ -77,7 +77,7 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
       </div>
       <div className={classnames(styles.thumbType)}>
         <div className={classnames(styles.thumbUp, 'thumb-up-button')} onClick={thumbClick}><i className={classnames(styles.thumbUp, 'fa fa-thumbs-o-up thumb-up-button')}></i></div>
-        <div className={classnames(styles.thumbDown, 'thumb-down-button')} onClick={thumbClick}><i className={classnames(styles.thumbDown, 'fa fa-thumbs-o-down thumb-up-button')}></i></div>
+        <div className={classnames(styles.thumbDown, 'thumb-down-button')} onClick={thumbClick}><i className={classnames(styles.thumbDown, 'fa fa-thumbs-o-down thumb-down-button')}></i></div>
       </div>
     </div>
   </main>
