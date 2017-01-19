@@ -76,8 +76,8 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
         {'How satisfied were you with these search results?'}
       </div>
       <div className={classnames(styles.thumbType)}>
-        <div className={classnames(styles.thumbUp)} onClick={thumbClick}><i className={classnames(styles.thumbUp, 'fa fa-thumbs-o-up')}></i></div>
-        <div className={classnames(styles.thumbDown)} onClick={thumbClick}><i className={classnames(styles.thumbDown, 'fa fa-thumbs-o-down')}></i></div>
+        <div className={classnames(styles.thumbUp, 'thumb-up-button')} onClick={thumbClick}><i className={classnames(styles.thumbUp, 'fa fa-thumbs-o-up thumb-up-button')}></i></div>
+        <div className={classnames(styles.thumbDown, 'thumb-down-button')} onClick={thumbClick}><i className={classnames(styles.thumbDown, 'fa fa-thumbs-o-down thumb-up-button')}></i></div>
       </div>
     </div>
   </main>
