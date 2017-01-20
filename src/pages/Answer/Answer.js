@@ -229,7 +229,7 @@ export default class Answer extends Component {
     try {
       let filterContext = Object.assign({}, answer.filterContext, {pageSize: 12});
       if (mainTab === 'Events') {
-        const question = filterContext.question || filterContext.filter.name.text;
+        const question = filterContext.question || _.has(filterContext, 'filter.name.text') ? filterContext.filter.name.text : '';
         filterContext = Object.assign(filterContext, this.state.results.filterContext, {question: question.replace(/\s+$/, '') + ' ' + subTab});
       }
       const results = await loadMoreResults(page, filterContext);
@@ -240,7 +240,7 @@ export default class Answer extends Component {
         history.pushState(state, this._buildPath(params.question, state.mainTab, state.subTab, state.resultsPage));
       }
     } catch (err) {
-      debug('Load new results error:', err);
+      console.log('Load new results error:', err);
     }
   }
 
@@ -266,7 +266,7 @@ export default class Answer extends Component {
                 const sel = tab.name;
                 if ((index === 0 && hasNLPAnswer) || resultTypes.includes(tab.name.toLowerCase()) || (!results && sel === mainTab)) {
                   return (
-                    <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab.toLowerCase() === sel.toLowerCase()})}> {tab.name.toUpperCase()} </a>
+                    <a onClick={()=>this.onMainTabSelect(sel)} className={classnames({'selected': mainTab === sel})}> {tab.name.toUpperCase()} </a>
                   );
                 }
               })}
