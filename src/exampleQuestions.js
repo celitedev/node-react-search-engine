@@ -14,7 +14,7 @@ export default [{
 }, {
   question: 'comedy',
 }, {
-  question: 'theater events',
+  question: 'plays',
 }, {
   question: 'music events',
 }, {

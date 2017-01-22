@@ -25,7 +25,7 @@ export const tiles = [
     tileClass: 'music',
   },
   {
-    name: 'theater events',
+    name: 'plays',
     title: 'Theatre',
     tileClass: 'theatre',
   },
