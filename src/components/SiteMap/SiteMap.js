@@ -11,7 +11,7 @@ const SiteMap = pure(() => (
           <li><a href='/answer/concerts today'>Concerts</a></li>
           <li><a href='/answer/course today'>Classes</a></li>
           <li><a href='/answer/sports event'>Sports</a></li>
-          <li><a href='/answer/theater event'>Broadway</a></li>
+          <li><a href='/answer/plays'>Broadway</a></li>
           <li><a href='/answer/fundraisers'>Fundraisers</a></li>
           <li><a href='/answer/party/Events/today'>Parties</a></li>
           <li><a href='/answer/movie screening'>Movies</a></li>
