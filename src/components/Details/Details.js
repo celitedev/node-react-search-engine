@@ -8,6 +8,7 @@ import classnames from 'classnames';
 import {GridList, GridTile} from 'material-ui/GridList';
 import {Card as DefaultCard, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Footer from '../Footer/Footer.js';
+import cookie from 'react-cookie';
 
 class NextArrow extends PureComponent {
   render() {
@@ -161,7 +162,7 @@ export default class Details extends Component {
                   <CardText style={{'padding-top': '24px'}}>
                     <ul className={styles.sourcesList}>
                       {raw.sources.map((src, index) => {
-                        return <li key={index}><a href={`${src.url}`}><img src={this.getExternalImage(src.name)} /></a></li>;
+                        return <li key={index}><a onClick={()=>this.externalLinkClick(src)}><img src={this.getExternalImage(src.name)} /></a></li>;
                       })}
                     </ul>
                   </CardText>
@@ -250,6 +251,32 @@ export default class Details extends Component {
         <Footer />
       </main>
     );
+  }
+
+  externalLinkClick(src) {
+    if (dataLayer) {
+      dataLayer.push({
+        'event': 'VirtualPageview',
+        'virtualPageURL': `/vpv/${src.name}/${src.url}`,
+        'virtualPageTitle': `External Link Click: ${src.name}`
+      });
+    }
+    cookie.save('externalLinkClick', src, {path: '/', maxAge: 30});
+    window.location.href = src.url;
+  }
+
+  componentDidMount() {
+    src = cookie.load('externalLinkClick');
+    if (src) {
+      if (dataLayer) {
+        dataLayer.push({
+          'event': 'VirtualPageview',
+          'virtualPageURL': `/vpv/${src.name}/quickreturn/${src.url}`,
+          'virtualPageTitle': `External Link Quick Return : ${src.name}`
+        });
+      }
+      cookie.remove('externalLinkClick', {path: '/'});
+    }
   }
 
   getExternalImage(source) {
