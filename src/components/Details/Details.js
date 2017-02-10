@@ -9,6 +9,7 @@ import {GridList, GridTile} from 'material-ui/GridList';
 import {Card as DefaultCard, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Footer from '../Footer/Footer.js';
 import cookie from 'react-cookie';
+import SeatGeekAffiliateButton from './SeatGeekAffiliateButton';
 
 class NextArrow extends PureComponent {
   render() {
@@ -135,7 +136,6 @@ export default class Details extends Component {
       //   }
       // }]
     };
-
     return (
       <main className='mdl-layout__content'>
         <div className='page-content'>
@@ -164,6 +164,9 @@ export default class Details extends Component {
                       {raw.sources.map((src, index) => {
                         return <li key={index}><a onClick={()=>this.externalLinkClick(src)}><img src={this.getExternalImage(src.name)} /></a></li>;
                       })}
+                      {raw.root === 'Event' && (
+                        <li><SeatGeekAffiliateButton result={raw} onClickCallback={this.externalLinkClick}/></li>
+                      )}
                     </ul>
                   </CardText>
                 </DefaultCard>
