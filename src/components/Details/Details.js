@@ -10,6 +10,7 @@ import {Card as DefaultCard, CardActions, CardHeader, CardMedia, CardTitle, Card
 import Footer from '../Footer/Footer.js';
 import cookie from 'react-cookie';
 import SeatGeekAffiliateButton from './SeatGeekAffiliateButton';
+import AdSense from '../Common/AdSense';
 
 class NextArrow extends PureComponent {
   render() {
@@ -250,6 +251,9 @@ export default class Details extends Component {
               })}
             </div>
           </div>
+        </div>
+        <div>
+          <AdSense />
         </div>
         <Footer />
       </main>
