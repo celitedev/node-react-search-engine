@@ -25,12 +25,21 @@ class SeatGeekAffiliateButton extends Component {
   }
 
   async loadFromApi() {
-    const {name, startDate} = this.props.result;
-    const result = await SeatGeekApi.findByTitleAndDate(name, startDate);
-    if (result) {
-      this.setState({ loaded: true, url: result });
+    const {name, startDate, root} = this.props.result;
+    let seatGeekResult;
+    if (root === 'Event') {
+      seatGeekResult = await SeatGeekApi.findEvent(name, startDate);
+    } else if (root === 'PlaceWithOpeninghours') {
+      seatGeekResult = await SeatGeekApi.findVenue(name);
+    } else if (root === 'OrganizationAndPerson') {
+      seatGeekResult = await SeatGeekApi.findPerformer(name);
+    }
+
+
+    if (seatGeekResult) {
+      this.setState({ loaded: true, url: seatGeekResult });
     } else {
-      console.log('No SeatGeek Event Found');
+      console.log('No SeatGeek Result Found');
     }
   }
 
@@ -60,7 +69,7 @@ class SeatGeekAffiliateButton extends Component {
     return (
       <div>
       {(this.state.loaded) && (
-        <a onClick={this.onClick}>Get Tickets Now!</a>
+        <a style={{cursor: 'pointer'}} onClick={this.onClick}>Get Tickets Now!</a>
       )}
       </div>
     );

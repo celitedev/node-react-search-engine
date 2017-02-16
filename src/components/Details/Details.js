@@ -163,9 +163,9 @@ export default class Details extends Component {
                   <CardText style={{'padding-top': '24px'}}>
                     <ul className={styles.sourcesList}>
                       {raw.sources.map((src, index) => {
-                        return <li key={index}><a onClick={()=>this.externalLinkClick(src)}><img src={this.getExternalImage(src.name)} /></a></li>;
+                        return <li key={index} style={{cursor: 'pointer'}}><a onClick={()=>this.externalLinkClick(src)}><img src={this.getExternalImage(src.name)} /></a></li>;
                       })}
-                      {raw.root === 'Event' && (
+                      {raw.root !== 'CreativeWork' && (
                         <li><SeatGeekAffiliateButton result={raw} onClickCallback={this.externalLinkClick}/></li>
                       )}
                     </ul>
