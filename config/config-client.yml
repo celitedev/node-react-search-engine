@@ -17,5 +17,6 @@ fullUrl:
 seatGeekApiClientId:
   dev: 'NjgwMjQ4NXwxNDg2NjA2MzQ4LjY4'
   staging: 'NjgwMjQ4NXwxNDg2NjA2MzQ4LjY4'
+  production: 'NjgwMjQ4NXwxNDg2Nzc1ODc1LjM'
 
 seatGeekAffiliateCode: '12482'
