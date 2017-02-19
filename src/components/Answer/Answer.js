@@ -3,6 +3,9 @@ import {map} from 'lodash';
 import Card from '../Cards/Card.js';
 import classnames from 'classnames';
 import {pure, compose, mapProps} from 'recompose';
+import config from '../../config';
+
+const env = (process.env.NODE_ENV || 'production').toLowerCase();
 
 import {Link} from 'react-router';
 
@@ -23,6 +26,12 @@ const thumbClick = (event) => {
   });
   event.currentTarget.style.backgroundColor = 'white';
   event.currentTarget.style.color = '#1CD580';
+};
+
+const showLinks = (results) => {
+  const fullUrl = config.fullUrl[env] || 'https://www.kwhen.com';
+  const links = map(results, result => `${fullUrl}/details/${result.raw.id}`);
+  alert(links.join(' \n'));
 };
 
 const Answer = enhance(({answer, params, mainTab, subTab}) => (
@@ -79,6 +88,7 @@ const Answer = enhance(({answer, params, mainTab, subTab}) => (
         <div className={classnames(styles.thumbUp, 'thumb-up-button')} onClick={thumbClick}><i className={classnames(styles.thumbUp, 'fa fa-thumbs-o-up thumb-up-button')}></i></div>
         <div className={classnames(styles.thumbDown, 'thumb-down-button')} onClick={thumbClick}><i className={classnames(styles.thumbDown, 'fa fa-thumbs-o-down thumb-down-button')}></i></div>
       </div>
+      <div><a onClick={()=>{showLinks(answer.results);}} style={{color: '#FAFAFA'}}>Show URLs</a></div>
     </div>
   </main>
 ));
